@@ -1,0 +1,100 @@
+$ make demo-epic-3
+
+uv run --locked python -m evaluations.epic3_demo
+{
+  "mode": "offline; no provider request",
+  "topic": "2026 agentic AI frameworks",
+  "run_id": "2026-agentic-ai-frameworks-20261001T084400Z",
+  "workspace": "/var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic3-demo-27pst_el/runs/2026-agentic-ai-frameworks-20261001T084400Z",
+  "subagents": {
+    "search_agent": [
+      "google_search"
+    ],
+    "research_agent": [
+      "collect_source"
+    ],
+    "analyst_agent": [],
+    "writer_agent": []
+  },
+  "orchestrator_tools": [
+    "normalize_results",
+    "build_index",
+    "validate_citations",
+    "write_run_report"
+  ],
+  "bound_tools": {
+    "build_index|delete|edit_file|glob|grep|ls|normalize_results|read_file|task|validate_citations|write_file|write_run_report|write_todos": [
+      "build_index",
+      "delete",
+      "edit_file",
+      "glob",
+      "grep",
+      "ls",
+      "normalize_results",
+      "read_file",
+      "task",
+      "validate_citations",
+      "write_file",
+      "write_run_report",
+      "write_todos"
+    ],
+    "delete|edit_file|glob|google_search|grep|ls|read_file|write_file": [
+      "delete",
+      "edit_file",
+      "glob",
+      "google_search",
+      "grep",
+      "ls",
+      "read_file",
+      "write_file"
+    ],
+    "collect_source|delete|edit_file|glob|grep|ls|read_file|write_file": [
+      "collect_source",
+      "delete",
+      "edit_file",
+      "glob",
+      "grep",
+      "ls",
+      "read_file",
+      "write_file"
+    ],
+    "delete|edit_file|glob|grep|ls|read_file|write_file": [
+      "delete",
+      "edit_file",
+      "glob",
+      "grep",
+      "ls",
+      "read_file",
+      "write_file"
+    ]
+  },
+  "prompts_loaded": {
+    "orchestrator": 4324,
+    "search_agent": 423,
+    "research_agent": 520,
+    "analyst_agent": 405,
+    "writer_agent": 708
+  },
+  "todos": [
+    "plan",
+    "search",
+    "normalize",
+    "fetch",
+    "index",
+    "synthesize",
+    "write",
+    "citations",
+    "report"
+  ],
+  "files_on_disk": [
+    "output/blog.md",
+    "request.json",
+    "research/summary.md"
+  ],
+  "marker_in_model_contexts": false,
+  "general_purpose_rejected": true,
+  "containment_refused": true,
+  "blog_exists": true
+}
+
+Exit code: 0 (expected 0)

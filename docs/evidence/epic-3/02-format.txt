@@ -1,0 +1,6 @@
+$ make format
+
+uv run --locked ruff format .
+47 files left unchanged
+
+Exit code: 0 (expected 0)

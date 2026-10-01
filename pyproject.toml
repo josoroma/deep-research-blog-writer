@@ -17,6 +17,9 @@ dependencies = [
 requires = ["hatchling==1.32.4"]
 build-backend = "hatchling.build"
 
+[project.scripts]
+deep-research-blog = "workflows.cli:main"
+
 [tool.hatch.build.targets.wheel]
 packages = ["agents", "tools", "workflows", "prompts", "schemas", "services", "evaluations"]
 

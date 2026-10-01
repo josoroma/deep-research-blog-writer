@@ -13,6 +13,7 @@ from pydantic import BaseModel, Field, create_model
 from schemas.requests import CompletePhaseInput
 from schemas.state import ResearchAgentState, RunStateUpdate
 from tools.state_tools import record_phase_completion
+from tools.stubs import register_stub_tools
 
 Runtime = ToolRuntime[None, ResearchAgentState]
 
@@ -130,3 +131,4 @@ TOOLS.register(
         updates_state=True,
     )
 )
+register_stub_tools(TOOLS)

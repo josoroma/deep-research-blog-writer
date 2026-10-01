@@ -1,0 +1,8 @@
+$ make hooks
+
+uv run --locked pre-commit run --all-files
+ruff check...............................................................Passed
+ruff format..............................................................Passed
+mypy.....................................................................Interrupted (^C): KeyboardInterrupt: 
+Check the log at /Users/josoroma/.cache/pre-commit/pre-commit.log
+make: *** [hooks] Error 130

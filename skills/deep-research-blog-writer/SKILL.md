@@ -54,9 +54,11 @@ Track these phases with `write_todos`; each is resumable from the LangGraph chec
    Collect up to `max_urls`; persist `search_results.json`.
 3. **Normalize** — canonicalize URLs (strip `utm_*`, fragments), dedupe, apply host
    denylist, keep ranking order → `clean_results.json`.
-4. **Fetch + extract** (`research_agent`) — loop over clean URLs:
-   `fetch_url` → `extract_markdown` (trafilatura → readability → bs4 fallback) →
-   `write_file("research/NNN_<slug>.md", …)`. Skip bodies < 200 words as `too_thin`.
+4. **Fetch + extract** (`research_agent`) — loop over clean URLs and call
+   `collect_source` for each. That deterministic tool uses `fetch_url` →
+   `extract_markdown` (trafilatura → readability → bs4 fallback) internally and
+   writes `research/NNN_<slug>.md`. Skip bodies < 200 words as `too_thin`.
+   The agent never receives raw HTML.
 5. **Index** — write `research/index.md`.
 6. **Synthesize** (`analyst_agent`) — `read_file` the corpus → `research/summary.md`
    (themes, frameworks/vendors, agreements/disagreements, gaps, suggested outline).
@@ -89,44 +91,59 @@ word_count: 1420
 | Sub-agent | Does | Tools |
 |---|---|---|
 | `search_agent` | paged queries → URLs | `google_search` |
-| `research_agent` | fetch + extract + write one file per URL | `fetch_url`, `extract_markdown`, `write_file` |
+| `research_agent` | fetch + extract + write one file per URL | `collect_source` |
 | `analyst_agent` | synthesize corpus → summary | `ls`, `read_file`, `write_file` |
 | `writer_agent` | draft cited blog | `ls`, `read_file`, `write_file` |
+
+The orchestrator coordinates `normalize_results`, `build_index`, `validate_citations`,
+and `write_run_report`. `fetch_url` and `extract_markdown` stay registered but are
+called only inside `collect_source`, never by an agent (PD-005).
 
 Typed tool signatures (Pydantic v2 I/O — never raw dicts):
 - `google_search(query: str, page: int) -> list[SearchResult]`
 - `fetch_url(url: HttpUrl) -> FetchedPage`
-- `extract_markdown(page: FetchedPage) -> Source`
+- `extract_markdown(page: FetchedPage, source_id: str) -> Source`
+- `collect_source(rank: int, url: HttpUrl) -> SourceMetadata` (metadata only)
 - filesystem tools (`ls`/`read_file`/`write_file`/`edit_file`) come from the harness.
 
 ## Wiring (reference)
 
 ```python
 from deepagents import create_deep_agent
+from deepagents.backends import FilesystemBackend
+from langchain.agents.middleware import TodoListMiddleware
 
-RESEARCH_INSTRUCTIONS = "…paste the Operating rules + Workflow above…"
+from prompts.catalog import load_prompt
+from schemas.state import ResearchAgentState
+from tools.registry import TOOLS
 
 subagents = [
-    {"name": "search_agent",   "description": "Run paged Google searches, collect URLs.",
-     "prompt": "…", "tools": ["google_search"]},
-    {"name": "research_agent", "description": "Fetch each URL and write one clean markdown source.",
-     "prompt": "…", "tools": ["fetch_url", "extract_markdown", "write_file"]},
-    {"name": "analyst_agent",  "description": "Read the corpus, synthesize themes into summary.md.",
-     "prompt": "…"},
-    {"name": "writer_agent",   "description": "Draft the cited blog from corpus + summary.",
-     "prompt": "…"},
+    {"name": "search_agent", "description": "Run paged searches, collect URLs.",
+     "system_prompt": load_prompt("search_agent"),
+     "tools": [TOOLS["google_search"].as_langchain_tool()]},
+    {"name": "research_agent", "description": "Fetch each URL and write one source.",
+     "system_prompt": load_prompt("research_agent"),
+     "tools": [TOOLS["collect_source"].as_langchain_tool()]},
+    {"name": "analyst_agent", "description": "Synthesize the corpus into summary.md.",
+     "system_prompt": load_prompt("analyst_agent")},
+    {"name": "writer_agent", "description": "Draft the cited blog from corpus + summary.",
+     "system_prompt": load_prompt("writer_agent")},
 ]
 
 agent = create_deep_agent(
-    tools=[google_search, fetch_url, extract_markdown],
-    instructions=RESEARCH_INSTRUCTIONS,
+    model=llm.for_agent("orchestrator"),
+    tools=[TOOLS[name].as_langchain_tool() for name in (
+        "normalize_results", "build_index", "validate_citations", "write_run_report")],
+    system_prompt=load_prompt("orchestrator"),
+    middleware=[TodoListMiddleware()],
     subagents=subagents,
-    model="openrouter:deepseek/deepseek-v4.1-flash",
+    backend=FilesystemBackend(root_dir=workspace.root, virtual_mode=True),
+    state_schema=ResearchAgentState,
 )
-
-result = agent.invoke({"messages": [{"role": "user",
-    "content": "Research topic and write a blog post: 2026 agentic AI frameworks"}]})
 ```
+
+`agents/deep_research.py` is the implementation. It disables the harness's
+auto-added `general-purpose` sub-agent so only the four PD-005 sub-agents exist.
 
 ## Failure handling
 

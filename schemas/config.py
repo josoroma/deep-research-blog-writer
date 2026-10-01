@@ -74,9 +74,17 @@ class RunSettings(BaseSettings):
     models: AgentModels = Field(default_factory=AgentModels)
     model_timeout_seconds: int = Field(default=30, ge=1, strict=True)
     model_max_retries: int = Field(default=2, ge=0, strict=True)
+    runs_dir: str = Field(default="runs", min_length=1)
+    recursion_limit: int = Field(default=50, ge=1, strict=True)
 
     @field_validator(
-        "pages", "per_page", "max_urls", "model_timeout_seconds", "model_max_retries", mode="before"
+        "pages",
+        "per_page",
+        "max_urls",
+        "model_timeout_seconds",
+        "model_max_retries",
+        "recursion_limit",
+        mode="before",
     )
     @classmethod
     def parse_integer_environment(cls, value: object) -> object:

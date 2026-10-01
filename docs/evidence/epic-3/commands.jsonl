@@ -1,0 +1,9 @@
+{"name": "01-setup", "command": "make setup", "cwd": "/Users/josoroma/sites/langchain", "recorded_at": "2026-10-01T09:43:00+00:00", "exit_code": 0, "expected_exit_code": 0, "log": "01-setup.txt"}
+{"name": "02-format", "command": "make format", "cwd": "/Users/josoroma/sites/langchain", "recorded_at": "2026-10-01T09:43:05+00:00", "exit_code": 0, "expected_exit_code": 0, "log": "02-format.txt"}
+{"name": "03-quality-gates", "command": "make check", "cwd": "/Users/josoroma/sites/langchain", "recorded_at": "2026-10-01T09:43:20+00:00", "exit_code": 0, "expected_exit_code": 0, "log": "03-quality-gates.txt"}
+{"name": "04-hooks", "command": "make hooks", "cwd": "/Users/josoroma/sites/langchain", "recorded_at": "2026-10-01T09:43:40+00:00", "exit_code": 0, "expected_exit_code": 0, "log": "04-hooks.txt"}
+{"name": "05-demo-epic-3", "command": "make demo-epic-3", "cwd": "/Users/josoroma/sites/langchain", "recorded_at": "2026-10-01T09:44:00+00:00", "exit_code": 0, "expected_exit_code": 0, "log": "05-demo-epic-3.txt"}
+{"name": "06-build", "command": "make build", "cwd": "/Users/josoroma/sites/langchain", "recorded_at": "2026-10-01T09:44:20+00:00", "exit_code": 0, "expected_exit_code": 0, "log": "06-build.txt"}
+{"name": "07-installed-wheel", "command": "sh scripts/verify-epic-3-package.sh", "cwd": "/Users/josoroma/sites/langchain", "recorded_at": "2026-10-01T09:44:40+00:00", "exit_code": 0, "expected_exit_code": 0, "log": "07-installed-wheel.txt"}
+{"name": "08-uv-version", "command": "uv --version", "cwd": "/Users/josoroma/sites/langchain", "recorded_at": "2026-10-01T09:44:50+00:00", "exit_code": 0, "expected_exit_code": 0, "log": "08-uv-version.txt"}
+{"name": "09-invalid-topic", "command": "uv run --locked deep-research-blog \"\"", "cwd": "/Users/josoroma/sites/langchain", "recorded_at": "2026-10-01T09:45:00+00:00", "exit_code": 2, "expected_exit_code": 2, "log": "09-invalid-topic.txt"}
