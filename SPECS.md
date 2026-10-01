@@ -175,23 +175,23 @@ CODEBASE Context: EPIC-1 foundation implemented on 2026-09-30; EPIC-2 contracts 
 | US-7.4#1 | Loop at most 2 writer repair passes, validating after each. | DONE | US-7.4 |
 | US-7.4#2 | Fail the run with the remaining dangling source_ids when the passes run out. | DONE | US-7.4 |
 | EPIC-8 | Reliability and Run Reporting | — | — |
-| US-8.1 | Write the Run Report | READY | EPIC-8 |
-| US-8.1#1 | Extend `RunReport` with the FR-10 and PD-018 fields. | TODO | US-8.1 |
-| US-8.1#2 | Collect per-phase timings, per-URL outcomes, token usage, and OpenRouter cost during the run. | TODO | US-8.1 |
-| US-8.1#3 | Implement and register `write_run_report`, which writes `output/run.json` at the end of every run. | TODO | US-8.1 |
-| US-8.2 | Classify the Run Outcome | READY | EPIC-8 |
-| US-8.2#1 | Implement outcome classification per PD-017, including status reasons. | TODO | US-8.2 |
-| US-8.2#2 | Record the status and its reasons in `output/run.json`. | TODO | US-8.2 |
-| US-8.2#3 | Map the status to the run command's exit status (PD-008). | TODO | US-8.2 |
-| US-8.3 | Retry a Failed Phase Once | READY | EPIC-8 |
-| US-8.3#1 | Catch sub-agent exceptions in the orchestrator and retry the phase once. | TODO | US-8.3 |
-| US-8.3#2 | End the run as failed and write the run report when the retry fails. | TODO | US-8.3 |
-| US-8.4 | Resume an Interrupted Run from the Last Completed Phase | READY | EPIC-8 |
-| US-8.4#1 | Record the checkpointer decision as an ADR. | TODO | US-8.4 |
-| US-8.4#2 | Configure a SQLite checkpointer at `runs/<run_id>/checkpoints.sqlite` with the LangGraph thread_id set to the run_id. | TODO | US-8.4 |
-| US-8.4#3 | Record phase completion in `RunState` from the tool that finishes each phase. | TODO | US-8.4 |
-| US-8.4#4 | Make `collect_source` skip URLs whose source file already exists. | TODO | US-8.4 |
-| US-8.4#5 | Add `--resume <run_id>` to the run command. | TODO | US-8.4 |
+| US-8.1 | Write the Run Report | DONE | EPIC-8 |
+| US-8.1#1 | Extend `RunReport` with the FR-10 and PD-018 fields. | DONE | US-8.1 |
+| US-8.1#2 | Collect per-phase timings, per-URL outcomes, token usage, and OpenRouter cost during the run. | DONE | US-8.1 |
+| US-8.1#3 | Implement and register `write_run_report`, which writes `output/run.json` at the end of every run. | DONE | US-8.1 |
+| US-8.2 | Classify the Run Outcome | DONE | EPIC-8 |
+| US-8.2#1 | Implement outcome classification per PD-017, including status reasons. | DONE | US-8.2 |
+| US-8.2#2 | Record the status and its reasons in `output/run.json`. | DONE | US-8.2 |
+| US-8.2#3 | Map the status to the run command's exit status (PD-008). | DONE | US-8.2 |
+| US-8.3 | Retry a Failed Phase Once | DONE | EPIC-8 |
+| US-8.3#1 | Catch sub-agent exceptions in the orchestrator and retry the phase once. | DONE | US-8.3 |
+| US-8.3#2 | End the run as failed and write the run report when the retry fails. | DONE | US-8.3 |
+| US-8.4 | Resume an Interrupted Run from the Last Completed Phase | DONE | EPIC-8 |
+| US-8.4#1 | Record the checkpointer decision as an ADR. | DONE | US-8.4 |
+| US-8.4#2 | Configure a SQLite checkpointer at `runs/<run_id>/checkpoints.sqlite` with the LangGraph thread_id set to the run_id. | DONE | US-8.4 |
+| US-8.4#3 | Record phase completion in `RunState` from the tool that finishes each phase. | DONE | US-8.4 |
+| US-8.4#4 | Make `collect_source` skip URLs whose source file already exists. | DONE | US-8.4 |
+| US-8.4#5 | Add `--resume <run_id>` to the run command. | DONE | US-8.4 |
 | EPIC-9 | Observability | — | — |
 | US-9.1 | Trace Every Run in LangSmith | READY | EPIC-9 |
 | US-9.1#1 | Enable LangSmith tracing through configuration. | TODO | US-9.1 |

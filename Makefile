@@ -1,6 +1,6 @@
 UV ?= uv
 
-.PHONY: help setup lint format format-check typecheck test boundary hooks check demo build demo-epic-2 smoke-epic-2 demo-epic-3 demo-epic-4 smoke-epic-4 demo-epic-5 smoke-epic-5 demo-epic-6 smoke-epic-6 demo-epic-7
+.PHONY: help setup lint format format-check typecheck test boundary hooks check demo build demo-epic-2 smoke-epic-2 demo-epic-3 demo-epic-4 smoke-epic-4 demo-epic-5 smoke-epic-5 demo-epic-6 smoke-epic-6 demo-epic-7 demo-epic-8
 
 help:
 	@printf '%s\n' 'demo-epic-5  Demonstrate fetch policy and actual parsers with offline fixtures' 'smoke-epic-5 Fetch and extract one live public page using CRAWLER_CONTACT' 'demo-epic-6  Collect immutable sources and index them from offline fixtures' 'smoke-epic-6 Collect one live public page into a source file using CRAWLER_CONTACT'
@@ -68,6 +68,9 @@ demo-epic-6:
 
 demo-epic-7:
 	$(UV) run --locked python -m evaluations.epic7_demo
+
+demo-epic-8:
+	$(UV) run --locked python -m evaluations.epic8_demo
 
 smoke-epic-6:
 	$(UV) run --locked python -m evaluations.corpus_live_smoke

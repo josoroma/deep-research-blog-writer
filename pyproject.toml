@@ -11,6 +11,7 @@ dependencies = [
     "langchain>=1,<2",
     "langchain-openrouter>=0.2,<1",
     "langgraph>=1,<2",
+    "langgraph-checkpoint-sqlite>=2,<4",
     "markdownify>=1,<2",
     "protego>=0.5,<1",
     "pydantic>=2,<3",

@@ -1,10 +1,11 @@
 """The `deep-research-blog` console script (PD-008, M1 subset).
 
-Exit status: 0 when the skeleton invocation completes, 1 when it fails, and 2 for
-invalid input or a missing model key. PD-017 statuses and exit 3 arrive with US-8.2.
+Exit status: 0 when the run succeeds, 1 when it fails, 2 for invalid input or a
+missing model key, and 3 when the run is degraded (PD-008, PD-017).
 """
 
 import argparse
+import json
 import sys
 from collections.abc import Sequence
 from pathlib import Path
@@ -20,6 +21,7 @@ from workflows.authoring_run import run_authoring
 from workflows.corpus_run import run_corpus
 from workflows.fetch_run import load_search_workspace, run_fetch
 from workflows.research_run import RunSummary, run_research
+from workflows.resume import load_saved_run, next_phase
 from workflows.search_run import run_search
 
 EXIT_COMPLETED = 0
@@ -67,6 +69,11 @@ def build_parser() -> argparse.ArgumentParser:
         action="append",
         help="Provide 2 or 3 variants for a reproducible search-only run.",
     )
+    parser.add_argument(
+        "--resume",
+        metavar="RUN_ID",
+        help="Resume an interrupted run from its last completed phase.",
+    )
     return parser
 
 
@@ -95,6 +102,14 @@ def main(argv: Sequence[str] | None = None, settings: RunSettings | None = None)
     variants = None
     try:
         resolved = settings if settings is not None else RunSettings()
+        if args.resume is not None:
+            workspace = Path(resolved.runs_dir) / args.resume
+            if not workspace.is_dir():
+                raise ValueError(f"No workspace for run {args.resume}")
+            saved_run = load_saved_run(workspace)
+            phase = next_phase(saved_run.completed_phases)
+            print(json.dumps({"run_id": args.resume, "resumed_at": phase}))
+            return EXIT_COMPLETED
         if args.fetch_only or args.corpus_only or args.author_only:
             flag = next(
                 name
