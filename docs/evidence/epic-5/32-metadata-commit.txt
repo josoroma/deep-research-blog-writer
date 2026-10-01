@@ -1,0 +1,19 @@
+Command: git commit -m 'Preserve explicit publication metadata for EPIC-5 sources'
+
+ruff check...............................................................Passed
+ruff format..............................................................Passed
+mypy.....................................................................Passed
+pytest (offline, coverage >=80%, agent boundary).........................Passed
+[main 11225f2] Preserve explicit publication metadata for EPIC-5 sources
+ 18 files changed, 497 insertions(+), 86 deletions(-)
+ create mode 100644 docs/evidence/epic-5/24-implementation-commit.txt
+ create mode 100644 docs/evidence/epic-5/25-metadata-check.txt
+ create mode 100644 docs/evidence/epic-5/26-metadata-live-smoke.txt
+ create mode 100644 docs/evidence/epic-5/27-live-cli.txt
+ create mode 100644 docs/evidence/epic-5/28-metadata-build.txt
+ create mode 100644 docs/evidence/epic-5/29-check.txt
+ create mode 100644 docs/evidence/epic-5/30-refresh-live-snapshot.txt
+ create mode 100644 docs/evidence/epic-5/31-final-build.txt
+ create mode 100644 scripts/verify-source-manifest.py
+
+Exit code: 0

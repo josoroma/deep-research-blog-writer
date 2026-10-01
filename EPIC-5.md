@@ -2,7 +2,7 @@
 
 Date: 2026-10-01
 
-Status: Implemented; final committed-checkout verification and evidence are being finalized in [EPIC-5-RUNBOOK.md](EPIC-5-RUNBOOK.md). This plan was written before implementation.
+Status: Completed and verified. This plan was written before implementation; successful commands and PM evidence are in [EPIC-5-RUNBOOK.md](EPIC-5-RUNBOOK.md).
 
 ## Objective
 
@@ -35,10 +35,10 @@ Immutable `research/NNN_<slug>.md` files, front-matter, corpus indexing, and the
 - [x] US-5.2 implemented and verified.
 - [x] US-5.3 implemented and verified.
 - [x] Runnable fetch-only workflow and offline PM demo pass.
-- [ ] Strict gates/hooks, prior demos, installed wheel, and fresh checkout pass.
+- [x] Strict gates/hooks, prior demos, installed wheel, and fresh checkout pass.
 - [x] Actual live check outcome recorded separately from offline evidence.
-- [ ] Runbook, command transcripts, artifact snapshots, coverage and source hashes saved.
-- [ ] Implementation and final evidence committed.
+- [x] Runbook, command transcripts, artifact snapshots, coverage and source hashes saved.
+- [x] Implementation and final evidence committed.
 
 ## Technical references
 

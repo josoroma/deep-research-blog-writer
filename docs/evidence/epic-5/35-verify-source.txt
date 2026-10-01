@@ -1,0 +1,6 @@
+Command: uv run --locked python scripts/verify-source-manifest.py docs/evidence/epic-5/source-manifest.json
+
+Verified 112 source/configuration/fixture hashes.
+Verified source revision: 11225f295d9b588e9fe7251d7c196050483cb926
+
+Exit code: 0

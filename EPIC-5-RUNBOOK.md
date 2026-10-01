@@ -64,12 +64,17 @@ Full transcripts preserve the real outputs and exit status; [commands.jsonl](doc
 | `make demo-epic-2 demo-epic-3 demo-epic-4` | Contract/checkpoint, agent skeleton, and real Search tool demos pass | [08-prior-demos](docs/evidence/epic-5/08-prior-demos.txt) |
 | `uv run --locked python -m evaluations.fetch_live_smoke --output docs/evidence/epic-5/live-smoke.json` | Public page HTTP 200; trafilatura extracts 228 words; `passed: true` | [26-metadata-live-smoke](docs/evidence/epic-5/26-metadata-live-smoke.txt) |
 | `uv run --locked pytest -m live tests/test_fetch_smoke.py --no-cov` | `1 passed, 7 deselected` | [09-live-test](docs/evidence/epic-5/09-live-test.txt) |
-| `make build` | Wheel and source distribution built successfully | [10-build](docs/evidence/epic-5/10-build.txt) |
-| `sh scripts/verify-epic-5-package.sh` | Installed-wheel tools, real parsers, fixtures, limits, fallback/artifacts pass outside checkout; console rejects missing workspace with exit 2 | [12-wheel](docs/evidence/epic-5/12-wheel.txt) |
+| `make build` | Wheel and source distribution built successfully | [31-final-build](docs/evidence/epic-5/31-final-build.txt) |
+| `sh scripts/verify-epic-5-package.sh` (also run by the fresh-checkout verifier) | Final installed-wheel tools, real parsers, fixtures, limits, fallback/artifacts pass outside checkout; console rejects missing workspace with exit 2 | [33-fresh-checkout](docs/evidence/epic-5/33-fresh-checkout.txt) |
 | `uv run --locked python scripts/create-live-fetch-workspace.py` | Created `runs/epic-5-live-python-asyncio-fetch-20261001T152525Z` | [13-seed-live-workspace](docs/evidence/epic-5/13-seed-live-workspace.txt) |
 | `uv run --locked deep-research-blog --fetch-only --workspace runs/epic-5-live-python-asyncio-fetch-20261001T152525Z` | `status: completed`, `urls_processed: 1`, `extracted: 1`; three artifacts saved | [27-live-cli](docs/evidence/epic-5/27-live-cli.txt) |
 | `uv run --locked python scripts/inspect-fetch-artifacts.py runs/epic-5-polite-evidence-collection-20261001T152315Z` | Validates all 11 ranked outcomes, minimum word counts, matching IDs, no raw HTML, and failure/source separation | [15-inspect-offline](docs/evidence/epic-5/15-inspect-offline.txt) |
 | `uv run --locked python scripts/inspect-fetch-artifacts.py runs/epic-5-live-python-asyncio-fetch-20261001T152525Z` | Validates actual CLI output and the extracted live source | [17-inspect-live](docs/evidence/epic-5/17-inspect-live.txt) |
+
+
+| `make hooks` | Ruff, formatting, strict mypy and offline pytest hooks pass locally and in the committed fresh checkout | [19-hooks](docs/evidence/epic-5/19-hooks.txt), [33-fresh-checkout](docs/evidence/epic-5/33-fresh-checkout.txt) |
+| `sh scripts/verify-epic-5-checkout.sh` | Installs committed revision without .env; 401 offline tests, 97.50% coverage, hooks, all four demos, build and final installed-wheel checks pass | [33-fresh-checkout](docs/evidence/epic-5/33-fresh-checkout.txt) |
+| `uv run --locked python scripts/verify-source-manifest.py docs/evidence/epic-5/source-manifest.json` | Verifies 112 source/configuration/fixture hashes at the tested revision | [35-verify-source](docs/evidence/epic-5/35-verify-source.txt) |
 
 An intermediate recorded check, [07-check](docs/evidence/epic-5/07-check.txt), failed because the artifact-inspection script needed formatting. `uv run --locked ruff format scripts/inspect-fetch-artifacts.py` corrected it; the subsequent [11-check](docs/evidence/epic-5/11-check.txt) passes. Earlier successful checkpoints remain in the evidence folder. No failed command is counted as successful.
 
@@ -106,3 +111,18 @@ Production `collect_source`, front-matter source files and `research/index.md` r
 Publication dates require explicit meta tags, Article JSON-LD, or marked publication time elements. Parser date guesses are discarded. The passing [29-check](docs/evidence/epic-5/29-check.txt) includes redirect-budget and metadata regressions: 401 offline tests, 97.50% coverage. The corrected [live smoke](docs/evidence/epic-5/26-metadata-live-smoke.txt) extracts 228 words with null publication date, and the [live CLI](docs/evidence/epic-5/27-live-cli.txt) also passes. Earlier live transcripts retain the parser guesses as historical evidence, not accepted publication metadata.
 
 [25-metadata-check](docs/evidence/epic-5/25-metadata-check.txt) caught a type inference error in the new structured-metadata test. Explicitly typed branches corrected it; [29-check](docs/evidence/epic-5/29-check.txt) passes.
+
+
+## Committed verification
+
+All EPIC-5 checklist items are complete. Implementation commits are `b3884b8` and `11225f2`. The fresh checkout verified source revision `11225f295d9b588e9fe7251d7c196050483cb926`; the final documentation/evidence commit changes the delivery files only. The [source manifest](docs/evidence/epic-5/source-manifest.json) records 112 SHA-256 source/configuration/fixture hashes and the local build artifact hashes. Re-run its verifier from the repository root to check that reviewed source matches the evidence.
+
+The successful fresh-checkout transcript ends with:
+
+```text
+Installed-wheel fetch tools, real parsers, packaged fixtures, limits, fallback and artifacts passed.
+Installed console script rejected missing fetch workspace with exit 2.
+Fresh-checkout EPIC-5 setup, gates, hooks, prior demos, build and installed-wheel checks passed.
+```
+
+The saved offline snapshot is the original 06-demo workspace. Later demos and fresh-checkout execution reproduce its acceptance facts; interleaved virtual start times can differ while preserving each host's minimum interval. Actual live source metadata was refreshed after the publication-date correction. No credentials were committed or published.

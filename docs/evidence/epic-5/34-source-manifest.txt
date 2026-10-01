@@ -1,0 +1,6 @@
+Command: python3 /var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic5-verification-cwmk1bbm/manifest.py
+
+Recorded 112 source/configuration/fixture hashes at 11225f295d9b588e9fe7251d7c196050483cb926
+Build artifact hashes: {'.gitignore': '684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1', 'deep_research_blog_writer-0.1.0-py3-none-any.whl': 'f955f40d9503808055236316dee6a2cf279d1e0bea34a5cee58615072ac3eaa4', 'deep_research_blog_writer-0.1.0.tar.gz': '2c0202c3392af9ef48441bc025b718e51ee7318a6076b18a147bdd86978b29c2'}
+
+Exit code: 0
