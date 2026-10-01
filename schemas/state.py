@@ -20,6 +20,7 @@ class UrlOutcome(Contract):
         "robots_disallowed",
         "unsupported_content",
         "extraction_failed",
+        "failed",
     ] = "pending"
     reason: str | None = None
     source_id: SourceID | None = None

@@ -1,0 +1,156 @@
+{
+  "run_id": "epic-6-research-corpus-20261001T172634Z",
+  "topic": "EPIC-6 research corpus",
+  "completed_phases": [
+    "plan",
+    "search",
+    "normalize",
+    "fetch",
+    "index"
+  ],
+  "query_variants": [],
+  "clean_results": [
+    {
+      "url": "https://fixture.test/article",
+      "title": "Fixture article",
+      "snippet": "Original offline fixture",
+      "rank": 1,
+      "query": "EPIC-6 research corpus"
+    },
+    {
+      "url": "https://fixture.test/redirect",
+      "title": "Fixture redirect",
+      "snippet": "Original offline fixture",
+      "rank": 2,
+      "query": "EPIC-6 research corpus"
+    },
+    {
+      "url": "https://fixture.test/missing",
+      "title": "Fixture missing",
+      "snippet": "Original offline fixture",
+      "rank": 3,
+      "query": "EPIC-6 research corpus"
+    },
+    {
+      "url": "https://fixture.test/blocked",
+      "title": "Fixture blocked",
+      "snippet": "Original offline fixture",
+      "rank": 4,
+      "query": "EPIC-6 research corpus"
+    },
+    {
+      "url": "https://fixture.test/pdf",
+      "title": "Fixture pdf",
+      "snippet": "Original offline fixture",
+      "rank": 5,
+      "query": "EPIC-6 research corpus"
+    },
+    {
+      "url": "https://fixture.test/thin",
+      "title": "Fixture thin",
+      "snippet": "Original offline fixture",
+      "rank": 6,
+      "query": "EPIC-6 research corpus"
+    },
+    {
+      "url": "https://fixture.test/missing-metadata",
+      "title": "Fixture missing-metadata",
+      "snippet": "Original offline fixture",
+      "rank": 7,
+      "query": "EPIC-6 research corpus"
+    },
+    {
+      "url": "https://fixture.test/boilerplate-heavy",
+      "title": "Fixture boilerplate-heavy",
+      "snippet": "Original offline fixture",
+      "rank": 8,
+      "query": "EPIC-6 research corpus"
+    },
+    {
+      "url": "https://fixture.test/exhaust",
+      "title": "Fixture exhaust",
+      "snippet": "Original offline fixture",
+      "rank": 9,
+      "query": "EPIC-6 research corpus"
+    },
+    {
+      "url": "https://fixture.test/non-ascii",
+      "title": "标题",
+      "snippet": "Original offline fixture",
+      "rank": 10,
+      "query": "EPIC-6 research corpus"
+    }
+  ],
+  "url_outcomes": {
+    "https://fixture.test/article": {
+      "rank": 1,
+      "url": "https://fixture.test/article",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-01"
+    },
+    "https://fixture.test/redirect": {
+      "rank": 2,
+      "url": "https://fixture.test/redirect",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-02"
+    },
+    "https://fixture.test/missing": {
+      "rank": 3,
+      "url": "https://fixture.test/missing",
+      "outcome": "unreachable",
+      "reason": "http_404",
+      "source_id": null
+    },
+    "https://fixture.test/blocked": {
+      "rank": 4,
+      "url": "https://fixture.test/blocked",
+      "outcome": "robots_disallowed",
+      "reason": "robots_rule",
+      "source_id": null
+    },
+    "https://fixture.test/pdf": {
+      "rank": 5,
+      "url": "https://fixture.test/pdf",
+      "outcome": "unsupported_content",
+      "reason": "non_html_content_type",
+      "source_id": null
+    },
+    "https://fixture.test/thin": {
+      "rank": 6,
+      "url": "https://fixture.test/thin",
+      "outcome": "too_thin",
+      "reason": "no_parser_reached_200_words",
+      "source_id": null
+    },
+    "https://fixture.test/missing-metadata": {
+      "rank": 7,
+      "url": "https://fixture.test/missing-metadata",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-07"
+    },
+    "https://fixture.test/boilerplate-heavy": {
+      "rank": 8,
+      "url": "https://fixture.test/boilerplate-heavy",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-08"
+    },
+    "https://fixture.test/exhaust": {
+      "rank": 9,
+      "url": "https://fixture.test/exhaust",
+      "outcome": "unreachable",
+      "reason": "retry_exhausted:http_503",
+      "source_id": null
+    },
+    "https://fixture.test/non-ascii": {
+      "rank": 10,
+      "url": "https://fixture.test/non-ascii",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-10"
+    }
+  }
+}

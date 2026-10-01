@@ -51,11 +51,28 @@ class SourceMetadata(Contract):
     word_count: int = Field(ge=0)
 
 
+class CollectSourceOutput(RunStateUpdate):
+    """Metadata when a source file was written or already existed; otherwise none.
+
+    A failed URL still returns a validated run-state replacement, so one bad source
+    never drops the run's recorded progress.
+    """
+
+    source: SourceMetadata | None = None
+
+
 class BuildIndexInput(Contract):
     """No arguments; the run workspace is implicit."""
 
 
-class BuildIndexOutput(Contract):
+class BuildIndexOutput(RunStateUpdate):
+    index_path: str
+    sources_indexed: int = Field(ge=0)
+
+
+class BuildIndexStubOutput(Contract):
+    """M1 stub output. The real tool returns BuildIndexOutput, which updates run state."""
+
     index_path: str
     sources_indexed: int = Field(ge=0)
 

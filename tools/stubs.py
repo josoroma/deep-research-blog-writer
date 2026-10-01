@@ -16,7 +16,7 @@ from schemas.responses import FetchedPage, Source
 from schemas.state import ResearchAgentState
 from schemas.tool_io import (
     BuildIndexInput,
-    BuildIndexOutput,
+    BuildIndexStubOutput,
     CollectSourceInput,
     ExtractMarkdownInput,
     FetchUrlInput,
@@ -56,8 +56,10 @@ def _stub_extract(request: ExtractMarkdownInput, runtime: Runtime | None = None)
     )
 
 
-def _stub_build_index(request: BuildIndexInput, runtime: Runtime | None = None) -> BuildIndexOutput:
-    return BuildIndexOutput(index_path="research/index.md", sources_indexed=0)
+def _stub_build_index(
+    request: BuildIndexInput, runtime: Runtime | None = None
+) -> BuildIndexStubOutput:
+    return BuildIndexStubOutput(index_path="research/index.md", sources_indexed=0)
 
 
 def _stub_validate_citations(
@@ -72,8 +74,13 @@ def _stub_write_run_report(
     return WriteRunReportOutput(report_path="output/run.json")
 
 
-def register_stub_tools(registry: ToolRegistry) -> None:
-    """Register only the remaining future-epic stubs."""
+def register_stub_tools(registry: ToolRegistry, *, corpus: bool = False) -> None:
+    """Register the remaining future-epic stubs.
+
+    A corpus-bound registry replaces `collect_source` and `build_index` with the
+    real tools, so those two stubs are skipped. The citation and report stubs stay
+    until their own epics.
+    """
     from tools.registry import TypedTool  # local import avoids a registry/stubs cycle
 
     def collect_source(
@@ -90,24 +97,25 @@ def register_stub_tools(registry: ToolRegistry) -> None:
             word_count=source.word_count,
         )
 
-    registry.register(
-        TypedTool[CollectSourceInput, SourceMetadata](
-            name="collect_source",
-            input_model=CollectSourceInput,
-            output_model=SourceMetadata,
-            handler=collect_source,
-            description="M1 stub pending EPIC-6: return fake metadata; no corpus file is written.",
+    if not corpus:
+        registry.register(
+            TypedTool[CollectSourceInput, SourceMetadata](
+                name="collect_source",
+                input_model=CollectSourceInput,
+                output_model=SourceMetadata,
+                handler=collect_source,
+                description="M1 stub pending EPIC-6: fake metadata; no corpus file is written.",
+            )
         )
-    )
-    registry.register(
-        TypedTool[BuildIndexInput, BuildIndexOutput](
-            name="build_index",
-            input_model=BuildIndexInput,
-            output_model=BuildIndexOutput,
-            handler=_stub_build_index,
-            description="M1 stub: report the corpus index path; no index is written yet.",
+        registry.register(
+            TypedTool[BuildIndexInput, BuildIndexStubOutput](
+                name="build_index",
+                input_model=BuildIndexInput,
+                output_model=BuildIndexStubOutput,
+                handler=_stub_build_index,
+                description="M1 stub: report the corpus index path; no index is written yet.",
+            )
         )
-    )
     registry.register(
         TypedTool[ValidateCitationsInput, ValidateCitationsOutput](
             name="validate_citations",

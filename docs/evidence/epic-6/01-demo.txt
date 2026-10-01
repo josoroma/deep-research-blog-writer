@@ -1,0 +1,50 @@
+{
+  "mode": "offline; mock HTTP, real registered corpus tools and extraction libraries",
+  "timing": "virtual monotonic seconds",
+  "workspace": "runs/epic-6-research-corpus-20261001T172634Z",
+  "summary": {
+    "run_id": "epic-6-research-corpus-20261001T172634Z",
+    "workspace": "runs/epic-6-research-corpus-20261001T172634Z",
+    "status": "completed",
+    "urls_processed": 10,
+    "sources_written": 5,
+    "sources_indexed": 5,
+    "outcomes": {
+      "extracted": 5,
+      "unreachable": 2,
+      "robots_disallowed": 1,
+      "unsupported_content": 1,
+      "too_thin": 1
+    },
+    "index_path": "research/index.md",
+    "files": [
+      "research/001_polite-evidence-collection.md",
+      "research/002_polite-evidence-collection.md",
+      "research/007_polite-evidence-collection.md",
+      "research/008_polite-evidence-collection.md",
+      "research/010_fixture-test-non-ascii.md",
+      "research/index.md",
+      "corpus_state.json"
+    ],
+    "error": null
+  },
+  "source_files": [
+    "research/001_polite-evidence-collection.md",
+    "research/002_polite-evidence-collection.md",
+    "research/007_polite-evidence-collection.md",
+    "research/008_polite-evidence-collection.md",
+    "research/010_fixture-test-non-ascii.md"
+  ],
+  "rank_gaps": [
+    3,
+    4,
+    5,
+    6,
+    9
+  ],
+  "title_slug": "research/001_polite-evidence-collection.md",
+  "url_slug_fallback": "research/010_fixture-test-non-ascii.md",
+  "index_rows": 5,
+  "immutable_source_refused": true,
+  "metadata_only": true
+}

@@ -15,7 +15,6 @@ from deepagents import (
     create_deep_agent,
 )
 from deepagents._models import get_model_provider
-from deepagents.backends import FilesystemBackend
 from deepagents.profiles import register_harness_profile
 from langchain.agents.middleware import TodoListMiddleware
 from langchain_core.language_models import BaseChatModel
@@ -27,6 +26,7 @@ from schemas.config import AgentName
 from schemas.state import ResearchAgentState
 from schemas.workspace import RunWorkspace
 from services.llm_service import LLMService
+from services.source_backend import ImmutableSourceBackend
 from tools.registry import TOOLS, ToolRegistry
 
 ORCHESTRATOR_TOOLS: tuple[str, ...] = (
@@ -100,6 +100,6 @@ def build_deep_agent(
         system_prompt=load_prompt("orchestrator"),
         middleware=[TodoListMiddleware()],
         subagents=subagents,
-        backend=FilesystemBackend(root_dir=workspace.root, virtual_mode=True),
+        backend=ImmutableSourceBackend(root_dir=workspace.root, virtual_mode=True),
         state_schema=ResearchAgentState,
     )

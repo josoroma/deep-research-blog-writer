@@ -149,17 +149,17 @@ CODEBASE Context: EPIC-1 foundation implemented on 2026-09-30; EPIC-2 contracts 
 | US-5.3#1 | Define the extractor interface with trafilatura, readability-lxml, and beautifulsoup4 implementations. | DONE | US-5.3 |
 | US-5.3#2 | Implement and register `extract_markdown` with the fallback chain and the 200-word threshold. | DONE | US-5.3 |
 | US-5.3#3 | Add HTML fixtures for an article, missing metadata, a boilerplate-heavy page, and a thin page. | DONE | US-5.3 |
-| EPIC-6 | Research Corpus | — | — |
-| US-6.1 | Write Each Source as a Markdown File with Front-Matter | READY | EPIC-6 |
-| US-6.1#1 | Implement and register `collect_source`, which fetches, extracts, writes one source file, and returns metadata only. | TODO | US-6.1 |
-| US-6.1#2 | Render a `Source` into the front-matter template and Markdown body. | TODO | US-6.1 |
-| US-6.1#3 | Name files by clean rank and title slug (PD-014). | TODO | US-6.1 |
-| US-6.1#4 | Refuse agent writes and edits to existing source files. | TODO | US-6.1 |
-| US-6.2 | Build the Corpus Index | READY | EPIC-6 |
-| US-6.2#1 | Implement and register `build_index`, which generates `research/index.md` from source-file front-matter. | TODO | US-6.2 |
-| US-6.3 | Keep Building the Corpus When Sources Fail | READY | EPIC-6 |
-| US-6.3#1 | Record each URL's outcome in `RunState`. | TODO | US-6.3 |
-| US-6.3#2 | Contain fetch and extraction exceptions per URL inside `collect_source`. | TODO | US-6.3 |
+| EPIC-6 | Research Corpus | DONE | — |
+| US-6.1 | Write Each Source as a Markdown File with Front-Matter | DONE | EPIC-6 |
+| US-6.1#1 | Implement and register `collect_source`, which fetches, extracts, writes one source file, and returns metadata only. | DONE | US-6.1 |
+| US-6.1#2 | Render a `Source` into the front-matter template and Markdown body. | DONE | US-6.1 |
+| US-6.1#3 | Name files by clean rank and title slug (PD-014). | DONE | US-6.1 |
+| US-6.1#4 | Refuse agent writes and edits to existing source files. | DONE | US-6.1 |
+| US-6.2 | Build the Corpus Index | DONE | EPIC-6 |
+| US-6.2#1 | Implement and register `build_index`, which generates `research/index.md` from source-file front-matter. | DONE | US-6.2 |
+| US-6.3 | Keep Building the Corpus When Sources Fail | DONE | EPIC-6 |
+| US-6.3#1 | Record each URL's outcome in `RunState`. | DONE | US-6.3 |
+| US-6.3#2 | Contain fetch and extraction exceptions per URL inside `collect_source`. | DONE | US-6.3 |
 | EPIC-7 | Synthesis and Blog Authoring | — | — |
 | US-7.1 | Synthesize the Corpus into a Research Summary | READY | EPIC-7 |
 | US-7.1#1 | Write the analyst prompt covering the FR-7 summary contents. | TODO | US-7.1 |

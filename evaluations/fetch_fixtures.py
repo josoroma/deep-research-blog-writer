@@ -57,11 +57,12 @@ class FixtureHTTP:
         if path == "/pdf":
             return httpx.Response(200, headers={"content-type": "application/pdf"}, content=b"PDF")
         fixture = "article"
-        if path.lstrip("/") in {"thin", "missing-metadata", "boilerplate-heavy"}:
+        if path.lstrip("/") in {"thin", "missing-metadata", "boilerplate-heavy", "non-ascii"}:
             fixture = {
                 "/thin": "thin",
                 "/missing-metadata": "missing-metadata",
                 "/boilerplate-heavy": "boilerplate-heavy",
+                "/non-ascii": "non-ascii",
             }[path]
         return httpx.Response(
             200, headers={"content-type": "text/html"}, text=fixture_html(fixture)

@@ -1,0 +1,6 @@
+$ make hooks
+uv run --locked pre-commit run --all-files
+ruff check...............................................................Passed
+ruff format..............................................................Passed
+mypy.....................................................................Passed
+pytest (offline, coverage >=80%, agent boundary).........................Passed
