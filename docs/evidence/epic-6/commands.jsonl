@@ -4,3 +4,5 @@
 {"name": "04-hooks", "command": "make hooks", "exit_code": 0, "log": "04-hooks.txt", "recorded_at": "2026-10-01T17:28:08.696452+00:00"}
 {"name": "05-build", "command": "make build", "exit_code": 0, "log": "05-build.txt", "recorded_at": "2026-10-01T17:28:08.696452+00:00"}
 {"name": "06-wheel", "command": "sh scripts/verify-epic-6-package.sh", "exit_code": 0, "log": "06-wheel.txt", "recorded_at": "2026-10-01T17:28:08.696452+00:00"}
+{"name": "07-fresh-checkout", "command": "sh scripts/verify-epic-6-checkout.sh", "exit_code": 0, "log": "07-fresh-checkout.txt", "recorded_at": "2026-10-01T17:30:58.404257+00:00"}
+{"name": "08-verify-source", "command": "uv run --locked python scripts/verify-source-manifest.py docs/evidence/epic-6/source-manifest.json", "exit_code": 0, "log": "08-verify-source.txt", "recorded_at": "2026-10-01T17:30:58.404257+00:00"}

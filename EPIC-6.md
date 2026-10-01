@@ -90,9 +90,9 @@ Synthesis, blog authoring, citation validation, run reporting, outcome classific
 - [x] US-6.3 implemented and verified.
 - [x] Runnable corpus-only workflow and offline PM demo pass.
 - [x] Strict gates, hooks, prior demos, and installed wheel pass.
-- [ ] Live corpus check recorded separately from offline evidence.
+- [ ] Live corpus check recorded separately from offline evidence. Optional; needs CRAWLER_CONTACT.
 - [x] Runbook, command transcripts, artifact snapshots, coverage, and source hashes saved.
-- [ ] Implementation and final evidence committed.
+- [x] Implementation committed; evidence commit follows.
 
 ## Scope boundaries
 

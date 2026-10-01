@@ -1,0 +1,894 @@
+Verifying committed revision: c7b7e5a2c49dafe7880e7d267635346d03fccb4e
+uv sync --locked
+Using CPython 3.12.9
+Creating virtual environment at: .venv
+Resolved 105 packages in 0.72ms
+   Building deep-research-blog-writer @ file:///private/var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic6-checkout.9SAkqV/project
+      Built deep-research-blog-writer @ file:///private/var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic6-checkout.9SAkqV/project
+Prepared 1 package in 812ms
+Installed 102 packages in 199ms
+ + annotated-types==0.8.0
+ + anthropic==1.11.0
+ + anyio==4.15.1
+ + babel==2.18.0
+ + beautifulsoup4==4.15.0
+ + bracex==3.0.1
+ + certifi==2026.7.22
+ + cffi==2.1.1
+ + cfgv==3.5.0
+ + chardet==5.2.0
+ + charset-normalizer==3.5.2
+ + courlan==1.4.0
+ + coverage==7.16.2
+ + cryptography==50.0.2
+ + cssselect==1.3.0
+ + dateparser==1.4.3
+ + deep-research-blog-writer==0.1.0 (from file:///private/var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic6-checkout.9SAkqV/project)
+ + deepagents==0.7.21
+ + distlib==0.4.3
+ + distro==1.9.0
+ + docstring-parser==0.18.0
+ + filelock==4.0.7
+ + filetype==1.2.0
+ + google-auth==2.59.1
+ + google-genai==2.26.0
+ + h11==0.16.0
+ + htmldate==1.10.0
+ + httpcore==1.0.9
+ + httpcore2==2.13.1
+ + httpx==0.28.1
+ + httpx2==2.13.1
+ + identify==2.6.20
+ + idna==3.20
+ + iniconfig==2.3.0
+ + jiter==0.17.0
+ + jsonpatch==1.33
+ + jsonpath-python==1.1.6
+ + jsonpointer==3.1.1
+ + justext==3.0.2
+ + langchain==1.4.3
+ + langchain-anthropic==1.7.5
+ + langchain-core==1.6.6
+ + langchain-google-genai==4.4.0
+ + langchain-openrouter==0.2.9
+ + langchain-protocol==0.0.19
+ + langgraph==1.2.12
+ + langgraph-checkpoint==4.2.0
+ + langgraph-prebuilt==1.1.0
+ + langgraph-sdk==0.4.5
+ + langsmith==0.14.2
+ + lxml==6.1.3
+ + lxml-html-clean==0.4.5
+ + markdownify==1.2.3
+ + mypy==1.18.1
+ + mypy-extensions==1.1.0
+ + nodeenv==1.11.0
+ + openrouter==0.11.46
+ + orjson==3.12.0
+ + ormsgpack==1.12.2
+ + packaging==26.3
+ + pathspec==1.1.1
+ + platformdirs==4.12.2
+ + pluggy==1.6.0
+ + pre-commit==4.6.2
+ + protego==0.7.0
+ + pyasn1==0.6.4
+ + pyasn1-modules==0.4.2
+ + pycparser==3.0
+ + pydantic==2.12.5
+ + pydantic-core==2.41.5
+ + pydantic-settings==2.15.0
+ + pygments==2.21.0
+ + pytest==9.1.1
+ + pytest-cov==7.1.0
+ + python-dateutil==2.9.0.post0
+ + python-discovery==1.6.1
+ + python-dotenv==1.2.4
+ + pytz==2026.4
+ + pyyaml==6.0.3
+ + readability-lxml==0.9
+ + regex==2026.9.29
+ + requests==2.34.2
+ + requests-toolbelt==1.0.0
+ + ruff==0.13.0
+ + six==1.17.0
+ + sniffio==1.3.1
+ + soupsieve==2.10
+ + tenacity==9.1.4
+ + tld==0.13.2
+ + trafilatura==2.2.0
+ + truststore==0.10.4
+ + types-pyyaml==6.0.12.20260906
+ + typing-extensions==4.16.0
+ + typing-inspection==0.4.4
+ + tzlocal==5.4.4
+ + urllib3==2.8.0
+ + uuid-utils==0.17.1
+ + virtualenv==21.14.1
+ + wcmatch==11.0.1
+ + websockets==16.1.1
+ + xxhash==4.0.1
+ + zstandard==0.25.0
+uv run --locked pre-commit install
+pre-commit installed at .git/hooks/pre-commit
+uv lock --check
+Resolved 105 packages in 4ms
+/Library/Developer/CommandLineTools/usr/bin/make lint format-check typecheck test
+uv run --locked ruff check .
+All checks passed!
+uv run --locked ruff format --check .
+84 files already formatted
+uv run --locked mypy --strict
+Success: no issues found in 78 source files
+uv run --locked pytest
+============================= test session starts ==============================
+platform darwin -- Python 3.12.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: /private/var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic6-checkout.9SAkqV/project
+configfile: pyproject.toml
+testpaths: tests
+plugins: platformdirs-4.12.2, cov-7.1.0, langsmith-0.14.2, anyio-4.15.1
+collected 420 items / 3 deselected / 417 selected
+
+tests/test_agent_boundary.py ........................................... [ 10%]
+.....                                                                    [ 11%]
+tests/test_cli.py ........                                               [ 13%]
+tests/test_contracts.py ......................................           [ 22%]
+tests/test_corpus.py ................                                    [ 26%]
+tests/test_deep_agent.py .......                                         [ 28%]
+tests/test_epic2_demo.py .                                               [ 28%]
+tests/test_epic3_demo.py .                                               [ 28%]
+tests/test_extraction_service.py ..................................      [ 36%]
+tests/test_fetch_run.py ....................                             [ 41%]
+tests/test_fetch_service.py ............................................ [ 52%]
+..                                                                       [ 52%]
+tests/test_fetch_smoke.py .......                                        [ 54%]
+tests/test_live_smoke_offline.py ........                                [ 56%]
+tests/test_llm_service.py ..............                                 [ 59%]
+tests/test_prompts_and_architecture.py ...............................   [ 66%]
+tests/test_search_provider.py ....................                       [ 71%]
+tests/test_search_session.py ........................................... [ 82%]
+............                                                             [ 84%]
+tests/test_search_workflow.py ..............                             [ 88%]
+tests/test_settings.py .................                                 [ 92%]
+tests/test_state_and_tools.py ......................                     [ 97%]
+tests/test_workspace.py ........                                         [ 99%]
+tests/test_workspace_backend.py ..                                       [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform darwin, python 3.12.9-final-0 _______________
+
+Name                                Stmts   Miss Branch BrPart   Cover   Missing
+--------------------------------------------------------------------------------
+agents/__init__.py                      0      0      0      0 100.00%
+agents/deep_research.py                32      0      2      0 100.00%
+agents/search_planner.py               20      0      4      0 100.00%
+evaluations/__init__.py                 0      0      0      0 100.00%
+evaluations/agent_architecture.py      61      1     46      1  98.13%   35, 63->62
+evaluations/agent_boundary.py          47      0     18      0 100.00%
+evaluations/corpus_live_smoke.py       32     32      2      0   0.00%   3-51
+evaluations/epic2_demo.py              81      0      2      0 100.00%
+evaluations/epic3_demo.py              66      1      2      1  97.06%   90, 101->exit
+evaluations/epic4_demo.py              67      3      6      0  95.89%   158-160
+evaluations/epic5_demo.py              65      2      4      0  97.10%   171-172
+evaluations/epic6_demo.py              64      2      2      0  96.97%   123-124
+evaluations/fakes.py                   26      0      2      0 100.00%
+evaluations/fetch_fixtures.py          50      0     18      0 100.00%
+evaluations/fetch_live_smoke.py        40      0      4      1  97.73%   64->66
+evaluations/live_smoke.py              33      0      6      0 100.00%
+evaluations/search_live_smoke.py       24     13      2      0  42.31%   13-15, 19-28
+prompts/__init__.py                     0      0      0      0 100.00%
+prompts/catalog.py                      9      1      4      1  84.62%   13
+schemas/__init__.py                     0      0      0      0 100.00%
+schemas/common.py                      10      0      0      0 100.00%
+schemas/config.py                      62      0     14      0 100.00%
+schemas/content.py                     62      3     14      3  92.11%   28, 30, 61
+schemas/requests.py                     9      0      0      0 100.00%
+schemas/responses.py                   33      0      0      0 100.00%
+schemas/search.py                      34      0      2      0 100.00%
+schemas/state.py                       37      0     10      0 100.00%
+schemas/tool_io.py                     46      0      0      0 100.00%
+schemas/workspace.py                    6      0      0      0 100.00%
+services/__init__.py                    0      0      0      0 100.00%
+services/artifacts.py                  14      0      2      0 100.00%
+services/checkpoints.py                 6      0      0      0 100.00%
+services/corpus.py                    113      9     28     10  86.52%   78, 86, 88, 92, 94->96, 101, 105, 116, 138, 174
+services/extraction_service.py        142      5     42      7  93.48%   66->69, 83, 87, 89->91, 97, 145, 148
+services/fetch_service.py             227      1     64      1  99.31%   147
+services/llm_service.py                17      0      6      0 100.00%
+services/search_provider.py            94      0     26      0 100.00%
+services/search_session.py            112      0     28      0 100.00%
+services/source_backend.py             28      4      6      2  82.35%   32-33, 46, 51
+services/workspace.py                  24      0      2      0 100.00%
+tools/__init__.py                       0      0      0      0 100.00%
+tools/content_tools.py                 16      0      2      0 100.00%
+tools/corpus_tools.py                  87      7     22      6  88.07%   60, 86, 89, 136-137, 146, 155, 158->160
+tools/registry.py                      80      0     20      0 100.00%
+tools/search_tools.py                  36      0     10      2  95.65%   36->38, 56->55
+tools/state_tools.py                   11      0      4      0 100.00%
+tools/stubs.py                         36      3      2      0  92.11%   62, 68, 74
+workflows/__init__.py                   0      0      0      0 100.00%
+workflows/cli.py                       77      1     16      1  97.85%   83
+workflows/corpus_run.py                65      5      4      1  91.30%   48-49, 68, 108-109
+workflows/fetch_run.py                 72      2     10      0  97.56%   94-95
+workflows/research_run.py              42      2      0      0  95.24%   65-66
+workflows/search_run.py                52      0      4      0 100.00%
+--------------------------------------------------------------------------------
+TOTAL                                2367     97    462     37  95.12%
+Coverage XML written to file coverage.xml
+Required test coverage of 80% reached. Total coverage: 95.12%
+====================== 417 passed, 3 deselected in 10.98s ======================
+uv run --locked pre-commit run --all-files
+ruff check...............................................................Passed
+ruff format..............................................................Passed
+mypy.....................................................................Passed
+pytest (offline, coverage >=80%, agent boundary).........................Passed
+uv run --locked python -m evaluations.epic2_demo
+{
+  "mode": "offline; no provider request",
+  "topic": "2026 agentic AI frameworks",
+  "budgets": [
+    3,
+    10,
+    30
+  ],
+  "registered_tools": [
+    "record_phase_completion",
+    "collect_source",
+    "build_index",
+    "validate_citations",
+    "write_run_report",
+    "plan_search",
+    "google_search",
+    "normalize_results",
+    "fetch_url",
+    "extract_markdown"
+  ],
+  "prompts_loaded": {
+    "orchestrator": 4804,
+    "search_agent": 423,
+    "research_agent": 520,
+    "analyst_agent": 405,
+    "writer_agent": 708
+  },
+  "configured_models": {
+    "orchestrator": "openrouter:deepseek/deepseek-v4.1-flash",
+    "search_agent": "openrouter:deepseek/deepseek-v4.1-flash",
+    "research_agent": "openrouter:deepseek/deepseek-v4.1-flash",
+    "analyst_agent": "openrouter:deepseek/deepseek-v4.1-flash",
+    "writer_agent": "openrouter:deepseek/deepseek-v4.1-flash"
+  },
+  "provider_preferences": {
+    "require_parameters": true,
+    "data_collection": "deny"
+  },
+  "fake_injection_verified": true,
+  "checkpoint_restored": true,
+  "run": {
+    "run_id": "epic-2-demo",
+    "topic": "2026 agentic AI frameworks",
+    "completed_phases": [
+      "search"
+    ],
+    "query_variants": [],
+    "clean_results": [
+      {
+        "url": "https://example.com/article",
+        "title": "Offline fixture",
+        "snippet": "Fixture",
+        "rank": 1,
+        "query": "2026 agentic AI frameworks"
+      }
+    ],
+    "url_outcomes": {
+      "https://example.com/article": {
+        "rank": 1,
+        "url": "https://example.com/article",
+        "outcome": "pending",
+        "reason": null,
+        "source_id": null
+      }
+    }
+  },
+  "expected_rejections": [
+    "topic outside 3–250 characters",
+    "topic outside 3–250 characters",
+    "malformed state replacement",
+    "raw dictionary tool output"
+  ],
+  "rejected_agent_patterns": [
+    "/var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic2-agent-check-73k9dec5/agent.py:1: forbidden HTTP import 'httpx'",
+    "provider construction ChatOpenRouter; use LLMService",
+    "inline system prompt; use prompts.catalog.load_prompt"
+  ]
+}
+uv run --locked python -m evaluations.epic3_demo
+{
+  "mode": "offline; no provider request",
+  "topic": "2026 agentic AI frameworks",
+  "run_id": "2026-agentic-ai-frameworks-20261001T173025Z",
+  "workspace": "/var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic3-demo-qxcfp17_/runs/2026-agentic-ai-frameworks-20261001T173025Z",
+  "subagents": {
+    "search_agent": [
+      "google_search"
+    ],
+    "research_agent": [
+      "collect_source"
+    ],
+    "analyst_agent": [],
+    "writer_agent": []
+  },
+  "orchestrator_tools": [
+    "plan_search",
+    "normalize_results",
+    "build_index",
+    "validate_citations",
+    "write_run_report"
+  ],
+  "bound_tools": {
+    "build_index|delete|edit_file|glob|grep|ls|normalize_results|plan_search|read_file|task|validate_citations|write_file|write_run_report|write_todos": [
+      "build_index",
+      "delete",
+      "edit_file",
+      "glob",
+      "grep",
+      "ls",
+      "normalize_results",
+      "plan_search",
+      "read_file",
+      "task",
+      "validate_citations",
+      "write_file",
+      "write_run_report",
+      "write_todos"
+    ],
+    "delete|edit_file|glob|google_search|grep|ls|read_file|write_file": [
+      "delete",
+      "edit_file",
+      "glob",
+      "google_search",
+      "grep",
+      "ls",
+      "read_file",
+      "write_file"
+    ],
+    "collect_source|delete|edit_file|glob|grep|ls|read_file|write_file": [
+      "collect_source",
+      "delete",
+      "edit_file",
+      "glob",
+      "grep",
+      "ls",
+      "read_file",
+      "write_file"
+    ],
+    "delete|edit_file|glob|grep|ls|read_file|write_file": [
+      "delete",
+      "edit_file",
+      "glob",
+      "grep",
+      "ls",
+      "read_file",
+      "write_file"
+    ]
+  },
+  "prompts_loaded": {
+    "orchestrator": 4804,
+    "search_agent": 423,
+    "research_agent": 520,
+    "analyst_agent": 405,
+    "writer_agent": 708
+  },
+  "todos": [
+    "plan",
+    "search",
+    "normalize",
+    "fetch",
+    "index",
+    "synthesize",
+    "write",
+    "citations",
+    "report"
+  ],
+  "files_on_disk": [
+    "output/blog.md",
+    "request.json",
+    "research/summary.md"
+  ],
+  "marker_in_model_contexts": false,
+  "general_purpose_rejected": true,
+  "containment_refused": true,
+  "blog_exists": true
+}
+uv run --locked python -m evaluations.epic4_demo
+{
+  "mode": "offline; scripted model and fake provider; real DeepAgents tools",
+  "run_id": "2026-agentic-ai-frameworks-20261001T173027Z",
+  "workspace": "runs/2026-agentic-ai-frameworks-20261001T173027Z",
+  "completed_phases": [
+    "plan",
+    "search",
+    "normalize"
+  ],
+  "query_variants": [
+    "agent framework architecture comparison",
+    "production agent framework evaluation"
+  ],
+  "provider_calls": [
+    {
+      "query": "2026 agentic AI frameworks",
+      "page": 3,
+      "per_page": 10
+    },
+    {
+      "query": "2026 agentic AI frameworks",
+      "page": 2,
+      "per_page": 10
+    },
+    {
+      "query": "production agent framework evaluation",
+      "page": 1,
+      "per_page": 10
+    },
+    {
+      "query": "agent framework architecture comparison",
+      "page": 1,
+      "per_page": 10
+    },
+    {
+      "query": "2026 agentic AI frameworks",
+      "page": 1,
+      "per_page": 10
+    }
+  ],
+  "topic_results": 30,
+  "counts": {
+    "raw": 50,
+    "denied": 3,
+    "duplicates": 1,
+    "capped": 16,
+    "kept": 30
+  },
+  "first_clean_result": {
+    "url": "https://example.com/post?id=7",
+    "title": "Fixture 0-1",
+    "snippet": "Offline search fixture",
+    "rank": 1,
+    "query": "2026 agentic AI frameworks"
+  },
+  "batched_search_tool_calls": true,
+  "merge_order_verified": true,
+  "contiguous_clean_ranks": true,
+  "repeated_call_cached": true,
+  "unplanned_call_rejected": true,
+  "pending_url_outcomes": 30,
+  "files": [
+    "clean_results.json",
+    "request.json",
+    "search_plan.json",
+    "search_results.json"
+  ]
+}
+uv run --locked python -m evaluations.epic5_demo
+{
+  "mode": "offline; mock HTTP, real registered tools and extraction libraries",
+  "timing": "virtual monotonic seconds; HTTP concurrency overlaps in real asyncio tasks",
+  "workspace": "runs/epic-5-polite-evidence-collection-20261001T173028Z",
+  "summary": {
+    "run_id": "epic-5-polite-evidence-collection-20261001T173028Z",
+    "workspace": "runs/epic-5-polite-evidence-collection-20261001T173028Z",
+    "status": "completed",
+    "urls_processed": 11,
+    "outcomes": {
+      "extracted": 6,
+      "unreachable": 2,
+      "robots_disallowed": 1,
+      "unsupported_content": 1,
+      "too_thin": 1
+    },
+    "extractor_strategy": "fallback",
+    "files": [
+      "fetch_outcomes.json",
+      "extraction_results.json",
+      "fetch_state.json"
+    ],
+    "error": null
+  },
+  "completed_phases": [
+    "plan",
+    "search",
+    "normalize",
+    "fetch"
+  ],
+  "user_agent": "DeepResearchBlogWriter/0.1.0 (+https://example.org/offline-demo-contact)",
+  "robots_requests_per_origin": {
+    "https://fixture.test/robots.txt": 1,
+    "https://slow.fixture.test/robots.txt": 1
+  },
+  "page_requests": {
+    "https://fixture.test/redirect": 1,
+    "https://fixture.test/retry": 2,
+    "https://fixture.test/missing": 1,
+    "https://fixture.test/pdf": 1,
+    "https://fixture.test/thin": 1,
+    "https://fixture.test/article": 1,
+    "https://fixture.test/missing-metadata": 1,
+    "https://fixture.test/boilerplate-heavy": 1,
+    "https://fixture.test/exhaust": 4,
+    "https://slow.fixture.test/first": 1,
+    "https://slow.fixture.test/second": 1
+  },
+  "retry_delays": [
+    {
+      "kind": "page",
+      "attempt": 1,
+      "delay": 1.0
+    },
+    {
+      "kind": "page",
+      "attempt": 1,
+      "delay": 1.0
+    },
+    {
+      "kind": "page",
+      "attempt": 2,
+      "delay": 2.0
+    },
+    {
+      "kind": "page",
+      "attempt": 3,
+      "delay": 4.0
+    }
+  ],
+  "requests": [
+    {
+      "url": "https://fixture.test/robots.txt",
+      "host": "fixture.test",
+      "kind": "robots",
+      "started": 0.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/redirect",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 1.0,
+      "status": 302,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/retry",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 2.0,
+      "status": null,
+      "error": "ReadTimeout"
+    },
+    {
+      "url": "https://fixture.test/missing",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 3.0,
+      "status": 404,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/pdf",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 4.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/thin",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 5.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/article",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 6.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/retry",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 7.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/missing-metadata",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 8.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/boilerplate-heavy",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 9.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/exhaust",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 10.0,
+      "status": 503,
+      "error": null
+    },
+    {
+      "url": "https://slow.fixture.test/robots.txt",
+      "host": "slow.fixture.test",
+      "kind": "robots",
+      "started": 10.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/exhaust",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 11.0,
+      "status": 503,
+      "error": null
+    },
+    {
+      "url": "https://slow.fixture.test/first",
+      "host": "slow.fixture.test",
+      "kind": "page",
+      "started": 15.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://slow.fixture.test/second",
+      "host": "slow.fixture.test",
+      "kind": "page",
+      "started": 22.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/exhaust",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 22.0,
+      "status": 503,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/exhaust",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 26.0,
+      "status": 503,
+      "error": null
+    }
+  ],
+  "slow_host_start_times": [
+    10.0,
+    15.0,
+    22.0
+  ],
+  "thirty_host_probe": {
+    "urls": 30,
+    "max_active": 5,
+    "limit": 5
+  },
+  "fallback_probe": {
+    "first_two_parsers": "forced candidates; third is real beautifulsoup4",
+    "attempts": [
+      {
+        "parser": "trafilatura:forced-empty",
+        "outcome": "empty",
+        "word_count": 0,
+        "error": null
+      },
+      {
+        "parser": "readability-lxml:forced-thin",
+        "outcome": "too_thin",
+        "word_count": 2,
+        "error": null
+      },
+      {
+        "parser": "beautifulsoup4",
+        "outcome": "extracted",
+        "word_count": 288,
+        "error": null
+      }
+    ]
+  },
+  "raw_html_absent_from_artifacts": true,
+  "no_corpus_files_written": true
+}
+uv run --locked python -m evaluations.epic6_demo
+{
+  "mode": "offline; mock HTTP, real registered corpus tools and extraction libraries",
+  "timing": "virtual monotonic seconds",
+  "workspace": "runs/epic-6-research-corpus-20261001T173029Z",
+  "summary": {
+    "run_id": "epic-6-research-corpus-20261001T173029Z",
+    "workspace": "runs/epic-6-research-corpus-20261001T173029Z",
+    "status": "completed",
+    "urls_processed": 10,
+    "sources_written": 5,
+    "sources_indexed": 5,
+    "outcomes": {
+      "extracted": 5,
+      "unreachable": 2,
+      "robots_disallowed": 1,
+      "unsupported_content": 1,
+      "too_thin": 1
+    },
+    "index_path": "research/index.md",
+    "files": [
+      "research/001_polite-evidence-collection.md",
+      "research/002_polite-evidence-collection.md",
+      "research/007_polite-evidence-collection.md",
+      "research/008_polite-evidence-collection.md",
+      "research/010_fixture-test-non-ascii.md",
+      "research/index.md",
+      "corpus_state.json"
+    ],
+    "error": null
+  },
+  "source_files": [
+    "research/001_polite-evidence-collection.md",
+    "research/002_polite-evidence-collection.md",
+    "research/007_polite-evidence-collection.md",
+    "research/008_polite-evidence-collection.md",
+    "research/010_fixture-test-non-ascii.md"
+  ],
+  "rank_gaps": [
+    3,
+    4,
+    5,
+    6,
+    9
+  ],
+  "title_slug": "research/001_polite-evidence-collection.md",
+  "url_slug_fallback": "research/010_fixture-test-non-ascii.md",
+  "index_rows": 5,
+  "immutable_source_refused": true,
+  "metadata_only": true
+}
+uv build
+Building source distribution...
+Building wheel from source distribution...
+Successfully built dist/deep_research_blog_writer-0.1.0.tar.gz
+Successfully built dist/deep_research_blog_writer-0.1.0-py3-none-any.whl
+Resolved 105 packages in 4ms
+Using CPython 3.12.9
+Creating virtual environment at: /var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T//epic6-wheel.woDJoE/.venv
+Activate with: source /var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic6-wheel.woDJoE/.venv/bin/activate
+Using Python 3.12.9 environment at: /var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic6-wheel.woDJoE/.venv
+Resolved 81 packages in 8ms
+Installed 81 packages in 134ms
+ + annotated-types==0.8.0
+ + anthropic==1.11.0
+ + anyio==4.15.1
+ + babel==2.18.0
+ + beautifulsoup4==4.15.0
+ + bracex==3.0.1
+ + certifi==2026.7.22
+ + cffi==2.1.1
+ + chardet==5.2.0
+ + charset-normalizer==3.5.2
+ + courlan==1.4.0
+ + cryptography==50.0.2
+ + cssselect==1.3.0
+ + dateparser==1.4.3
+ + deepagents==0.7.21
+ + distro==1.9.0
+ + docstring-parser==0.18.0
+ + filetype==1.2.0
+ + google-auth==2.59.1
+ + google-genai==2.26.0
+ + h11==0.16.0
+ + htmldate==1.10.0
+ + httpcore==1.0.9
+ + httpcore2==2.13.1
+ + httpx==0.28.1
+ + httpx2==2.13.1
+ + idna==3.20
+ + jiter==0.17.0
+ + jsonpatch==1.33
+ + jsonpath-python==1.1.6
+ + jsonpointer==3.1.1
+ + justext==3.0.2
+ + langchain==1.4.3
+ + langchain-anthropic==1.7.5
+ + langchain-core==1.6.6
+ + langchain-google-genai==4.4.0
+ + langchain-openrouter==0.2.9
+ + langchain-protocol==0.0.19
+ + langgraph==1.2.12
+ + langgraph-checkpoint==4.2.0
+ + langgraph-prebuilt==1.1.0
+ + langgraph-sdk==0.4.5
+ + langsmith==0.14.2
+ + lxml==6.1.3
+ + lxml-html-clean==0.4.5
+ + markdownify==1.2.3
+ + openrouter==0.11.46
+ + orjson==3.12.0
+ + ormsgpack==1.12.2
+ + packaging==26.3
+ + protego==0.7.0
+ + pyasn1==0.6.4
+ + pyasn1-modules==0.4.2
+ + pycparser==3.0
+ + pydantic==2.12.5
+ + pydantic-core==2.41.5
+ + pydantic-settings==2.15.0
+ + python-dateutil==2.9.0.post0
+ + python-dotenv==1.2.4
+ + pytz==2026.4
+ + pyyaml==6.0.3
+ + readability-lxml==0.9
+ + regex==2026.9.29
+ + requests==2.34.2
+ + requests-toolbelt==1.0.0
+ + six==1.17.0
+ + sniffio==1.3.1
+ + soupsieve==2.10
+ + tenacity==9.1.4
+ + tld==0.13.2
+ + trafilatura==2.2.0
+ + truststore==0.10.4
+ + typing-extensions==4.16.0
+ + typing-inspection==0.4.4
+ + tzlocal==5.4.4
+ + urllib3==2.8.0
+ + uuid-utils==0.17.1
+ + wcmatch==11.0.1
+ + websockets==16.1.1
+ + xxhash==4.0.1
+ + zstandard==0.25.0
+Using Python 3.12.9 environment at: /var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic6-wheel.woDJoE/.venv
+Resolved 1 package in 0.84ms
+Prepared 1 package in 11ms
+Installed 1 package in 3ms
+ + deep-research-blog-writer==0.1.0 (from file:///private/var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic6-checkout.9SAkqV/project/dist/deep_research_blog_writer-0.1.0-py3-none-any.whl)
+Installed-wheel corpus tools, packaged fixtures, rank gaps and immutability passed.
+usage: deep-research-blog [-h] [--pages PAGES] [--per-page PER_PAGE]
+                          [--max-urls MAX_URLS]
+                          [--search-only | --fetch-only | --corpus-only]
+                          [--workspace WORKSPACE]
+                          [--query-variant QUERY_VARIANT]
+                          [topic]
+
+Run the deep research blog writer skeleton for one topic.
+
+positional arguments:
+  topic                 Research topic, 3 to 250 characters after trimming.
+
+options:
+  -h, --help            show this help message and exit
+  --pages PAGES         Search result pages (default 3).
+  --per-page PER_PAGE   Results per page (default 10).
+  --max-urls MAX_URLS   Maximum clean URLs (default 30).
+  --search-only         Stop after saving clean search results.
+  --fetch-only          Fetch/extract an existing search workspace.
+  --corpus-only         Collect immutable sources and index an existing search
+                        workspace.
+  --workspace WORKSPACE
+                        Existing search workspace for --fetch-only or
+                        --corpus-only.
+  --query-variant QUERY_VARIANT
+                        Provide 2 or 3 variants for a reproducible search-only
+                        run.
+Installed console script rejected missing corpus workspace with exit 2.
+Fresh-checkout EPIC-6 setup, gates, hooks, prior demos, build and installed-wheel checks passed.
