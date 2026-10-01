@@ -1,0 +1,7 @@
+$ uv sync
+Working directory: /Users/josoroma/sites/langchain
+
+Resolved 80 packages in 3ms
+Checked 78 packages in 17ms
+
+Exit code: 0 (expected 0)

@@ -1,6 +1,6 @@
 # Deep Research Blog Writer — Iterable Product Specification
 
-CODEBASE Context: absent (greenfield — the project directory holds only `PRD.md` and `skills/deep-research-blog-writer/SKILL.md`; no application code, and it is not yet a Git repository)
+CODEBASE Context: EPIC-1 foundation implemented on 2026-09-30 — Git repository, uv-managed Python 3.12+ packages, locked dependencies, automated quality gates, agent import-boundary tests, ADR log, and local acceptance evidence. See `EPIC-1.md`, `EPIC-1-RUNBOOK.md`, and `docs/evidence/epic-1/`. Pipeline work in EPIC-2 onward remains planned.
 
 ## Table of Contents
 
@@ -62,22 +62,22 @@ CODEBASE Context: absent (greenfield — the project directory holds only `PRD.m
 
 | ID | Title | Status | Parent |
 |---|---|---|---|
-| EPIC-1 | Project Foundation and Quality Gates | — | — |
-| US-1.1 | Scaffold the Python Project | READY | EPIC-1 |
-| US-1.1#1 | Initialize a Git repository, which pre-commit requires. | TODO | US-1.1 |
-| US-1.1#2 | Initialize the project with `uv`, require Python 3.12 or newer, and commit `uv.lock`. | TODO | US-1.1 |
-| US-1.1#3 | Declare LangChain, LangGraph, DeepAgents, `langchain-openrouter`, and Pydantic v2 as dependencies. | TODO | US-1.1 |
-| US-1.1#4 | Create the `agents/`, `tools/`, `workflows/`, `prompts/`, `schemas/`, `services/`, `evaluations/`, `tests/`, and `docs/` packages. | TODO | US-1.1 |
-| US-1.1#5 | Add `.env.example` listing `OPENROUTER_API_KEY` and `SERPER_API_KEY`, and git-ignore `.env` and `runs/`. | TODO | US-1.1 |
-| US-1.2 | Enforce Code Quality Gates | READY | EPIC-1 |
-| US-1.2#1 | Add `.pre-commit-config.yaml` with `ruff-check` and `ruff-format` (ruff-pre-commit `v0.13.0`) and `mypy` (mirrors-mypy `v1.18.1`). | TODO | US-1.2 |
-| US-1.2#2 | Configure ruff and `mypy --strict` in `pyproject.toml`. | TODO | US-1.2 |
-| US-1.2#3 | Configure pytest with pytest-cov and an 80% coverage floor. | TODO | US-1.2 |
-| US-1.3 | Enforce the Agent Boundary | READY | EPIC-1 |
-| US-1.3#1 | Add an import-boundary test that covers every module under `agents/` and the PD-001 import list. | TODO | US-1.3 |
-| US-1.4 | Establish the Architecture Decision Record Log | READY | EPIC-1 |
-| US-1.4#1 | Add an ADR template with Context, Decision, and Consequences (pros and cons) sections. | TODO | US-1.4 |
-| US-1.4#2 | Write ADR 0001 recording the choice of DeepAgents on LangGraph (PRD.md §4). | TODO | US-1.4 |
+| EPIC-1 | Project Foundation and Quality Gates | DONE | — |
+| US-1.1 | Scaffold the Python Project | DONE | EPIC-1 |
+| US-1.1#1 | Initialize a Git repository, which pre-commit requires. | DONE | US-1.1 |
+| US-1.1#2 | Initialize the project with `uv`, require Python 3.12 or newer, and commit `uv.lock`. | DONE | US-1.1 |
+| US-1.1#3 | Declare LangChain, LangGraph, DeepAgents, `langchain-openrouter`, and Pydantic v2 as dependencies. | DONE | US-1.1 |
+| US-1.1#4 | Create the `agents/`, `tools/`, `workflows/`, `prompts/`, `schemas/`, `services/`, `evaluations/`, `tests/`, and `docs/` packages. | DONE | US-1.1 |
+| US-1.1#5 | Add `.env.example` listing `OPENROUTER_API_KEY` and `SERPER_API_KEY`, and git-ignore `.env` and `runs/`. | DONE | US-1.1 |
+| US-1.2 | Enforce Code Quality Gates | DONE | EPIC-1 |
+| US-1.2#1 | Add `.pre-commit-config.yaml` with `ruff-check` and `ruff-format` (ruff-pre-commit `v0.13.0`) and `mypy` (mirrors-mypy `v1.18.1`). | DONE | US-1.2 |
+| US-1.2#2 | Configure ruff and `mypy --strict` in `pyproject.toml`. | DONE | US-1.2 |
+| US-1.2#3 | Configure pytest with pytest-cov and an 80% coverage floor. | DONE | US-1.2 |
+| US-1.3 | Enforce the Agent Boundary | DONE | EPIC-1 |
+| US-1.3#1 | Add an import-boundary test that covers every module under `agents/` and the PD-001 import list. | DONE | US-1.3 |
+| US-1.4 | Establish the Architecture Decision Record Log | DONE | EPIC-1 |
+| US-1.4#1 | Add an ADR template with Context, Decision, and Consequences (pros and cons) sections. | DONE | US-1.4 |
+| US-1.4#2 | Write ADR 0001 recording the choice of DeepAgents on LangGraph (PRD.md §4). | DONE | US-1.4 |
 | EPIC-2 | Contracts and Agent Building Blocks | — | — |
 | US-2.1 | Define Typed Pipeline Contracts | READY | EPIC-2 |
 | US-2.1#1 | Create `schemas/requests.py` with `ResearchRequest` and its topic validation. | TODO | US-2.1 |
@@ -1068,7 +1068,7 @@ None.
 
 ### US-1.1: Scaffold the Python Project
 
-Status: READY
+Status: DONE
 
 As an Engineering Lead
 I want a uv-managed Python 3.12+ project with the standard package layout
@@ -1101,18 +1101,18 @@ Dependencies:
 - None
 
 Tasks:
-- [ ] Initialize a Git repository, which pre-commit requires.
-- [ ] Initialize the project with `uv`, require Python 3.12 or newer, and commit `uv.lock`.
-- [ ] Declare LangChain, LangGraph, DeepAgents, `langchain-openrouter`, and Pydantic v2 as dependencies.
-- [ ] Create the `agents/`, `tools/`, `workflows/`, `prompts/`, `schemas/`, `services/`, `evaluations/`, `tests/`, and `docs/` packages.
-- [ ] Add `.env.example` listing `OPENROUTER_API_KEY` and `SERPER_API_KEY`, and git-ignore `.env` and `runs/`.
+- [x] Initialize a Git repository, which pre-commit requires.
+- [x] Initialize the project with `uv`, require Python 3.12 or newer, and commit `uv.lock`.
+- [x] Declare LangChain, LangGraph, DeepAgents, `langchain-openrouter`, and Pydantic v2 as dependencies.
+- [x] Create the `agents/`, `tools/`, `workflows/`, `prompts/`, `schemas/`, `services/`, `evaluations/`, `tests/`, and `docs/` packages.
+- [x] Add `.env.example` listing `OPENROUTER_API_KEY` and `SERPER_API_KEY`, and git-ignore `.env` and `runs/`.
 
 Open Questions:
 - None.
 
 ### US-1.2: Enforce Code Quality Gates
 
-Status: READY
+Status: DONE
 
 As an Engineering Lead
 I want ruff, strict mypy, pytest with coverage, and pre-commit enforced on every change
@@ -1152,16 +1152,16 @@ Dependencies:
 - US-1.1
 
 Tasks:
-- [ ] Add `.pre-commit-config.yaml` with `ruff-check` and `ruff-format` (ruff-pre-commit `v0.13.0`) and `mypy` (mirrors-mypy `v1.18.1`).
-- [ ] Configure ruff and `mypy --strict` in `pyproject.toml`.
-- [ ] Configure pytest with pytest-cov and an 80% coverage floor.
+- [x] Add `.pre-commit-config.yaml` with `ruff-check` and `ruff-format` (ruff-pre-commit `v0.13.0`) and `mypy` (mirrors-mypy `v1.18.1`).
+- [x] Configure ruff and `mypy --strict` in `pyproject.toml`.
+- [x] Configure pytest with pytest-cov and an 80% coverage floor.
 
 Open Questions:
 - None.
 
 ### US-1.3: Enforce the Agent Boundary
 
-Status: READY
+Status: DONE
 
 As an Engineering Lead
 I want a check that fails when agent code calls external systems directly
@@ -1194,14 +1194,14 @@ Dependencies:
 - US-1.1
 
 Tasks:
-- [ ] Add an import-boundary test that covers every module under `agents/` and the PD-001 import list.
+- [x] Add an import-boundary test that covers every module under `agents/` and the PD-001 import list.
 
 Open Questions:
 - None.
 
 ### US-1.4: Establish the Architecture Decision Record Log
 
-Status: READY
+Status: DONE
 
 As an Engineering Lead
 I want architecture decisions recorded as numbered ADRs under docs/adr/
@@ -1233,8 +1233,8 @@ Dependencies:
 - US-1.1
 
 Tasks:
-- [ ] Add an ADR template with Context, Decision, and Consequences (pros and cons) sections.
-- [ ] Write ADR 0001 recording the choice of DeepAgents on LangGraph (PRD.md §4).
+- [x] Add an ADR template with Context, Decision, and Consequences (pros and cons) sections.
+- [x] Write ADR 0001 recording the choice of DeepAgents on LangGraph (PRD.md §4).
 
 Open Questions:
 - None.

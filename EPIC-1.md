@@ -1,7 +1,7 @@
 # EPIC-1: Project Foundation and Quality Gates
 
 Date: 2026-09-30  
-Status: Planned; implementation and verification follow this plan.
+Status: DONE — US-1.1 through US-1.4 implemented and locally verified.
 
 ## Objective and scope
 
@@ -49,14 +49,20 @@ The research CLI, model configuration, typed pipeline contracts, agent assembly,
 
 ## Completion checklist
 
-- [ ] US-1.1 implemented and verified.
-- [ ] US-1.2 implemented and verified, including failure cases.
-- [ ] US-1.3 implemented and verified across the complete forbidden list.
-- [ ] US-1.4 implemented and inspected.
-- [ ] Fresh-checkout install and wheel installation verified.
-- [ ] Runbook and actual command evidence written.
-- [ ] Lockfile and implementation committed with hooks passing; working tree clean.
+- [x] US-1.1 implemented and verified.
+- [x] US-1.2 implemented and verified, including failure cases.
+- [x] US-1.3 implemented and verified across the complete forbidden list.
+- [x] US-1.4 implemented and inspected.
+- [x] Fresh-checkout install and wheel installation verified.
+- [x] Runbook and actual command evidence written.
+- [x] Lockfile and implementation committed with hooks passing; working tree clean.
 
 ## Tool references
 
 Implementation follows the official documentation for [uv locking and syncing](https://docs.astral.sh/uv/concepts/projects/sync/), [Ruff pre-commit integration](https://docs.astral.sh/ruff/integrations/), [pre-commit](https://pre-commit.com/), [mypy configuration](https://mypy.readthedocs.io/en/stable/config_file.html), and [pytest-cov configuration](https://pytest-cov.readthedocs.io/en/latest/config.html). The exact Ruff and mypy revisions come from US-1.2, rather than newer defaults.
+
+## Verified outcome
+
+The locked environment installs on Python 3.12.9. Ruff 0.13.0 and mypy 1.18.1 pass; all 48 boundary tests pass with 100.00% line and branch coverage of the current foundation code (47 statements, 18 branches). A fresh local clone passes setup, demo, hooks, and distribution build. The wheel installs and its seven application packages import outside the repository. Disposable probes reject forbidden nested agent imports, untyped functions, lint/format violations, and coverage below 80%; real commit attempts demonstrate hook enforcement. ADR 0001 records the framework decision.
+
+The implementation and lockfile are committed on `main`. The runbook and [command evidence](docs/evidence/epic-1/README.md) provide the exact successful commands, expected failures, coverage artifact, and PM walkthrough. Hosted CI is configured but has not been run because no remote repository was provided.

@@ -22,6 +22,7 @@ build/
 .coverage
 .coverage.*
 coverage.xml
+!docs/evidence/**/coverage.xml
 htmlcov/
 
 # Operating system files

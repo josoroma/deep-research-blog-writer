@@ -38,6 +38,9 @@ rm agents/demo_lint.py
 
 printf 'value: int=1\n' > agents/demo_format.py
 expect_rejection uv run --locked ruff format --check agents/demo_format.py
+run git add agents/demo_format.py
+expect_rejection git -c user.name=EPIC-1-Demo -c user.email=epic-1@example.invalid -c commit.gpgsign=false commit -m 'Demo: formatting must reject this commit'
+run git restore --staged agents/demo_format.py
 rm agents/demo_format.py
 
 cat > agents/demo_untyped.py <<'PY'
@@ -74,6 +77,10 @@ Path("services/demo_uncovered.py").write_text(
 )
 PY
 expect_rejection uv run --locked pytest -q
+run uv run --locked ruff format services/demo_uncovered.py
+run git add services/demo_uncovered.py
+expect_rejection git -c user.name=EPIC-1-Demo -c user.email=epic-1@example.invalid -c commit.gpgsign=false commit -m 'Demo: coverage must reject this commit'
+run git restore --staged services/demo_uncovered.py
 rm services/demo_uncovered.py
 
 run make check

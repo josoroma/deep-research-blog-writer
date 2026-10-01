@@ -1,0 +1,54 @@
+$ git commit -m 'feat: implement EPIC-1 project foundation and quality gates'
+Working directory: /Users/josoroma/sites/langchain
+
+ruff check...............................................................Passed
+ruff format..............................................................Passed
+mypy.....................................................................Passed
+pytest (offline, coverage >=80%, agent boundary).........................Passed
+[main (root-commit) 72d2751] feat: implement EPIC-1 project foundation and quality gates
+ 43 files changed, 6627 insertions(+)
+ create mode 100644 .env.example
+ create mode 100644 .github/workflows/quality.yml
+ create mode 100644 .gitignore
+ create mode 100644 .pre-commit-config.yaml
+ create mode 100644 .python-version
+ create mode 100644 EPIC-1.md
+ create mode 100644 Makefile
+ create mode 100644 PRD.md
+ create mode 100644 README.md
+ create mode 100644 SPECS.md
+ create mode 100644 agents/__init__.py
+ create mode 100644 docs/__init__.py
+ create mode 100644 docs/adr/0001-deepagents-on-langgraph.md
+ create mode 100644 docs/adr/README.md
+ create mode 100644 docs/adr/template.md
+ create mode 100644 docs/evidence/epic-1/01-git-init.txt
+ create mode 100644 docs/evidence/epic-1/02-uv-init.txt
+ create mode 100644 docs/evidence/epic-1/03-python-pin.txt
+ create mode 100644 docs/evidence/epic-1/04-runtime-dependencies.txt
+ create mode 100644 docs/evidence/epic-1/05-dev-dependencies.txt
+ create mode 100644 docs/evidence/epic-1/06-setup.txt
+ create mode 100644 docs/evidence/epic-1/07-quality-check.txt
+ create mode 100644 docs/evidence/epic-1/08-build.txt
+ create mode 100644 docs/evidence/epic-1/09-secret-ignore.txt
+ create mode 100644 docs/evidence/epic-1/10-pre-commit.txt
+ create mode 100644 docs/evidence/epic-1/11-foundation-demo.txt
+ create mode 100644 docs/evidence/epic-1/12-wheel-install.txt
+ create mode 100644 docs/evidence/epic-1/commands.jsonl
+ create mode 100644 evaluations/__init__.py
+ create mode 100644 evaluations/agent_boundary.py
+ create mode 100644 prompts/__init__.py
+ create mode 100644 pyproject.toml
+ create mode 100644 schemas/__init__.py
+ create mode 100755 scripts/demo-quality-gates.sh
+ create mode 100755 scripts/verify-fresh-checkout.sh
+ create mode 100755 scripts/verify-package.sh
+ create mode 100644 services/__init__.py
+ create mode 100644 skills/deep-research-blog-writer/SKILL.md
+ create mode 100644 tests/__init__.py
+ create mode 100644 tests/test_agent_boundary.py
+ create mode 100644 tools/__init__.py
+ create mode 100644 uv.lock
+ create mode 100644 workflows/__init__.py
+
+Exit code: 0 (expected 0)

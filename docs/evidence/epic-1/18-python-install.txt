@@ -1,0 +1,7 @@
+$ uv python install 3.12
+Working directory: /Users/josoroma/sites/langchain
+
+Installed Python 3.12.9 in 88ms
+ + cpython-3.12.9-macos-aarch64-none (python3.12)
+
+Exit code: 0 (expected 0)

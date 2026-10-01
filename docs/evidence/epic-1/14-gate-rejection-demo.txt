@@ -1,0 +1,324 @@
+$ sh scripts/demo-quality-gates.sh
+Working directory: /Users/josoroma/sites/langchain
+
+
+$ git clone --local --no-hardlinks --quiet /Users/josoroma/sites/langchain /var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T//epic1-gates.KqeWqv/project
+
+$ uv sync --locked
+Using CPython 3.12.9
+Creating virtual environment at: .venv
+Resolved 80 packages in 0.71ms
+   Building deep-research-blog-writer @ file:///private/var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic1-gates.KqeWqv/project
+      Built deep-research-blog-writer @ file:///private/var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic1-gates.KqeWqv/project
+Prepared 1 package in 235ms
+Installed 78 packages in 329ms
+ + annotated-types==0.8.0
+ + anthropic==1.11.0
+ + anyio==4.15.1
+ + bracex==3.0.1
+ + certifi==2026.7.22
+ + cffi==2.1.1
+ + cfgv==3.5.0
+ + charset-normalizer==3.5.2
+ + coverage==7.16.2
+ + cryptography==50.0.2
+ + deep-research-blog-writer==0.1.0 (from file:///private/var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic1-gates.KqeWqv/project)
+ + deepagents==0.7.21
+ + distlib==0.4.3
+ + distro==1.9.0
+ + docstring-parser==0.18.0
+ + filelock==4.0.7
+ + filetype==1.2.0
+ + google-auth==2.59.1
+ + google-genai==2.26.0
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpcore2==2.13.1
+ + httpx==0.28.1
+ + httpx2==2.13.1
+ + identify==2.6.20
+ + idna==3.20
+ + iniconfig==2.3.0
+ + jiter==0.17.0
+ + jsonpatch==1.33
+ + jsonpath-python==1.1.6
+ + jsonpointer==3.1.1
+ + langchain==1.4.3
+ + langchain-anthropic==1.7.5
+ + langchain-core==1.6.6
+ + langchain-google-genai==4.4.0
+ + langchain-openrouter==0.2.9
+ + langchain-protocol==0.0.19
+ + langgraph==1.2.12
+ + langgraph-checkpoint==4.2.0
+ + langgraph-prebuilt==1.1.0
+ + langgraph-sdk==0.4.5
+ + langsmith==0.14.2
+ + mypy==1.18.1
+ + mypy-extensions==1.1.0
+ + nodeenv==1.11.0
+ + openrouter==0.11.46
+ + orjson==3.12.0
+ + ormsgpack==1.12.2
+ + packaging==26.3
+ + pathspec==1.1.1
+ + platformdirs==4.12.2
+ + pluggy==1.6.0
+ + pre-commit==4.6.2
+ + pyasn1==0.6.4
+ + pyasn1-modules==0.4.2
+ + pycparser==3.0
+ + pydantic==2.12.5
+ + pydantic-core==2.41.5
+ + pygments==2.21.0
+ + pytest==9.1.1
+ + pytest-cov==7.1.0
+ + python-discovery==1.6.1
+ + pyyaml==6.0.3
+ + requests==2.34.2
+ + requests-toolbelt==1.0.0
+ + ruff==0.13.0
+ + sniffio==1.3.1
+ + tenacity==9.1.4
+ + truststore==0.10.4
+ + typing-extensions==4.16.0
+ + typing-inspection==0.4.4
+ + urllib3==2.8.0
+ + uuid-utils==0.17.1
+ + virtualenv==21.14.1
+ + wcmatch==11.0.1
+ + websockets==16.1.1
+ + xxhash==4.0.1
+ + zstandard==0.25.0
+
+$ uv run --locked pre-commit install
+pre-commit installed at .git/hooks/pre-commit
+
+$ uv run --locked ruff check agents/demo_lint.py
+F401 [*] `os` imported but unused
+ --> agents/demo_lint.py:1:8
+  |
+1 | import os
+  |        ^^
+  |
+help: Remove unused import: `os`
+
+Found 1 error.
+[*] 1 fixable with the `--fix` option.
+EXPECTED REJECTION: exit 1
+
+$ git add agents/demo_lint.py
+
+$ git -c user.name=EPIC-1-Demo -c user.email=epic-1@example.invalid -c commit.gpgsign=false commit -m Demo: lint must reject this commit
+ruff check...............................................................Failed
+- hook id: ruff-check
+- exit code: 1
+
+F401 [*] `os` imported but unused
+ --> agents/demo_lint.py:1:8
+  |
+1 | import os
+  |        ^^
+  |
+help: Remove unused import: `os`
+
+Found 1 error.
+[*] 1 fixable with the `--fix` option.
+
+ruff format..............................................................Passed
+mypy.....................................................................Passed
+pytest (offline, coverage >=80%, agent boundary).........................Passed
+EXPECTED REJECTION: exit 1
+
+$ git restore --staged agents/demo_lint.py
+
+$ uv run --locked ruff format --check agents/demo_format.py
+Would reformat: agents/demo_format.py
+1 file would be reformatted
+EXPECTED REJECTION: exit 1
+
+$ uv run --locked mypy --strict
+agents/demo_untyped.py:1: error: Function is missing a type annotation  [no-untyped-def]
+Found 1 error in 1 file (checked 12 source files)
+EXPECTED REJECTION: exit 1
+
+$ git add agents/demo_untyped.py
+
+$ git -c user.name=EPIC-1-Demo -c user.email=epic-1@example.invalid -c commit.gpgsign=false commit -m Demo: typing must reject this commit
+ruff check...............................................................Passed
+ruff format..............................................................Passed
+mypy.....................................................................Failed
+- hook id: mypy
+- exit code: 1
+
+agents/demo_untyped.py:1: error: Function is missing a type annotation  [no-untyped-def]
+Found 1 error in 1 file (checked 12 source files)
+
+pytest (offline, coverage >=80%, agent boundary).........................Passed
+EXPECTED REJECTION: exit 1
+
+$ git restore --staged agents/demo_untyped.py
+
+$ uv run --locked python -m evaluations.agent_boundary agents
+agents/demo_nested/bad_agent.py:1: forbidden HTTP import 'httpx'
+EXPECTED REJECTION: exit 1
+
+$ uv run --locked pytest -q --no-cov tests/test_agent_boundary.py::test_all_project_agent_modules_respect_boundary
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______________ test_all_project_agent_modules_respect_boundary ________________
+
+    def test_all_project_agent_modules_respect_boundary() -> None:
+        """Future agents, nested packages, and __init__.py are included automatically."""
+        violations = find_forbidden_imports(PROJECT_ROOT / "agents")
+>       assert not violations, "Agents must use tools for external calls:\n" + "\n".join(
+            str(violation) for violation in violations
+        )
+E       AssertionError: Agents must use tools for external calls:
+E         /private/var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic1-gates.KqeWqv/project/agents/demo_nested/bad_agent.py:1: forbidden HTTP import 'httpx'
+E       assert not [ImportViolation(path=PosixPath('/private/var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic1-gates.KqeWqv/project/agents/demo_nested/bad_agent.py'), line=1, module='httpx')]
+
+tests/test_agent_boundary.py:15: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_agent_boundary.py::test_all_project_agent_modules_respect_boundary
+1 failed in 0.04s
+EXPECTED REJECTION: exit 1
+
+$ git add agents/demo_nested/bad_agent.py
+
+$ git -c user.name=EPIC-1-Demo -c user.email=epic-1@example.invalid -c commit.gpgsign=false commit -m Demo: agent boundary must reject this commit
+ruff check...............................................................Passed
+ruff format..............................................................Passed
+mypy.....................................................................Passed
+pytest (offline, coverage >=80%, agent boundary).........................Failed
+- hook id: pytest
+- exit code: 1
+
+============================= test session starts ==============================
+platform darwin -- Python 3.12.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: /private/var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic1-gates.KqeWqv/project
+configfile: pyproject.toml
+testpaths: tests
+plugins: platformdirs-4.12.2, cov-7.1.0, langsmith-0.14.2, anyio-4.15.1
+collected 48 items
+
+tests/test_agent_boundary.py F.......................................... [ 89%]
+.....                                                                    [100%]
+
+=================================== FAILURES ===================================
+_______________ test_all_project_agent_modules_respect_boundary ________________
+
+    def test_all_project_agent_modules_respect_boundary() -> None:
+        """Future agents, nested packages, and __init__.py are included automatically."""
+        violations = find_forbidden_imports(PROJECT_ROOT / "agents")
+>       assert not violations, "Agents must use tools for external calls:\n" + "\n".join(
+            str(violation) for violation in violations
+        )
+E       AssertionError: Agents must use tools for external calls:
+E         /private/var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic1-gates.KqeWqv/project/agents/demo_nested/bad_agent.py:1: forbidden HTTP import 'httpx'
+E       assert not [ImportViolation(path=PosixPath('/private/var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic1-gates.KqeWqv/project/agents/demo_nested/bad_agent.py'), line=1, module='httpx')]
+
+tests/test_agent_boundary.py:15: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform darwin, python 3.12.9-final-0 _______________
+
+Name                            Stmts   Miss Branch BrPart    Cover   Missing
+-----------------------------------------------------------------------------
+agents/__init__.py                  0      0      0      0  100.00%
+evaluations/__init__.py             0      0      0      0  100.00%
+evaluations/agent_boundary.py      47      0     18      0  100.00%
+prompts/__init__.py                 0      0      0      0  100.00%
+schemas/__init__.py                 0      0      0      0  100.00%
+services/__init__.py                0      0      0      0  100.00%
+tools/__init__.py                   0      0      0      0  100.00%
+workflows/__init__.py               0      0      0      0  100.00%
+-----------------------------------------------------------------------------
+TOTAL                              47      0     18      0  100.00%
+Coverage XML written to file coverage.xml
+Required test coverage of 80% reached. Total coverage: 100.00%
+=========================== short test summary info ============================
+FAILED tests/test_agent_boundary.py::test_all_project_agent_modules_respect_boundary
+========================= 1 failed, 47 passed in 0.12s =========================
+
+EXPECTED REJECTION: exit 1
+
+$ git restore --staged agents/demo_nested/bad_agent.py
+
+$ uv run --locked pytest -q
+................................................
+ERROR: Coverage failure: total of 13.98 is less than fail-under=80.00
+                                                                         [100%]
+================================ tests coverage ================================
+_______________ coverage: platform darwin, python 3.12.9-final-0 _______________
+
+Name                            Stmts   Miss Branch BrPart   Cover   Missing
+----------------------------------------------------------------------------
+agents/__init__.py                  0      0      0      0 100.00%
+evaluations/__init__.py             0      0      0      0 100.00%
+evaluations/agent_boundary.py      47      0     18      0 100.00%
+prompts/__init__.py                 0      0      0      0 100.00%
+schemas/__init__.py                 0      0      0      0 100.00%
+services/__init__.py                0      0      0      0 100.00%
+services/demo_uncovered.py        400    400      0      0   0.00%   1-599
+tools/__init__.py                   0      0      0      0 100.00%
+workflows/__init__.py               0      0      0      0 100.00%
+----------------------------------------------------------------------------
+TOTAL                             447    400     18      0  13.98%
+Coverage XML written to file coverage.xml
+FAIL Required test coverage of 80% not reached. Total coverage: 13.98%
+48 passed in 0.17s
+EXPECTED REJECTION: exit 1
+
+$ make check
+uv lock --check
+Resolved 80 packages in 4ms
+/Library/Developer/CommandLineTools/usr/bin/make lint format-check typecheck test
+uv run --locked ruff check .
+All checks passed!
+uv run --locked ruff format --check .
+11 files already formatted
+uv run --locked mypy --strict
+Success: no issues found in 11 source files
+uv run --locked pytest
+============================= test session starts ==============================
+platform darwin -- Python 3.12.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: /private/var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic1-gates.KqeWqv/project
+configfile: pyproject.toml
+testpaths: tests
+plugins: platformdirs-4.12.2, cov-7.1.0, langsmith-0.14.2, anyio-4.15.1
+collected 48 items
+
+tests/test_agent_boundary.py ........................................... [ 89%]
+.....                                                                    [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform darwin, python 3.12.9-final-0 _______________
+
+Name                            Stmts   Miss Branch BrPart    Cover   Missing
+-----------------------------------------------------------------------------
+agents/__init__.py                  0      0      0      0  100.00%
+evaluations/__init__.py             0      0      0      0  100.00%
+evaluations/agent_boundary.py      47      0     18      0  100.00%
+prompts/__init__.py                 0      0      0      0  100.00%
+schemas/__init__.py                 0      0      0      0  100.00%
+services/__init__.py                0      0      0      0  100.00%
+tools/__init__.py                   0      0      0      0  100.00%
+workflows/__init__.py               0      0      0      0  100.00%
+-----------------------------------------------------------------------------
+TOTAL                              47      0     18      0  100.00%
+Coverage XML written to file coverage.xml
+Required test coverage of 80% reached. Total coverage: 100.00%
+============================== 48 passed in 0.12s ==============================
+
+$ make hooks
+uv run --locked pre-commit run --all-files
+ruff check...............................................................Passed
+ruff format..............................................................Passed
+mypy.....................................................................Passed
+pytest (offline, coverage >=80%, agent boundary).........................Passed
+
+$ git diff --exit-code HEAD
+
+All rejection probes passed; the disposable checkout is restored.
+
+Exit code: 0 (expected 0)
