@@ -1,0 +1,62 @@
+$ git commit -m 'Implement EPIC-4 Search with configurable providers and acceptance evidence'
+
+ruff check...............................................................Passed
+ruff format..............................................................Passed
+mypy.....................................................................Passed
+pytest (offline, coverage >=80%, agent boundary).........................Passed
+[main f350eff] Implement EPIC-4 Search with configurable providers and acceptance evidence
+ 72 files changed, 6110 insertions(+), 180 deletions(-)
+ create mode 100644 EPIC-4-RUNBOOK.md
+ create mode 100644 EPIC-4.md
+ create mode 100644 agents/search_planner.py
+ create mode 100644 docs/adr/0005-search-provider.md
+ create mode 100644 docs/evidence/epic-4/01-http-dependency.txt
+ create mode 100644 docs/evidence/epic-4/02-live-search.txt
+ create mode 100644 docs/evidence/epic-4/03-live-serpapi.txt
+ create mode 100644 docs/evidence/epic-4/04-live-search-cli.txt
+ create mode 100644 docs/evidence/epic-4/05-live-search-cli.txt
+ create mode 100644 docs/evidence/epic-4/06-setup.txt
+ create mode 100644 docs/evidence/epic-4/07-check.txt
+ create mode 100644 docs/evidence/epic-4/08-demo.txt
+ create mode 100644 docs/evidence/epic-4/09-live-pytest.txt
+ create mode 100644 docs/evidence/epic-4/10-final-check.txt
+ create mode 100644 docs/evidence/epic-4/11-batch-demo.txt
+ create mode 100644 docs/evidence/epic-4/12-final-live-cli.txt
+ create mode 100644 docs/evidence/epic-4/13-check.txt
+ create mode 100644 docs/evidence/epic-4/14-live-search-cli.txt
+ create mode 100644 docs/evidence/epic-4/15-prior-demos.txt
+ create mode 100644 docs/evidence/epic-4/16-build.txt
+ create mode 100644 docs/evidence/epic-4/17-inspect-offline.txt
+ create mode 100644 docs/evidence/epic-4/18-wheel.txt
+ create mode 100644 docs/evidence/epic-4/19-live-repeatable-cli.txt
+ create mode 100644 docs/evidence/epic-4/20-inspect-live.txt
+ create mode 100644 docs/evidence/epic-4/21-hooks.txt
+ create mode 100644 docs/evidence/epic-4/commands.jsonl
+ create mode 100644 docs/evidence/epic-4/coverage.xml
+ create mode 100644 docs/evidence/epic-4/live-planner/clean_results.json
+ create mode 100644 docs/evidence/epic-4/live-planner/request.json
+ create mode 100644 docs/evidence/epic-4/live-planner/search_plan.json
+ create mode 100644 docs/evidence/epic-4/live-planner/search_results.json
+ create mode 100644 docs/evidence/epic-4/live-repeatable/clean_results.json
+ create mode 100644 docs/evidence/epic-4/live-repeatable/request.json
+ create mode 100644 docs/evidence/epic-4/live-repeatable/search_plan.json
+ create mode 100644 docs/evidence/epic-4/live-repeatable/search_results.json
+ create mode 100644 docs/evidence/epic-4/offline/clean_results.json
+ create mode 100644 docs/evidence/epic-4/offline/request.json
+ create mode 100644 docs/evidence/epic-4/offline/search_plan.json
+ create mode 100644 docs/evidence/epic-4/offline/search_results.json
+ create mode 100644 evaluations/epic4_demo.py
+ create mode 100644 evaluations/search_live_smoke.py
+ create mode 100644 schemas/search.py
+ create mode 100644 scripts/inspect-search-artifacts.py
+ create mode 100644 scripts/verify-epic-4-checkout.sh
+ create mode 100644 scripts/verify-epic-4-package.sh
+ create mode 100644 services/search_provider.py
+ create mode 100644 services/search_session.py
+ create mode 100644 tests/test_search_provider.py
+ create mode 100644 tests/test_search_session.py
+ create mode 100644 tests/test_search_workflow.py
+ create mode 100644 tools/search_tools.py
+ create mode 100644 workflows/search_run.py
+
+Exit code: 0 (expected 0)

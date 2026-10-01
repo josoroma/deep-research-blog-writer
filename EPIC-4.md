@@ -2,7 +2,7 @@
 
 Date: 2026-10-01
 
-Status: Implemented. Functional tests, live integration, CLI, and installed-wheel checks pass; final fresh-checkout and evidence commits are being recorded in `EPIC-4-RUNBOOK.md`.
+Status: DONE. Implemented and verified: 294 offline tests, 97.73% coverage, a passing live SerpApi integration test, actual CLI/agent demonstrations, installed-wheel verification, and a committed fresh checkout. Commands, outputs, artifacts, and source hashes are in `EPIC-4-RUNBOOK.md` and `docs/evidence/epic-4/`.
 
 ## Objective and scope
 
@@ -38,9 +38,9 @@ Fetching, extraction, corpus construction, article generation, citation validati
 - [x] US-4.2 implemented and verified; actual live acceptance outcome recorded.
 - [x] US-4.3 implemented and verified.
 - [x] US-4.4 implemented and verified.
-- [ ] CLI/Search demo, strict checks/hooks, wheel, and fresh-checkout verification pass.
-- [ ] Runbook, raw command outputs, coverage, and source hashes saved.
-- [ ] Implementation and final evidence committed with hooks active.
+- [x] CLI/Search demo, strict checks/hooks, wheel, and fresh-checkout verification pass.
+- [x] Runbook, raw command outputs, coverage, and source hashes saved.
+- [x] Implementation and final evidence committed with hooks active.
 
 ## Technical references
 

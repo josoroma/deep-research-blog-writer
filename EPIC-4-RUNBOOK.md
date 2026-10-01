@@ -1,6 +1,6 @@
 # EPIC-4 Search runbook
 
-Date: 2026-10-01. Functional delivery verified; final committed-checkout evidence is being added below.
+Date: 2026-10-01. Status: DONE. Implementation revision `f350effee023b49c0bd12e896880259165b65f68` passed committed fresh-checkout verification. Final documentation and evidence are committed separately.
 
 ## Delivered behavior
 
@@ -56,6 +56,7 @@ Full transcripts include commands and exit codes; [commands.jsonl](docs/evidence
 | Provider-only command shown below | Final implementation live run: 50 raw → 30 clean; exit 0 | [19](docs/evidence/epic-4/19-live-repeatable-cli.txt) |
 | `make demo-epic-2 demo-epic-3` | Prior contracts/state and four-agent skeleton demonstrations pass; exit 0 | [15](docs/evidence/epic-4/15-prior-demos.txt) |
 | `make build` | Wheel and source distribution built; exit 0 | [16](docs/evidence/epic-4/16-build.txt) |
+| `sh scripts/verify-epic-4-checkout.sh` | Committed revision installs from scratch without `.env`; all gates, prior/Search demos, build and installed-wheel checks pass; exit 0 | [23](docs/evidence/epic-4/23-fresh-checkout.txt) |
 | `sh scripts/verify-epic-4-package.sh` | Installed wheel outside checkout runs Search, packaged prompts, tool state and saved artifacts; installed CLI rejects invalid input with exit 2; verifier exits 0 | [18](docs/evidence/epic-4/18-wheel.txt) |
 | `uv run --locked python scripts/inspect-search-artifacts.py runs/2026-agentic-ai-frameworks-20261001T141115Z` | Persisted offline contracts, order, normalization, cap, and ranks verified; exit 0 | [17](docs/evidence/epic-4/17-inspect-offline.txt) |
 
@@ -97,7 +98,7 @@ Inspect the [saved final live artifacts](docs/evidence/epic-4/live-repeatable/se
 4. Show `completed_phases: [plan, search, normalize]`, 30 pending outcomes, cached replay, and rejection of an unplanned query. The fixtures arrive out of planned order; the persisted merge still follows topic page 1, variant page 1s, topic pages 2–3.
 5. Validate the files with `uv run --locked python scripts/inspect-search-artifacts.py runs/<printed-run_id>`. Inspect the saved [offline snapshot](docs/evidence/epic-4/offline/search_plan.json) to demonstrate without generating a new workspace.
 6. Show the successful [live page-2 transcript](docs/evidence/epic-4/03-live-serpapi.txt), [live pytest](docs/evidence/epic-4/09-live-pytest.txt), and [production planner/API run](docs/evidence/epic-4/05-live-search-cli.txt). The saved [live plan](docs/evidence/epic-4/live-planner/search_plan.json), [raw results](docs/evidence/epic-4/live-planner/search_results.json), and [clean results](docs/evidence/epic-4/live-planner/clean_results.json) are available after local run cleanup.
-7. Present [quality-gate output](docs/evidence/epic-4/13-check.txt), [coverage XML](docs/evidence/epic-4/coverage.xml), and installed-wheel/fresh-checkout evidence. These are the engineering acceptance checks.
+7. Present [quality-gate output](docs/evidence/epic-4/13-check.txt), [coverage XML](docs/evidence/epic-4/coverage.xml), and [installed-wheel](docs/evidence/epic-4/18-wheel.txt)/[fresh-checkout](docs/evidence/epic-4/23-fresh-checkout.txt) evidence. These are the engineering acceptance checks. [source-manifest.json](docs/evidence/epic-4/source-manifest.json) records SHA-256 hashes for 81 source/configuration/test files and both build artifacts, linked to the verified implementation revision. [The hash verification](docs/evidence/epic-4/26-source-hashes.txt) confirms they still match.
 
 ## Evidence of done by story
 
@@ -117,3 +118,12 @@ The ledger retains development failures rather than presenting them as successfu
 A model plan repeated the topic ([12](docs/evidence/epic-4/12-final-live-cli.txt)); the planner rejected it before search. The prompt/schema now explicitly require alternative phrasings, with one bounded validation-repair attempt tested. A deliberately malformed test fixture needed a typing correction ([10](docs/evidence/epic-4/10-final-check.txt)); the final strict check passes in [13](docs/evidence/epic-4/13-check.txt).
 
 Hosted GitHub Actions was configured earlier; this run records local checks and a local fresh checkout, not a hosted CI execution. No production article or release evaluation is claimed.
+
+## Inspect committed evidence without credentials
+
+```sh
+uv run --locked python scripts/inspect-search-artifacts.py docs/evidence/epic-4/offline
+uv run --locked python scripts/inspect-search-artifacts.py docs/evidence/epic-4/live-repeatable
+```
+
+These commands validate the saved snapshots using the current contracts and normalizer. They make no model/provider requests. See [offline snapshot inspection](docs/evidence/epic-4/24-offline-snapshot.txt) and [live snapshot inspection](docs/evidence/epic-4/25-live-snapshot.txt).

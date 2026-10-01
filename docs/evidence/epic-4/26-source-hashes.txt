@@ -1,0 +1,5 @@
+$ uv run --locked python -c 'import hashlib,json; from pathlib import Path; manifest=json.loads(Path("docs/evidence/epic-4/source-manifest.json").read_text()); assert all(hashlib.sha256(Path(name).read_bytes()).hexdigest()==digest for name,digest in manifest["source_sha256"].items()); assert all(hashlib.sha256(Path(name).read_bytes()).hexdigest()==digest for name,digest in manifest["build_sha256"].items()); print("81 source/config/test hashes and both build hashes match the verified implementation.")'
+
+81 source/config/test hashes and both build hashes match the verified implementation.
+
+Exit code: 0 (expected 0)
