@@ -1,0 +1,20 @@
+Command: uv run --locked deep-research-blog --fetch-only --workspace runs/epic-5-live-python-asyncio-fetch-20261001T152525Z
+
+{
+  "run_id": "epic-5-live-python-asyncio-fetch-20261001T152525Z",
+  "workspace": "runs/epic-5-live-python-asyncio-fetch-20261001T152525Z",
+  "status": "completed",
+  "urls_processed": 1,
+  "outcomes": {
+    "extracted": 1
+  },
+  "extractor_strategy": "fallback",
+  "files": [
+    "fetch_outcomes.json",
+    "extraction_results.json",
+    "fetch_state.json"
+  ],
+  "error": null
+}
+
+Exit code: 0

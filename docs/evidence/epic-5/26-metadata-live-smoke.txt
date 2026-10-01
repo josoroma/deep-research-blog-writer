@@ -1,3 +1,5 @@
+Command: uv run --locked python -m evaluations.fetch_live_smoke --output docs/evidence/epic-5/live-smoke.json
+
 {
   "mode": "live HTTP and actual extraction libraries",
   "user_agent": "DeepResearchBlogWriter/0.1.0 (+https://github.com/josoroma/deep-research-blog-writer)",
@@ -15,7 +17,7 @@
     "source": {
       "source_id": "S-01",
       "url": "https://docs.python.org/3/library/asyncio.html",
-      "title": "asyncio — Asynchronous I/O",
+      "title": "asyncio \u2014 Asynchronous I/O",
       "author": null,
       "published": null,
       "word_count": 228,
@@ -52,3 +54,5 @@
   ],
   "retries": []
 }
+
+Exit code: 0

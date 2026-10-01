@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import re
 from collections.abc import Sequence
 from typing import Protocol
@@ -50,8 +51,10 @@ def _metadata(page: FetchedPage) -> dict[str, str | HttpUrl | None]:
 
     def meta(*names: str) -> str | None:
         for name in names:
-            tag = soup.find("meta", attrs={"name": name}) or soup.find(
-                "meta", attrs={"property": name}
+            tag = (
+                soup.find("meta", attrs={"name": name})
+                or soup.find("meta", attrs={"property": name})
+                or soup.find("meta", attrs={"itemprop": name})
             )
             if isinstance(tag, Tag):
                 value = _string(tag.get("content"))
@@ -63,8 +66,35 @@ def _metadata(page: FetchedPage) -> dict[str, str | HttpUrl | None]:
     if not title:
         heading = soup.find("h1") or soup.find("title")
         title = heading.get_text(" ", strip=True) if isinstance(heading, Tag) else ""
-    author = meta("author", "article:author")
-    published = meta("article:published_time", "date", "datePublished", "pubdate")
+    author = meta("author", "article:author", "citation_author", "dc.creator")
+    published = meta(
+        "article:published_time", "date", "datePublished", "pubdate", "citation_publication_date"
+    )
+    for script in soup.find_all("script", type="application/ld+json"):
+        try:
+            structured: object = json.loads(script.get_text())
+        except (ValueError, TypeError):
+            continue
+        entries: list[object] = structured if isinstance(structured, list) else [structured]
+        if isinstance(structured, dict) and isinstance(structured.get("@graph"), list):
+            entries = structured["@graph"]
+        for entry in entries:
+            if not isinstance(entry, dict):
+                continue
+            kind = entry.get("@type")
+            kinds = kind if isinstance(kind, list) else [kind]
+            if not any(value in ("Article", "NewsArticle", "BlogPosting") for value in kinds):
+                continue
+            credited = entry.get("author")
+            if isinstance(credited, dict):
+                credited = credited.get("name")
+            author = author or _string(credited)
+            published = published or _string(entry.get("datePublished"))
+    time_tag = soup.find("time", attrs={"pubdate": True}) or soup.find(
+        "time", attrs={"itemprop": "datePublished"}
+    )
+    if isinstance(time_tag, Tag):
+        published = published or _string(time_tag.get("datetime"))
     canonical: HttpUrl | None = None
     tag = soup.find("link", rel="canonical")
     href = _string(tag.get("href")) if isinstance(tag, Tag) else None
@@ -125,7 +155,9 @@ class TrafilaturaExtractor:
             body,
             title=original["title"] or _string(doc.title) or "",
             author=original["author"] or _string(doc.author),
-            published=original["published"] or _string(doc.date),
+            # Date heuristics can mistake linked dates, copyright or modification
+            # dates for publication. Preserve explicit metadata, otherwise null.
+            published=original["published"],
         )
 
 

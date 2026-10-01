@@ -1,5 +1,6 @@
 """US-5.3: real parsers and branch probes against original packaged HTML."""
 
+import json
 from collections.abc import Sequence
 
 import pytest
@@ -176,3 +177,41 @@ def test_result_invariants_prevent_empty_success() -> None:
         )
     with pytest.raises(ValidationError):
         ExtractionResult(outcome="extracted", attempts=[ParserAttempt(parser="x", outcome="empty")])
+
+
+def test_missing_publication_metadata_does_not_use_parser_date_guess(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from trafilatura.settings import Document
+
+    doc = Document(text="evidence " * 250, title="Publication unknown", date="2015-12-03")
+    monkeypatch.setattr("services.extraction_service.extract_with_metadata", lambda *a, **kw: doc)
+    result = ExtractionService([TrafilaturaExtractor()]).extract(request("missing-metadata"))
+    assert result.source is not None and result.source.published is None
+
+
+@pytest.mark.parametrize("shape", ["object", "list", "graph"])
+def test_explicit_structured_article_metadata(shape: str) -> None:
+    entry = {
+        "@type": "NewsArticle",
+        "author": {"name": "Casey Writer"},
+        "datePublished": "2026-08-15",
+    }
+    payload: object
+    if shape == "object":
+        payload = entry
+    elif shape == "list":
+        payload = [entry]
+    else:
+        payload = {"@graph": [entry]}
+    html = fixture_html("missing-metadata").replace(
+        "</head>",
+        (
+            '<script type="application/ld+json">malformed</script>'
+            f'<script type="application/ld+json">{json.dumps(payload)}</script></head>'
+        ),
+    )
+    page = FetchedPage(html=html, status=200, final_url=HttpUrl("https://fixture.test/a"))
+    result = ExtractionService().extract(ExtractMarkdownInput(page=page, source_id="S-01"))
+    assert result.source is not None
+    assert result.source.author == "Casey Writer" and result.source.published == "2026-08-15"

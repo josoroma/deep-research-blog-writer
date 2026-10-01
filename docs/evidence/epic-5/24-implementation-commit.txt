@@ -1,0 +1,72 @@
+Command: git commit -m 'Implement EPIC-5 polite fetch and extraction milestone'
+
+ruff check...............................................................Passed
+ruff format..............................................................Passed
+mypy.....................................................................Passed
+pytest (offline, coverage >=80%, agent boundary).........................Passed
+[main b3884b8] Implement EPIC-5 polite fetch and extraction milestone
+ 76 files changed, 7647 insertions(+), 70 deletions(-)
+ create mode 100644 EPIC-5-RUNBOOK.md
+ create mode 100644 EPIC-5.md
+ create mode 100644 docs/adr/0006-polite-fetch-and-extraction.md
+ create mode 100644 docs/evidence/epic-5/01-dependencies.txt
+ create mode 100644 docs/evidence/epic-5/02-live-fetch.txt
+ create mode 100644 docs/evidence/epic-5/03-check.txt
+ create mode 100644 docs/evidence/epic-5/04-check.txt
+ create mode 100644 docs/evidence/epic-5/05-setup.txt
+ create mode 100644 docs/evidence/epic-5/06-demo.txt
+ create mode 100644 docs/evidence/epic-5/07-check.txt
+ create mode 100644 docs/evidence/epic-5/08-prior-demos.txt
+ create mode 100644 docs/evidence/epic-5/09-live-test.txt
+ create mode 100644 docs/evidence/epic-5/10-build.txt
+ create mode 100644 docs/evidence/epic-5/11-check.txt
+ create mode 100644 docs/evidence/epic-5/12-wheel.txt
+ create mode 100644 docs/evidence/epic-5/13-seed-live-workspace.txt
+ create mode 100644 docs/evidence/epic-5/14-live-cli.txt
+ create mode 100644 docs/evidence/epic-5/15-inspect-offline.txt
+ create mode 100644 docs/evidence/epic-5/16-snapshot-offline.txt
+ create mode 100644 docs/evidence/epic-5/17-inspect-live.txt
+ create mode 100644 docs/evidence/epic-5/18-snapshot-live.txt
+ create mode 100644 docs/evidence/epic-5/19-hooks.txt
+ create mode 100644 docs/evidence/epic-5/20-final-check.txt
+ create mode 100644 docs/evidence/epic-5/21-final-build.txt
+ create mode 100644 docs/evidence/epic-5/22-final-demo.txt
+ create mode 100644 docs/evidence/epic-5/23-final-live-smoke.txt
+ create mode 100644 docs/evidence/epic-5/README.md
+ create mode 100644 docs/evidence/epic-5/commands.jsonl
+ create mode 100644 docs/evidence/epic-5/coverage.xml
+ create mode 100644 docs/evidence/epic-5/live-cli/clean_results.json
+ create mode 100644 docs/evidence/epic-5/live-cli/extraction_results.json
+ create mode 100644 docs/evidence/epic-5/live-cli/fetch_outcomes.json
+ create mode 100644 docs/evidence/epic-5/live-cli/fetch_state.json
+ create mode 100644 docs/evidence/epic-5/live-cli/request.json
+ create mode 100644 docs/evidence/epic-5/live-smoke.json
+ create mode 100644 docs/evidence/epic-5/offline/clean_results.json
+ create mode 100644 docs/evidence/epic-5/offline/demo_evidence.json
+ create mode 100644 docs/evidence/epic-5/offline/extraction_results.json
+ create mode 100644 docs/evidence/epic-5/offline/fetch_outcomes.json
+ create mode 100644 docs/evidence/epic-5/offline/fetch_state.json
+ create mode 100644 docs/evidence/epic-5/offline/request.json
+ create mode 100644 evaluations/epic5_demo.py
+ create mode 100644 evaluations/fetch_fixtures.py
+ create mode 100644 evaluations/fetch_live_smoke.py
+ create mode 100644 evaluations/fixtures/epic5/article.html
+ create mode 100644 evaluations/fixtures/epic5/boilerplate-heavy.html
+ create mode 100644 evaluations/fixtures/epic5/missing-metadata.html
+ create mode 100644 evaluations/fixtures/epic5/thin.html
+ create mode 100644 schemas/content.py
+ create mode 100644 scripts/create-live-fetch-workspace.py
+ create mode 100644 scripts/inspect-fetch-artifacts.py
+ create mode 100644 scripts/verify-epic-5-checkout.sh
+ create mode 100644 scripts/verify-epic-5-package.sh
+ create mode 100644 services/artifacts.py
+ create mode 100644 services/extraction_service.py
+ create mode 100644 services/fetch_service.py
+ create mode 100644 tests/test_extraction_service.py
+ create mode 100644 tests/test_fetch_run.py
+ create mode 100644 tests/test_fetch_service.py
+ create mode 100644 tests/test_fetch_smoke.py
+ create mode 100644 tools/content_tools.py
+ create mode 100644 workflows/fetch_run.py
+
+Exit code: 0

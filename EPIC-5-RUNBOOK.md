@@ -59,15 +59,15 @@ Full transcripts preserve the real outputs and exit status; [commands.jsonl](doc
 | --- | --- | --- |
 | `uv add 'trafilatura>=2,<3' 'readability-lxml>=0.8,<1' 'beautifulsoup4>=4.13,<5' 'markdownify>=1,<2' 'protego>=0.5,<1'` | Locked trafilatura 2.2.0, readability-lxml 0.9, beautifulsoup4 4.15.0, markdownify 1.2.3, Protego 0.7.0; 104 packages resolved | [01-dependencies](docs/evidence/epic-5/01-dependencies.txt) |
 | `make setup` | `Checked 101 packages`; `pre-commit installed at .git/hooks/pre-commit` | [05-setup](docs/evidence/epic-5/05-setup.txt) |
-| `make check` | Ruff and formatting pass; strict mypy passes; `397 passed, 3 deselected`; `97.72%` coverage | [20-final-check](docs/evidence/epic-5/20-final-check.txt) |
+| `make check` | Ruff and formatting pass; strict mypy passes; `401 passed, 3 deselected`; `97.50%` coverage | [29-check](docs/evidence/epic-5/29-check.txt) |
 | `make demo-epic-5` | 11 URLs processed; six extracted; five correctly recorded failures/skips; 30-host probe max active = 5 | [06-demo](docs/evidence/epic-5/06-demo.txt) |
 | `make demo-epic-2 demo-epic-3 demo-epic-4` | Contract/checkpoint, agent skeleton, and real Search tool demos pass | [08-prior-demos](docs/evidence/epic-5/08-prior-demos.txt) |
-| `uv run --locked python -m evaluations.fetch_live_smoke --output docs/evidence/epic-5/live-smoke.json` | Public page HTTP 200; trafilatura extracts 228 words; `passed: true` | [02-live-fetch](docs/evidence/epic-5/02-live-fetch.txt) |
+| `uv run --locked python -m evaluations.fetch_live_smoke --output docs/evidence/epic-5/live-smoke.json` | Public page HTTP 200; trafilatura extracts 228 words; `passed: true` | [26-metadata-live-smoke](docs/evidence/epic-5/26-metadata-live-smoke.txt) |
 | `uv run --locked pytest -m live tests/test_fetch_smoke.py --no-cov` | `1 passed, 7 deselected` | [09-live-test](docs/evidence/epic-5/09-live-test.txt) |
 | `make build` | Wheel and source distribution built successfully | [10-build](docs/evidence/epic-5/10-build.txt) |
 | `sh scripts/verify-epic-5-package.sh` | Installed-wheel tools, real parsers, fixtures, limits, fallback/artifacts pass outside checkout; console rejects missing workspace with exit 2 | [12-wheel](docs/evidence/epic-5/12-wheel.txt) |
 | `uv run --locked python scripts/create-live-fetch-workspace.py` | Created `runs/epic-5-live-python-asyncio-fetch-20261001T152525Z` | [13-seed-live-workspace](docs/evidence/epic-5/13-seed-live-workspace.txt) |
-| `uv run --locked deep-research-blog --fetch-only --workspace runs/epic-5-live-python-asyncio-fetch-20261001T152525Z` | `status: completed`, `urls_processed: 1`, `extracted: 1`; three artifacts saved | [14-live-cli](docs/evidence/epic-5/14-live-cli.txt) |
+| `uv run --locked deep-research-blog --fetch-only --workspace runs/epic-5-live-python-asyncio-fetch-20261001T152525Z` | `status: completed`, `urls_processed: 1`, `extracted: 1`; three artifacts saved | [27-live-cli](docs/evidence/epic-5/27-live-cli.txt) |
 | `uv run --locked python scripts/inspect-fetch-artifacts.py runs/epic-5-polite-evidence-collection-20261001T152315Z` | Validates all 11 ranked outcomes, minimum word counts, matching IDs, no raw HTML, and failure/source separation | [15-inspect-offline](docs/evidence/epic-5/15-inspect-offline.txt) |
 | `uv run --locked python scripts/inspect-fetch-artifacts.py runs/epic-5-live-python-asyncio-fetch-20261001T152525Z` | Validates actual CLI output and the extracted live source | [17-inspect-live](docs/evidence/epic-5/17-inspect-live.txt) |
 
@@ -93,7 +93,7 @@ Committed snapshots make the review independent of ignored local workspaces:
 | [offline/demo_evidence.json](docs/evidence/epic-5/offline/demo_evidence.json) | Request timeline, robots cache, retry delays, concurrency and forced fallback probe |
 | [live-smoke.json](docs/evidence/epic-5/live-smoke.json) | Actual HTTP, contact header, canonical URL and successful real extraction; body intentionally omitted |
 | [live-cli/](docs/evidence/epic-5/live-cli/) | Original persisted artifacts from the successful live CLI invocation |
-| [coverage.xml](docs/evidence/epic-5/coverage.xml) | 97.72% offline branch-aware coverage; live tests excluded |
+| [coverage.xml](docs/evidence/epic-5/coverage.xml) | 97.50% offline branch-aware coverage; live tests excluded |
 
 ## Scope and operation
 
@@ -103,4 +103,6 @@ The registered `fetch_url` and `extract_markdown` are real internal tools. Agent
 
 Production `collect_source`, front-matter source files and `research/index.md` remain EPIC-6; the full agent command still has a clearly labelled collection stub. This runbook demonstrates completed fetching/extraction, not a completed production blog.
 
-The final timeout review added a regression case proving that redirected page requests share the 15-second network budget. The resulting [20-final-check](docs/evidence/epic-5/20-final-check.txt) passes 397 offline tests with 97.72% coverage. The final [build](docs/evidence/epic-5/21-final-build.txt), [offline demo](docs/evidence/epic-5/22-final-demo.txt), and [live smoke](docs/evidence/epic-5/23-final-live-smoke.txt) also pass. Earlier transcripts remain historical checkpoints.
+Publication dates require explicit meta tags, Article JSON-LD, or marked publication time elements. Parser date guesses are discarded. The passing [29-check](docs/evidence/epic-5/29-check.txt) includes redirect-budget and metadata regressions: 401 offline tests, 97.50% coverage. The corrected [live smoke](docs/evidence/epic-5/26-metadata-live-smoke.txt) extracts 228 words with null publication date, and the [live CLI](docs/evidence/epic-5/27-live-cli.txt) also passes. Earlier live transcripts retain the parser guesses as historical evidence, not accepted publication metadata.
+
+[25-metadata-check](docs/evidence/epic-5/25-metadata-check.txt) caught a type inference error in the new structured-metadata test. Explicitly typed branches corrected it; [29-check](docs/evidence/epic-5/29-check.txt) passes.

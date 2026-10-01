@@ -1,0 +1,16 @@
+Command: make check
+
+uv lock --check
+Resolved 104 packages in 4ms
+/Library/Developer/CommandLineTools/usr/bin/make lint format-check typecheck test
+uv run --locked ruff check .
+All checks passed!
+uv run --locked ruff format --check .
+74 files already formatted
+uv run --locked mypy --strict
+tests/test_extraction_service.py:201: error: List item 0 has incompatible type "dict[str, Collection[str]]"; expected "str"  [list-item]
+Found 1 error in 1 file (checked 71 source files)
+make[1]: *** [typecheck] Error 1
+make: *** [check] Error 2
+
+Exit code: 2

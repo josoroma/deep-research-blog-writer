@@ -1,0 +1,5 @@
+Command: python3 -c 'from pathlib import Path; import shutil; source = Path("runs/epic-5-live-python-asyncio-fetch-20261001T152525Z"); destination = Path("docs/evidence/epic-5/live-cli"); [shutil.copy2(path, destination / path.name) for path in source.iterdir() if path.is_file()]; print("Refreshed original live CLI artifacts with explicit publication metadata policy")'
+
+Refreshed original live CLI artifacts with explicit publication metadata policy
+
+Exit code: 0
