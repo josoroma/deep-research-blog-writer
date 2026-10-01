@@ -6,7 +6,7 @@ Status: Completed and verified. This plan was written before implementation; suc
 
 ## Objective
 
-Implement US-5.1–US-5.3 from [SPECS.md](SPECS.md#epic-5-fetch-and-extraction), using the completed EPIC-4 ranked clean URLs. Fetch permitted HTML politely, recover only from transient failures, extract attributable Markdown through the specified parser chain, and record a typed outcome for every URL without aborting on an individual failure.
+Implement US-5.1–US-5.3 from [SPECS.md](../../SPECS.md#epic-5-fetch-and-extraction), using the completed EPIC-4 ranked clean URLs. Fetch permitted HTML politely, recover only from transient failures, extract attributable Markdown through the specified parser chain, and record a typed outcome for every URL without aborting on an individual failure.
 
 Immutable `research/NNN_<slug>.md` files, front-matter, corpus indexing, and the production `collect_source` implementation remain in EPIC-6. This milestone saves inspectable extraction artifacts and typed progress without claiming that those corpus files or a production blog exist.
 

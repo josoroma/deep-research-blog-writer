@@ -1,6 +1,6 @@
 # EPIC-3 acceptance evidence
 
-Verification date: 2026-10-01. See [the runbook](../../../EPIC-3-RUNBOOK.md) for setup, successful commands, the PM demo, and story acceptance.
+Verification date: 2026-10-01. See [the runbook](../../SPECS-LOGS/EPIC-3-RUNBOOK.md) for setup, successful commands, the PM demo, and story acceptance.
 
 Each transcript contains the actual command, combined stdout/stderr, and exit code. [commands.jsonl](commands.jsonl) adds UTC completion time, working directory, duration, and expected exit status.
 

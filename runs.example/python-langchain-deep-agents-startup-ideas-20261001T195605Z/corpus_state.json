@@ -1,0 +1,436 @@
+{
+  "run_id": "python-langchain-deep-agents-startup-ideas-20261001T195605Z",
+  "topic": "Python LangChain Deep Agents Startup Ideas",
+  "completed_phases": [
+    "plan",
+    "search",
+    "normalize",
+    "fetch",
+    "index"
+  ],
+  "query_variants": [],
+  "clean_results": [
+    {
+      "url": "https://docs.langchain.com/oss/python/deepagents/overview",
+      "title": "Deep Agents overview - Docs by LangChain",
+      "snippet": "Deep Agents is the easiest way to start building agents and applications that are powered by LLMs—with built-in capabilities for file systems for context ...",
+      "rank": 1,
+      "query": "Python LangChain Deep Agents Startup Ideas"
+    },
+    {
+      "url": "https://talkpython.fm/episodes/show/543/deep-agents-langchains-sdk-for-agents-that-plan-and-delegate",
+      "title": "Deep Agents: LangChain's SDK for Agents That Plan and ...",
+      "snippet": "LangChain's deepagents package lets you build your own deep agents in just a few lines of Python. You call create_deep_agent , specify your ...",
+      "rank": 2,
+      "query": "Python LangChain Deep Agents Startup Ideas"
+    },
+    {
+      "url": "https://abvijaykumar.medium.com/building-deep-agents-skill-md-with-langchain-074176c66dec",
+      "title": "Building Deep Agents + SKILL.md with Langchain",
+      "snippet": "Continuing the series on Deep Agents, in this blog, we will build a complete deep agent application that uses SKILL.md, to respond to the user ...",
+      "rank": 3,
+      "query": "Python LangChain Deep Agents Startup Ideas"
+    },
+    {
+      "url": "https://www.datacamp.com/tutorial/deep-agents",
+      "title": "LangChain's Deep Agents: A Guide With Demo Project",
+      "snippet": "A comprehensive tutorial on building multi-tool LangChain agents to automate tasks in Python using LLMs and chat models using OpenAI.",
+      "rank": 4,
+      "query": "Python LangChain Deep Agents Startup Ideas"
+    },
+    {
+      "url": "https://krishcnaik.substack.com/p/building-deep-agents-with-langchain",
+      "title": "Building Deep Agents with LangChain: A Complete Hands-On ...",
+      "snippet": "In this tutorial, we will walk through building deep agents using LangChain's deepagents library. These are agents that can plan, manage context ...",
+      "rank": 5,
+      "query": "Python LangChain Deep Agents Startup Ideas"
+    },
+    {
+      "url": "https://www.langchain.com/deep-agents",
+      "title": "Deep Agents: Open Source Agent Harness",
+      "snippet": "Deep Agents is an open source agent harness built for long-running tasks. It handles planning, context management, and multi-agent orchestration for complex ...",
+      "rank": 6,
+      "query": "Python LangChain Deep Agents Startup Ideas"
+    },
+    {
+      "url": "https://milvus.io/blog/how-to-build-productionready-ai-agents-with-deep-agents-and-milvus.md",
+      "title": "How to Build Production-Ready AI Agents with Deep Agents",
+      "snippet": "Learn how to build scalable AI agents using Deep Agents and Milvus for long-running tasks, lower token costs, and persistent memory.",
+      "rank": 7,
+      "query": "Python LangChain Deep Agents Startup Ideas"
+    },
+    {
+      "url": "https://www.langchain.com/langchain",
+      "title": "LangChain: Open Source AI Agent Framework for Any Model",
+      "snippet": "LangChain is an open source framework with pre-built agent architectures and as integrations to models, tools, and databases to start building agents quickly.",
+      "rank": 8,
+      "query": "Building AI agent startups with LangChain and Python frameworks"
+    },
+    {
+      "url": "https://www.langchain.com/resources/ai-agent-frameworks",
+      "title": "The best AI agent frameworks in 2026",
+      "snippet": "LangChain is the most widely adopted open-source framework for building AI agents and LLM applications,",
+      "rank": 9,
+      "query": "Building AI agent startups with LangChain and Python frameworks"
+    },
+    {
+      "url": "https://medium.com/@dvasquez.422/building-a-simple-ai-agent-1e2f2b369b25",
+      "title": "Building a Simple AI Agent With Python and Langchain",
+      "snippet": "Langchain is a framework that allows you to build powerful applications powered by large language models such as OpenAI, Gemini, Anthropic, etc.",
+      "rank": 10,
+      "query": "Building AI agent startups with LangChain and Python frameworks"
+    },
+    {
+      "url": "https://www.firecrawl.dev/blog/best-open-source-agent-frameworks",
+      "title": "The best open source frameworks for building AI agents in ...",
+      "snippet": "LangChain is a reasonable place to start when you're learning how agents work. The OpenAI Agents SDK is a lightweight Python framework ・ ...",
+      "rank": 11,
+      "query": "Building AI agent startups with LangChain and Python frameworks"
+    },
+    {
+      "url": "https://www.codecademy.com/article/agentic-ai-with-langchain-langgraph",
+      "title": "How to Build Agentic AI with LangChain and LangGraph",
+      "snippet": "Learn to build autonomous AI agents that use tools, make decisions, and accomplish complex tasks using LangChain and agentic design patterns.",
+      "rank": 12,
+      "query": "Building AI agent startups with LangChain and Python frameworks"
+    },
+    {
+      "url": "https://build5nines.com/introduction-to-building-ai-agents-with-langchain-and-python",
+      "title": "Introduction to Building AI Agents with LangChain and ...",
+      "snippet": "LangChain is a tool for more easily creating AI agents that can autonomously perform tasks. These agents can streamline operations, ...",
+      "rank": 13,
+      "query": "Building AI agent startups with LangChain and Python frameworks"
+    },
+    {
+      "url": "https://blog.masteringbackend.com/building-intelligent-ai-agents-using-python-with-frameworks-like-lang-chain-crew-ai-and-auto-gen",
+      "title": "Building intelligent AI agents using Python with frameworks ...",
+      "snippet": "Choosing an AI agent framework based on popularity is a mistake you shouldn't make. LangChain, LangGraph, CrewAI, and AutoGen help to solve ...",
+      "rank": 14,
+      "query": "Building AI agent startups with LangChain and Python frameworks"
+    },
+    {
+      "url": "https://www.langchain.com/blog/deep-agents-vs-langchain-vs-langgraph",
+      "title": "Deep Agents vs LangChain vs LangGraph",
+      "snippet": "LangGraph is an agent runtime, LangChain is an agent framework, and Deep Agents is an agent harness. The runtime offers the most control and the ...",
+      "rank": 15,
+      "query": "LangChain deep agents architecture compared with alternative agent frameworks for production"
+    },
+    {
+      "url": "https://www.truefoundry.com/blog/langchain-deep-agents-vs-production-reality",
+      "title": "LangChain Deep Agents vs. Production Reality",
+      "snippet": "Learn what LangChain Deep Agents are, how they work, use cases, limitations, and how they compare to other AI agent frameworks.",
+      "rank": 16,
+      "query": "LangChain deep agents architecture compared with alternative agent frameworks for production"
+    },
+    {
+      "url": "https://langfuse.com/blog/2025-03-19-ai-agent-comparison",
+      "title": "Comparing Open-Source AI Agent Frameworks",
+      "snippet": "This post offers an in-depth look at the leading open-source AI agent frameworks as of July 2026: LangGraph, LangChain DeepAgents, the OpenAI ...",
+      "rank": 17,
+      "query": "LangChain deep agents architecture compared with alternative agent frameworks for production"
+    },
+    {
+      "url": "https://www.speakeasy.com/blog/ai-agent-framework-comparison",
+      "title": "LangChain vs LangGraph vs CrewAI vs PydanticAI vs Mastra ...",
+      "snippet": "We evaluated seven agent frameworks and two SDKs across developer experience, agent capabilities, context and memory, deployment and hosting ...",
+      "rank": 18,
+      "query": "LangChain deep agents architecture compared with alternative agent frameworks for production"
+    },
+    {
+      "url": "https://www.splunk.com/en_us/blog/learn/agent-frameworks.html",
+      "title": "Top Agent Frameworks To Use in 2026: A Comparison",
+      "snippet": "Compare top agent frameworks like LangGraph and CrewAI based on operational resilience, durable execution, and production-grade ...",
+      "rank": 19,
+      "query": "LangChain deep agents architecture compared with alternative agent frameworks for production"
+    },
+    {
+      "url": "https://www.langchain.com/",
+      "title": "LangChain: the open agent platform to own your intelligence",
+      "snippet": "LangChain enables every company to own their intelligence. Control, govern, and compound intelligence with an open agent engineering platform.",
+      "rank": 20,
+      "query": "Startup opportunities in the Python LLM agent ecosystem and developer tooling"
+    },
+    {
+      "url": "https://www.instaclustr.com/education/agentic-ai/agentic-ai-frameworks-top-10-options-in-2026",
+      "title": "Agentic AI Frameworks: Top 10 Options in 2026",
+      "snippet": "Agentic AI frameworks are software toolkits that simplify the creation of autonomous AI agents, providing developers with pre-built components for tasks ...",
+      "rank": 21,
+      "query": "Startup opportunities in the Python LLM agent ecosystem and developer tooling"
+    },
+    {
+      "url": "https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents",
+      "title": "A practical guide to building agents",
+      "snippet": "A comprehensive guide to designing, orchestrating, and deploying AI agents—covering use cases, model selection, tool design, guardrails, and multi-agent ...",
+      "rank": 22,
+      "query": "Startup opportunities in the Python LLM agent ecosystem and developer tooling"
+    },
+    {
+      "url": "https://activantcapital.com/research/ai-agents",
+      "title": "Towards the AI Agent Ecosystem — Activant Research",
+      "snippet": "Explore how AI agents combine large language models with memory, tools, and self-critique to autonomously complete complex knowledge work ...",
+      "rank": 23,
+      "query": "Startup opportunities in the Python LLM agent ecosystem and developer tooling"
+    },
+    {
+      "url": "https://aimultiple.com/no-code-ai-agent-builders",
+      "title": "Low/No-Code AI Agent Builders: n8n,make, Zapier",
+      "snippet": "We spent three days configuring low- and no-code AI agent builders, AI-agent workflows, manually setting up LLM actions, document parsers, search tools, ...",
+      "rank": 24,
+      "query": "Startup opportunities in the Python LLM agent ecosystem and developer tooling"
+    },
+    {
+      "url": "https://www.vellum.ai/blog/best-ai-coding-agents",
+      "title": "10 Best AI Coding Agents in 2026: Reviewed & Compared",
+      "snippet": "The 10 best AI coding agents in 2026, reviewed on context, memory, security, and task handling. Includes pricing, trade-offs, ...",
+      "rank": 25,
+      "query": "Startup opportunities in the Python LLM agent ecosystem and developer tooling"
+    },
+    {
+      "url": "https://www.cambridge.org/core/journals/natural-language-engineering/article/startup-activity-in-the-llm-ecosystem/724BE927817BDDC82EF939AB765F68D2",
+      "title": "Start-up activity in the LLM ecosystem",
+      "snippet": "At the center of this ecosystem is the technology stack that brings LLMs to life, with the GPUs that provide the processing power for LLM ...",
+      "rank": 26,
+      "query": "Startup opportunities in the Python LLM agent ecosystem and developer tooling"
+    },
+    {
+      "url": "https://www.oregonlegislature.gov/citizen_engagement/Pages/How-an-Idea-Becomes-Law.aspx",
+      "title": "Citizen Engagement How an Idea Becomes Law",
+      "snippet": "An idea to change, amend, or create a new law is presented by a concerned citizen or group to a Representative. The Representative decides to sponsor the ...",
+      "rank": 27,
+      "query": "Python LangChain Deep Agents Startup Ideas"
+    },
+    {
+      "url": "https://jamesclear.com/pruning",
+      "title": "What to Do When You Have Too Many Ideas and Not ...",
+      "snippet": "What do you do when you have too many ideas and not enough time? Or similarly, what about when you have too many tasks and not enough energy?",
+      "rank": 28,
+      "query": "Python LangChain Deep Agents Startup Ideas"
+    },
+    {
+      "url": "https://www.ibm.com/content/adobe-cms/us/en/think/topics",
+      "title": "Think Topics",
+      "snippet": "Access explainer hub for content crafted by IBM experts on popular tech topics, as well as existing and emerging technologies to leverage them to your ...",
+      "rank": 29,
+      "query": "Python LangChain Deep Agents Startup Ideas"
+    },
+    {
+      "url": "https://ideapublicschools.org/",
+      "title": "IDEA Public Schools: Discover Our Approach",
+      "snippet": "IDEA is open to students in Kindergarten – 12th grade. · We support more than 87,000 students on their journey to and through college. · We have 143 IDEA schools ...",
+      "rank": 30,
+      "query": "Python LangChain Deep Agents Startup Ideas"
+    }
+  ],
+  "url_outcomes": {
+    "https://docs.langchain.com/oss/python/deepagents/overview": {
+      "rank": 1,
+      "url": "https://docs.langchain.com/oss/python/deepagents/overview",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-01"
+    },
+    "https://talkpython.fm/episodes/show/543/deep-agents-langchains-sdk-for-agents-that-plan-and-delegate": {
+      "rank": 2,
+      "url": "https://talkpython.fm/episodes/show/543/deep-agents-langchains-sdk-for-agents-that-plan-and-delegate",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-02"
+    },
+    "https://abvijaykumar.medium.com/building-deep-agents-skill-md-with-langchain-074176c66dec": {
+      "rank": 3,
+      "url": "https://abvijaykumar.medium.com/building-deep-agents-skill-md-with-langchain-074176c66dec",
+      "outcome": "unreachable",
+      "reason": "http_403",
+      "source_id": null
+    },
+    "https://www.datacamp.com/tutorial/deep-agents": {
+      "rank": 4,
+      "url": "https://www.datacamp.com/tutorial/deep-agents",
+      "outcome": "robots_disallowed",
+      "reason": "robots_rule",
+      "source_id": null
+    },
+    "https://krishcnaik.substack.com/p/building-deep-agents-with-langchain": {
+      "rank": 5,
+      "url": "https://krishcnaik.substack.com/p/building-deep-agents-with-langchain",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-05"
+    },
+    "https://www.langchain.com/deep-agents": {
+      "rank": 6,
+      "url": "https://www.langchain.com/deep-agents",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-06"
+    },
+    "https://milvus.io/blog/how-to-build-productionready-ai-agents-with-deep-agents-and-milvus.md": {
+      "rank": 7,
+      "url": "https://milvus.io/blog/how-to-build-productionready-ai-agents-with-deep-agents-and-milvus.md",
+      "outcome": "unreachable",
+      "reason": "redirect_loop",
+      "source_id": null
+    },
+    "https://www.langchain.com/langchain": {
+      "rank": 8,
+      "url": "https://www.langchain.com/langchain",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-08"
+    },
+    "https://www.langchain.com/resources/ai-agent-frameworks": {
+      "rank": 9,
+      "url": "https://www.langchain.com/resources/ai-agent-frameworks",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-09"
+    },
+    "https://medium.com/@dvasquez.422/building-a-simple-ai-agent-1e2f2b369b25": {
+      "rank": 10,
+      "url": "https://medium.com/@dvasquez.422/building-a-simple-ai-agent-1e2f2b369b25",
+      "outcome": "unreachable",
+      "reason": "http_403",
+      "source_id": null
+    },
+    "https://www.firecrawl.dev/blog/best-open-source-agent-frameworks": {
+      "rank": 11,
+      "url": "https://www.firecrawl.dev/blog/best-open-source-agent-frameworks",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-11"
+    },
+    "https://www.codecademy.com/article/agentic-ai-with-langchain-langgraph": {
+      "rank": 12,
+      "url": "https://www.codecademy.com/article/agentic-ai-with-langchain-langgraph",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-12"
+    },
+    "https://build5nines.com/introduction-to-building-ai-agents-with-langchain-and-python": {
+      "rank": 13,
+      "url": "https://build5nines.com/introduction-to-building-ai-agents-with-langchain-and-python",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-13"
+    },
+    "https://blog.masteringbackend.com/building-intelligent-ai-agents-using-python-with-frameworks-like-lang-chain-crew-ai-and-auto-gen": {
+      "rank": 14,
+      "url": "https://blog.masteringbackend.com/building-intelligent-ai-agents-using-python-with-frameworks-like-lang-chain-crew-ai-and-auto-gen",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-14"
+    },
+    "https://www.langchain.com/blog/deep-agents-vs-langchain-vs-langgraph": {
+      "rank": 15,
+      "url": "https://www.langchain.com/blog/deep-agents-vs-langchain-vs-langgraph",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-15"
+    },
+    "https://www.truefoundry.com/blog/langchain-deep-agents-vs-production-reality": {
+      "rank": 16,
+      "url": "https://www.truefoundry.com/blog/langchain-deep-agents-vs-production-reality",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-16"
+    },
+    "https://langfuse.com/blog/2025-03-19-ai-agent-comparison": {
+      "rank": 17,
+      "url": "https://langfuse.com/blog/2025-03-19-ai-agent-comparison",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-17"
+    },
+    "https://www.speakeasy.com/blog/ai-agent-framework-comparison": {
+      "rank": 18,
+      "url": "https://www.speakeasy.com/blog/ai-agent-framework-comparison",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-18"
+    },
+    "https://www.splunk.com/en_us/blog/learn/agent-frameworks.html": {
+      "rank": 19,
+      "url": "https://www.splunk.com/en_us/blog/learn/agent-frameworks.html",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-19"
+    },
+    "https://www.langchain.com/": {
+      "rank": 20,
+      "url": "https://www.langchain.com/",
+      "outcome": "too_thin",
+      "reason": "no_parser_reached_200_words",
+      "source_id": null
+    },
+    "https://www.instaclustr.com/education/agentic-ai/agentic-ai-frameworks-top-10-options-in-2026": {
+      "rank": 21,
+      "url": "https://www.instaclustr.com/education/agentic-ai/agentic-ai-frameworks-top-10-options-in-2026",
+      "outcome": "unreachable",
+      "reason": "http_403",
+      "source_id": null
+    },
+    "https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents": {
+      "rank": 22,
+      "url": "https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents",
+      "outcome": "unreachable",
+      "reason": "http_403",
+      "source_id": null
+    },
+    "https://activantcapital.com/research/ai-agents": {
+      "rank": 23,
+      "url": "https://activantcapital.com/research/ai-agents",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-23"
+    },
+    "https://aimultiple.com/no-code-ai-agent-builders": {
+      "rank": 24,
+      "url": "https://aimultiple.com/no-code-ai-agent-builders",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-24"
+    },
+    "https://www.vellum.ai/blog/best-ai-coding-agents": {
+      "rank": 25,
+      "url": "https://www.vellum.ai/blog/best-ai-coding-agents",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-25"
+    },
+    "https://www.cambridge.org/core/journals/natural-language-engineering/article/startup-activity-in-the-llm-ecosystem/724BE927817BDDC82EF939AB765F68D2": {
+      "rank": 26,
+      "url": "https://www.cambridge.org/core/journals/natural-language-engineering/article/startup-activity-in-the-llm-ecosystem/724BE927817BDDC82EF939AB765F68D2",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-26"
+    },
+    "https://www.oregonlegislature.gov/citizen_engagement/Pages/How-an-Idea-Becomes-Law.aspx": {
+      "rank": 27,
+      "url": "https://www.oregonlegislature.gov/citizen_engagement/Pages/How-an-Idea-Becomes-Law.aspx",
+      "outcome": "unreachable",
+      "reason": "robots_unavailable",
+      "source_id": null
+    },
+    "https://jamesclear.com/pruning": {
+      "rank": 28,
+      "url": "https://jamesclear.com/pruning",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-28"
+    },
+    "https://www.ibm.com/content/adobe-cms/us/en/think/topics": {
+      "rank": 29,
+      "url": "https://www.ibm.com/content/adobe-cms/us/en/think/topics",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-29"
+    },
+    "https://ideapublicschools.org/": {
+      "rank": 30,
+      "url": "https://ideapublicschools.org/",
+      "outcome": "too_thin",
+      "reason": "no_parser_reached_200_words",
+      "source_id": null
+    }
+  }
+}

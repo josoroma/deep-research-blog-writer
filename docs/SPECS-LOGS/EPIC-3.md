@@ -6,7 +6,7 @@ Status: DONE. All four stories and the offline, wheel, and fresh-checkout verifi
 
 ## Objective and scope
 
-Implement US-3.1 through US-3.4 from [SPECS.md](SPECS.md#epic-3-deep-agent-skeleton), PRD.md milestone M1. Build on the committed EPIC-2 building blocks:
+Implement US-3.1 through US-3.4 from [SPECS.md](../../SPECS.md#epic-3-deep-agent-skeleton), PRD.md milestone M1. Build on the committed EPIC-2 building blocks:
 
 - `ResearchRequest`, `RunState`, and `ResearchAgentState`;
 - the `TOOLS` registry and `TypedTool` adapter;

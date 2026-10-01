@@ -6,7 +6,7 @@ Status: Planned. This plan is written before implementation. Successful commands
 
 ## Objective
 
-Implement US-7.1–US-7.4 from [SPECS.md](SPECS.md#epic-7-synthesis-and-blog-authoring), building on the completed EPIC-6 corpus. Distill the corpus into `research/summary.md`, write one cited `output/blog.md` in the fixed PD-015 structure, prove every `[S-NN]` resolves to a source file, and repair dangling citations within two passes. A draft outside 2000–5000 words is kept and recorded as `blog_length`; a draft that still dangles after two repairs fails as `dangling_citations` and keeps the last draft.
+Implement US-7.1–US-7.4 from [SPECS.md](../../SPECS.md#epic-7-synthesis-and-blog-authoring), building on the completed EPIC-6 corpus. Distill the corpus into `research/summary.md`, write one cited `output/blog.md` in the fixed PD-015 structure, prove every `[S-NN]` resolves to a source file, and repair dangling citations within two passes. A draft outside 2000–5000 words is kept and recorded as `blog_length`; a draft that still dangles after two repairs fails as `dangling_citations` and keeps the last draft.
 
 Run reporting, outcome classification, and durable resume stay in EPIC-8. Scoring "every non-obvious claim carries a citation" stays in US-10.4. This milestone produces the summary, the draft, and the citation gate.
 
@@ -94,6 +94,6 @@ Run reporting, outcome classification, and durable resume stay in EPIC-8. Scorin
 
 ## Technical references
 
-- [SPECS.md](SPECS.md#epic-7-synthesis-and-blog-authoring) US-7.1 to US-7.4.
-- [PRD.md](PRD.md) FR-7, FR-8, FR-9, and NFR-4.
-- PD-015 and PD-016 in [SPECS.md](SPECS.md).
+- [SPECS.md](../../SPECS.md#epic-7-synthesis-and-blog-authoring) US-7.1 to US-7.4.
+- [PRD.md](../../PRD.md) FR-7, FR-8, FR-9, and NFR-4.
+- PD-015 and PD-016 in [SPECS.md](../../SPECS.md).

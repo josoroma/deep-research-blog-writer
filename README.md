@@ -1,6 +1,17 @@
 # Deep Research Blog Writer
 
-A Python research-to-blog pipeline using DeepAgents on LangGraph. EPIC-1–EPIC-5 provide locked setup, quality gates, typed contracts/state/tools, central models and packaged prompts, the four-agent skeleton, API search with ranked normalization, polite HTML fetching, and parser fallback. Corpus/article generation, citation checks, and durable resume belong to later epics.
+A Python research-to-blog pipeline using DeepAgents on LangGraph. A topic goes in. Ranked search results, an immutable source corpus, a research summary, and a cited blog draft come out. EPIC-1 to EPIC-8 are delivered: locked setup and quality gates, typed contracts and tools, the four-agent skeleton, API search with ranked normalization, polite fetching with parser fallback, the research corpus, synthesis and blog authoring behind a citation gate, and the run-report, retry, and resume building blocks. Observability, evaluation, and agent documentation (EPIC-9 to EPIC-11) are next.
+
+**Documentation site:** [https://josoroma.github.io/deep-research-blog-writer](https://josoroma.github.io/deep-research-blog-writer). It explains setup, the run loop, and the committed example run with diagrams. The same page is at [docs/pages/running-a-run.html](docs/pages/running-a-run.html).
+
+## Contents
+
+- [Install and run](#install-and-run)
+- [Fetch and extraction](#fetch-and-extraction)
+- [Live run](#live-run)
+- [Development checks](#development-checks)
+- [Layout and rules](#layout-and-rules)
+- [Working one epic per session](#working-one-epic-per-session)
 
 ## Install and run
 
@@ -58,6 +69,82 @@ Every request identifies the crawler. Page attempts share a 15-second network/bo
 
 `make demo-epic-5` uses original packaged HTML, mocked HTTP and explicitly labelled virtual timing. It demonstrates redirects, retries, permanent failure, robots blocking, PDF skipping, thin-page rejection, optional metadata, ordered fallback and the 30-host concurrency probe. The live smoke separately retrieves one public Python documentation page with your configured contact.
 
+## Live run
+
+A live run is three commands. Search writes the workspace, corpus collection reads it, and authoring reads the corpus. The first uncached SerpApi query for a fresh topic can exceed the 15-second default, so raise the timeout:
+
+```sh
+SEARCH_TIMEOUT_SECONDS=60 uv run deep-research-blog "Python LangChain Deep Agents Startup Ideas" --search-only --pages 3 --per-page 10 --max-urls 30
+```
+
+```json
+{
+  "run_id": "python-langchain-deep-agents-startup-ideas-20261001T195605Z",
+  "workspace": "runs/python-langchain-deep-agents-startup-ideas-20261001T195605Z",
+  "status": "completed",
+  "provider": "serpapi",
+  "search_plan_path": "runs/python-langchain-deep-agents-startup-ideas-20261001T195605Z/search_plan.json",
+  "raw_results_path": "runs/python-langchain-deep-agents-startup-ideas-20261001T195605Z/search_results.json",
+  "clean_results_path": "runs/python-langchain-deep-agents-startup-ideas-20261001T195605Z/clean_results.json",
+  "counts": {
+    "raw": 52,
+    "denied": 9,
+    "duplicates": 2,
+    "capped": 11,
+    "kept": 30
+  },
+  "error": null
+}
+```
+
+`runs/` is git-ignored, so the workspace shows up as untracked and should stay that way. The committed `runs.example/` folder is the saved output of the three commands below, kept for reference because a fresh run lands in `runs/` and is never committed. Collect the corpus, then write the draft, both against the printed workspace:
+
+```sh
+RUN=runs/python-langchain-deep-agents-startup-ideas-20261001T195605Z
+uv run deep-research-blog --corpus-only --workspace "$RUN"
+uv run deep-research-blog --author-only --workspace "$RUN"
+```
+
+Corpus collection fetched all 30 URLs and kept going past individual failures. 21 sources were written and indexed; 6 were unreachable, 1 was blocked by robots, and 2 were too thin to extract:
+
+```json
+{
+  "run_id": "python-langchain-deep-agents-startup-ideas-20261001T195605Z",
+  "workspace": "runs/python-langchain-deep-agents-startup-ideas-20261001T195605Z",
+  "status": "completed",
+  "urls_processed": 30,
+  "sources_written": 21,
+  "sources_indexed": 21,
+  "outcomes": {
+    "extracted": 21,
+    "unreachable": 6,
+    "robots_disallowed": 1,
+    "too_thin": 2
+  },
+  "index_path": "research/index.md",
+  "error": null
+}
+```
+
+Authoring wrote `research/summary.md` and a 3193-word `output/blog.md`, then ran the citation gate. All 17 citations resolved to a source file, but two cited sources were listed in `## References` with a title or URL that did not match the source file. Two repair passes did not fix them, so the run ended `failed` with reason `dangling_citations`. The last draft is kept:
+
+```json
+{
+  "run_id": "python-langchain-deep-agents-startup-ideas-20261001T195605Z",
+  "workspace": "runs/python-langchain-deep-agents-startup-ideas-20261001T195605Z",
+  "status": "failed",
+  "summary_path": "research/summary.md",
+  "blog_path": "output/blog.md",
+  "word_count": 3193,
+  "citations_checked": 17,
+  "repair_passes": 2,
+  "dangling_source_ids": [],
+  "mismatched_source_ids": ["S-14", "S-24"],
+  "reason": "dangling_citations",
+  "error": null
+}
+```
+
 ## Development checks
 
 ```sh
@@ -87,8 +174,43 @@ Git hooks and GitHub Actions use the same offline quality gates, including agent
 | `services/` | Provider integration, per-run search session, and workspace services |
 | `evaluations/` | Architecture checks and runnable demonstrations |
 | `tests/` | Offline regression and opt-in live tests |
-| `docs/` | ADRs and recorded delivery evidence |
+| `docs/` | ADRs, recorded delivery evidence, and explainer pages |
+| `docs/SPECS-LOGS/` | Per-epic plans (`EPIC-N.md`) and runbooks (`EPIC-N-RUNBOOK.md`) |
 
-Agents never import HTTP clients or construct provider clients. Per-run registry closures bind search tools to a workspace and provider; credentials and clients stay outside agent/checkpoint state. Search tools validate both input and output. The static boundary checker parses imports and prompt/model construction; computed indirect network access is outside its scope. SQLite resume is a later story.
+Agents never import HTTP clients or construct provider clients. Per-run registry closures bind search tools to a workspace and provider; credentials and clients stay outside agent/checkpoint state. Search tools validate both input and output. The static boundary checker parses imports and prompt/model construction; computed indirect network access is outside its scope.
 
-See [EPIC-5.md](EPIC-5.md) and [EPIC-5-RUNBOOK.md](EPIC-5-RUNBOOK.md) for the plan, successful commands and PM evidence. Earlier deliveries: [EPIC-1](EPIC-1-RUNBOOK.md), [EPIC-2](EPIC-2-RUNBOOK.md), [EPIC-3](EPIC-3-RUNBOOK.md), and [EPIC-4](EPIC-4-RUNBOOK.md). Product decisions live in [SPECS.md](SPECS.md); architectural decisions in [docs/adr/](docs/adr/README.md).
+Each epic's plan and runbook live in [docs/SPECS-LOGS/](docs/SPECS-LOGS/): for example [EPIC-8.md](docs/SPECS-LOGS/EPIC-8.md) and [EPIC-8-RUNBOOK.md](docs/SPECS-LOGS/EPIC-8-RUNBOOK.md). Product decisions live in [SPECS.md](SPECS.md); architectural decisions in [docs/adr/](docs/adr/README.md). [docs/pages/running-a-run.html](docs/pages/running-a-run.html) explains a live run visually; open it from disk.
+
+## Working one epic per session
+
+Each epic is one session: plan it, implement that plan, then review and test it. Do not start the next epic in the same session. The three prompts below are the ones that produced EPIC-6, EPIC-7, and EPIC-8. Replace `N` with the epic number.
+
+### 1. Plan
+
+```text
+Plan EPIC-N: <epic title from SPECS.md> in docs/SPECS-LOGS/EPIC-N.md.
+
+Read the EPIC-N section of SPECS.md first: the objective, every user story and its acceptance scenarios, the tasks, and the product decisions the stories cite. Read the previous epic's plan and the code it left behind, and write the plan against that baseline rather than against the specification alone.
+
+EPIC-N.md must contain: the objective, the current baseline, a numbered implementation sequence, an acceptance matrix mapping each scenario to evidence, a completion checklist, and an explicit scope boundary naming what belongs to later epics. Status is Planned. Do not implement anything, and do not mark any story done.
+```
+
+### 2. Implement
+
+```text
+docs/SPECS-LOGS/EPIC-N.md exists. Implement EPIC-N from it, in the order its sequence gives, and stop at its scope boundary.
+
+Follow the repository conventions: Pydantic v2 strict contracts, tools registered through the tool registry with stubs left in place for anything this epic does not replace, and the offline suite kept network-blocked. Add tests for every row of the acceptance matrix, plus an offline demo at evaluations/epicN_demo.py and a Makefile demo-epic-N target that needs no API key.
+
+When the tests pass, run the gates and record only the commands that actually passed: uv run --locked ruff check, ruff format --check, mypy --strict, pytest -m 'not live', make demo-epic-N, make hooks, make build, and the installed-wheel check. Fix failures rather than skipping a gate.
+```
+
+### 3. Review and test
+
+```text
+Review and test the EPIC-N implementation against its own plan. Do not add features.
+
+Check each acceptance scenario against the code and the tests, and report any scenario that has no evidence. Run the full offline gate, the new demo, and the demos of every earlier epic. Then verify the built wheel outside the checkout and do a fresh-checkout run of setup, gates, hooks, and demos.
+
+Write docs/SPECS-LOGS/EPIC-N-RUNBOOK.md with the commands that passed, the PM demo steps, and an evidence table. Save coverage, the command list, and a source manifest pinned to the implementation commit under docs/evidence/epic-N/. Mark a story or task DONE in SPECS.md only when its scenario passed. Commit the implementation and the evidence separately, with hooks active, and exclude .env and runs/.
+```

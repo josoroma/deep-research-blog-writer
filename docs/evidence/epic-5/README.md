@@ -1,6 +1,6 @@
 # EPIC-5 delivery evidence
 
-See [EPIC-5-RUNBOOK.md](../../../EPIC-5-RUNBOOK.md) for setup, successful commands, PM steps and scope.
+See [EPIC-5-RUNBOOK.md](../../SPECS-LOGS/EPIC-5-RUNBOOK.md) for setup, successful commands, PM steps and scope.
 
 Command transcripts contain the exact commands, actual stdout/stderr and exit status. `commands.jsonl` adds UTC timestamps/durations. `07-check.txt` is a historical formatting failure; `11-check.txt` is its successful replacement.
 

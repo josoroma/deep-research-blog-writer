@@ -1,6 +1,6 @@
 # Deep Research Blog Writer — Iterable Product Specification
 
-CODEBASE Context: EPIC-1 foundation implemented on 2026-09-30; EPIC-2 contracts and agent building blocks implemented and verified on 2026-10-01; EPIC-3 deep agent skeleton implemented and verified on 2026-10-01. The repository includes locked setup, quality gates, typed contracts/state/tools, five packaged prompts, a central OpenRouter model service, a run workspace, the four-sub-agent orchestrator with typed stub tools, real-disk persistence, and the `deep-research-blog` console script. See `EPIC-1-RUNBOOK.md`, `EPIC-2.md`, `EPIC-2-RUNBOOK.md`, `EPIC-3.md`, `EPIC-3-RUNBOOK.md`, and `docs/evidence/`. Real search, fetch, extraction, authoring, reporting, and observability work in EPIC-4 onward remain planned.
+CODEBASE Context: EPIC-1 foundation implemented on 2026-09-30; EPIC-2 contracts and agent building blocks implemented and verified on 2026-10-01; EPIC-3 deep agent skeleton implemented and verified on 2026-10-01. The repository includes locked setup, quality gates, typed contracts/state/tools, five packaged prompts, a central OpenRouter model service, a run workspace, the four-sub-agent orchestrator with typed stub tools, real-disk persistence, and the `deep-research-blog` console script. See `docs/SPECS-LOGS/` (per-epic plans and runbooks) and `docs/evidence/`. Real search, fetch, extraction, authoring, reporting, and observability work in EPIC-4 onward remain planned.
 
 ## Table of Contents
 
@@ -1774,7 +1774,7 @@ Open Questions:
 
 Turn a validated topic into a ranked, deduplicated list of up to 30 article URLs from paged Google results obtained through SerpApi (PRD.md milestone M2).
 
-Implementation and acceptance evidence: [EPIC-4.md](EPIC-4.md), [EPIC-4-RUNBOOK.md](EPIC-4-RUNBOOK.md), and [docs/evidence/epic-4/](docs/evidence/epic-4/).
+Implementation and acceptance evidence: [EPIC-4.md](docs/SPECS-LOGS/EPIC-4.md), [EPIC-4-RUNBOOK.md](docs/SPECS-LOGS/EPIC-4-RUNBOOK.md), and [docs/evidence/epic-4/](docs/evidence/epic-4/).
 
 ## Dependencies
 

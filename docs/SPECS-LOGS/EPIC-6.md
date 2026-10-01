@@ -6,7 +6,7 @@ Status: Done. This plan is written before implementation. Successful commands an
 
 ## Objective
 
-Implement US-6.1–US-6.3 from [SPECS.md](SPECS.md#epic-6-research-corpus), building on the completed EPIC-5 fetch and extraction milestone. Turn every clean URL into one immutable, rank-numbered Markdown source with front-matter, index the written corpus, and keep building it when individual sources fail. Record one typed outcome per clean URL in `RunState`.
+Implement US-6.1–US-6.3 from [SPECS.md](../../SPECS.md#epic-6-research-corpus), building on the completed EPIC-5 fetch and extraction milestone. Turn every clean URL into one immutable, rank-numbered Markdown source with front-matter, index the written corpus, and keep building it when individual sources fail. Record one typed outcome per clean URL in `RunState`.
 
 Synthesis, blog authoring, citation validation, run reporting, outcome classification, and durable resume remain in their owning later epics. This milestone produces the corpus and its index, not a blog.
 

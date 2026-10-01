@@ -1,6 +1,6 @@
 # EPIC-4 execution evidence
 
-The [runbook](../../../EPIC-4-RUNBOOK.md) contains installation, configuration, successful command outputs, a PM demonstration, story acceptance, and observed failures. The [plan](../../../EPIC-4.md) was created before implementation.
+The [runbook](../../SPECS-LOGS/EPIC-4-RUNBOOK.md) contains installation, configuration, successful command outputs, a PM demonstration, story acceptance, and observed failures. The [plan](../../SPECS-LOGS/EPIC-4.md) was created before implementation.
 
 - [Final quality gates](13-check.txt): 294 offline tests pass, 2 live tests deselected, 97.73% coverage, strict typing and Ruff pass.
 - [Batched actual-agent demo](11-batch-demo.txt): five search calls, 50 raw / 30 topic / 30 clean results; stable merge, normalization, replay, and budget assertions.

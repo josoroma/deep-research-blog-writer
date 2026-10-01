@@ -6,7 +6,7 @@ Status: Planned. This plan is written before implementation. Successful commands
 
 ## Objective
 
-Implement US-8.1–US-8.4 from [SPECS.md](SPECS.md#epic-8-reliability-and-run-reporting). Every finished run writes `output/run.json` that validates as a `RunReport`: topic, model, per-phase timings, URL counts, citation count, token and cost totals, status, and one outcome entry per clean URL. The outcome is classified by PD-017 and mapped to the PD-008 exit status. A phase that raises is retried once; a second failure ends the run `failed` with `phase_failed` and still writes the report. An interrupted run resumes from `runs/<run_id>/checkpoints.sqlite` without repeating completed work.
+Implement US-8.1–US-8.4 from [SPECS.md](../../SPECS.md#epic-8-reliability-and-run-reporting). Every finished run writes `output/run.json` that validates as a `RunReport`: topic, model, per-phase timings, URL counts, citation count, token and cost totals, status, and one outcome entry per clean URL. The outcome is classified by PD-017 and mapped to the PD-008 exit status. A phase that raises is retried once; a second failure ends the run `failed` with `phase_failed` and still writes the report. An interrupted run resumes from `runs/<run_id>/checkpoints.sqlite` without repeating completed work.
 
 Observability (traces, logs, metrics) stays in EPIC-9. This milestone logs the retry to the run's own JSON Lines file so the acceptance scenario is provable without that stack.
 
@@ -89,6 +89,6 @@ Observability (traces, logs, metrics) stays in EPIC-9. This milestone logs the r
 
 ## Technical references
 
-- [SPECS.md](SPECS.md#epic-8-reliability-and-run-reporting) US-8.1 to US-8.4.
-- [PRD.md](PRD.md) FR-10, §8, §10, and NFR-1.
-- PD-008, PD-017, PD-018, and PD-019 in [SPECS.md](SPECS.md).
+- [SPECS.md](../../SPECS.md#epic-8-reliability-and-run-reporting) US-8.1 to US-8.4.
+- [PRD.md](../../PRD.md) FR-10, §8, §10, and NFR-1.
+- PD-008, PD-017, PD-018, and PD-019 in [SPECS.md](../../SPECS.md).

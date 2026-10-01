@@ -4,7 +4,7 @@ These files contain actual combined stdout/stderr from local commands run on 202
 
 Every recorded outer command exited 0. The rejection demos intentionally run failing subcommands and return 0 only if their exit status is exactly 1 and the restored checks pass. Temporary paths in transcripts belong to disposable verification directories, which have been removed.
 
-The implementation baseline was committed as `72d2751dda03f49c3ae3bf6b01819bbfad4d1500`. The later documentation commit preserves this evidence, marks the epic done, allows the evidence coverage XML through `.gitignore`, and extends the demo script to exercise format/coverage commit rejection. [verification.json](verification.json) records the verified versions, coverage totals, and current source hashes. Use [EPIC-1-RUNBOOK.md](../../../EPIC-1-RUNBOOK.md) for the PM walkthrough and reproduction commands.
+The implementation baseline was committed as `72d2751dda03f49c3ae3bf6b01819bbfad4d1500`. The later documentation commit preserves this evidence, marks the epic done, allows the evidence coverage XML through `.gitignore`, and extends the demo script to exercise format/coverage commit rejection. [verification.json](verification.json) records the verified versions, coverage totals, and current source hashes. Use [EPIC-1-RUNBOOK.md](../../SPECS-LOGS/EPIC-1-RUNBOOK.md) for the PM walkthrough and reproduction commands.
 
 | Evidence | Recorded command / result |
 | --- | --- |

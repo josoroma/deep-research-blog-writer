@@ -1,6 +1,6 @@
 # EPIC-6 delivery evidence
 
-See [EPIC-6-RUNBOOK.md](../../../EPIC-6-RUNBOOK.md) for setup, the commands that passed, and the PM demo.
+See [EPIC-6-RUNBOOK.md](../../SPECS-LOGS/EPIC-6-RUNBOOK.md) for setup, the commands that passed, and the PM demo.
 
 `01-demo.txt` is the offline demo transcript. `offline/workspace` is the run it produced: five source files, rank gaps at 3, 4, 5, 6, and 9, and `research/index.md`. Timing is virtual monotonic seconds and no network was used.
 

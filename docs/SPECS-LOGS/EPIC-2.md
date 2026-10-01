@@ -6,7 +6,7 @@ Status: DONE. All six stories, the live tool call, and fresh-checkout verificati
 
 ## Objective and scope
 
-Implement US-2.1 through US-2.6 from [SPECS.md](SPECS.md#epic-2-contracts-and-agent-building-blocks), building on the committed EPIC-1 foundation. Deliver validated pipeline contracts, explicit checkpointable state, a nonempty typed tool registry, packaged prompts for all five agents, an injectable OpenRouter model service, and a separate live tool-calling smoke test.
+Implement US-2.1 through US-2.6 from [SPECS.md](../../SPECS.md#epic-2-contracts-and-agent-building-blocks), building on the committed EPIC-1 foundation. Deliver validated pipeline contracts, explicit checkpointable state, a nonempty typed tool registry, packaged prompts for all five agents, an injectable OpenRouter model service, and a separate live tool-calling smoke test.
 
 Keep agent assembly, real search/extraction, the research CLI, and the per-run SQLite workspace lifecycle in their later epics. Verify the building blocks through real LangGraph state/checkpoint and ToolNode integration, without pretending the blog pipeline already exists.
 

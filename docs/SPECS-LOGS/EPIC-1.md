@@ -5,7 +5,7 @@ Status: DONE — US-1.1 through US-1.4 implemented and locally verified.
 
 ## Objective and scope
 
-Implement all four stories in [SPECS.md](SPECS.md#epic-1-project-foundation-and-quality-gates), following PD-001, PD-002, NFR-007, and [PRD.md §4–5](PRD.md#4-why-deepagents). Deliver a reproducible Python foundation that later epics can extend.
+Implement all four stories in [SPECS.md](../../SPECS.md#epic-1-project-foundation-and-quality-gates), following PD-001, PD-002, NFR-007, and [PRD.md §4–5](../../PRD.md#4-why-deepagents). Deliver a reproducible Python foundation that later epics can extend.
 
 The starting directory contains specifications and the research-writing skill, but no application code, Python project, or Git repository. Use root-level packages as required by US-1.1. Pin the development interpreter to Python 3.12 and declare support for Python >=3.12. Keep the foundation demo offline and free of API credentials.
 
@@ -65,4 +65,4 @@ Implementation follows the official documentation for [uv locking and syncing](h
 
 The locked environment installs on Python 3.12.9. Ruff 0.13.0 and mypy 1.18.1 pass; all 48 boundary tests pass with 100.00% line and branch coverage of the current foundation code (47 statements, 18 branches). A fresh local clone passes setup, demo, hooks, and distribution build. The wheel installs and its seven application packages import outside the repository. Disposable probes reject forbidden nested agent imports, untyped functions, lint/format violations, and coverage below 80%; real commit attempts demonstrate hook enforcement. ADR 0001 records the framework decision.
 
-The implementation and lockfile are committed on `main`. The runbook and [command evidence](docs/evidence/epic-1/README.md) provide the exact successful commands, expected failures, coverage artifact, and PM walkthrough. Hosted CI is configured but has not been run because no remote repository was provided.
+The implementation and lockfile are committed on `main`. The runbook and [command evidence](../../docs/evidence/epic-1/README.md) provide the exact successful commands, expected failures, coverage artifact, and PM walkthrough. Hosted CI is configured but has not been run because no remote repository was provided.

@@ -6,7 +6,7 @@ Status: DONE. Implemented and verified: 294 offline tests, 97.73% coverage, a pa
 
 ## Objective and scope
 
-Implement US-4.1–US-4.4 from [SPECS.md](SPECS.md#epic-4-search), building on the committed EPIC-3 skeleton. Produce real, typed Google search results through an approved API, two or three orchestrator-derived query variants, persisted raw results, and a ranked, deduplicated, filtered list capped at the requested maximum.
+Implement US-4.1–US-4.4 from [SPECS.md](../../SPECS.md#epic-4-search), building on the committed EPIC-3 skeleton. Produce real, typed Google search results through an approved API, two or three orchestrator-derived query variants, persisted raw results, and a ranked, deduplicated, filtered list capped at the requested maximum.
 
 The user supplied a SerpApi account screenshot and then added `SERPAPI_API_KEY` locally after the initial Serper request returned HTTP 403. SerpApi is the selected default; update PD-009 and US-4.2 to match this decision. Preserve Serper as an explicitly selectable alternate behind the same interface. The two services use separate credentials. A screenshot or configured key alone is not live acceptance evidence.
 

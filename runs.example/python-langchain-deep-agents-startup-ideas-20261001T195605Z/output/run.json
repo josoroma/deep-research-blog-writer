@@ -1,0 +1,17 @@
+{
+  "run_id": "python-langchain-deep-agents-startup-ideas-20261001T195605Z",
+  "workspace": "runs/python-langchain-deep-agents-startup-ideas-20261001T195605Z",
+  "status": "failed",
+  "summary_path": "research/summary.md",
+  "blog_path": "output/blog.md",
+  "word_count": 3193,
+  "citations_checked": 17,
+  "repair_passes": 2,
+  "dangling_source_ids": [],
+  "mismatched_source_ids": [
+    "S-14",
+    "S-24"
+  ],
+  "reason": "dangling_citations",
+  "error": null
+}

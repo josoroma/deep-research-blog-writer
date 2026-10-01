@@ -4,7 +4,7 @@ Date: 2026-09-30 (America/Costa_Rica)
 
 EPIC-1 is implemented: all four stories and eleven tasks are complete. The foundation installs with uv, passes 48 tests at 100.00% coverage, enforces all four pre-commit hooks, installs as a wheel outside the repository, and passes a fresh-checkout verification. The implementation and `uv.lock` were committed in `72d2751dda03f49c3ae3bf6b01819bbfad4d1500` with the Git hook active.
 
-Full command output, exit codes, and UTC recording timestamps are in [docs/evidence/epic-1/](docs/evidence/epic-1/README.md). The outputs below are excerpts from those actual runs. Local paths and timings will vary on another machine.
+Full command output, exit codes, and UTC recording timestamps are in [docs/evidence/epic-1/](../../docs/evidence/epic-1/README.md). The outputs below are excerpts from those actual runs. Local paths and timings will vary on another machine.
 
 ## Install, set up, and start
 
@@ -19,14 +19,14 @@ make setup
 make demo
 ```
 
-All three operational commands above ran successfully. [Python installation output](docs/evidence/epic-1/18-python-install.txt):
+All three operational commands above ran successfully. [Python installation output](../../docs/evidence/epic-1/18-python-install.txt):
 
 ```text
 Installed Python 3.12.9 in 88ms
  + cpython-3.12.9-macos-aarch64-none (python3.12)
 ```
 
-[`make setup` output](docs/evidence/epic-1/06-setup.txt):
+[`make setup` output](../../docs/evidence/epic-1/06-setup.txt):
 
 ```text
 uv sync --locked
@@ -52,7 +52,7 @@ uv add 'langchain>=1,<2' 'langgraph>=1,<2' 'deepagents>=0.7,<0.8' 'langchain-ope
 uv add --dev 'ruff==0.13.0' 'mypy==1.18.1' 'pytest>=9,<10' 'pytest-cov>=7,<8' 'pre-commit>=4,<5'
 ```
 
-The project files, package directories, quality configuration, and ADRs were then written as described in [EPIC-1.md](EPIC-1.md). See [Git initialization](docs/evidence/epic-1/01-git-init.txt), [uv initialization](docs/evidence/epic-1/02-uv-init.txt), [Python pinning](docs/evidence/epic-1/03-python-pin.txt), [runtime dependency installation](docs/evidence/epic-1/04-runtime-dependencies.txt), and [development dependency installation](docs/evidence/epic-1/05-dev-dependencies.txt) for the full successful outputs.
+The project files, package directories, quality configuration, and ADRs were then written as described in [EPIC-1.md](EPIC-1.md). See [Git initialization](../../docs/evidence/epic-1/01-git-init.txt), [uv initialization](../../docs/evidence/epic-1/02-uv-init.txt), [Python pinning](../../docs/evidence/epic-1/03-python-pin.txt), [runtime dependency installation](../../docs/evidence/epic-1/04-runtime-dependencies.txt), and [development dependency installation](../../docs/evidence/epic-1/05-dev-dependencies.txt) for the full successful outputs.
 
 The acceptance command `uv sync` also ran successfully:
 
@@ -61,7 +61,7 @@ Resolved 80 packages in 3ms
 Checked 78 packages in 17ms
 ```
 
-Source: [uv sync output](docs/evidence/epic-1/16-uv-sync.txt). Automation uses `--locked` to fail when project metadata and the lockfile disagree, as documented by [uv](https://docs.astral.sh/uv/concepts/projects/sync/).
+Source: [uv sync output](../../docs/evidence/epic-1/16-uv-sync.txt). Automation uses `--locked` to fail when project metadata and the lockfile disagree, as documented by [uv](https://docs.astral.sh/uv/concepts/projects/sync/).
 
 ## Verified versions
 
@@ -80,7 +80,7 @@ Source: [uv sync output](docs/evidence/epic-1/16-uv-sync.txt). Automation uses `
 | pytest-cov | 7.1.0 |
 | pre-commit | 4.6.2 |
 
-These versions come from installation output and [`make demo`](docs/evidence/epic-1/11-foundation-demo.txt). Exact dependency resolutions are committed in `uv.lock`; `.python-version` selects Python 3.12 and project metadata requires Python >=3.12. Ruff and mypy match the hook revisions required by US-1.2.
+These versions come from installation output and [`make demo`](../../docs/evidence/epic-1/11-foundation-demo.txt). Exact dependency resolutions are committed in `uv.lock`; `.python-version` selects Python 3.12 and project metadata requires Python >=3.12. Ruff and mypy match the hook revisions required by US-1.2.
 
 ## Run the quality gates
 
@@ -89,7 +89,7 @@ make check
 make hooks
 ```
 
-`make check` checks the lockfile, Ruff linting, Ruff formatting, `mypy --strict`, and pytest with branch coverage. Selected [actual output](docs/evidence/epic-1/07-quality-check.txt):
+`make check` checks the lockfile, Ruff linting, Ruff formatting, `mypy --strict`, and pytest with branch coverage. Selected [actual output](../../docs/evidence/epic-1/07-quality-check.txt):
 
 ```text
 All checks passed!
@@ -102,9 +102,9 @@ Required test coverage of 80% reached. Total coverage: 100.00%
 ============================== 48 passed in 0.12s ==============================
 ```
 
-Coverage is measured over the seven application packages, including the architecture checker. Tests do not count as application coverage. Most scaffold packages are documented placeholders; the current executable foundation has 47 statements and 18 branches. The 100% result describes this foundation, not future pipeline behavior. The [saved XML report](docs/evidence/epic-1/coverage.xml) preserves the line and branch results.
+Coverage is measured over the seven application packages, including the architecture checker. Tests do not count as application coverage. Most scaffold packages are documented placeholders; the current executable foundation has 47 statements and 18 branches. The 100% result describes this foundation, not future pipeline behavior. The [saved XML report](../../docs/evidence/epic-1/coverage.xml) preserves the line and branch results.
 
-`make hooks` runs the same pinned hooks installed for commits. [Actual output](docs/evidence/epic-1/10-pre-commit.txt):
+`make hooks` runs the same pinned hooks installed for commits. [Actual output](../../docs/evidence/epic-1/10-pre-commit.txt):
 
 ```text
 ruff check...............................................................Passed
@@ -123,7 +123,7 @@ sh scripts/demo-quality-gates.sh
 
 This successful command creates a temporary local clone, installs its environment and hooks, introduces intentional bad changes, and requires each rejection to return exit code 1. It restores the clone, reruns passing checks, and deletes the temporary checkout. Your working checkout is untouched. Allow about a minute with a warm dependency cache.
 
-The [complete recorded demo](docs/evidence/epic-1/19-all-hook-rejections.txt) proves eleven rejections:
+The [complete recorded demo](../../docs/evidence/epic-1/19-all-hook-rejections.txt) proves eleven rejections:
 
 | Probe | Actual diagnostic/result |
 | --- | --- |
@@ -156,21 +156,21 @@ sh scripts/verify-package.sh
 sh scripts/verify-fresh-checkout.sh
 ```
 
-All three commands succeeded. [Build output](docs/evidence/epic-1/08-build.txt):
+All three commands succeeded. [Build output](../../docs/evidence/epic-1/08-build.txt):
 
 ```text
 Successfully built dist/deep_research_blog_writer-0.1.0.tar.gz
 Successfully built dist/deep_research_blog_writer-0.1.0-py3-none-any.whl
 ```
 
-The wheel verifier installs only the application wheel into a temporary isolated environment and imports its packages from outside the checkout. [Selected output](docs/evidence/epic-1/12-wheel-install.txt):
+The wheel verifier installs only the application wheel into a temporary isolated environment and imports its packages from outside the checkout. [Selected output](../../docs/evidence/epic-1/12-wheel-install.txt):
 
 ```text
 Wheel 0.1.0 installed; all seven packages import outside the checkout.
 Tests and documentation are excluded from the application wheel.
 ```
 
-The fresh-checkout verifier clones committed HEAD, creates a new `.venv`, and runs setup, demo, all hooks, and distribution build. It uses a warm download cache but does not reuse the working checkout's environment. [Final output](docs/evidence/epic-1/15-fresh-checkout.txt):
+The fresh-checkout verifier clones committed HEAD, creates a new `.venv`, and runs setup, demo, all hooks, and distribution build. It uses a warm download cache but does not reuse the working checkout's environment. [Final output](../../docs/evidence/epic-1/15-fresh-checkout.txt):
 
 ```text
 Fresh-checkout installation and all foundation checks passed.
@@ -182,12 +182,12 @@ The clone verifier checks committed files. Commit any changes you intend to demo
 
 Use this sequence for a five-to-ten-minute review:
 
-1. Open [EPIC-1.md](EPIC-1.md) and the EPIC-1 section of [SPECS.md](SPECS.md#epic-1-project-foundation-and-quality-gates). Show the four completed stories and eleven completed tasks. Show the nine package directories and `uv.lock`.
+1. Open [EPIC-1.md](EPIC-1.md) and the EPIC-1 section of [SPECS.md](../../SPECS.md#epic-1-project-foundation-and-quality-gates). Show the four completed stories and eleven completed tasks. Show the nine package directories and `uv.lock`.
 2. Run `make demo`. Show Python 3.12.9, all five required framework dependencies, `Agent boundary passed: agents`, strict typing success, 48 passing tests, and 100.00% coverage.
-3. Run `make hooks`. Show all four hooks passing, then open [the implementation commit transcript](docs/evidence/epic-1/13-implementation-commit.txt) to show they ran during a real successful commit.
+3. Run `make hooks`. Show all four hooks passing, then open [the implementation commit transcript](../../docs/evidence/epic-1/13-implementation-commit.txt) to show they ran during a real successful commit.
 4. Run `sh scripts/demo-quality-gates.sh`. Show a forbidden nested module named in the output, an untyped-function rejection, and a coverage failure even when all tests pass. Show each corresponding commit rejection and the final successful restoration.
-5. Open [ADR 0001](docs/adr/0001-deepagents-on-langgraph.md) and [the ADR template](docs/adr/template.md). Review Context, Decision, and positive/negative Consequences.
-6. Open [the fresh-checkout transcript](docs/evidence/epic-1/15-fresh-checkout.txt), [wheel installation transcript](docs/evidence/epic-1/12-wheel-install.txt), and [coverage XML](docs/evidence/epic-1/coverage.xml). Use `git status --short` to show the delivered working tree is clean.
+5. Open [ADR 0001](../../docs/adr/0001-deepagents-on-langgraph.md) and [the ADR template](../../docs/adr/template.md). Review Context, Decision, and positive/negative Consequences.
+6. Open [the fresh-checkout transcript](../../docs/evidence/epic-1/15-fresh-checkout.txt), [wheel installation transcript](../../docs/evidence/epic-1/12-wheel-install.txt), and [coverage XML](../../docs/evidence/epic-1/coverage.xml). Use `git status --short` to show the delivered working tree is clean.
 
 | Story | Evidence of done |
 | --- | --- |
@@ -196,9 +196,9 @@ Use this sequence for a five-to-ten-minute review:
 | US-1.3 | Repository-wide recursive agent scan passes; all six forbidden modules tested; nested violations name the module and fail pytest/commit |
 | US-1.4 | Numbered accepted ADR 0001 and reusable template include Context, Decision, and pros/cons under Consequences |
 
-[`git check-ignore` output](docs/evidence/epic-1/09-secret-ignore.txt) demonstrates that `.env`, `.env.production`, `runs/demo/output/blog.md`, the virtual environment, and generated coverage reports are ignored. A specific exception permits the saved evidence XML to be versioned.
+[`git check-ignore` output](../../docs/evidence/epic-1/09-secret-ignore.txt) demonstrates that `.env`, `.env.production`, `runs/demo/output/blog.md`, the virtual environment, and generated coverage reports are ignored. A specific exception permits the saved evidence XML to be versioned.
 
-GitHub Actions is configured in [.github/workflows/quality.yml](.github/workflows/quality.yml) to run the same locked checks, hooks, and build. Hosted CI was not executed because this workspace has no configured remote. The evidence here proves local acceptance. Later epics deliver the actual model/search integrations and blog pipeline.
+GitHub Actions is configured in [.github/workflows/quality.yml](../../.github/workflows/quality.yml) to run the same locked checks, hooks, and build. Hosted CI was not executed because this workspace has no configured remote. The evidence here proves local acceptance. Later epics deliver the actual model/search integrations and blog pipeline.
 
 ## Troubleshooting
 
