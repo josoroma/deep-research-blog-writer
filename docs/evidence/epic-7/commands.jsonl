@@ -1,0 +1,8 @@
+{"command": "uv run --locked ruff check .", "result": "passed"}
+{"command": "uv run --locked ruff format --check .", "result": "passed"}
+{"command": "uv run --locked mypy --strict", "result": "passed"}
+{"command": "uv run --locked pytest -q -m 'not live' -p no:cacheprovider", "result": "passed"}
+{"command": "make demo-epic-7", "result": "passed"}
+{"command": "make hooks", "result": "passed"}
+{"command": "make build", "result": "passed"}
+{"command": "sh scripts/verify-epic-7-package.sh", "result": "passed"}
