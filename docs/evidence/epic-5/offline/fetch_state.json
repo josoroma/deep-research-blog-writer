@@ -1,0 +1,169 @@
+{
+  "run_id": "epic-5-polite-evidence-collection-20261001T152315Z",
+  "topic": "EPIC-5 polite evidence collection",
+  "completed_phases": [
+    "plan",
+    "search",
+    "normalize",
+    "fetch"
+  ],
+  "query_variants": [],
+  "clean_results": [
+    {
+      "url": "https://fixture.test/redirect",
+      "title": "Fixture 1",
+      "snippet": "Original offline fixture",
+      "rank": 1,
+      "query": "EPIC-5 polite evidence collection"
+    },
+    {
+      "url": "https://fixture.test/retry",
+      "title": "Fixture 2",
+      "snippet": "Original offline fixture",
+      "rank": 2,
+      "query": "EPIC-5 polite evidence collection"
+    },
+    {
+      "url": "https://fixture.test/missing",
+      "title": "Fixture 3",
+      "snippet": "Original offline fixture",
+      "rank": 3,
+      "query": "EPIC-5 polite evidence collection"
+    },
+    {
+      "url": "https://fixture.test/blocked",
+      "title": "Fixture 4",
+      "snippet": "Original offline fixture",
+      "rank": 4,
+      "query": "EPIC-5 polite evidence collection"
+    },
+    {
+      "url": "https://fixture.test/pdf",
+      "title": "Fixture 5",
+      "snippet": "Original offline fixture",
+      "rank": 5,
+      "query": "EPIC-5 polite evidence collection"
+    },
+    {
+      "url": "https://fixture.test/thin",
+      "title": "Fixture 6",
+      "snippet": "Original offline fixture",
+      "rank": 6,
+      "query": "EPIC-5 polite evidence collection"
+    },
+    {
+      "url": "https://fixture.test/missing-metadata",
+      "title": "Fixture 7",
+      "snippet": "Original offline fixture",
+      "rank": 7,
+      "query": "EPIC-5 polite evidence collection"
+    },
+    {
+      "url": "https://fixture.test/boilerplate-heavy",
+      "title": "Fixture 8",
+      "snippet": "Original offline fixture",
+      "rank": 8,
+      "query": "EPIC-5 polite evidence collection"
+    },
+    {
+      "url": "https://fixture.test/exhaust",
+      "title": "Fixture 9",
+      "snippet": "Original offline fixture",
+      "rank": 9,
+      "query": "EPIC-5 polite evidence collection"
+    },
+    {
+      "url": "https://slow.fixture.test/first",
+      "title": "Fixture 10",
+      "snippet": "Original offline fixture",
+      "rank": 10,
+      "query": "EPIC-5 polite evidence collection"
+    },
+    {
+      "url": "https://slow.fixture.test/second",
+      "title": "Fixture 11",
+      "snippet": "Original offline fixture",
+      "rank": 11,
+      "query": "EPIC-5 polite evidence collection"
+    }
+  ],
+  "url_outcomes": {
+    "https://fixture.test/redirect": {
+      "rank": 1,
+      "url": "https://fixture.test/redirect",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-01"
+    },
+    "https://fixture.test/retry": {
+      "rank": 2,
+      "url": "https://fixture.test/retry",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-02"
+    },
+    "https://fixture.test/missing": {
+      "rank": 3,
+      "url": "https://fixture.test/missing",
+      "outcome": "unreachable",
+      "reason": "http_404",
+      "source_id": null
+    },
+    "https://fixture.test/blocked": {
+      "rank": 4,
+      "url": "https://fixture.test/blocked",
+      "outcome": "robots_disallowed",
+      "reason": "robots_rule",
+      "source_id": null
+    },
+    "https://fixture.test/pdf": {
+      "rank": 5,
+      "url": "https://fixture.test/pdf",
+      "outcome": "unsupported_content",
+      "reason": "non_html_content_type",
+      "source_id": null
+    },
+    "https://fixture.test/thin": {
+      "rank": 6,
+      "url": "https://fixture.test/thin",
+      "outcome": "too_thin",
+      "reason": "no_parser_reached_200_words",
+      "source_id": null
+    },
+    "https://fixture.test/missing-metadata": {
+      "rank": 7,
+      "url": "https://fixture.test/missing-metadata",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-07"
+    },
+    "https://fixture.test/boilerplate-heavy": {
+      "rank": 8,
+      "url": "https://fixture.test/boilerplate-heavy",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-08"
+    },
+    "https://fixture.test/exhaust": {
+      "rank": 9,
+      "url": "https://fixture.test/exhaust",
+      "outcome": "unreachable",
+      "reason": "retry_exhausted:http_503",
+      "source_id": null
+    },
+    "https://slow.fixture.test/first": {
+      "rank": 10,
+      "url": "https://slow.fixture.test/first",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-10"
+    },
+    "https://slow.fixture.test/second": {
+      "rank": 11,
+      "url": "https://slow.fixture.test/second",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-11"
+    }
+  }
+}

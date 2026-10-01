@@ -1,0 +1,9 @@
+Command: uv run --locked python scripts/inspect-fetch-artifacts.py runs/epic-5-live-python-asyncio-fetch-20261001T152525Z
+
+Workspace: runs/epic-5-live-python-asyncio-fetch-20261001T152525Z
+URL outcomes: {'extracted': 1}
+Verified: contiguous ranks, complete outcomes, matching source IDs, >=200-word successes.
+Verified: raw HTML absent; failure results contain no Source; corpus files remain EPIC-6.
+Artifacts: fetch_outcomes.json, extraction_results.json, fetch_state.json
+
+Exit code: 0

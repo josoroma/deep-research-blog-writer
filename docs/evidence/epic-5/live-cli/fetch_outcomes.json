@@ -1,0 +1,12 @@
+[
+  {
+    "rank": 1,
+    "url": "https://docs.python.org/3.12/library/asyncio.html",
+    "final_url": "https://docs.python.org/3.12/library/asyncio.html",
+    "outcome": "fetched",
+    "reason": null,
+    "attempts": 1,
+    "status": 200,
+    "fetched_at": "2026-10-01T15:26:14.446003Z"
+  }
+]

@@ -1,0 +1,249 @@
+Command: make demo-epic-5
+
+uv run --locked python -m evaluations.epic5_demo
+{
+  "mode": "offline; mock HTTP, real registered tools and extraction libraries",
+  "timing": "virtual monotonic seconds; HTTP concurrency overlaps in real asyncio tasks",
+  "workspace": "runs/epic-5-polite-evidence-collection-20261001T153249Z",
+  "summary": {
+    "run_id": "epic-5-polite-evidence-collection-20261001T153249Z",
+    "workspace": "runs/epic-5-polite-evidence-collection-20261001T153249Z",
+    "status": "completed",
+    "urls_processed": 11,
+    "outcomes": {
+      "extracted": 6,
+      "unreachable": 2,
+      "robots_disallowed": 1,
+      "unsupported_content": 1,
+      "too_thin": 1
+    },
+    "extractor_strategy": "fallback",
+    "files": [
+      "fetch_outcomes.json",
+      "extraction_results.json",
+      "fetch_state.json"
+    ],
+    "error": null
+  },
+  "completed_phases": [
+    "plan",
+    "search",
+    "normalize",
+    "fetch"
+  ],
+  "user_agent": "DeepResearchBlogWriter/0.1.0 (+https://example.org/offline-demo-contact)",
+  "robots_requests_per_origin": {
+    "https://fixture.test/robots.txt": 1,
+    "https://slow.fixture.test/robots.txt": 1
+  },
+  "page_requests": {
+    "https://fixture.test/redirect": 1,
+    "https://fixture.test/retry": 2,
+    "https://fixture.test/missing": 1,
+    "https://fixture.test/pdf": 1,
+    "https://fixture.test/thin": 1,
+    "https://fixture.test/article": 1,
+    "https://fixture.test/missing-metadata": 1,
+    "https://fixture.test/boilerplate-heavy": 1,
+    "https://fixture.test/exhaust": 4,
+    "https://slow.fixture.test/first": 1,
+    "https://slow.fixture.test/second": 1
+  },
+  "retry_delays": [
+    {
+      "kind": "page",
+      "attempt": 1,
+      "delay": 1.0
+    },
+    {
+      "kind": "page",
+      "attempt": 1,
+      "delay": 1.0
+    },
+    {
+      "kind": "page",
+      "attempt": 2,
+      "delay": 2.0
+    },
+    {
+      "kind": "page",
+      "attempt": 3,
+      "delay": 4.0
+    }
+  ],
+  "requests": [
+    {
+      "url": "https://fixture.test/robots.txt",
+      "host": "fixture.test",
+      "kind": "robots",
+      "started": 0.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/redirect",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 1.0,
+      "status": 302,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/retry",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 2.0,
+      "status": null,
+      "error": "ReadTimeout"
+    },
+    {
+      "url": "https://fixture.test/missing",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 3.0,
+      "status": 404,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/pdf",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 4.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/thin",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 5.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/article",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 7.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/retry",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 8.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/missing-metadata",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 9.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/boilerplate-heavy",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 10.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/exhaust",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 11.0,
+      "status": 503,
+      "error": null
+    },
+    {
+      "url": "https://slow.fixture.test/robots.txt",
+      "host": "slow.fixture.test",
+      "kind": "robots",
+      "started": 11.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/exhaust",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 12.0,
+      "status": 503,
+      "error": null
+    },
+    {
+      "url": "https://slow.fixture.test/first",
+      "host": "slow.fixture.test",
+      "kind": "page",
+      "started": 18.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/exhaust",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 18.0,
+      "status": 503,
+      "error": null
+    },
+    {
+      "url": "https://slow.fixture.test/second",
+      "host": "slow.fixture.test",
+      "kind": "page",
+      "started": 23.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/exhaust",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 27.0,
+      "status": 503,
+      "error": null
+    }
+  ],
+  "slow_host_start_times": [
+    11.0,
+    18.0,
+    23.0
+  ],
+  "thirty_host_probe": {
+    "urls": 30,
+    "max_active": 5,
+    "limit": 5
+  },
+  "fallback_probe": {
+    "first_two_parsers": "forced candidates; third is real beautifulsoup4",
+    "attempts": [
+      {
+        "parser": "trafilatura:forced-empty",
+        "outcome": "empty",
+        "word_count": 0,
+        "error": null
+      },
+      {
+        "parser": "readability-lxml:forced-thin",
+        "outcome": "too_thin",
+        "word_count": 2,
+        "error": null
+      },
+      {
+        "parser": "beautifulsoup4",
+        "outcome": "extracted",
+        "word_count": 288,
+        "error": null
+      }
+    ]
+  },
+  "raw_html_absent_from_artifacts": true,
+  "no_corpus_files_written": true
+}
+
+Exit code: 0

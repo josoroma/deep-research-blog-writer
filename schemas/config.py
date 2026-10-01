@@ -71,6 +71,10 @@ class RunSettings(BaseSettings):
     serpapi_api_key: SecretStr | None = None
     search_provider: Literal["serper", "serpapi"] = "serpapi"
     search_timeout_seconds: int = Field(default=15, ge=1, strict=True)
+    crawler_contact: str | None = None
+    extractor_strategy: Literal["fallback", "trafilatura", "readability", "beautifulsoup"] = (
+        "fallback"
+    )
     pages: int = Field(default=3, ge=1, strict=True)
     per_page: int = Field(default=10, ge=1, strict=True)
     max_urls: int = Field(default=30, ge=1, strict=True)
@@ -79,6 +83,25 @@ class RunSettings(BaseSettings):
     model_max_retries: int = Field(default=2, ge=0, strict=True)
     runs_dir: str = Field(default="runs", min_length=1)
     recursion_limit: int = Field(default=50, ge=1, strict=True)
+
+    @field_validator("crawler_contact")
+    @classmethod
+    def validate_crawler_contact(cls, value: str | None) -> str | None:
+        from urllib.parse import urlsplit
+
+        if value is None:
+            return None
+        if any(char.isspace() or char in "()<>" for char in value):
+            raise ValueError("Crawler contact must be a URL or email without whitespace")
+        parsed = urlsplit(value)
+        if parsed.scheme in {"http", "https"} and parsed.hostname and not parsed.username:
+            return value
+        email = value.removeprefix("mailto:")
+        if ":" not in email and email.count("@") == 1:
+            local, domain = email.split("@")
+            if local and "." in domain and not domain.startswith("."):
+                return f"mailto:{email}"
+        raise ValueError("Crawler contact must be a public HTTP(S) URL or email")
 
     @field_validator(
         "pages",

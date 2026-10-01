@@ -1,9 +1,8 @@
 """Typed M1 stub tools so the skeleton runs end to end without real I/O.
 
-Every stub is deterministic, offline, and writes nothing. `collect_source` calls
-`fetch_url` and `extract_markdown` through the registry, so both sides of those
-calls are validated exactly as they will be once the real implementations land.
-The story that replaces a stub owns its final contract.
+Every stub is deterministic, offline, and writes nothing. Production fetch and
+extraction are registered separately in EPIC-5. This private fake collection
+keeps the M1 skeleton runnable until EPIC-6 implements immutable corpus files.
 """
 
 from __future__ import annotations
@@ -74,17 +73,15 @@ def _stub_write_run_report(
 
 
 def register_stub_tools(registry: ToolRegistry) -> None:
-    """Register the M1 stubs; `collect_source` composes fetch and extract."""
+    """Register only the remaining future-epic stubs."""
     from tools.registry import TypedTool  # local import avoids a registry/stubs cycle
 
     def collect_source(
         request: CollectSourceInput, runtime: Runtime | None = None
     ) -> SourceMetadata:
         source_id = f"S-{request.rank:02d}"
-        page = registry["fetch_url"].invoke({"url": request.url})
-        source = registry["extract_markdown"].invoke(
-            {"page": page.model_dump(), "source_id": source_id}
-        )
+        page = _stub_fetch(FetchUrlInput(url=request.url))
+        source = _stub_extract(ExtractMarkdownInput(page=page, source_id=source_id))
         assert isinstance(source, Source)
         return SourceMetadata(
             source_id=source_id,
@@ -94,30 +91,12 @@ def register_stub_tools(registry: ToolRegistry) -> None:
         )
 
     registry.register(
-        TypedTool[FetchUrlInput, FetchedPage](
-            name="fetch_url",
-            input_model=FetchUrlInput,
-            output_model=FetchedPage,
-            handler=_stub_fetch,
-            description="M1 stub: return fixed HTML; called only inside collect_source.",
-        )
-    )
-    registry.register(
-        TypedTool[ExtractMarkdownInput, Source](
-            name="extract_markdown",
-            input_model=ExtractMarkdownInput,
-            output_model=Source,
-            handler=_stub_extract,
-            description="M1 stub: return a fixed clean source; called only inside collect_source.",
-        )
-    )
-    registry.register(
         TypedTool[CollectSourceInput, SourceMetadata](
             name="collect_source",
             input_model=CollectSourceInput,
             output_model=SourceMetadata,
             handler=collect_source,
-            description="M1 stub: fetch and extract one URL, returning metadata only.",
+            description="M1 stub pending EPIC-6: return fake metadata; no corpus file is written.",
         )
     )
     registry.register(

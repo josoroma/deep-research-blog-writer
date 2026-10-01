@@ -1,0 +1,79 @@
+[
+  {
+    "url": "https://fixture.test/redirect",
+    "title": "Fixture 1",
+    "snippet": "Original offline fixture",
+    "rank": 1,
+    "query": "EPIC-5 polite evidence collection"
+  },
+  {
+    "url": "https://fixture.test/retry",
+    "title": "Fixture 2",
+    "snippet": "Original offline fixture",
+    "rank": 2,
+    "query": "EPIC-5 polite evidence collection"
+  },
+  {
+    "url": "https://fixture.test/missing",
+    "title": "Fixture 3",
+    "snippet": "Original offline fixture",
+    "rank": 3,
+    "query": "EPIC-5 polite evidence collection"
+  },
+  {
+    "url": "https://fixture.test/blocked",
+    "title": "Fixture 4",
+    "snippet": "Original offline fixture",
+    "rank": 4,
+    "query": "EPIC-5 polite evidence collection"
+  },
+  {
+    "url": "https://fixture.test/pdf",
+    "title": "Fixture 5",
+    "snippet": "Original offline fixture",
+    "rank": 5,
+    "query": "EPIC-5 polite evidence collection"
+  },
+  {
+    "url": "https://fixture.test/thin",
+    "title": "Fixture 6",
+    "snippet": "Original offline fixture",
+    "rank": 6,
+    "query": "EPIC-5 polite evidence collection"
+  },
+  {
+    "url": "https://fixture.test/missing-metadata",
+    "title": "Fixture 7",
+    "snippet": "Original offline fixture",
+    "rank": 7,
+    "query": "EPIC-5 polite evidence collection"
+  },
+  {
+    "url": "https://fixture.test/boilerplate-heavy",
+    "title": "Fixture 8",
+    "snippet": "Original offline fixture",
+    "rank": 8,
+    "query": "EPIC-5 polite evidence collection"
+  },
+  {
+    "url": "https://fixture.test/exhaust",
+    "title": "Fixture 9",
+    "snippet": "Original offline fixture",
+    "rank": 9,
+    "query": "EPIC-5 polite evidence collection"
+  },
+  {
+    "url": "https://slow.fixture.test/first",
+    "title": "Fixture 10",
+    "snippet": "Original offline fixture",
+    "rank": 10,
+    "query": "EPIC-5 polite evidence collection"
+  },
+  {
+    "url": "https://slow.fixture.test/second",
+    "title": "Fixture 11",
+    "snippet": "Original offline fixture",
+    "rank": 11,
+    "query": "EPIC-5 polite evidence collection"
+  }
+]

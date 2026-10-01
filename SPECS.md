@@ -137,18 +137,18 @@ CODEBASE Context: EPIC-1 foundation implemented on 2026-09-30; EPIC-2 contracts 
 | US-4.4#2 | Implement ranked deduplication, the PD-011 default denylist with subdomain matching, and the `max_urls` cap. | DONE | US-4.4 |
 | US-4.4#3 | Implement and register `normalize_results`, which writes `clean_results.json` to the run workspace. | DONE | US-4.4 |
 | EPIC-5 | Fetch and Extraction | — | — |
-| US-5.1 | Fetch Pages Politely with Bounded Retries | READY | EPIC-5 |
-| US-5.1#1 | Implement and register `fetch_url` with a 15-second timeout and up to 3 retries of transient failures (backoff of about 1, 2, and 4 seconds, with jitter). | TODO | US-5.1 |
-| US-5.1#2 | Check robots.txt before fetching and cache it per host. | TODO | US-5.1 |
-| US-5.1#3 | Send the PD-012 User-Agent on every request, with the contact read from configuration. | TODO | US-5.1 |
-| US-5.1#4 | Record `unreachable`, `robots_disallowed`, and `unsupported_content` outcomes with their reason. | TODO | US-5.1 |
-| US-5.2 | Throttle Requests per Host and Cap Fetch Concurrency | READY | EPIC-5 |
-| US-5.2#1 | Add a shared limit of 5 concurrent fetches. | TODO | US-5.2 |
-| US-5.2#2 | Add a per-host limiter with a 1-second minimum interval that honors a longer `Crawl-delay`. | TODO | US-5.2 |
-| US-5.3 | Extract Main Content as Markdown with Parser Fallback | READY | EPIC-5 |
-| US-5.3#1 | Define the extractor interface with trafilatura, readability-lxml, and beautifulsoup4 implementations. | TODO | US-5.3 |
-| US-5.3#2 | Implement and register `extract_markdown` with the fallback chain and the 200-word threshold. | TODO | US-5.3 |
-| US-5.3#3 | Add HTML fixtures for an article, missing metadata, a boilerplate-heavy page, and a thin page. | TODO | US-5.3 |
+| US-5.1 | Fetch Pages Politely with Bounded Retries | DONE | EPIC-5 |
+| US-5.1#1 | Implement and register `fetch_url` with a 15-second timeout and up to 3 retries of transient failures (backoff of about 1, 2, and 4 seconds, with jitter). | DONE | US-5.1 |
+| US-5.1#2 | Check robots.txt before fetching and cache it per host. | DONE | US-5.1 |
+| US-5.1#3 | Send the PD-012 User-Agent on every request, with the contact read from configuration. | DONE | US-5.1 |
+| US-5.1#4 | Record `unreachable`, `robots_disallowed`, and `unsupported_content` outcomes with their reason. | DONE | US-5.1 |
+| US-5.2 | Throttle Requests per Host and Cap Fetch Concurrency | DONE | EPIC-5 |
+| US-5.2#1 | Add a shared limit of 5 concurrent fetches. | DONE | US-5.2 |
+| US-5.2#2 | Add a per-host limiter with a 1-second minimum interval that honors a longer `Crawl-delay`. | DONE | US-5.2 |
+| US-5.3 | Extract Main Content as Markdown with Parser Fallback | DONE | EPIC-5 |
+| US-5.3#1 | Define the extractor interface with trafilatura, readability-lxml, and beautifulsoup4 implementations. | DONE | US-5.3 |
+| US-5.3#2 | Implement and register `extract_markdown` with the fallback chain and the 200-word threshold. | DONE | US-5.3 |
+| US-5.3#3 | Add HTML fixtures for an article, missing metadata, a boilerplate-heavy page, and a thin page. | DONE | US-5.3 |
 | EPIC-6 | Research Corpus | — | — |
 | US-6.1 | Write Each Source as a Markdown File with Front-Matter | READY | EPIC-6 |
 | US-6.1#1 | Implement and register `collect_source`, which fetches, extracts, writes one source file, and returns metadata only. | TODO | US-6.1 |
@@ -1995,7 +1995,7 @@ Fetch every clean URL politely and reliably, and extract each page's main conten
 
 ### US-5.1: Fetch Pages Politely with Bounded Retries
 
-Status: READY
+Status: DONE
 
 As a technical content author
 I want each URL fetched with a timeout, bounded retries, robots.txt compliance, and an identifying User-Agent
@@ -2076,17 +2076,17 @@ Dependencies:
 - US-4.4
 
 Tasks:
-- [ ] Implement and register `fetch_url` with a 15-second timeout and up to 3 retries of transient failures (backoff of about 1, 2, and 4 seconds, with jitter).
-- [ ] Check robots.txt before fetching and cache it per host.
-- [ ] Send the PD-012 User-Agent on every request, with the contact read from configuration.
-- [ ] Record `unreachable`, `robots_disallowed`, and `unsupported_content` outcomes with their reason.
+- [x] Implement and register `fetch_url` with a 15-second timeout and up to 3 retries of transient failures (backoff of about 1, 2, and 4 seconds, with jitter).
+- [x] Check robots.txt before fetching and cache it per host.
+- [x] Send the PD-012 User-Agent on every request, with the contact read from configuration.
+- [x] Record `unreachable`, `robots_disallowed`, and `unsupported_content` outcomes with their reason.
 
 Open Questions:
 - None.
 
 ### US-5.2: Throttle Requests per Host and Cap Fetch Concurrency
 
-Status: READY
+Status: DONE
 
 As a Product Manager
 I want fetches rate-limited per host and concurrency capped
@@ -2124,15 +2124,15 @@ Dependencies:
 - US-5.1
 
 Tasks:
-- [ ] Add a shared limit of 5 concurrent fetches.
-- [ ] Add a per-host limiter with a 1-second minimum interval that honors a longer `Crawl-delay`.
+- [x] Add a shared limit of 5 concurrent fetches.
+- [x] Add a per-host limiter with a 1-second minimum interval that honors a longer `Crawl-delay`.
 
 Open Questions:
 - None.
 
 ### US-5.3: Extract Main Content as Markdown with Parser Fallback
 
-Status: READY
+Status: DONE
 
 As a technical content author
 I want each page's main article extracted to Markdown with its metadata
@@ -2190,9 +2190,9 @@ Dependencies:
 - US-5.1
 
 Tasks:
-- [ ] Define the extractor interface with trafilatura, readability-lxml, and beautifulsoup4 implementations.
-- [ ] Implement and register `extract_markdown` with the fallback chain and the 200-word threshold.
-- [ ] Add HTML fixtures for an article, missing metadata, a boilerplate-heavy page, and a thin page.
+- [x] Define the extractor interface with trafilatura, readability-lxml, and beautifulsoup4 implementations.
+- [x] Implement and register `extract_markdown` with the fallback chain and the 200-word threshold.
+- [x] Add HTML fixtures for an article, missing metadata, a boilerplate-heavy page, and a thin page.
 
 Open Questions:
 - None.

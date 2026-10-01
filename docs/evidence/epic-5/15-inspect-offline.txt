@@ -1,0 +1,9 @@
+Command: uv run --locked python scripts/inspect-fetch-artifacts.py runs/epic-5-polite-evidence-collection-20261001T152315Z
+
+Workspace: runs/epic-5-polite-evidence-collection-20261001T152315Z
+URL outcomes: {'extracted': 6, 'unreachable': 2, 'robots_disallowed': 1, 'unsupported_content': 1, 'too_thin': 1}
+Verified: contiguous ranks, complete outcomes, matching source IDs, >=200-word successes.
+Verified: raw HTML absent; failure results contain no Source; corpus files remain EPIC-6.
+Artifacts: fetch_outcomes.json, extraction_results.json, fetch_state.json
+
+Exit code: 0

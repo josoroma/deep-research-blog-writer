@@ -1,8 +1,9 @@
 """Typed contracts for implemented Search and the remaining pipeline stub tools."""
 
-from pydantic import Field
+from pydantic import AwareDatetime, Field
 
 from schemas.common import HTTPURL, Contract, SourceID
+from schemas.content import utc_now
 from schemas.responses import FetchedPage, SearchResult
 from schemas.search import NormalizationCounts, SearchQuery
 from schemas.state import RunStateUpdate
@@ -33,6 +34,7 @@ class FetchUrlInput(Contract):
 class ExtractMarkdownInput(Contract):
     page: FetchedPage
     source_id: SourceID
+    fetched_at: AwareDatetime = Field(default_factory=utc_now)
 
 
 class CollectSourceInput(Contract):

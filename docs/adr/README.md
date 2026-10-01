@@ -10,3 +10,4 @@ Record accepted decisions with a zero-padded four-digit prefix: `NNNN-short-titl
 | [0004](0004-disable-general-purpose-subagent.md) | Disable the auto-added general-purpose sub-agent | Accepted |
 
 - [0005: SerpApi search behind a provider interface](0005-search-provider.md)
+- [0006: Run-owned polite fetching and replaceable extraction](0006-polite-fetch-and-extraction.md)

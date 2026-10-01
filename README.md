@@ -1,6 +1,6 @@
 # Deep Research Blog Writer
 
-A Python research-to-blog pipeline using DeepAgents on LangGraph. EPIC-1–EPIC-4 provide locked setup, quality gates, typed contracts/state/tools, central OpenRouter models and packaged prompts, the four-agent skeleton, and real API search with ranked normalization. Fetching, extraction, corpus/article generation, citation checks, and durable resume belong to later epics.
+A Python research-to-blog pipeline using DeepAgents on LangGraph. EPIC-1–EPIC-5 provide locked setup, quality gates, typed contracts/state/tools, central models and packaged prompts, the four-agent skeleton, API search with ranked normalization, polite HTML fetching, and parser fallback. Corpus/article generation, citation checks, and durable resume belong to later epics.
 
 ## Install and run
 
@@ -10,6 +10,7 @@ Prerequisites: Git, [uv](https://docs.astral.sh/uv/getting-started/installation/
 make setup
 make check
 make demo-epic-4
+make demo-epic-5
 ```
 
 `make setup` installs `uv.lock` and the Git hook. `make check` verifies the lock, Ruff, formatting, strict typing, and offline tests with an 80% coverage floor. The Search demo uses a scripted model and fake provider through the actual DeepAgents orchestrator/search sub-agent; it needs no API keys. It saves a plan, 50 raw results, and 30 clean URLs in the printed `runs/<run_id>/` workspace. The fixture deliberately includes tracking links, duplicates, and denied hosts; it also verifies reversed arrival order and cached replay.
@@ -41,6 +42,22 @@ The command without `--search-only` invokes the full agent skeleton; downstream 
 
 All five model IDs are independently configurable using `MODELS__ORCHESTRATOR`, `MODELS__SEARCH_AGENT`, `MODELS__RESEARCH_AGENT`, `MODELS__ANALYST_AGENT`, and `MODELS__WRITER_AGENT`, each an `openrouter:<model-id>`. The default remains `openrouter:deepseek/deepseek-v4.1-flash`. Environment variables override `.env`.
 
+## Fetch and extraction
+
+Set `CRAWLER_CONTACT` in your Git-ignored `.env` to a public URL or email. Then fetch and extract the clean URLs from a completed Search workspace:
+
+```sh
+uv run --locked deep-research-blog --fetch-only --workspace runs/<search_run_id>
+uv run --locked python scripts/inspect-fetch-artifacts.py runs/<search_run_id>
+make smoke-epic-5
+```
+
+Fetch-only needs no LLM or search key. It saves `fetch_outcomes.json` (HTTP metadata without HTML), `extraction_results.json` (clean Source previews and parser attempts), and `fetch_state.json` (one outcome per URL). Individual failures are recorded while processing continues. Exit 0 means this milestone processed every URL; it does not classify a completed research/blog run. Re-running replaces these JSON previews and fetches again. Immutable source files and production collection belong to EPIC-6.
+
+Every request identifies the crawler. Page attempts share a 15-second network/body budget across redirects, with up to three transient retries, at most five active fetches, and at least one second between starts on a hostname. Longer robots Crawl-delay takes precedence. Redirect destinations are robots-checked. Non-HTML and blocked pages never reach extraction. The default parser chain is trafilatura → readability-lxml → beautifulsoup4 with a minimum of 200 visible body words. `EXTRACTOR_STRATEGY=trafilatura|readability|beautifulsoup` selects one parser; `fallback` restores the chain.
+
+`make demo-epic-5` uses original packaged HTML, mocked HTTP and explicitly labelled virtual timing. It demonstrates redirects, retries, permanent failure, robots blocking, PDF skipping, thin-page rejection, optional metadata, ordered fallback and the 30-host concurrency probe. The live smoke separately retrieves one public Python documentation page with your configured contact.
+
 ## Development checks
 
 ```sh
@@ -49,8 +66,8 @@ make hooks
 make boundary
 make format
 make build
-sh scripts/verify-epic-4-package.sh
-sh scripts/verify-epic-4-checkout.sh
+sh scripts/verify-epic-5-package.sh
+sh scripts/verify-epic-5-checkout.sh
 uv run --locked pytest -m live tests/test_search_workflow.py --no-cov
 ```
 
@@ -74,4 +91,4 @@ Git hooks and GitHub Actions use the same offline quality gates, including agent
 
 Agents never import HTTP clients or construct provider clients. Per-run registry closures bind search tools to a workspace and provider; credentials and clients stay outside agent/checkpoint state. Search tools validate both input and output. The static boundary checker parses imports and prompt/model construction; computed indirect network access is outside its scope. SQLite resume is a later story.
 
-See [EPIC-4.md](EPIC-4.md) and [EPIC-4-RUNBOOK.md](EPIC-4-RUNBOOK.md) for the plan, successful command outputs, and PM evidence. Earlier deliveries: [EPIC-1](EPIC-1-RUNBOOK.md), [EPIC-2](EPIC-2-RUNBOOK.md), and [EPIC-3](EPIC-3-RUNBOOK.md). Product decisions live in [SPECS.md](SPECS.md); architectural decisions in [docs/adr/](docs/adr/README.md).
+See [EPIC-5.md](EPIC-5.md) and [EPIC-5-RUNBOOK.md](EPIC-5-RUNBOOK.md) for the plan, successful commands and PM evidence. Earlier deliveries: [EPIC-1](EPIC-1-RUNBOOK.md), [EPIC-2](EPIC-2-RUNBOOK.md), [EPIC-3](EPIC-3-RUNBOOK.md), and [EPIC-4](EPIC-4-RUNBOOK.md). Product decisions live in [SPECS.md](SPECS.md); architectural decisions in [docs/adr/](docs/adr/README.md).

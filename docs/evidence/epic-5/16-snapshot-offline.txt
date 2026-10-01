@@ -1,0 +1,5 @@
+Command: python3 -c 'from pathlib import Path; import shutil; source = Path("runs/epic-5-polite-evidence-collection-20261001T152315Z"); destination = Path("docs/evidence/epic-5/offline"); destination.mkdir(exist_ok=True); [shutil.copy2(path, destination / path.name) for path in source.iterdir() if path.is_file()]; print("Saved original offline workspace artifacts:", sorted(path.name for path in destination.iterdir()))'
+
+Saved original offline workspace artifacts: ['clean_results.json', 'demo_evidence.json', 'extraction_results.json', 'fetch_outcomes.json', 'fetch_state.json', 'request.json']
+
+Exit code: 0

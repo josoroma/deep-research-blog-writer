@@ -1,0 +1,14 @@
+Command: make check
+
+uv lock --check
+Resolved 104 packages in 3ms
+/Library/Developer/CommandLineTools/usr/bin/make lint format-check typecheck test
+uv run --locked ruff check .
+All checks passed!
+uv run --locked ruff format --check .
+Would reformat: scripts/inspect-fetch-artifacts.py
+1 file would be reformatted, 72 files already formatted
+make[1]: *** [format-check] Error 1
+make: *** [check] Error 2
+
+Exit code: 2

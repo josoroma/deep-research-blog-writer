@@ -1,0 +1,36 @@
+Command: uv add 'trafilatura>=2,<3' 'readability-lxml>=0.8,<1' 'beautifulsoup4>=4.13,<5' 'markdownify>=1,<2' 'protego>=0.5,<1'
+
+Resolved 104 packages in 3.62s
+   Building deep-research-blog-writer @ file:///Users/josoroma/sites/langchain
+Downloading lxml (8.2MiB)
+Downloading babel (9.7MiB)
+      Built deep-research-blog-writer @ file:///Users/josoroma/sites/langchain
+ Downloaded lxml
+ Downloaded babel
+Prepared 19 packages in 3.44s
+Uninstalled 1 package in 1ms
+Installed 22 packages in 40ms
+ + babel==2.18.0
+ + beautifulsoup4==4.15.0
+ + chardet==5.2.0
+ + courlan==1.4.0
+ + cssselect==1.3.0
+ + dateparser==1.4.3
+ ~ deep-research-blog-writer==0.1.0 (from file:///Users/josoroma/sites/langchain)
+ + htmldate==1.10.0
+ + justext==3.0.2
+ + lxml==6.1.3
+ + lxml-html-clean==0.4.5
+ + markdownify==1.2.3
+ + protego==0.7.0
+ + python-dateutil==2.9.0.post0
+ + pytz==2026.4
+ + readability-lxml==0.9
+ + regex==2026.9.29
+ + six==1.17.0
+ + soupsieve==2.10
+ + tld==0.13.2
+ + trafilatura==2.2.0
+ + tzlocal==5.4.4
+
+Exit code: 0

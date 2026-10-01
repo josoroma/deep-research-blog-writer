@@ -5,13 +5,18 @@ description = "Evidence-grounded research and blog writing with DeepAgents on La
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "beautifulsoup4>=4.13,<5",
     "deepagents>=0.7,<0.8",
     "httpx>=0.28,<1",
     "langchain>=1,<2",
     "langchain-openrouter>=0.2,<1",
     "langgraph>=1,<2",
+    "markdownify>=1,<2",
+    "protego>=0.5,<1",
     "pydantic>=2,<3",
     "pydantic-settings>=2,<3",
+    "readability-lxml>=0.8,<1",
+    "trafilatura>=2,<3",
 ]
 
 [build-system]
@@ -48,6 +53,10 @@ files = ["agents", "tools", "workflows", "prompts", "schemas", "services", "eval
 testpaths = ["tests"]
 addopts = "--strict-config --strict-markers -m 'not live' --cov --cov-report=term-missing --cov-report=xml --cov-fail-under=80"
 markers = ["live: opt-in real provider request, excluded from the offline suite"]
+
+[[tool.mypy.overrides]]
+module = ["readability.*", "markdownify.*", "protego.*"]
+ignore_missing_imports = true
 
 [tool.coverage.run]
 branch = true

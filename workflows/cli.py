@@ -16,6 +16,7 @@ from schemas.requests import ResearchRequest
 from schemas.search import QueryVariants
 from services.llm_service import MissingOpenRouterKey
 from services.search_provider import SearchProviderError
+from workflows.fetch_run import load_search_workspace, run_fetch
 from workflows.research_run import RunSummary, run_research
 from workflows.search_run import run_search
 
@@ -29,14 +30,23 @@ def build_parser() -> argparse.ArgumentParser:
         prog="deep-research-blog",
         description="Run the deep research blog writer skeleton for one topic.",
     )
-    parser.add_argument("topic", help="Research topic, 3 to 250 characters after trimming.")
+    parser.add_argument(
+        "topic", nargs="?", help="Research topic, 3 to 250 characters after trimming."
+    )
     parser.add_argument("--pages", type=int, default=None, help="Search result pages (default 3).")
     parser.add_argument("--per-page", type=int, default=None, help="Results per page (default 10).")
     parser.add_argument(
         "--max-urls", type=int, default=None, help="Maximum clean URLs (default 30)."
     )
-    parser.add_argument(
+    modes = parser.add_mutually_exclusive_group()
+    modes.add_argument(
         "--search-only", action="store_true", help="Stop after saving clean search results."
+    )
+    modes.add_argument(
+        "--fetch-only", action="store_true", help="Fetch/extract an existing search workspace."
+    )
+    parser.add_argument(
+        "--workspace", type=Path, help="Existing EPIC-4 workspace for --fetch-only."
     )
     parser.add_argument(
         "--query-variant",
@@ -69,6 +79,25 @@ def main(argv: Sequence[str] | None = None, settings: RunSettings | None = None)
     args = build_parser().parse_args(argv)
     try:
         resolved = settings if settings is not None else RunSettings()
+        if args.fetch_only:
+            if (
+                args.workspace is None
+                or args.query_variant
+                or any(value is not None for value in (args.pages, args.per_page, args.max_urls))
+            ):
+                raise ValueError(
+                    "--fetch-only requires --workspace and uses its saved search budget"
+                )
+            saved = load_search_workspace(args.workspace)
+            if args.topic is not None and args.topic.strip() != saved.topic:
+                raise ValueError("Topic must match the saved workspace request")
+            fetched = run_fetch(args.workspace, resolved)
+            print(fetched.model_dump_json(indent=2))
+            return EXIT_COMPLETED if fetched.status == "completed" else EXIT_FAILED
+        if args.workspace is not None:
+            raise ValueError("--workspace requires --fetch-only")
+        if args.topic is None:
+            raise ValueError("A topic is required")
         request = _request_from_args(args, resolved)
         if args.query_variant and not args.search_only:
             raise ValueError("--query-variant requires --search-only")

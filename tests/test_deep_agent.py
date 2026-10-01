@@ -15,7 +15,6 @@ from agents.deep_research import (
 from evaluations.fakes import ScriptedChatModel
 from schemas.config import RunSettings
 from schemas.requests import ResearchRequest
-from schemas.responses import FetchedPage, Source
 from schemas.tool_io import SourceMetadata
 from services.llm_service import LLMService
 from services.workspace import create_run_workspace
@@ -92,7 +91,7 @@ def test_stub_tools_are_registered_with_typed_contracts() -> None:
         assert name in TOOLS
 
 
-def test_collect_source_returns_metadata_only_and_composes_fetch_and_extract() -> None:
+def test_future_collect_stub_returns_metadata_only() -> None:
     output = TOOLS["collect_source"].invoke({"rank": 7, "url": "https://example.com/a"})
     assert isinstance(output, SourceMetadata)
     assert output.source_id == "S-07"
@@ -100,13 +99,9 @@ def test_collect_source_returns_metadata_only_and_composes_fetch_and_extract() -
     assert "body_markdown" not in output.model_dump()
 
 
-def test_fetch_stub_carries_the_marker_and_extract_stub_does_not() -> None:
-    page = TOOLS["fetch_url"].invoke({"url": "https://example.com/a"})
-    assert isinstance(page, FetchedPage)
-    assert RAW_HTML_MARKER in page.html
-    source = TOOLS["extract_markdown"].invoke({"page": page.model_dump(), "source_id": "S-01"})
-    assert isinstance(source, Source)
-    assert RAW_HTML_MARKER not in source.body_markdown
+def test_fetch_requires_an_explicit_run_owned_service_binding() -> None:
+    with pytest.raises(RuntimeError, match="run-owned FetchService"):
+        TOOLS["fetch_url"].invoke({"url": "https://example.com/a"})
 
 
 def test_build_fails_when_the_model_provider_cannot_be_resolved(

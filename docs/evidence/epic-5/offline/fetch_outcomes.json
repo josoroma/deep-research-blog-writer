@@ -1,0 +1,112 @@
+[
+  {
+    "rank": 1,
+    "url": "https://fixture.test/redirect",
+    "final_url": "https://fixture.test/article",
+    "outcome": "fetched",
+    "reason": null,
+    "attempts": 1,
+    "status": 200,
+    "fetched_at": "2026-10-01T15:23:15.162894Z"
+  },
+  {
+    "rank": 2,
+    "url": "https://fixture.test/retry",
+    "final_url": "https://fixture.test/retry",
+    "outcome": "fetched",
+    "reason": null,
+    "attempts": 2,
+    "status": 200,
+    "fetched_at": "2026-10-01T15:23:15.163154Z"
+  },
+  {
+    "rank": 3,
+    "url": "https://fixture.test/missing",
+    "final_url": "https://fixture.test/missing",
+    "outcome": "unreachable",
+    "reason": "http_404",
+    "attempts": 1,
+    "status": 404,
+    "fetched_at": "2026-10-01T15:23:15.158201Z"
+  },
+  {
+    "rank": 4,
+    "url": "https://fixture.test/blocked",
+    "final_url": "https://fixture.test/blocked",
+    "outcome": "robots_disallowed",
+    "reason": "robots_rule",
+    "attempts": 1,
+    "status": null,
+    "fetched_at": "2026-10-01T15:23:15.156815Z"
+  },
+  {
+    "rank": 5,
+    "url": "https://fixture.test/pdf",
+    "final_url": "https://fixture.test/pdf",
+    "outcome": "unsupported_content",
+    "reason": "non_html_content_type",
+    "attempts": 1,
+    "status": 200,
+    "fetched_at": "2026-10-01T15:23:15.158280Z"
+  },
+  {
+    "rank": 6,
+    "url": "https://fixture.test/thin",
+    "final_url": "https://fixture.test/thin",
+    "outcome": "fetched",
+    "reason": null,
+    "attempts": 1,
+    "status": 200,
+    "fetched_at": "2026-10-01T15:23:15.158463Z"
+  },
+  {
+    "rank": 7,
+    "url": "https://fixture.test/missing-metadata",
+    "final_url": "https://fixture.test/missing-metadata",
+    "outcome": "fetched",
+    "reason": null,
+    "attempts": 1,
+    "status": 200,
+    "fetched_at": "2026-10-01T15:23:15.163399Z"
+  },
+  {
+    "rank": 8,
+    "url": "https://fixture.test/boilerplate-heavy",
+    "final_url": "https://fixture.test/boilerplate-heavy",
+    "outcome": "fetched",
+    "reason": null,
+    "attempts": 1,
+    "status": 200,
+    "fetched_at": "2026-10-01T15:23:15.166070Z"
+  },
+  {
+    "rank": 9,
+    "url": "https://fixture.test/exhaust",
+    "final_url": "https://fixture.test/exhaust",
+    "outcome": "unreachable",
+    "reason": "retry_exhausted:http_503",
+    "attempts": 4,
+    "status": 503,
+    "fetched_at": "2026-10-01T15:23:15.182820Z"
+  },
+  {
+    "rank": 10,
+    "url": "https://slow.fixture.test/first",
+    "final_url": "https://slow.fixture.test/first",
+    "outcome": "fetched",
+    "reason": null,
+    "attempts": 1,
+    "status": 200,
+    "fetched_at": "2026-10-01T15:23:15.180409Z"
+  },
+  {
+    "rank": 11,
+    "url": "https://slow.fixture.test/second",
+    "final_url": "https://slow.fixture.test/second",
+    "outcome": "fetched",
+    "reason": null,
+    "attempts": 1,
+    "status": 200,
+    "fetched_at": "2026-10-01T15:23:15.181455Z"
+  }
+]

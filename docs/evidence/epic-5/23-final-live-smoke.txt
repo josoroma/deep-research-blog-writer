@@ -1,0 +1,59 @@
+Command: make smoke-epic-5
+
+uv run --locked python -m evaluations.fetch_live_smoke
+{
+  "mode": "live HTTP and actual extraction libraries",
+  "user_agent": "DeepResearchBlogWriter/0.1.0 (+https://github.com/josoroma/deep-research-blog-writer)",
+  "fetch": {
+    "url": "https://docs.python.org/3.12/library/asyncio.html",
+    "final_url": "https://docs.python.org/3.12/library/asyncio.html",
+    "outcome": "fetched",
+    "reason": null,
+    "attempts": 1,
+    "status": 200,
+    "fetched_at": "2026-10-01T15:32:52.055893Z"
+  },
+  "extraction": {
+    "outcome": "extracted",
+    "source": {
+      "source_id": "S-01",
+      "url": "https://docs.python.org/3/library/asyncio.html",
+      "title": "asyncio \u2014 Asynchronous I/O",
+      "author": null,
+      "published": "2015-12-03",
+      "word_count": 228,
+      "fetched_at": "2026-10-01T15:32:52.055893Z"
+    },
+    "attempts": [
+      {
+        "parser": "trafilatura",
+        "outcome": "extracted",
+        "word_count": 228,
+        "error": null
+      }
+    ],
+    "reason": null
+  },
+  "passed": true,
+  "requests": [
+    {
+      "url": "https://docs.python.org/robots.txt",
+      "host": "docs.python.org",
+      "kind": "robots",
+      "started": 297186.833717458,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://docs.python.org/3.12/library/asyncio.html",
+      "host": "docs.python.org",
+      "kind": "page",
+      "started": 297187.834491166,
+      "status": 200,
+      "error": null
+    }
+  ],
+  "retries": []
+}
+
+Exit code: 0

@@ -1,0 +1,6 @@
+Command: python3 -c 'from pathlib import Path; import shutil; source = Path("runs/epic-5-live-python-asyncio-fetch-20261001T152525Z"); destination = Path("docs/evidence/epic-5/live-cli"); destination.mkdir(exist_ok=True); [shutil.copy2(path, destination / path.name) for path in source.iterdir() if path.is_file()]; shutil.copy2("coverage.xml", "docs/evidence/epic-5/coverage.xml"); print("Saved original live CLI artifacts:", sorted(path.name for path in destination.iterdir())); print("Saved offline coverage report")'
+
+Saved original live CLI artifacts: ['clean_results.json', 'extraction_results.json', 'fetch_outcomes.json', 'fetch_state.json', 'request.json']
+Saved offline coverage report
+
+Exit code: 0

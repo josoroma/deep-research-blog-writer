@@ -19,6 +19,8 @@ from tools.state_tools import record_phase_completion
 from tools.stubs import register_stub_tools
 
 if TYPE_CHECKING:
+    from services.extraction_service import ExtractionService
+    from services.fetch_service import Fetcher
     from services.search_session import SearchSession
 
 Runtime = ToolRuntime[None, ResearchAgentState]
@@ -126,7 +128,12 @@ class ToolRegistry(Mapping[str, ToolDefinition]):
         return len(self._tools)
 
 
-def create_tool_registry(search_session: SearchSession | None = None) -> ToolRegistry:
+def create_tool_registry(
+    search_session: SearchSession | None = None,
+    *,
+    fetcher: Fetcher | None = None,
+    extractor: ExtractionService | None = None,
+) -> ToolRegistry:
     """Build independent tool bindings; credentials and provider clients stay off state."""
     registry = ToolRegistry()
     registry.register(
@@ -141,6 +148,9 @@ def create_tool_registry(search_session: SearchSession | None = None) -> ToolReg
     )
     register_stub_tools(registry)
     register_search_tools(registry, search_session)
+    from tools.content_tools import register_content_tools
+
+    register_content_tools(registry, fetcher, extractor)
     return registry
 
 

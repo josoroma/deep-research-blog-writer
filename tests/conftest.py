@@ -22,6 +22,8 @@ def offline_environment(
             "SERPAPI_API_KEY",
             "SEARCH_PROVIDER",
             "SEARCH_TIMEOUT_SECONDS",
+            "CRAWLER_CONTACT",
+            "EXTRACTOR_STRATEGY",
             "RUNS_DIR",
             "RECURSION_LIMIT",
             "PAGES",
