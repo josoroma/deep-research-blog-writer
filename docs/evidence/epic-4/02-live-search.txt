@@ -1,0 +1,7 @@
+$ make smoke-epic-4
+
+uv run --locked python -m evaluations.search_live_smoke
+Live search smoke failed: Search provider returned HTTP 403
+make: *** [smoke-epic-4] Error 1
+
+Exit code: 2 (expected 0)

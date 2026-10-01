@@ -12,9 +12,8 @@ from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 
 from langchain.tools import ToolRuntime
-from pydantic import HttpUrl
 
-from schemas.responses import FetchedPage, SearchResult, Source
+from schemas.responses import FetchedPage, Source
 from schemas.state import ResearchAgentState
 from schemas.tool_io import (
     BuildIndexInput,
@@ -22,10 +21,6 @@ from schemas.tool_io import (
     CollectSourceInput,
     ExtractMarkdownInput,
     FetchUrlInput,
-    GoogleSearchInput,
-    GoogleSearchOutput,
-    NormalizeResultsInput,
-    NormalizeResultsOutput,
     SourceMetadata,
     ValidateCitationsInput,
     ValidateCitationsOutput,
@@ -40,39 +35,6 @@ Runtime = ToolRuntime[None, ResearchAgentState]
 
 RAW_HTML_MARKER = "EPIC3-RAW-HTML-MARKER"
 STUB_FETCHED_AT = datetime(2026, 1, 1, tzinfo=UTC)
-STUB_RESULTS_PER_PAGE = 3
-STUB_CLEAN_RESULTS = 3
-
-
-def _stub_search(request: GoogleSearchInput, runtime: Runtime | None = None) -> GoogleSearchOutput:
-    results = [
-        SearchResult(
-            url=HttpUrl(f"https://example.com/{request.page}/{index}"),
-            title=f"Stub result {index} for {request.query}",
-            snippet="M1 stub search result; no provider request.",
-            rank=(request.page - 1) * STUB_RESULTS_PER_PAGE + index,
-            query=request.query,
-        )
-        for index in range(1, STUB_RESULTS_PER_PAGE + 1)
-    ]
-    return GoogleSearchOutput(results=results)
-
-
-def _stub_normalize(
-    request: NormalizeResultsInput, runtime: Runtime | None = None
-) -> NormalizeResultsOutput:
-    count = min(request.max_urls, STUB_CLEAN_RESULTS)
-    results = [
-        SearchResult(
-            url=HttpUrl(f"https://example.com/article/{index}"),
-            title=f"Stub source {index}",
-            snippet="M1 stub clean result.",
-            rank=index,
-            query="stub",
-        )
-        for index in range(1, count + 1)
-    ]
-    return NormalizeResultsOutput(clean_results=results)
 
 
 def _stub_fetch(request: FetchUrlInput, runtime: Runtime | None = None) -> FetchedPage:
@@ -131,24 +93,6 @@ def register_stub_tools(registry: ToolRegistry) -> None:
             word_count=source.word_count,
         )
 
-    registry.register(
-        TypedTool[GoogleSearchInput, GoogleSearchOutput](
-            name="google_search",
-            input_model=GoogleSearchInput,
-            output_model=GoogleSearchOutput,
-            handler=_stub_search,
-            description="M1 stub: return fixed paged search results; no provider request.",
-        )
-    )
-    registry.register(
-        TypedTool[NormalizeResultsInput, NormalizeResultsOutput](
-            name="normalize_results",
-            input_model=NormalizeResultsInput,
-            output_model=NormalizeResultsOutput,
-            handler=_stub_normalize,
-            description="M1 stub: return fixed clean results; no canonicalization yet.",
-        )
-    )
     registry.register(
         TypedTool[FetchUrlInput, FetchedPage](
             name="fetch_url",

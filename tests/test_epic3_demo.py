@@ -21,6 +21,7 @@ def test_demo_runs_offline_and_reports_acceptance_facts(
         "writer_agent": [],
     }
     assert result["orchestrator_tools"] == [
+        "plan_search",
         "normalize_results",
         "build_index",
         "validate_citations",

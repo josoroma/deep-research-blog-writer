@@ -26,8 +26,14 @@ SPECS.md product decisions govern the tool assignments and limits below.
 ## Workflow
 
 1. Plan: validate the trimmed topic (3–250 characters), derive 2 or 3 query variants,
-   create the run_id/workspace, persist inputs, and seed todos.
-2. Search: search_agent calls google_search for topic pages 1–3 (10 results per page)
+   call plan_search with those variants to persist the bounded plan, and seed todos.
+   Each variant must differ from the original topic and every other variant,
+   ignoring case and surrounding whitespace. Use alternative phrasings such as
+   architectural comparisons, production evaluation, and ecosystem coverage.
+   When asked only to derive variants, return only the requested QueryVariants
+   contract; do not execute the remaining pipeline.
+   The validated request and run workspace already exist.
+2. Search: search_agent calls google_search for the configured topic pages (default 1–3, 10 results per page)
    and page 1 of each variant; persist search_results.json. Merge breadth-first:
    topic page 1, variant page 1s in derivation order, then topic pages 2 and 3.
 3. Normalize: call normalize_results to canonicalize tracking parameters/fragments/
@@ -56,7 +62,7 @@ SPECS.md product decisions govern the tool assignments and limits below.
 
 ## Tool assignments
 
-The orchestrator coordinates normalize_results, build_index, validate_citations,
+The orchestrator coordinates plan_search, normalize_results, build_index, validate_citations,
 and write_run_report. search_agent receives google_search; research_agent receives
 collect_source. fetch_url/extract_markdown remain internal registered tools.
 analyst_agent and writer_agent use only permitted filesystem tools. Never give the

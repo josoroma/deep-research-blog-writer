@@ -68,6 +68,9 @@ class RunSettings(BaseSettings):
 
     openrouter_api_key: SecretStr | None = None
     serper_api_key: SecretStr | None = None
+    serpapi_api_key: SecretStr | None = None
+    search_provider: Literal["serper", "serpapi"] = "serpapi"
+    search_timeout_seconds: int = Field(default=15, ge=1, strict=True)
     pages: int = Field(default=3, ge=1, strict=True)
     per_page: int = Field(default=10, ge=1, strict=True)
     max_urls: int = Field(default=30, ge=1, strict=True)
@@ -84,6 +87,7 @@ class RunSettings(BaseSettings):
         "model_timeout_seconds",
         "model_max_retries",
         "recursion_limit",
+        "search_timeout_seconds",
         mode="before",
     )
     @classmethod

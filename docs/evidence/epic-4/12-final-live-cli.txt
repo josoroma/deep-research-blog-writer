@@ -1,0 +1,5 @@
+$ env SEARCH_TIMEOUT_SECONDS=60 uv run --locked deep-research-blog '2026 agentic AI frameworks' --search-only
+
+Invalid input: variants must differ from the topic
+
+Exit code: 2 (expected 0)

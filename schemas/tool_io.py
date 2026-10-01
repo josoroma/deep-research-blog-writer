@@ -1,17 +1,15 @@
-"""Typed inputs and outputs for the EPIC-3 skeleton stub tools.
-
-These contracts are the M1 shape of the pipeline tools. The story that replaces a
-stub owns the final contract; until then every stub validates both sides of its call.
-"""
+"""Typed contracts for implemented Search and the remaining pipeline stub tools."""
 
 from pydantic import Field
 
 from schemas.common import HTTPURL, Contract, SourceID
 from schemas.responses import FetchedPage, SearchResult
+from schemas.search import NormalizationCounts, SearchQuery
+from schemas.state import RunStateUpdate
 
 
 class GoogleSearchInput(Contract):
-    query: str = Field(min_length=1)
+    query: SearchQuery
     page: int = Field(ge=1)
 
 
@@ -23,8 +21,9 @@ class NormalizeResultsInput(Contract):
     max_urls: int = Field(ge=1)
 
 
-class NormalizeResultsOutput(Contract):
+class NormalizeResultsOutput(RunStateUpdate):
     clean_results: list[SearchResult]
+    counts: NormalizationCounts
 
 
 class FetchUrlInput(Contract):

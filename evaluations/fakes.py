@@ -13,6 +13,7 @@ from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import AIMessage, BaseMessage
 from langchain_core.outputs import ChatGeneration, ChatResult
 from langchain_core.runnables import Runnable
+from langchain_core.utils.function_calling import convert_to_openai_tool
 from pydantic import PrivateAttr
 
 
@@ -31,9 +32,7 @@ class ScriptedChatModel(BaseChatModel):
     def bind_tools(
         self, tools: Sequence[Any], *, tool_choice: Any = None, **kwargs: Any
     ) -> Runnable[Any, Any]:
-        self._bound = sorted(
-            tool["name"] if isinstance(tool, dict) else tool.name for tool in tools
-        )
+        self._bound = sorted(convert_to_openai_tool(tool)["function"]["name"] for tool in tools)
         return self
 
     def _generate(

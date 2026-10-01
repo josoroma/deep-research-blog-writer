@@ -9,6 +9,7 @@ from evaluations.fakes import ScriptedChatModel
 from schemas.config import RunSettings
 from schemas.requests import ResearchRequest
 from services.llm_service import LLMService
+from services.search_provider import FakeSearchProvider
 from services.workspace import create_run_workspace
 from workflows import cli
 from workflows.research_run import run_research
@@ -25,7 +26,13 @@ def _fake() -> ScriptedChatModel:
 def test_run_research_prints_the_summary_and_completes(tmp_path: Path) -> None:
     settings = _settings(tmp_path)
     request = ResearchRequest(topic="2026 agentic AI frameworks")
-    summary = run_research(request, settings, runs_root=tmp_path / "runs", fake_model=_fake())
+    summary = run_research(
+        request,
+        settings,
+        runs_root=tmp_path / "runs",
+        fake_model=_fake(),
+        search_provider=FakeSearchProvider(),
+    )
     assert summary.status == "completed"
     assert summary.run_id.startswith("2026-agentic-ai-frameworks-")
     assert Path(summary.workspace).is_dir()
@@ -35,7 +42,13 @@ def test_run_research_prints_the_summary_and_completes(tmp_path: Path) -> None:
 def test_budget_override_is_stored_in_the_request(tmp_path: Path) -> None:
     settings = _settings(tmp_path)
     request = ResearchRequest(topic="2026 agentic AI frameworks", pages=2, per_page=5, max_urls=10)
-    summary = run_research(request, settings, runs_root=tmp_path / "runs", fake_model=_fake())
+    summary = run_research(
+        request,
+        settings,
+        runs_root=tmp_path / "runs",
+        fake_model=_fake(),
+        search_provider=FakeSearchProvider(),
+    )
     stored = ResearchRequest.model_validate_json(
         (Path(summary.workspace) / "request.json").read_text(encoding="utf-8")
     )

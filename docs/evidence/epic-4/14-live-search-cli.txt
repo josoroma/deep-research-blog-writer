@@ -1,0 +1,15 @@
+$ env SEARCH_TIMEOUT_SECONDS=60 uv run --locked deep-research-blog '2026 agentic AI frameworks' --search-only
+
+{
+  "run_id": "2026-agentic-ai-frameworks-20261001T141356Z",
+  "workspace": "runs/2026-agentic-ai-frameworks-20261001T141356Z",
+  "status": "failed",
+  "provider": "serpapi",
+  "search_plan_path": "runs/2026-agentic-ai-frameworks-20261001T141356Z/search_plan.json",
+  "raw_results_path": "runs/2026-agentic-ai-frameworks-20261001T141356Z/search_results.json",
+  "clean_results_path": "runs/2026-agentic-ai-frameworks-20261001T141356Z/clean_results.json",
+  "counts": null,
+  "error": "Search provider request failed (network or timeout)"
+}
+
+Exit code: 1 (expected 0)

@@ -19,6 +19,11 @@ def offline_environment(
         if name.upper() in {
             "OPENROUTER_API_KEY",
             "SERPER_API_KEY",
+            "SERPAPI_API_KEY",
+            "SEARCH_PROVIDER",
+            "SEARCH_TIMEOUT_SECONDS",
+            "RUNS_DIR",
+            "RECURSION_LIMIT",
             "PAGES",
             "PER_PAGE",
             "MAX_URLS",

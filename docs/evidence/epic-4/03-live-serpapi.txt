@@ -1,0 +1,11 @@
+$ make smoke-epic-4
+
+uv run --locked python -m evaluations.search_live_smoke
+Provider: serpapi
+Query: 2026 agentic AI frameworks
+Page: 2; per_page: 10; provider requests: 1; model requests: 0
+Result count: 10
+Ranks: [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+Live search smoke passed: organic URL/title/snippet/query/rank contracts validated.
+
+Exit code: 0 (expected 0)

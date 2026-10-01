@@ -1,0 +1,11 @@
+$ uv add 'httpx>=0.28,<1'
+
+Resolved 82 packages in 1.93s
+   Building deep-research-blog-writer @ file:///Users/josoroma/sites/langchain
+      Built deep-research-blog-writer @ file:///Users/josoroma/sites/langchain
+Prepared 1 package in 1.09s
+Uninstalled 1 package in 1ms
+Installed 1 package in 1ms
+ ~ deep-research-blog-writer==0.1.0 (from file:///Users/josoroma/sites/langchain)
+
+Exit code: 0 (expected 0)

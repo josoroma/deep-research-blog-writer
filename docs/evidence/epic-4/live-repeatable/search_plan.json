@@ -1,0 +1,42 @@
+{
+  "topic": "2026 agentic AI frameworks",
+  "variants": [
+    "agentic AI framework comparison",
+    "best agentic AI frameworks 2026",
+    "agentic AI framework benchmarks"
+  ],
+  "provider": "serpapi",
+  "calls": [
+    {
+      "query": "2026 agentic AI frameworks",
+      "page": 1,
+      "per_page": 10
+    },
+    {
+      "query": "agentic AI framework comparison",
+      "page": 1,
+      "per_page": 10
+    },
+    {
+      "query": "best agentic AI frameworks 2026",
+      "page": 1,
+      "per_page": 10
+    },
+    {
+      "query": "agentic AI framework benchmarks",
+      "page": 1,
+      "per_page": 10
+    },
+    {
+      "query": "2026 agentic AI frameworks",
+      "page": 2,
+      "per_page": 10
+    },
+    {
+      "query": "2026 agentic AI frameworks",
+      "page": 3,
+      "per_page": 10
+    }
+  ],
+  "max_urls": 30
+}

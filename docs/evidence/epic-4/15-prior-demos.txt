@@ -1,0 +1,181 @@
+$ make demo-epic-2 demo-epic-3
+
+uv run --locked python -m evaluations.epic2_demo
+{
+  "mode": "offline; no provider request",
+  "topic": "2026 agentic AI frameworks",
+  "budgets": [
+    3,
+    10,
+    30
+  ],
+  "registered_tools": [
+    "record_phase_completion",
+    "fetch_url",
+    "extract_markdown",
+    "collect_source",
+    "build_index",
+    "validate_citations",
+    "write_run_report",
+    "plan_search",
+    "google_search",
+    "normalize_results"
+  ],
+  "prompts_loaded": {
+    "orchestrator": 4804,
+    "search_agent": 423,
+    "research_agent": 520,
+    "analyst_agent": 405,
+    "writer_agent": 708
+  },
+  "configured_models": {
+    "orchestrator": "openrouter:deepseek/deepseek-v4.1-flash",
+    "search_agent": "openrouter:deepseek/deepseek-v4.1-flash",
+    "research_agent": "openrouter:deepseek/deepseek-v4.1-flash",
+    "analyst_agent": "openrouter:deepseek/deepseek-v4.1-flash",
+    "writer_agent": "openrouter:deepseek/deepseek-v4.1-flash"
+  },
+  "provider_preferences": {
+    "require_parameters": true,
+    "data_collection": "deny"
+  },
+  "fake_injection_verified": true,
+  "checkpoint_restored": true,
+  "run": {
+    "run_id": "epic-2-demo",
+    "topic": "2026 agentic AI frameworks",
+    "completed_phases": [
+      "search"
+    ],
+    "query_variants": [],
+    "clean_results": [
+      {
+        "url": "https://example.com/article",
+        "title": "Offline fixture",
+        "snippet": "Fixture",
+        "rank": 1,
+        "query": "2026 agentic AI frameworks"
+      }
+    ],
+    "url_outcomes": {
+      "https://example.com/article": {
+        "rank": 1,
+        "url": "https://example.com/article",
+        "outcome": "pending",
+        "reason": null,
+        "source_id": null
+      }
+    }
+  },
+  "expected_rejections": [
+    "topic outside 3–250 characters",
+    "topic outside 3–250 characters",
+    "malformed state replacement",
+    "raw dictionary tool output"
+  ],
+  "rejected_agent_patterns": [
+    "/var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic2-agent-check-oacqvm0b/agent.py:1: forbidden HTTP import 'httpx'",
+    "provider construction ChatOpenRouter; use LLMService",
+    "inline system prompt; use prompts.catalog.load_prompt"
+  ]
+}
+uv run --locked python -m evaluations.epic3_demo
+{
+  "mode": "offline; no provider request",
+  "topic": "2026 agentic AI frameworks",
+  "run_id": "2026-agentic-ai-frameworks-20261001T141441Z",
+  "workspace": "/var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic3-demo-849ac2cl/runs/2026-agentic-ai-frameworks-20261001T141441Z",
+  "subagents": {
+    "search_agent": [
+      "google_search"
+    ],
+    "research_agent": [
+      "collect_source"
+    ],
+    "analyst_agent": [],
+    "writer_agent": []
+  },
+  "orchestrator_tools": [
+    "plan_search",
+    "normalize_results",
+    "build_index",
+    "validate_citations",
+    "write_run_report"
+  ],
+  "bound_tools": {
+    "build_index|delete|edit_file|glob|grep|ls|normalize_results|plan_search|read_file|task|validate_citations|write_file|write_run_report|write_todos": [
+      "build_index",
+      "delete",
+      "edit_file",
+      "glob",
+      "grep",
+      "ls",
+      "normalize_results",
+      "plan_search",
+      "read_file",
+      "task",
+      "validate_citations",
+      "write_file",
+      "write_run_report",
+      "write_todos"
+    ],
+    "delete|edit_file|glob|google_search|grep|ls|read_file|write_file": [
+      "delete",
+      "edit_file",
+      "glob",
+      "google_search",
+      "grep",
+      "ls",
+      "read_file",
+      "write_file"
+    ],
+    "collect_source|delete|edit_file|glob|grep|ls|read_file|write_file": [
+      "collect_source",
+      "delete",
+      "edit_file",
+      "glob",
+      "grep",
+      "ls",
+      "read_file",
+      "write_file"
+    ],
+    "delete|edit_file|glob|grep|ls|read_file|write_file": [
+      "delete",
+      "edit_file",
+      "glob",
+      "grep",
+      "ls",
+      "read_file",
+      "write_file"
+    ]
+  },
+  "prompts_loaded": {
+    "orchestrator": 4804,
+    "search_agent": 423,
+    "research_agent": 520,
+    "analyst_agent": 405,
+    "writer_agent": 708
+  },
+  "todos": [
+    "plan",
+    "search",
+    "normalize",
+    "fetch",
+    "index",
+    "synthesize",
+    "write",
+    "citations",
+    "report"
+  ],
+  "files_on_disk": [
+    "output/blog.md",
+    "request.json",
+    "research/summary.md"
+  ],
+  "marker_in_model_contexts": false,
+  "general_purpose_rejected": true,
+  "containment_refused": true,
+  "blog_exists": true
+}
+
+Exit code: 0 (expected 0)

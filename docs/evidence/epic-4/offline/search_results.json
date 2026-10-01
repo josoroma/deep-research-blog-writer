@@ -1,0 +1,352 @@
+[
+  {
+    "url": "https://example.com/post/?utm_source=x&gclid=y&id=7#intro",
+    "title": "Fixture 0-1",
+    "snippet": "Offline search fixture",
+    "rank": 1,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://www.reddit.com/r/agents/",
+    "title": "Fixture 0-2",
+    "snippet": "Offline search fixture",
+    "rank": 2,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-0/article-3",
+    "title": "Fixture 0-3",
+    "snippet": "Offline search fixture",
+    "rank": 3,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-0/article-4",
+    "title": "Fixture 0-4",
+    "snippet": "Offline search fixture",
+    "rank": 4,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-0/article-5",
+    "title": "Fixture 0-5",
+    "snippet": "Offline search fixture",
+    "rank": 5,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-0/article-6",
+    "title": "Fixture 0-6",
+    "snippet": "Offline search fixture",
+    "rank": 6,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-0/article-7",
+    "title": "Fixture 0-7",
+    "snippet": "Offline search fixture",
+    "rank": 7,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-0/article-8",
+    "title": "Fixture 0-8",
+    "snippet": "Offline search fixture",
+    "rank": 8,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-0/article-9",
+    "title": "Fixture 0-9",
+    "snippet": "Offline search fixture",
+    "rank": 9,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-0/article-10",
+    "title": "Fixture 0-10",
+    "snippet": "Offline search fixture",
+    "rank": 10,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/post?id=7",
+    "title": "Fixture 1-1",
+    "snippet": "Offline search fixture",
+    "rank": 1,
+    "query": "agent framework architecture comparison"
+  },
+  {
+    "url": "https://example.com/batch-1/article-2",
+    "title": "Fixture 1-2",
+    "snippet": "Offline search fixture",
+    "rank": 2,
+    "query": "agent framework architecture comparison"
+  },
+  {
+    "url": "https://example.com/batch-1/article-3",
+    "title": "Fixture 1-3",
+    "snippet": "Offline search fixture",
+    "rank": 3,
+    "query": "agent framework architecture comparison"
+  },
+  {
+    "url": "https://example.com/batch-1/article-4",
+    "title": "Fixture 1-4",
+    "snippet": "Offline search fixture",
+    "rank": 4,
+    "query": "agent framework architecture comparison"
+  },
+  {
+    "url": "https://example.com/batch-1/article-5",
+    "title": "Fixture 1-5",
+    "snippet": "Offline search fixture",
+    "rank": 5,
+    "query": "agent framework architecture comparison"
+  },
+  {
+    "url": "https://example.com/batch-1/article-6",
+    "title": "Fixture 1-6",
+    "snippet": "Offline search fixture",
+    "rank": 6,
+    "query": "agent framework architecture comparison"
+  },
+  {
+    "url": "https://example.com/batch-1/article-7",
+    "title": "Fixture 1-7",
+    "snippet": "Offline search fixture",
+    "rank": 7,
+    "query": "agent framework architecture comparison"
+  },
+  {
+    "url": "https://example.com/batch-1/article-8",
+    "title": "Fixture 1-8",
+    "snippet": "Offline search fixture",
+    "rank": 8,
+    "query": "agent framework architecture comparison"
+  },
+  {
+    "url": "https://example.com/batch-1/article-9",
+    "title": "Fixture 1-9",
+    "snippet": "Offline search fixture",
+    "rank": 9,
+    "query": "agent framework architecture comparison"
+  },
+  {
+    "url": "https://example.com/batch-1/article-10",
+    "title": "Fixture 1-10",
+    "snippet": "Offline search fixture",
+    "rank": 10,
+    "query": "agent framework architecture comparison"
+  },
+  {
+    "url": "https://example.com/batch-2/article-1",
+    "title": "Fixture 2-1",
+    "snippet": "Offline search fixture",
+    "rank": 1,
+    "query": "production agent framework evaluation"
+  },
+  {
+    "url": "https://youtu.be/video",
+    "title": "Fixture 2-2",
+    "snippet": "Offline search fixture",
+    "rank": 2,
+    "query": "production agent framework evaluation"
+  },
+  {
+    "url": "https://example.com/batch-2/article-3",
+    "title": "Fixture 2-3",
+    "snippet": "Offline search fixture",
+    "rank": 3,
+    "query": "production agent framework evaluation"
+  },
+  {
+    "url": "https://example.com/batch-2/article-4",
+    "title": "Fixture 2-4",
+    "snippet": "Offline search fixture",
+    "rank": 4,
+    "query": "production agent framework evaluation"
+  },
+  {
+    "url": "https://example.com/batch-2/article-5",
+    "title": "Fixture 2-5",
+    "snippet": "Offline search fixture",
+    "rank": 5,
+    "query": "production agent framework evaluation"
+  },
+  {
+    "url": "https://example.com/batch-2/article-6",
+    "title": "Fixture 2-6",
+    "snippet": "Offline search fixture",
+    "rank": 6,
+    "query": "production agent framework evaluation"
+  },
+  {
+    "url": "https://example.com/batch-2/article-7",
+    "title": "Fixture 2-7",
+    "snippet": "Offline search fixture",
+    "rank": 7,
+    "query": "production agent framework evaluation"
+  },
+  {
+    "url": "https://example.com/batch-2/article-8",
+    "title": "Fixture 2-8",
+    "snippet": "Offline search fixture",
+    "rank": 8,
+    "query": "production agent framework evaluation"
+  },
+  {
+    "url": "https://example.com/batch-2/article-9",
+    "title": "Fixture 2-9",
+    "snippet": "Offline search fixture",
+    "rank": 9,
+    "query": "production agent framework evaluation"
+  },
+  {
+    "url": "https://example.com/batch-2/article-10",
+    "title": "Fixture 2-10",
+    "snippet": "Offline search fixture",
+    "rank": 10,
+    "query": "production agent framework evaluation"
+  },
+  {
+    "url": "https://news.facebook.com/article",
+    "title": "Fixture 3-1",
+    "snippet": "Offline search fixture",
+    "rank": 11,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-3/article-2",
+    "title": "Fixture 3-2",
+    "snippet": "Offline search fixture",
+    "rank": 12,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-3/article-3",
+    "title": "Fixture 3-3",
+    "snippet": "Offline search fixture",
+    "rank": 13,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-3/article-4",
+    "title": "Fixture 3-4",
+    "snippet": "Offline search fixture",
+    "rank": 14,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-3/article-5",
+    "title": "Fixture 3-5",
+    "snippet": "Offline search fixture",
+    "rank": 15,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-3/article-6",
+    "title": "Fixture 3-6",
+    "snippet": "Offline search fixture",
+    "rank": 16,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-3/article-7",
+    "title": "Fixture 3-7",
+    "snippet": "Offline search fixture",
+    "rank": 17,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-3/article-8",
+    "title": "Fixture 3-8",
+    "snippet": "Offline search fixture",
+    "rank": 18,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-3/article-9",
+    "title": "Fixture 3-9",
+    "snippet": "Offline search fixture",
+    "rank": 19,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-3/article-10",
+    "title": "Fixture 3-10",
+    "snippet": "Offline search fixture",
+    "rank": 20,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-4/article-1",
+    "title": "Fixture 4-1",
+    "snippet": "Offline search fixture",
+    "rank": 21,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-4/article-2",
+    "title": "Fixture 4-2",
+    "snippet": "Offline search fixture",
+    "rank": 22,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-4/article-3",
+    "title": "Fixture 4-3",
+    "snippet": "Offline search fixture",
+    "rank": 23,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-4/article-4",
+    "title": "Fixture 4-4",
+    "snippet": "Offline search fixture",
+    "rank": 24,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-4/article-5",
+    "title": "Fixture 4-5",
+    "snippet": "Offline search fixture",
+    "rank": 25,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-4/article-6",
+    "title": "Fixture 4-6",
+    "snippet": "Offline search fixture",
+    "rank": 26,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-4/article-7",
+    "title": "Fixture 4-7",
+    "snippet": "Offline search fixture",
+    "rank": 27,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-4/article-8",
+    "title": "Fixture 4-8",
+    "snippet": "Offline search fixture",
+    "rank": 28,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-4/article-9",
+    "title": "Fixture 4-9",
+    "snippet": "Offline search fixture",
+    "rank": 29,
+    "query": "2026 agentic AI frameworks"
+  },
+  {
+    "url": "https://example.com/batch-4/article-10",
+    "title": "Fixture 4-10",
+    "snippet": "Offline search fixture",
+    "rank": 30,
+    "query": "2026 agentic AI frameworks"
+  }
+]

@@ -13,8 +13,11 @@ from pydantic import ValidationError
 
 from schemas.config import RunSettings
 from schemas.requests import ResearchRequest
+from schemas.search import QueryVariants
 from services.llm_service import MissingOpenRouterKey
+from services.search_provider import SearchProviderError
 from workflows.research_run import RunSummary, run_research
+from workflows.search_run import run_search
 
 EXIT_COMPLETED = 0
 EXIT_FAILED = 1
@@ -31,6 +34,14 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--per-page", type=int, default=None, help="Results per page (default 10).")
     parser.add_argument(
         "--max-urls", type=int, default=None, help="Maximum clean URLs (default 30)."
+    )
+    parser.add_argument(
+        "--search-only", action="store_true", help="Stop after saving clean search results."
+    )
+    parser.add_argument(
+        "--query-variant",
+        action="append",
+        help="Provide 2 or 3 variants for a reproducible search-only run.",
     )
     return parser
 
@@ -56,15 +67,24 @@ def _print_summary(summary: RunSummary) -> None:
 
 def main(argv: Sequence[str] | None = None, settings: RunSettings | None = None) -> int:
     args = build_parser().parse_args(argv)
-    resolved = settings if settings is not None else RunSettings()
     try:
+        resolved = settings if settings is not None else RunSettings()
         request = _request_from_args(args, resolved)
-    except ValidationError as error:
+        if args.query_variant and not args.search_only:
+            raise ValueError("--query-variant requires --search-only")
+        variants = QueryVariants(variants=args.query_variant) if args.query_variant else None
+    except (ValidationError, ValueError) as error:
         print(f"Invalid input: {error}", file=sys.stderr)
         return EXIT_INVALID_INPUT
     try:
+        if args.search_only:
+            search_summary = run_search(
+                request, resolved, runs_root=Path(resolved.runs_dir), variants=variants
+            )
+            print(search_summary.model_dump_json(indent=2))
+            return EXIT_COMPLETED if search_summary.status == "completed" else EXIT_FAILED
         summary = run_research(request, resolved, runs_root=Path(resolved.runs_dir))
-    except MissingOpenRouterKey as error:
+    except (MissingOpenRouterKey, SearchProviderError, ValueError) as error:
         print(f"Invalid input: {error}", file=sys.stderr)
         return EXIT_INVALID_INPUT
     _print_summary(summary)

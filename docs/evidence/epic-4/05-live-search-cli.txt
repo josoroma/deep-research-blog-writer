@@ -1,0 +1,21 @@
+$ env SEARCH_TIMEOUT_SECONDS=60 uv run --locked deep-research-blog '2026 agentic AI frameworks' --search-only
+
+{
+  "run_id": "2026-agentic-ai-frameworks-20261001T140224Z",
+  "workspace": "runs/2026-agentic-ai-frameworks-20261001T140224Z",
+  "status": "completed",
+  "provider": "serpapi",
+  "search_plan_path": "runs/2026-agentic-ai-frameworks-20261001T140224Z/search_plan.json",
+  "raw_results_path": "runs/2026-agentic-ai-frameworks-20261001T140224Z/search_results.json",
+  "clean_results_path": "runs/2026-agentic-ai-frameworks-20261001T140224Z/clean_results.json",
+  "counts": {
+    "raw": 51,
+    "denied": 11,
+    "duplicates": 0,
+    "capped": 10,
+    "kept": 30
+  },
+  "error": null
+}
+
+Exit code: 0 (expected 0)

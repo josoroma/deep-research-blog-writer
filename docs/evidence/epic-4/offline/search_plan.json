@@ -1,0 +1,36 @@
+{
+  "topic": "2026 agentic AI frameworks",
+  "variants": [
+    "agent framework architecture comparison",
+    "production agent framework evaluation"
+  ],
+  "provider": "fake",
+  "calls": [
+    {
+      "query": "2026 agentic AI frameworks",
+      "page": 1,
+      "per_page": 10
+    },
+    {
+      "query": "agent framework architecture comparison",
+      "page": 1,
+      "per_page": 10
+    },
+    {
+      "query": "production agent framework evaluation",
+      "page": 1,
+      "per_page": 10
+    },
+    {
+      "query": "2026 agentic AI frameworks",
+      "page": 2,
+      "per_page": 10
+    },
+    {
+      "query": "2026 agentic AI frameworks",
+      "page": 3,
+      "per_page": 10
+    }
+  ],
+  "max_urls": 30
+}

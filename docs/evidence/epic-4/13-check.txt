@@ -1,0 +1,89 @@
+$ make check
+
+uv lock --check
+Resolved 82 packages in 3ms
+/Library/Developer/CommandLineTools/usr/bin/make lint format-check typecheck test
+uv run --locked ruff check .
+All checks passed!
+uv run --locked ruff format --check .
+59 files already formatted
+uv run --locked mypy --strict
+Success: no issues found in 58 source files
+uv run --locked pytest
+============================= test session starts ==============================
+platform darwin -- Python 3.12.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: /Users/josoroma/sites/langchain
+configfile: pyproject.toml
+testpaths: tests
+plugins: platformdirs-4.12.2, cov-7.1.0, langsmith-0.14.2, anyio-4.15.1
+collected 296 items / 2 deselected / 294 selected
+
+tests/test_agent_boundary.py ........................................... [ 14%]
+.....                                                                    [ 16%]
+tests/test_cli.py ........                                               [ 19%]
+tests/test_contracts.py ......................................           [ 31%]
+tests/test_deep_agent.py .......                                         [ 34%]
+tests/test_epic2_demo.py .                                               [ 34%]
+tests/test_epic3_demo.py .                                               [ 35%]
+tests/test_live_smoke_offline.py ........                                [ 37%]
+tests/test_llm_service.py ..............                                 [ 42%]
+tests/test_prompts_and_architecture.py ...............................   [ 53%]
+tests/test_search_provider.py ....................                       [ 59%]
+tests/test_search_session.py ........................................... [ 74%]
+............                                                             [ 78%]
+tests/test_search_workflow.py ..............                             [ 83%]
+tests/test_settings.py .................                                 [ 89%]
+tests/test_state_and_tools.py ......................                     [ 96%]
+tests/test_workspace.py ........                                         [ 99%]
+tests/test_workspace_backend.py ..                                       [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform darwin, python 3.12.9-final-0 _______________
+
+Name                                Stmts   Miss Branch BrPart   Cover   Missing
+--------------------------------------------------------------------------------
+agents/__init__.py                      0      0      0      0 100.00%
+agents/deep_research.py                32      0      2      0 100.00%
+agents/search_planner.py               20      0      4      0 100.00%
+evaluations/__init__.py                 0      0      0      0 100.00%
+evaluations/agent_architecture.py      61      1     46      1  98.13%   35, 63->62
+evaluations/agent_boundary.py          47      0     18      0 100.00%
+evaluations/epic2_demo.py              81      0      2      0 100.00%
+evaluations/epic3_demo.py              66      1      2      1  97.06%   90, 101->exit
+evaluations/epic4_demo.py              67      3      6      0  95.89%   158-160
+evaluations/fakes.py                   26      0      2      0 100.00%
+evaluations/live_smoke.py              33      0      6      0 100.00%
+evaluations/search_live_smoke.py       24     13      2      0  42.31%   13-15, 19-28
+prompts/__init__.py                     0      0      0      0 100.00%
+prompts/catalog.py                      9      1      4      1  84.62%   13
+schemas/__init__.py                     0      0      0      0 100.00%
+schemas/common.py                      10      0      0      0 100.00%
+schemas/config.py                      43      0      4      0 100.00%
+schemas/requests.py                     9      0      0      0 100.00%
+schemas/responses.py                   33      0      0      0 100.00%
+schemas/search.py                      34      0      2      0 100.00%
+schemas/state.py                       37      0     10      0 100.00%
+schemas/tool_io.py                     39      0      0      0 100.00%
+schemas/workspace.py                    6      0      0      0 100.00%
+services/__init__.py                    0      0      0      0 100.00%
+services/checkpoints.py                 6      0      0      0 100.00%
+services/llm_service.py                17      0      6      0 100.00%
+services/search_provider.py            94      0     26      0 100.00%
+services/search_session.py            112      0     28      0 100.00%
+services/workspace.py                  24      0      2      0 100.00%
+tools/__init__.py                       0      0      0      0 100.00%
+tools/registry.py                      75      0     18      0 100.00%
+tools/search_tools.py                  36      0     10      2  95.65%   36->38, 56->55
+tools/state_tools.py                   11      0      4      0 100.00%
+tools/stubs.py                         37      3      0      0  91.89%   61, 67, 73
+workflows/__init__.py                   0      0      0      0 100.00%
+workflows/cli.py                       56      1      6      1  96.77%   65
+workflows/research_run.py              42      2      0      0  95.24%   65-66
+workflows/search_run.py                52      0      4      0 100.00%
+--------------------------------------------------------------------------------
+TOTAL                                1239     25    214      6  97.73%
+Coverage XML written to file coverage.xml
+Required test coverage of 80% reached. Total coverage: 97.73%
+====================== 294 passed, 2 deselected in 4.21s =======================
+
+Exit code: 0 (expected 0)

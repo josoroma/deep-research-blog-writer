@@ -1,0 +1,16 @@
+$ make check
+
+uv lock --check
+Resolved 82 packages in 3ms
+/Library/Developer/CommandLineTools/usr/bin/make lint format-check typecheck test
+uv run --locked ruff check .
+All checks passed!
+uv run --locked ruff format --check .
+59 files already formatted
+uv run --locked mypy --strict
+tests/test_search_session.py:233: error: Argument "rank" to "model_construct" of "SearchResult" has incompatible type "str"; expected "int"  [arg-type]
+Found 1 error in 1 file (checked 58 source files)
+make[1]: *** [typecheck] Error 1
+make: *** [check] Error 2
+
+Exit code: 2 (expected 0)

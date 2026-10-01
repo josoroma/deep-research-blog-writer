@@ -29,6 +29,7 @@ class RunState(Contract):
     run_id: str = Field(min_length=1)
     topic: Topic
     completed_phases: list[Phase] = Field(default_factory=list)
+    query_variants: list[str] = Field(default_factory=list)
     clean_results: list[SearchResult] = Field(default_factory=list)
     url_outcomes: dict[str, UrlOutcome] = Field(default_factory=dict)
 

@@ -23,7 +23,7 @@ CODEBASE Context: EPIC-1 foundation implemented on 2026-09-30; EPIC-2 contracts 
   - [US-3.4: Start a Run from the Command Line](#us-34-start-a-run-from-the-command-line)
 - [EPIC-4: Search](#epic-4-search)
   - [US-4.1: Collect Paged Search Results Through a Provider Interface](#us-41-collect-paged-search-results-through-a-provider-interface)
-  - [US-4.2: Integrate the Serper Search Provider](#us-42-integrate-the-serper-search-provider)
+  - [US-4.2: Integrate the SerpApi Search Provider](#us-42-integrate-the-serpapi-search-provider)
   - [US-4.3: Expand the Topic into Query Variants](#us-43-expand-the-topic-into-query-variants)
   - [US-4.4: Normalize and Deduplicate Search Results](#us-44-normalize-and-deduplicate-search-results)
 - [EPIC-5: Fetch and Extraction](#epic-5-fetch-and-extraction)
@@ -119,23 +119,23 @@ CODEBASE Context: EPIC-1 foundation implemented on 2026-09-30; EPIC-2 contracts 
 | US-3.4 | Start a Run from the Command Line | DONE | EPIC-3 |
 | US-3.4#1 | Add the `deep-research-blog` console script with `--pages`, `--per-page`, and `--max-urls`. | DONE | US-3.4 |
 | US-3.4#2 | Print the run summary on exit. | DONE | US-3.4 |
-| EPIC-4 | Search | — | — |
-| US-4.1 | Collect Paged Search Results Through a Provider Interface | READY | EPIC-4 |
-| US-4.1#1 | Define the `SearchProvider` interface and a fake provider for tests. | TODO | US-4.1 |
-| US-4.1#2 | Implement and register the `google_search(query, page)` tool. | TODO | US-4.1 |
-| US-4.1#3 | Persist collected results to `search_results.json`. | TODO | US-4.1 |
-| US-4.2 | Integrate the Serper Search Provider | READY | EPIC-4 |
-| US-4.2#1 | Record the Serper decision as an ADR. | TODO | US-4.2 |
-| US-4.2#2 | Implement the Serper provider behind the `SearchProvider` interface, reading `SERPER_API_KEY`. | TODO | US-4.2 |
-| US-4.2#3 | Add a live integration test kept out of the offline unit suite. | TODO | US-4.2 |
-| US-4.3 | Expand the Topic into Query Variants | READY | EPIC-4 |
-| US-4.3#1 | Derive query variants in the orchestrator's plan phase. | TODO | US-4.3 |
-| US-4.3#2 | Search page 1 of each variant. | TODO | US-4.3 |
-| US-4.3#3 | Merge results in the PD-010 order before normalization. | TODO | US-4.3 |
-| US-4.4 | Normalize and Deduplicate Search Results | READY | EPIC-4 |
-| US-4.4#1 | Implement URL canonicalization that strips the PD-011 tracking parameters, fragments, and trailing slashes. | TODO | US-4.4 |
-| US-4.4#2 | Implement ranked deduplication, the PD-011 default denylist with subdomain matching, and the `max_urls` cap. | TODO | US-4.4 |
-| US-4.4#3 | Implement and register `normalize_results`, which writes `clean_results.json` to the run workspace. | TODO | US-4.4 |
+| EPIC-4 | Search | DONE | — |
+| US-4.1 | Collect Paged Search Results Through a Provider Interface | DONE | EPIC-4 |
+| US-4.1#1 | Define the `SearchProvider` interface and a fake provider for tests. | DONE | US-4.1 |
+| US-4.1#2 | Implement and register the `google_search(query, page)` tool. | DONE | US-4.1 |
+| US-4.1#3 | Persist collected results to `search_results.json`. | DONE | US-4.1 |
+| US-4.2 | Integrate the SerpApi Search Provider | DONE | EPIC-4 |
+| US-4.2#1 | Record the SerpApi decision as an ADR. | DONE | US-4.2 |
+| US-4.2#2 | Implement the SerpApi provider behind the `SearchProvider` interface, reading `SERPAPI_API_KEY`. | DONE | US-4.2 |
+| US-4.2#3 | Add a live integration test kept out of the offline unit suite. | DONE | US-4.2 |
+| US-4.3 | Expand the Topic into Query Variants | DONE | EPIC-4 |
+| US-4.3#1 | Derive query variants in the orchestrator's plan phase. | DONE | US-4.3 |
+| US-4.3#2 | Search page 1 of each variant. | DONE | US-4.3 |
+| US-4.3#3 | Merge results in the PD-010 order before normalization. | DONE | US-4.3 |
+| US-4.4 | Normalize and Deduplicate Search Results | DONE | EPIC-4 |
+| US-4.4#1 | Implement URL canonicalization that strips the PD-011 tracking parameters, fragments, and trailing slashes. | DONE | US-4.4 |
+| US-4.4#2 | Implement ranked deduplication, the PD-011 default denylist with subdomain matching, and the `max_urls` cap. | DONE | US-4.4 |
+| US-4.4#3 | Implement and register `normalize_results`, which writes `clean_results.json` to the run workspace. | DONE | US-4.4 |
 | EPIC-5 | Fetch and Extraction | — | — |
 | US-5.1 | Fetch Pages Politely with Bounded Retries | READY | EPIC-5 |
 | US-5.1#1 | Implement and register `fetch_url` with a 15-second timeout and up to 3 retries of transient failures (backoff of about 1, 2, and 4 seconds, with jitter). | TODO | US-5.1 |
@@ -255,7 +255,7 @@ flowchart TD
   end
   subgraph EPIC_4["EPIC-4: Search"]
     US-4_1["US-4.1: Collect Paged Search Results Thro…"]
-    US-4_2["US-4.2: Integrate the Serper Search Provi…"]
+    US-4_2["US-4.2: Integrate the SerpApi Search Provi…"]
     US-4_3["US-4.3: Expand the Topic into Query Varia…"]
     US-4_4["US-4.4: Normalize and Deduplicate Search…"]
   end
@@ -491,9 +491,9 @@ flowchart TD
   US-4_1 --> US-4_1_t1(["Define the SearchProvider interface and a f…"])
   US-4_1 --> US-4_1_t2(["Implement and register the google_search(qu…"])
   US-4_1 --> US-4_1_t3(["Persist collected results to search_results…"])
-  US-4_2["US-4.2: Integrate the Serper Search Provider"]
-  US-4_2 --> US-4_2_t1(["Record the Serper decision as an ADR."])
-  US-4_2 --> US-4_2_t2(["Implement the Serper provider behind the Se…"])
+  US-4_2["US-4.2: Integrate the SerpApi Search Provider"]
+  US-4_2 --> US-4_2_t1(["Record the SerpApi decision as an ADR."])
+  US-4_2 --> US-4_2_t2(["Implement the SerpApi provider behind the Se…"])
   US-4_2 --> US-4_2_t3(["Add a live integration test kept out of the…"])
   US-4_3["US-4.3: Expand the Topic into Query Variants"]
   US-4_3 --> US-4_3_t1(["Derive query variants in the orchestrator's…"])
@@ -727,7 +727,7 @@ flowchart TD
 
 ## Product Context
 
-Deep Research Blog Writer is a DeepAgent built with LangChain `deepagents` on LangGraph. Given one research topic, it runs paged Google searches through the Serper API (3 pages × 10 results for the topic, plus its query variants, capped at 30 URLs), collects every result into a local Markdown source file with front-matter, indexes and synthesizes that corpus, and writes a 2000–5000 word blog post whose claims cite only those sources. All model calls go through OpenRouter to DeepSeek V4.1 Flash. Each run keeps its inputs and artifacts in its own workspace, `runs/<run_id>/`; PRD paths such as `research/` and `output/` are relative to that workspace.
+Deep Research Blog Writer is a DeepAgent built with LangChain `deepagents` on LangGraph. Given one research topic, it runs paged Google searches through the SerpApi API (3 pages × 10 results for the topic, plus its query variants, capped at 30 URLs), collects every result into a local Markdown source file with front-matter, indexes and synthesizes that corpus, and writes a 2000–5000 word blog post whose claims cite only those sources. All model calls go through OpenRouter to DeepSeek V4.1 Flash. Each run keeps its inputs and artifacts in its own workspace, `runs/<run_id>/`; PRD paths such as `research/` and `output/` are relative to that workspace.
 
 The codebase follows the Product Manager's engineering standards: agents orchestrate, tools execute, services integrate, and schemas define contracts. Delivery follows the PRD milestones: skeleton (M1), ingest (M2), authoring (M3), production hardening (M4), and evaluation (M5).
 
@@ -766,7 +766,7 @@ Traceability sources cited by the stories below:
 - research_agent
 - analyst_agent
 - writer_agent
-- Serper (Google search API)
+- SerpApi (Google search API; Serper supported as an alternate)
 - Source websites
 - OpenRouter (DeepSeek V4.1 Flash)
 - LangSmith
@@ -914,7 +914,7 @@ Applies to: US-2.4.
 ### PD-005 — Deterministic Steps Run as Tools
 
 - research_agent gets `collect_source`, which fetches one URL, extracts it, writes its source file, and returns only metadata. `fetch_url` and `extract_markdown` stay registered but are called only inside `collect_source`, not by any agent.
-- The orchestrator gets `normalize_results`, `build_index`, `validate_citations`, and `write_run_report`.
+- The orchestrator gets `plan_search`, `normalize_results`, `build_index`, `validate_citations`, and `write_run_report`.
 - search_agent gets `google_search`.
 - analyst_agent and writer_agent keep only the built-in filesystem tools.
 
@@ -940,9 +940,14 @@ The console script is `deep-research-blog`, invoked as `uv run deep-research-blo
 
 Applies to: US-3.4, US-8.2, US-8.4.
 
-### PD-009 — Serper for Search
+### PD-009 — SerpApi for Search
 
-Search uses Serper.dev's Google search API, with the key in `SERPER_API_KEY`.
+Search defaults to SerpApi's Google search API, with the key in `SERPAPI_API_KEY`
+and `SEARCH_PROVIDER=serpapi`. The user supplied a SerpApi account/key during EPIC-4.
+Use offset pagination (`start=0,10,20`) and `per_page=10`, because the current Google
+API does not support `num`. Serper remains selectable with `SEARCH_PROVIDER=serper`
+and its separate `SERPER_API_KEY`, behind the same provider interface.
+See [ADR 0005](docs/adr/0005-search-provider.md). No application SERP scraping.
 
 Applies to: US-4.2.
 
@@ -1767,7 +1772,9 @@ Open Questions:
 
 ## Objective
 
-Turn a validated topic into a ranked, deduplicated list of up to 30 article URLs from paged Google results obtained through Serper (PRD.md milestone M2).
+Turn a validated topic into a ranked, deduplicated list of up to 30 article URLs from paged Google results obtained through SerpApi (PRD.md milestone M2).
+
+Implementation and acceptance evidence: [EPIC-4.md](EPIC-4.md), [EPIC-4-RUNBOOK.md](EPIC-4-RUNBOOK.md), and [docs/evidence/epic-4/](docs/evidence/epic-4/).
 
 ## Dependencies
 
@@ -1777,7 +1784,7 @@ Turn a validated topic into a ranked, deduplicated list of up to 30 article URLs
 
 ### US-4.1: Collect Paged Search Results Through a Provider Interface
 
-Status: READY
+Status: DONE
 
 As a technical content author
 I want my topic searched across 3 result pages of 10
@@ -1819,42 +1826,42 @@ Dependencies:
 - US-3.2
 
 Tasks:
-- [ ] Define the `SearchProvider` interface and a fake provider for tests.
-- [ ] Implement and register the `google_search(query, page)` tool.
-- [ ] Persist collected results to `search_results.json`.
+- [x] Define the `SearchProvider` interface and a fake provider for tests.
+- [x] Implement and register the `google_search(query, page)` tool.
+- [x] Persist collected results to `search_results.json`.
 
 Open Questions:
 - None.
 
-### US-4.2: Integrate the Serper Search Provider
+### US-4.2: Integrate the SerpApi Search Provider
 
-Status: READY
+Status: DONE
 
 As a Product Manager
-I want Serper integrated as the production search provider
+I want SerpApi integrated as the production search provider
 So that runs return real Google results without scraping result pages.
 
 Source:
-- PRD.md §12, Open decisions — Search provider (Serper.dev recommended)
+- PRD.md §12, Open decisions — Search provider (Serper.dev originally recommended; SerpApi selected in EPIC-4)
 - PRD.md FR-2 ("v1: Serper/SerpAPI or Tavily")
 - skills/deep-research-blog-writer/SKILL.md — Operating rules, rule 6
-- Product decision PD-009 (Serper, `SERPER_API_KEY`)
+- Product decision PD-009 (SerpApi, `SERPAPI_API_KEY`)
 
 Acceptance Criteria:
 
 ```gherkin
-Scenario: Search through Serper
-  Given "SERPER_API_KEY" is set
+Scenario: Search through SerpApi
+  Given "SERPAPI_API_KEY" is set
   When "google_search" is called for page 2 of a query with per_page 10
-  Then the results Serper ranks 11 to 20 for that query MUST be returned as SearchResult items
+  Then the results SerpApi ranks 11 to 20 for that query MUST be returned as SearchResult items
   And Google result pages MUST NOT be fetched or parsed directly
 ```
 
 ```gherkin
 Scenario: Missing credentials fail before searching
-  Given "SERPER_API_KEY" is not set
-  When a run starts with the Serper provider
-  Then the run MUST fail before any search with an error that names "SERPER_API_KEY"
+  Given "SERPAPI_API_KEY" is not set
+  When a run starts with the SerpApi provider
+  Then the run MUST fail before any search with an error that names "SERPAPI_API_KEY"
 ```
 
 Dependencies:
@@ -1862,16 +1869,16 @@ Dependencies:
 - US-4.1
 
 Tasks:
-- [ ] Record the Serper decision as an ADR.
-- [ ] Implement the Serper provider behind the `SearchProvider` interface, reading `SERPER_API_KEY`.
-- [ ] Add a live integration test kept out of the offline unit suite.
+- [x] Record the SerpApi decision as an ADR.
+- [x] Implement the SerpApi provider behind the `SearchProvider` interface, reading `SERPAPI_API_KEY`.
+- [x] Add a live integration test kept out of the offline unit suite.
 
 Open Questions:
 - None.
 
 ### US-4.3: Expand the Topic into Query Variants
 
-Status: READY
+Status: DONE
 
 As a technical content author
 I want 2–3 query variants derived from my topic
@@ -1911,16 +1918,16 @@ Dependencies:
 - US-4.1
 
 Tasks:
-- [ ] Derive query variants in the orchestrator's plan phase.
-- [ ] Search page 1 of each variant.
-- [ ] Merge results in the PD-010 order before normalization.
+- [x] Derive query variants in the orchestrator's plan phase.
+- [x] Search page 1 of each variant.
+- [x] Merge results in the PD-010 order before normalization.
 
 Open Questions:
 - None.
 
 ### US-4.4: Normalize and Deduplicate Search Results
 
-Status: READY
+Status: DONE
 
 As a technical content author
 I want duplicate, tracking, and non-article URLs removed before fetching
@@ -1966,9 +1973,9 @@ Dependencies:
 - US-4.1
 
 Tasks:
-- [ ] Implement URL canonicalization that strips the PD-011 tracking parameters, fragments, and trailing slashes.
-- [ ] Implement ranked deduplication, the PD-011 default denylist with subdomain matching, and the `max_urls` cap.
-- [ ] Implement and register `normalize_results`, which writes `clean_results.json` to the run workspace.
+- [x] Implement URL canonicalization that strips the PD-011 tracking parameters, fragments, and trailing slashes.
+- [x] Implement ranked deduplication, the PD-011 default denylist with subdomain matching, and the `max_urls` cap.
+- [x] Implement and register `normalize_results`, which writes `clean_results.json` to the run workspace.
 
 Open Questions:
 - None.
@@ -3053,7 +3060,7 @@ Acceptance Criteria:
 
 ```gherkin
 Scenario: The unit suite passes offline
-  Given "OPENROUTER_API_KEY" and "SERPER_API_KEY" are unset and outbound network access is blocked
+  Given "OPENROUTER_API_KEY", "SERPER_API_KEY", and "SERPAPI_API_KEY" are unset and outbound network access is blocked
   When the unit test suite runs
   Then it MUST pass
 ```
@@ -3140,7 +3147,7 @@ Acceptance Criteria:
 Scenario: Score the golden topics
   Given "evaluations/golden_dataset.json" lists the three PD-021 topics
   When "make eval" runs
-  Then the pipeline MUST run for every listed topic with the production models and Serper
+  Then the pipeline MUST run for every listed topic with the production models and SerpApi
   And each run MUST be scored for citation validity and blog length
 ```
 

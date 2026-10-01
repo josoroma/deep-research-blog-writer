@@ -8,3 +8,5 @@ Record accepted decisions with a zero-padded four-digit prefix: `NNNN-short-titl
 | [0002](0002-openrouter-deepseek-v4-1-flash.md) | OpenRouter with DeepSeek V4.1 Flash | Accepted; live verification tracked separately |
 | [0003](0003-filesystem-backend-for-run-workspace.md) | FilesystemBackend for the run workspace | Accepted |
 | [0004](0004-disable-general-purpose-subagent.md) | Disable the auto-added general-purpose sub-agent | Accepted |
+
+- [0005: SerpApi search behind a provider interface](0005-search-provider.md)

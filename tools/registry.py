@@ -1,8 +1,10 @@
 """Typed application tools with LangChain adapters at the framework boundary."""
 
+from __future__ import annotations
+
 from collections.abc import Callable, Iterator, Mapping
 from dataclasses import dataclass
-from typing import Annotated, Protocol
+from typing import TYPE_CHECKING, Annotated, Protocol
 
 from langchain.tools import ToolRuntime
 from langchain_core.messages import ToolMessage
@@ -12,8 +14,12 @@ from pydantic import BaseModel, Field, create_model
 
 from schemas.requests import CompletePhaseInput
 from schemas.state import ResearchAgentState, RunStateUpdate
+from tools.search_tools import register_search_tools
 from tools.state_tools import record_phase_completion
 from tools.stubs import register_stub_tools
+
+if TYPE_CHECKING:
+    from services.search_session import SearchSession
 
 Runtime = ToolRuntime[None, ResearchAgentState]
 
@@ -120,15 +126,22 @@ class ToolRegistry(Mapping[str, ToolDefinition]):
         return len(self._tools)
 
 
-TOOLS = ToolRegistry()
-TOOLS.register(
-    TypedTool[CompletePhaseInput, RunStateUpdate](
-        name="record_phase_completion",
-        input_model=CompletePhaseInput,
-        output_model=RunStateUpdate,
-        handler=record_phase_completion,
-        description="Record a completed phase in validated run state; calls are idempotent.",
-        updates_state=True,
+def create_tool_registry(search_session: SearchSession | None = None) -> ToolRegistry:
+    """Build independent tool bindings; credentials and provider clients stay off state."""
+    registry = ToolRegistry()
+    registry.register(
+        TypedTool[CompletePhaseInput, RunStateUpdate](
+            name="record_phase_completion",
+            input_model=CompletePhaseInput,
+            output_model=RunStateUpdate,
+            handler=record_phase_completion,
+            description="Record a completed phase in validated run state; calls are idempotent.",
+            updates_state=True,
+        )
     )
-)
-register_stub_tools(TOOLS)
+    register_stub_tools(registry)
+    register_search_tools(registry, search_session)
+    return registry
+
+
+TOOLS = create_tool_registry()

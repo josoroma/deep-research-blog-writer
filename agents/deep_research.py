@@ -27,9 +27,10 @@ from schemas.config import AgentName
 from schemas.state import ResearchAgentState
 from schemas.workspace import RunWorkspace
 from services.llm_service import LLMService
-from tools.registry import TOOLS
+from tools.registry import TOOLS, ToolRegistry
 
 ORCHESTRATOR_TOOLS: tuple[str, ...] = (
+    "plan_search",
     "normalize_results",
     "build_index",
     "validate_citations",
@@ -53,9 +54,9 @@ class UnsupportedModelProvider(ValueError):
     """The model's provider cannot be resolved, so the harness cannot be configured."""
 
 
-def _tools_for(names: Sequence[str]) -> list[BaseTool]:
+def _tools_for(names: Sequence[str], registry: ToolRegistry) -> list[BaseTool]:
     """Resolve registered tools by name; a missing name fails at build time."""
-    return [TOOLS[name].as_langchain_tool() for name in names]
+    return [registry[name].as_langchain_tool() for name in names]
 
 
 def _disable_general_purpose_subagent(model: BaseChatModel) -> None:
@@ -78,7 +79,7 @@ def _disable_general_purpose_subagent(model: BaseChatModel) -> None:
 
 
 def build_deep_agent(
-    llm: LLMService, workspace: RunWorkspace
+    llm: LLMService, workspace: RunWorkspace, *, tool_registry: ToolRegistry = TOOLS
 ) -> CompiledStateGraph[Any, Any, Any, Any]:
     """Build the orchestrator with its four sub-agents and the run workspace backend."""
     orchestrator_model = llm.for_agent("orchestrator")
@@ -88,14 +89,14 @@ def build_deep_agent(
             "name": agent,
             "description": SUBAGENT_DESCRIPTIONS[agent],
             "system_prompt": load_prompt(agent),
-            "tools": _tools_for(SUBAGENT_TOOLS[agent]),
+            "tools": _tools_for(SUBAGENT_TOOLS[agent], tool_registry),
             "model": llm.for_agent(agent),
         }
         for agent in SUBAGENT_TOOLS
     ]
     return create_deep_agent(
         model=orchestrator_model,
-        tools=_tools_for(ORCHESTRATOR_TOOLS),
+        tools=_tools_for(ORCHESTRATOR_TOOLS, tool_registry),
         system_prompt=load_prompt("orchestrator"),
         middleware=[TodoListMiddleware()],
         subagents=subagents,
