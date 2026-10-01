@@ -1,0 +1,5 @@
+$ uv python install 3.12
+
+Python 3.12 is already installed
+
+Exit code: 0 (expected 0)

@@ -1,0 +1,73 @@
+$ make demo-epic-2
+
+uv run --locked python -m evaluations.epic2_demo
+{
+  "mode": "offline; no provider request",
+  "topic": "2026 agentic AI frameworks",
+  "budgets": [
+    3,
+    10,
+    30
+  ],
+  "registered_tools": [
+    "record_phase_completion"
+  ],
+  "prompts_loaded": {
+    "orchestrator": 4324,
+    "search_agent": 423,
+    "research_agent": 520,
+    "analyst_agent": 405,
+    "writer_agent": 708
+  },
+  "configured_models": {
+    "orchestrator": "openrouter:deepseek/deepseek-v4.1-flash",
+    "search_agent": "openrouter:deepseek/deepseek-v4.1-flash",
+    "research_agent": "openrouter:deepseek/deepseek-v4.1-flash",
+    "analyst_agent": "openrouter:deepseek/deepseek-v4.1-flash",
+    "writer_agent": "openrouter:deepseek/deepseek-v4.1-flash"
+  },
+  "provider_preferences": {
+    "require_parameters": true,
+    "data_collection": "deny"
+  },
+  "fake_injection_verified": true,
+  "checkpoint_restored": true,
+  "run": {
+    "run_id": "epic-2-demo",
+    "topic": "2026 agentic AI frameworks",
+    "completed_phases": [
+      "search"
+    ],
+    "clean_results": [
+      {
+        "url": "https://example.com/article",
+        "title": "Offline fixture",
+        "snippet": "Fixture",
+        "rank": 1,
+        "query": "2026 agentic AI frameworks"
+      }
+    ],
+    "url_outcomes": {
+      "https://example.com/article": {
+        "rank": 1,
+        "url": "https://example.com/article",
+        "outcome": "pending",
+        "reason": null,
+        "source_id": null
+      }
+    }
+  },
+  "expected_rejections": [
+    "topic outside 3–250 characters",
+    "topic outside 3–250 characters",
+    "malformed state replacement",
+    "raw dictionary tool output"
+  ],
+  "rejected_agent_patterns": [
+    "/var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic2-agent-check-m4g8kszl/agent.py:1: forbidden HTTP import 'httpx'",
+    "provider construction ChatOpenRouter; use LLMService",
+    "inline system prompt; use prompts.catalog.load_prompt"
+  ]
+}
+
+Exit code: 0 (expected 0)

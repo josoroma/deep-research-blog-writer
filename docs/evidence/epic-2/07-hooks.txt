@@ -1,0 +1,19 @@
+$ make hooks
+
+uv run --locked pre-commit run --all-files
+[INFO] Initializing environment for https://github.com/pre-commit/mirrors-mypy:pydantic==2.12.5.
+[INFO] Installing environment for https://github.com/pre-commit/mirrors-mypy.
+[INFO] Once installed this environment will be reused.
+[INFO] This may take a few minutes...
+ruff check...............................................................Passed
+ruff format..............................................................Passed
+mypy.....................................................................Failed
+- hook id: mypy
+- files were modified by this hook
+
+Success: no issues found in 33 source files
+
+pytest (offline, coverage >=80%, agent boundary).........................Passed
+make: *** [hooks] Error 1
+
+Exit code: 2 (expected 0)

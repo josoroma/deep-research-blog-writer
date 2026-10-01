@@ -1,6 +1,6 @@
 # Deep Research Blog Writer — Iterable Product Specification
 
-CODEBASE Context: EPIC-1 foundation implemented on 2026-09-30 — Git repository, uv-managed Python 3.12+ packages, locked dependencies, automated quality gates, agent import-boundary tests, ADR log, and local acceptance evidence. See `EPIC-1.md`, `EPIC-1-RUNBOOK.md`, and `docs/evidence/epic-1/`. Pipeline work in EPIC-2 onward remains planned.
+CODEBASE Context: EPIC-1 foundation implemented on 2026-09-30; EPIC-2 contracts and agent building blocks implemented and verified on 2026-10-01. The repository includes locked setup, quality gates, typed contracts/state/tools, five packaged prompts, a central OpenRouter model service, and successful offline, wheel, and live tool-calling evidence. See `EPIC-1-RUNBOOK.md`, `EPIC-2.md`, `EPIC-2-RUNBOOK.md`, and `docs/evidence/epic-2/`. Agent assembly and pipeline work in EPIC-3 onward remain planned.
 
 ## Table of Contents
 
@@ -78,32 +78,32 @@ CODEBASE Context: EPIC-1 foundation implemented on 2026-09-30 — Git repository
 | US-1.4 | Establish the Architecture Decision Record Log | DONE | EPIC-1 |
 | US-1.4#1 | Add an ADR template with Context, Decision, and Consequences (pros and cons) sections. | DONE | US-1.4 |
 | US-1.4#2 | Write ADR 0001 recording the choice of DeepAgents on LangGraph (PRD.md §4). | DONE | US-1.4 |
-| EPIC-2 | Contracts and Agent Building Blocks | — | — |
-| US-2.1 | Define Typed Pipeline Contracts | READY | EPIC-2 |
-| US-2.1#1 | Create `schemas/requests.py` with `ResearchRequest` and its topic validation. | TODO | US-2.1 |
-| US-2.1#2 | Create `schemas/responses.py` with `SearchResult`, `FetchedPage`, `Source`, and `RunReport`. | TODO | US-2.1 |
-| US-2.1#3 | Add a Pydantic settings model for run configuration, read from the environment and `.env`. | TODO | US-2.1 |
-| US-2.2 | Hold Run Progress in an Explicit State Model | READY | EPIC-2 |
-| US-2.2#1 | Create `schemas/state.py` with the `RunState` model. | TODO | US-2.2 |
-| US-2.2#2 | Add a `DeepAgentState` subclass that holds `RunState` under the `run` key. | TODO | US-2.2 |
-| US-2.2#3 | Have state-changing tools return validated `RunState` replacements. | TODO | US-2.2 |
-| US-2.2#4 | Verify that the checkpointer round-trips `RunState` unchanged. | TODO | US-2.2 |
-| US-2.3 | Register Typed Tools in a Tool Registry | READY | EPIC-2 |
-| US-2.3#1 | Create the `TOOLS` registry that maps tool names to typed tools. | TODO | US-2.3 |
-| US-2.3#2 | Validate every tool's input and output against its models at call time. | TODO | US-2.3 |
-| US-2.3#3 | Add a test that fails when a registered tool lacks a typed input or output model. | TODO | US-2.3 |
-| US-2.4 | Load Every Prompt from the Prompt Catalog | READY | EPIC-2 |
-| US-2.4#1 | Create a prompt loader and one prompt file per agent under `prompts/`. | TODO | US-2.4 |
-| US-2.4#2 | Write the orchestrator prompt from the SKILL.md operating rules and workflow. | TODO | US-2.4 |
-| US-2.4#3 | Add a test that fails when an agent module passes an inline system prompt. | TODO | US-2.4 |
-| US-2.5 | Provide Chat Models Through an LLM Service | READY | EPIC-2 |
-| US-2.5#1 | Create `services/llm_service.py` returning a `ChatOpenRouter` for each agent's configured model. | TODO | US-2.5 |
-| US-2.5#2 | Apply the PD-002 provider preferences to every request. | TODO | US-2.5 |
-| US-2.5#3 | Add per-agent model settings to the configuration model. | TODO | US-2.5 |
-| US-2.6 | Set the Production Model for Every Agent | READY | EPIC-2 |
-| US-2.6#1 | Record the OpenRouter and DeepSeek V4.1 Flash decision as an ADR. | TODO | US-2.6 |
-| US-2.6#2 | Set the production model for every agent in configuration. | TODO | US-2.6 |
-| US-2.6#3 | Add a live tool-calling smoke test for the model, kept out of the offline unit suite. | TODO | US-2.6 |
+| EPIC-2 | Contracts and Agent Building Blocks | DONE | — |
+| US-2.1 | Define Typed Pipeline Contracts | DONE | EPIC-2 |
+| US-2.1#1 | Create `schemas/requests.py` with `ResearchRequest` and its topic validation. | DONE | US-2.1 |
+| US-2.1#2 | Create `schemas/responses.py` with `SearchResult`, `FetchedPage`, `Source`, and `RunReport`. | DONE | US-2.1 |
+| US-2.1#3 | Add a Pydantic settings model for run configuration, read from the environment and `.env`. | DONE | US-2.1 |
+| US-2.2 | Hold Run Progress in an Explicit State Model | DONE | EPIC-2 |
+| US-2.2#1 | Create `schemas/state.py` with the `RunState` model. | DONE | US-2.2 |
+| US-2.2#2 | Add a `DeepAgentState` subclass that holds `RunState` under the `run` key. | DONE | US-2.2 |
+| US-2.2#3 | Have state-changing tools return validated `RunState` replacements. | DONE | US-2.2 |
+| US-2.2#4 | Verify that the checkpointer round-trips `RunState` unchanged. | DONE | US-2.2 |
+| US-2.3 | Register Typed Tools in a Tool Registry | DONE | EPIC-2 |
+| US-2.3#1 | Create the `TOOLS` registry that maps tool names to typed tools. | DONE | US-2.3 |
+| US-2.3#2 | Validate every tool's input and output against its models at call time. | DONE | US-2.3 |
+| US-2.3#3 | Add a test that fails when a registered tool lacks a typed input or output model. | DONE | US-2.3 |
+| US-2.4 | Load Every Prompt from the Prompt Catalog | DONE | EPIC-2 |
+| US-2.4#1 | Create a prompt loader and one prompt file per agent under `prompts/`. | DONE | US-2.4 |
+| US-2.4#2 | Write the orchestrator prompt from the SKILL.md operating rules and workflow. | DONE | US-2.4 |
+| US-2.4#3 | Add a test that fails when an agent module passes an inline system prompt. | DONE | US-2.4 |
+| US-2.5 | Provide Chat Models Through an LLM Service | DONE | EPIC-2 |
+| US-2.5#1 | Create `services/llm_service.py` returning a `ChatOpenRouter` for each agent's configured model. | DONE | US-2.5 |
+| US-2.5#2 | Apply the PD-002 provider preferences to every request. | DONE | US-2.5 |
+| US-2.5#3 | Add per-agent model settings to the configuration model. | DONE | US-2.5 |
+| US-2.6 | Set the Production Model for Every Agent | DONE | EPIC-2 |
+| US-2.6#1 | Record the OpenRouter and DeepSeek V4.1 Flash decision as an ADR. | DONE | US-2.6 |
+| US-2.6#2 | Set the production model for every agent in configuration. | DONE | US-2.6 |
+| US-2.6#3 | Add a live tool-calling smoke test for the model, kept out of the offline unit suite. | DONE | US-2.6 |
 | EPIC-3 | Deep Agent Skeleton | — | — |
 | US-3.1 | Create the Run Workspace for a Topic | READY | EPIC-3 |
 | US-3.1#1 | Derive the run id from the topic slug and a UTC timestamp. | TODO | US-3.1 |
@@ -1253,7 +1253,7 @@ Define the typed contracts, explicit run state, tool registry, prompt catalog, a
 
 ### US-2.1: Define Typed Pipeline Contracts
 
-Status: READY
+Status: DONE
 
 As an Engineering Lead
 I want every request, tool payload, source, report, and configuration defined as a Pydantic v2 model
@@ -1300,16 +1300,16 @@ Dependencies:
 - US-1.1
 
 Tasks:
-- [ ] Create `schemas/requests.py` with `ResearchRequest` and its topic validation.
-- [ ] Create `schemas/responses.py` with `SearchResult`, `FetchedPage`, `Source`, and `RunReport`.
-- [ ] Add a Pydantic settings model for run configuration, read from the environment and `.env`.
+- [x] Create `schemas/requests.py` with `ResearchRequest` and its topic validation.
+- [x] Create `schemas/responses.py` with `SearchResult`, `FetchedPage`, `Source`, and `RunReport`.
+- [x] Add a Pydantic settings model for run configuration, read from the environment and `.env`.
 
 Open Questions:
 - None. US-8.1 extends `RunReport` with the FR-10 and PD-018 fields.
 
 ### US-2.2: Hold Run Progress in an Explicit State Model
 
-Status: READY
+Status: DONE
 
 As an Engineering Lead
 I want the run's progress held in a typed state model rather than implicit agent memory
@@ -1350,17 +1350,17 @@ Dependencies:
 - US-2.1
 
 Tasks:
-- [ ] Create `schemas/state.py` with the `RunState` model.
-- [ ] Add a `DeepAgentState` subclass that holds `RunState` under the `run` key.
-- [ ] Have state-changing tools return validated `RunState` replacements.
-- [ ] Verify that the checkpointer round-trips `RunState` unchanged.
+- [x] Create `schemas/state.py` with the `RunState` model.
+- [x] Add a `DeepAgentState` subclass that holds `RunState` under the `run` key.
+- [x] Have state-changing tools return validated `RunState` replacements.
+- [x] Verify that the checkpointer round-trips `RunState` unchanged.
 
 Open Questions:
 - None.
 
 ### US-2.3: Register Typed Tools in a Tool Registry
 
-Status: READY
+Status: DONE
 
 As an Engineering Lead
 I want every tool registered with a Pydantic input model and a Pydantic output model
@@ -1390,16 +1390,16 @@ Dependencies:
 - US-2.1
 
 Tasks:
-- [ ] Create the `TOOLS` registry that maps tool names to typed tools.
-- [ ] Validate every tool's input and output against its models at call time.
-- [ ] Add a test that fails when a registered tool lacks a typed input or output model.
+- [x] Create the `TOOLS` registry that maps tool names to typed tools.
+- [x] Validate every tool's input and output against its models at call time.
+- [x] Add a test that fails when a registered tool lacks a typed input or output model.
 
 Open Questions:
 - None.
 
 ### US-2.4: Load Every Prompt from the Prompt Catalog
 
-Status: READY
+Status: DONE
 
 As an Engineering Lead
 I want every agent's system prompt stored under prompts/ and loaded from there
@@ -1437,16 +1437,16 @@ Dependencies:
 - US-1.1
 
 Tasks:
-- [ ] Create a prompt loader and one prompt file per agent under `prompts/`.
-- [ ] Write the orchestrator prompt from the SKILL.md operating rules and workflow.
-- [ ] Add a test that fails when an agent module passes an inline system prompt.
+- [x] Create a prompt loader and one prompt file per agent under `prompts/`.
+- [x] Write the orchestrator prompt from the SKILL.md operating rules and workflow.
+- [x] Add a test that fails when an agent module passes an inline system prompt.
 
 Open Questions:
 - None.
 
 ### US-2.5: Provide Chat Models Through an LLM Service
 
-Status: READY
+Status: DONE
 
 As an Engineering Lead
 I want every agent to get its OpenRouter chat model from one LLM service, configured per agent
@@ -1491,16 +1491,16 @@ Dependencies:
 - US-2.1
 
 Tasks:
-- [ ] Create `services/llm_service.py` returning a `ChatOpenRouter` for each agent's configured model.
-- [ ] Apply the PD-002 provider preferences to every request.
-- [ ] Add per-agent model settings to the configuration model.
+- [x] Create `services/llm_service.py` returning a `ChatOpenRouter` for each agent's configured model.
+- [x] Apply the PD-002 provider preferences to every request.
+- [x] Add per-agent model settings to the configuration model.
 
 Open Questions:
 - None.
 
 ### US-2.6: Set the Production Model for Every Agent
 
-Status: READY
+Status: DONE
 
 As a Product Manager
 I want the production model set and recorded for every agent
@@ -1533,9 +1533,9 @@ Dependencies:
 - US-2.5
 
 Tasks:
-- [ ] Record the OpenRouter and DeepSeek V4.1 Flash decision as an ADR.
-- [ ] Set the production model for every agent in configuration.
-- [ ] Add a live tool-calling smoke test for the model, kept out of the offline unit suite.
+- [x] Record the OpenRouter and DeepSeek V4.1 Flash decision as an ADR.
+- [x] Set the production model for every agent in configuration.
+- [x] Add a live tool-calling smoke test for the model, kept out of the offline unit suite.
 
 Open Questions:
 - None.

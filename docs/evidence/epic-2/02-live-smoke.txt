@@ -1,0 +1,29 @@
+$ make smoke-epic-2
+
+uv run --locked python -m evaluations.live_smoke
+{
+  "status": "passed",
+  "model": "openrouter:deepseek/deepseek-v4.1-flash",
+  "tool": "FoundationPing",
+  "arguments": {
+    "value": "EPIC-2-ready"
+  },
+  "provider_preferences": {
+    "require_parameters": true,
+    "data_collection": "deny"
+  },
+  "usage": {
+    "input_tokens": 326,
+    "output_tokens": 65,
+    "total_tokens": 391,
+    "input_token_details": {
+      "cache_read": 0,
+      "cache_creation": 0
+    },
+    "output_token_details": {
+      "reasoning": 24
+    }
+  }
+}
+
+Exit code: 0 (expected 0)

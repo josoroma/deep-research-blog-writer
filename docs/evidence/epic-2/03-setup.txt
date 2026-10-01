@@ -1,0 +1,9 @@
+$ make setup
+
+uv sync --locked
+Resolved 82 packages in 5ms
+Checked 80 packages in 11ms
+uv run --locked pre-commit install
+pre-commit installed at .git/hooks/pre-commit
+
+Exit code: 0 (expected 0)

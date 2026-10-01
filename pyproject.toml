@@ -10,6 +10,7 @@ dependencies = [
     "langchain-openrouter>=0.2,<1",
     "langgraph>=1,<2",
     "pydantic>=2,<3",
+    "pydantic-settings>=2,<3",
 ]
 
 [build-system]
@@ -34,13 +35,15 @@ line-length = 100
 select = ["E", "F", "I", "UP", "B"]
 
 [tool.mypy]
+plugins = ["pydantic.mypy"]
 python_version = "3.12"
 strict = true
 files = ["agents", "tools", "workflows", "prompts", "schemas", "services", "evaluations", "tests", "docs"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "--strict-config --strict-markers --cov --cov-report=term-missing --cov-report=xml --cov-fail-under=80"
+addopts = "--strict-config --strict-markers -m 'not live' --cov --cov-report=term-missing --cov-report=xml --cov-fail-under=80"
+markers = ["live: opt-in real provider request, excluded from the offline suite"]
 
 [tool.coverage.run]
 branch = true

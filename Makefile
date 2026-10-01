@@ -1,9 +1,9 @@
 UV ?= uv
 
-.PHONY: help setup lint format format-check typecheck test boundary hooks check demo build
+.PHONY: help setup lint format format-check typecheck test boundary hooks check demo build demo-epic-2 smoke-epic-2
 
 help:
-	@printf '%s\n' 'setup        Install locked dependencies and Git hooks' 'check        Verify lock, lint, formatting, strict typing, tests and coverage' 'demo         Show installed dependencies and run the foundation checks' 'boundary     Check the agent HTTP import boundary' 'hooks        Run all pre-commit hooks' 'format       Format Python files' 'build        Build wheel and source distribution'
+	@printf '%s\n' 'setup        Install locked dependencies and Git hooks' 'check        Verify lock, lint, formatting, strict typing, tests and coverage' 'demo         Show installed dependencies and run the foundation checks' 'demo-epic-2  Demonstrate contracts, tools, prompts, and checkpoint restoration offline' 'smoke-epic-2 Verify one live production-model tool call using OPENROUTER_API_KEY' 'boundary     Check the agent HTTP import boundary' 'hooks        Run all pre-commit hooks' 'format       Format Python files' 'build        Build wheel and source distribution'
 
 setup:
 	$(UV) sync --locked
@@ -40,3 +40,9 @@ demo:
 
 build:
 	$(UV) build
+
+demo-epic-2:
+	$(UV) run --locked python -m evaluations.epic2_demo
+
+smoke-epic-2:
+	$(UV) run --locked python -m evaluations.live_smoke

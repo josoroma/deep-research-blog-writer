@@ -1,0 +1,13 @@
+$ uv add 'pydantic-settings>=2,<3'
+
+Resolved 82 packages in 964ms
+   Building deep-research-blog-writer @ file:///Users/josoroma/sites/langchain
+      Built deep-research-blog-writer @ file:///Users/josoroma/sites/langchain
+Prepared 2 packages in 558ms
+Uninstalled 1 package in 1ms
+Installed 3 packages in 3ms
+ ~ deep-research-blog-writer==0.1.0 (from file:///Users/josoroma/sites/langchain)
+ + pydantic-settings==2.15.0
+ + python-dotenv==1.2.4
+
+Exit code: 0 (expected 0)

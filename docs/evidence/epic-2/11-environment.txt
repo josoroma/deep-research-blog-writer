@@ -1,0 +1,16 @@
+$ uv run --locked python -c 'import sys; from importlib.metadata import version; print("Python:", sys.version.split()[0]); [print(name + ": " + version(name)) for name in ("langchain", "langgraph", "deepagents", "langchain-openrouter", "pydantic", "pydantic-settings", "ruff", "mypy", "pytest", "pytest-cov", "pre-commit")]'
+
+Python: 3.12.9
+langchain: 1.4.3
+langgraph: 1.2.12
+deepagents: 0.7.21
+langchain-openrouter: 0.2.9
+pydantic: 2.12.5
+pydantic-settings: 2.15.0
+ruff: 0.13.0
+mypy: 1.18.1
+pytest: 9.1.1
+pytest-cov: 7.1.0
+pre-commit: 4.6.2
+
+Exit code: 0 (expected 0)

@@ -1,0 +1,51 @@
+$ shasum -a 256 -c docs/evidence/epic-2/source-sha256.txt
+
+.env.example: OK
+.github/workflows/quality.yml: OK
+.pre-commit-config.yaml: OK
+.python-version: OK
+Makefile: OK
+README.md: OK
+agents/__init__.py: OK
+evaluations/__init__.py: OK
+evaluations/agent_architecture.py: OK
+evaluations/agent_boundary.py: OK
+evaluations/epic2_demo.py: OK
+evaluations/live_smoke.py: OK
+prompts/__init__.py: OK
+prompts/analyst_agent.md: OK
+prompts/catalog.py: OK
+prompts/orchestrator.md: OK
+prompts/research_agent.md: OK
+prompts/search_agent.md: OK
+prompts/writer_agent.md: OK
+pyproject.toml: OK
+schemas/__init__.py: OK
+schemas/common.py: OK
+schemas/config.py: OK
+schemas/requests.py: OK
+schemas/responses.py: OK
+schemas/state.py: OK
+scripts/verify-epic-2-checkout.sh: OK
+scripts/verify-epic-2-package.sh: OK
+services/__init__.py: OK
+services/checkpoints.py: OK
+services/llm_service.py: OK
+tests/__init__.py: OK
+tests/conftest.py: OK
+tests/live/test_openrouter_smoke.py: OK
+tests/test_agent_boundary.py: OK
+tests/test_contracts.py: OK
+tests/test_epic2_demo.py: OK
+tests/test_live_smoke_offline.py: OK
+tests/test_llm_service.py: OK
+tests/test_prompts_and_architecture.py: OK
+tests/test_settings.py: OK
+tests/test_state_and_tools.py: OK
+tools/__init__.py: OK
+tools/registry.py: OK
+tools/state_tools.py: OK
+uv.lock: OK
+workflows/__init__.py: OK
+
+Exit code: 0 (expected 0)
