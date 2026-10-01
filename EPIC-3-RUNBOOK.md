@@ -65,6 +65,8 @@ The combined line/branch coverage is 98.02%, above the retained 80% floor. [Cove
 
 ## Delivery and reproducibility
 
+Implementation commit: `b13ca0a6ff6cd5c6361297ccd5c290269bb07ccd`. A fresh temporary clone of that revision passed setup, all quality gates/hooks, both offline demos, build, and installed-wheel verification with no local `.env`, and reported no tracked-file changes. Final documentation and evidence updates are committed separately; application, configuration, and test hashes remain the same.
+
 Reproduce the committed checkout without local `.env` files using:
 
 ```sh

@@ -1,6 +1,6 @@
 # Deep Research Blog Writer — Iterable Product Specification
 
-CODEBASE Context: EPIC-1 foundation implemented on 2026-09-30; EPIC-2 contracts and agent building blocks implemented and verified on 2026-10-01. The repository includes locked setup, quality gates, typed contracts/state/tools, five packaged prompts, a central OpenRouter model service, and successful offline, wheel, and live tool-calling evidence. See `EPIC-1-RUNBOOK.md`, `EPIC-2.md`, `EPIC-2-RUNBOOK.md`, and `docs/evidence/epic-2/`. Agent assembly and pipeline work in EPIC-3 onward remain planned.
+CODEBASE Context: EPIC-1 foundation implemented on 2026-09-30; EPIC-2 contracts and agent building blocks implemented and verified on 2026-10-01; EPIC-3 deep agent skeleton implemented and verified on 2026-10-01. The repository includes locked setup, quality gates, typed contracts/state/tools, five packaged prompts, a central OpenRouter model service, a run workspace, the four-sub-agent orchestrator with typed stub tools, real-disk persistence, and the `deep-research-blog` console script. See `EPIC-1-RUNBOOK.md`, `EPIC-2.md`, `EPIC-2-RUNBOOK.md`, `EPIC-3.md`, `EPIC-3-RUNBOOK.md`, and `docs/evidence/`. Real search, fetch, extraction, authoring, reporting, and observability work in EPIC-4 onward remain planned.
 
 ## Table of Contents
 
@@ -104,21 +104,21 @@ CODEBASE Context: EPIC-1 foundation implemented on 2026-09-30; EPIC-2 contracts 
 | US-2.6#1 | Record the OpenRouter and DeepSeek V4.1 Flash decision as an ADR. | DONE | US-2.6 |
 | US-2.6#2 | Set the production model for every agent in configuration. | DONE | US-2.6 |
 | US-2.6#3 | Add a live tool-calling smoke test for the model, kept out of the offline unit suite. | DONE | US-2.6 |
-| EPIC-3 | Deep Agent Skeleton | — | — |
-| US-3.1 | Create the Run Workspace for a Topic | READY | EPIC-3 |
-| US-3.1#1 | Derive the run id from the topic slug and a UTC timestamp. | TODO | US-3.1 |
-| US-3.1#2 | Create `runs/<run_id>/` and store the validated request in it. | TODO | US-3.1 |
-| US-3.2 | Assemble the Orchestrator and Its Four Sub-Agents | READY | EPIC-3 |
-| US-3.2#1 | Build the orchestrator with `create_deep_agent`, using the prompt catalog and the LLM service. | TODO | US-3.2 |
-| US-3.2#2 | Define the four sub-agents with the PD-005 tool assignment. | TODO | US-3.2 |
-| US-3.2#3 | Add typed stub tools so the skeleton runs end to end. | TODO | US-3.2 |
-| US-3.2#4 | Update the SKILL.md wiring example to the DeepAgents 0.7 API (`system_prompt`). | TODO | US-3.2 |
-| US-3.3 | Persist the Run Workspace to Local Disk | READY | EPIC-3 |
-| US-3.3#1 | Record the filesystem-backend decision as an ADR. | TODO | US-3.3 |
-| US-3.3#2 | Configure `FilesystemBackend(root_dir="runs/<run_id>/", virtual_mode=True)` for the deep agent. | TODO | US-3.3 |
-| US-3.4 | Start a Run from the Command Line | READY | EPIC-3 |
-| US-3.4#1 | Add the `deep-research-blog` console script with `--pages`, `--per-page`, and `--max-urls`. | TODO | US-3.4 |
-| US-3.4#2 | Print the run summary on exit. | TODO | US-3.4 |
+| EPIC-3 | Deep Agent Skeleton | DONE | — |
+| US-3.1 | Create the Run Workspace for a Topic | DONE | EPIC-3 |
+| US-3.1#1 | Derive the run id from the topic slug and a UTC timestamp. | DONE | US-3.1 |
+| US-3.1#2 | Create `runs/<run_id>/` and store the validated request in it. | DONE | US-3.1 |
+| US-3.2 | Assemble the Orchestrator and Its Four Sub-Agents | DONE | EPIC-3 |
+| US-3.2#1 | Build the orchestrator with `create_deep_agent`, using the prompt catalog and the LLM service. | DONE | US-3.2 |
+| US-3.2#2 | Define the four sub-agents with the PD-005 tool assignment. | DONE | US-3.2 |
+| US-3.2#3 | Add typed stub tools so the skeleton runs end to end. | DONE | US-3.2 |
+| US-3.2#4 | Update the SKILL.md wiring example to the DeepAgents 0.7 API (`system_prompt`). | DONE | US-3.2 |
+| US-3.3 | Persist the Run Workspace to Local Disk | DONE | EPIC-3 |
+| US-3.3#1 | Record the filesystem-backend decision as an ADR. | DONE | US-3.3 |
+| US-3.3#2 | Configure `FilesystemBackend(root_dir="runs/<run_id>/", virtual_mode=True)` for the deep agent. | DONE | US-3.3 |
+| US-3.4 | Start a Run from the Command Line | DONE | EPIC-3 |
+| US-3.4#1 | Add the `deep-research-blog` console script with `--pages`, `--per-page`, and `--max-urls`. | DONE | US-3.4 |
+| US-3.4#2 | Print the run summary on exit. | DONE | US-3.4 |
 | EPIC-4 | Search | — | — |
 | US-4.1 | Collect Paged Search Results Through a Provider Interface | READY | EPIC-4 |
 | US-4.1#1 | Define the `SearchProvider` interface and a fake provider for tests. | TODO | US-4.1 |
@@ -1555,7 +1555,7 @@ Wire the orchestrator deep agent and its four sub-agents end to end with typed s
 
 ### US-3.1: Create the Run Workspace for a Topic
 
-Status: READY
+Status: DONE
 
 As a technical content author
 I want each run to get its own identifier and workspace
@@ -1594,15 +1594,15 @@ Dependencies:
 - US-2.1
 
 Tasks:
-- [ ] Derive the run id from the topic slug and a UTC timestamp.
-- [ ] Create `runs/<run_id>/` and store the validated request in it.
+- [x] Derive the run id from the topic slug and a UTC timestamp.
+- [x] Create `runs/<run_id>/` and store the validated request in it.
 
 Open Questions:
 - None.
 
 ### US-3.2: Assemble the Orchestrator and Its Four Sub-Agents
 
-Status: READY
+Status: DONE
 
 As an Engineering Lead
 I want the orchestrator deep agent wired with search_agent, research_agent, analyst_agent, and writer_agent
@@ -1662,17 +1662,17 @@ Dependencies:
 - US-3.1
 
 Tasks:
-- [ ] Build the orchestrator with `create_deep_agent`, using the prompt catalog and the LLM service.
-- [ ] Define the four sub-agents with the PD-005 tool assignment.
-- [ ] Add typed stub tools so the skeleton runs end to end.
-- [ ] Update the SKILL.md wiring example to the DeepAgents 0.7 API (`system_prompt`).
+- [x] Build the orchestrator with `create_deep_agent`, using the prompt catalog and the LLM service.
+- [x] Define the four sub-agents with the PD-005 tool assignment.
+- [x] Add typed stub tools so the skeleton runs end to end.
+- [x] Update the SKILL.md wiring example to the DeepAgents 0.7 API (`system_prompt`).
 
 Open Questions:
 - None.
 
 ### US-3.3: Persist the Run Workspace to Local Disk
 
-Status: READY
+Status: DONE
 
 As a technical content author
 I want every file the agents write to land on local disk under `runs/<run_id>/`
@@ -1706,15 +1706,15 @@ Dependencies:
 - US-3.2
 
 Tasks:
-- [ ] Record the filesystem-backend decision as an ADR.
-- [ ] Configure `FilesystemBackend(root_dir="runs/<run_id>/", virtual_mode=True)` for the deep agent.
+- [x] Record the filesystem-backend decision as an ADR.
+- [x] Configure `FilesystemBackend(root_dir="runs/<run_id>/", virtual_mode=True)` for the deep agent.
 
 Open Questions:
 - None.
 
 ### US-3.4: Start a Run from the Command Line
 
-Status: READY
+Status: DONE
 
 As a technical content author
 I want to start a run with one command and a topic string
@@ -1755,8 +1755,8 @@ Dependencies:
 - US-3.2
 
 Tasks:
-- [ ] Add the `deep-research-blog` console script with `--pages`, `--per-page`, and `--max-urls`.
-- [ ] Print the run summary on exit.
+- [x] Add the `deep-research-blog` console script with `--pages`, `--per-page`, and `--max-urls`.
+- [x] Print the run summary on exit.
 
 Open Questions:
 - None.

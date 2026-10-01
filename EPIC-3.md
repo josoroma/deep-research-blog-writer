@@ -2,7 +2,7 @@
 
 Date: 2026-10-01
 
-Status: PLANNED. Commands and acceptance evidence will be recorded in [EPIC-3-RUNBOOK.md](EPIC-3-RUNBOOK.md) and `docs/evidence/epic-3/`.
+Status: DONE. All four stories and the offline, wheel, and fresh-checkout verifications passed. Implementation commit: `b13ca0a`. Commands and acceptance evidence are in [EPIC-3-RUNBOOK.md](EPIC-3-RUNBOOK.md).
 
 ## Objective and scope
 
@@ -127,10 +127,10 @@ These facts were confirmed against the installed package before planning, using 
 
 ## Completion checklist
 
-- [ ] US-3.1 implemented and verified.
-- [ ] US-3.2 implemented and verified, including the SKILL.md wiring update.
-- [ ] US-3.3 implemented and verified; ADR 0003 (and ADR 0004) recorded.
-- [ ] US-3.4 implemented and verified.
-- [ ] Setup, quality gates, hooks, demos, build, and installed-wheel check pass.
-- [ ] Runbook, raw transcripts, coverage, and source hashes saved.
-- [ ] Implementation committed with hooks; fresh-checkout verification passes; SPECS.md statuses updated.
+- [x] US-3.1 implemented and verified.
+- [x] US-3.2 implemented and verified, including the SKILL.md wiring update.
+- [x] US-3.3 implemented and verified; ADR 0003 (and ADR 0004) recorded.
+- [x] US-3.4 implemented and verified.
+- [x] Setup, quality gates, hooks, demos, build, and installed-wheel check pass.
+- [x] Runbook, raw transcripts, coverage, and source hashes saved.
+- [x] Implementation committed with hooks; fresh-checkout verification passes; SPECS.md statuses updated.
