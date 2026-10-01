@@ -81,7 +81,21 @@ class ValidateCitationsInput(Contract):
     """No arguments; the run workspace is implicit."""
 
 
-class ValidateCitationsOutput(Contract):
+class ValidateCitationsOutput(RunStateUpdate):
+    """Citation gate result. `passed` is true only when both lists are empty."""
+
+    citations_checked: int = Field(ge=0)
+    dangling_source_ids: list[SourceID]
+    mismatched_source_ids: list[SourceID] = Field(default_factory=list)
+
+    @property
+    def passed(self) -> bool:
+        return not self.dangling_source_ids and not self.mismatched_source_ids
+
+
+class ValidateCitationsStubOutput(Contract):
+    """M1 stub output. The real tool returns ValidateCitationsOutput and updates state."""
+
     citations_checked: int = Field(ge=0)
     dangling_source_ids: list[SourceID]
 

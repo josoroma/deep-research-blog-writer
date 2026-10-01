@@ -16,6 +16,7 @@ from schemas.requests import ResearchRequest
 from schemas.search import QueryVariants
 from services.llm_service import MissingOpenRouterKey
 from services.search_provider import SearchProviderError
+from workflows.authoring_run import run_authoring
 from workflows.corpus_run import run_corpus
 from workflows.fetch_run import load_search_workspace, run_fetch
 from workflows.research_run import RunSummary, run_research
@@ -51,10 +52,15 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Collect immutable sources and index an existing search workspace.",
     )
+    modes.add_argument(
+        "--author-only",
+        action="store_true",
+        help="Write the summary and cited draft for an existing corpus workspace.",
+    )
     parser.add_argument(
         "--workspace",
         type=Path,
-        help="Existing search workspace for --fetch-only or --corpus-only.",
+        help="Existing workspace for --fetch-only, --corpus-only, or --author-only.",
     )
     parser.add_argument(
         "--query-variant",
@@ -89,8 +95,16 @@ def main(argv: Sequence[str] | None = None, settings: RunSettings | None = None)
     variants = None
     try:
         resolved = settings if settings is not None else RunSettings()
-        if args.fetch_only or args.corpus_only:
-            flag = "--corpus-only" if args.corpus_only else "--fetch-only"
+        if args.fetch_only or args.corpus_only or args.author_only:
+            flag = next(
+                name
+                for name, selected in (
+                    ("--author-only", args.author_only),
+                    ("--corpus-only", args.corpus_only),
+                    ("--fetch-only", args.fetch_only),
+                )
+                if selected
+            )
             if (
                 args.workspace is None
                 or args.query_variant
@@ -101,14 +115,16 @@ def main(argv: Sequence[str] | None = None, settings: RunSettings | None = None)
             if args.topic is not None and args.topic.strip() != saved.topic:
                 raise ValueError("Topic must match the saved workspace request")
             milestone = (
-                run_corpus(args.workspace, resolved)
+                run_authoring(args.workspace, resolved)
+                if args.author_only
+                else run_corpus(args.workspace, resolved)
                 if args.corpus_only
                 else run_fetch(args.workspace, resolved)
             )
             print(milestone.model_dump_json(indent=2))
             return EXIT_COMPLETED if milestone.status == "completed" else EXIT_FAILED
         if args.workspace is not None:
-            raise ValueError("--workspace requires --fetch-only or --corpus-only")
+            raise ValueError("--workspace requires --fetch-only, --corpus-only, or --author-only")
         if args.topic is None:
             raise ValueError("A topic is required")
         request = _request_from_args(args, resolved)

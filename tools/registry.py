@@ -22,6 +22,7 @@ if TYPE_CHECKING:
     from services.extraction_service import ExtractionService
     from services.fetch_service import Fetcher
     from services.search_session import SearchSession
+    from tools.authoring_tools import AuthoringSession
     from tools.corpus_tools import CorpusSession
 
 Runtime = ToolRuntime[None, ResearchAgentState]
@@ -135,8 +136,10 @@ def create_tool_registry(
     fetcher: Fetcher | None = None,
     extractor: ExtractionService | None = None,
     corpus_session: CorpusSession | None = None,
+    authoring_session: AuthoringSession | None = None,
 ) -> ToolRegistry:
     """Build independent tool bindings; credentials and provider clients stay off state."""
+    from tools.authoring_tools import register_authoring_tools
     from tools.content_tools import register_content_tools
     from tools.corpus_tools import register_corpus_tools
 
@@ -151,11 +154,15 @@ def create_tool_registry(
             updates_state=True,
         )
     )
-    register_stub_tools(registry, corpus=corpus_session is not None)
+    register_stub_tools(
+        registry, corpus=corpus_session is not None, authoring=authoring_session is not None
+    )
     register_search_tools(registry, search_session)
     register_content_tools(registry, fetcher, extractor)
     if corpus_session is not None:
         register_corpus_tools(registry, corpus_session)
+    if authoring_session is not None:
+        register_authoring_tools(registry, authoring_session)
     return registry
 
 

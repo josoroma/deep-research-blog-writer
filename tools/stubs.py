@@ -22,7 +22,7 @@ from schemas.tool_io import (
     FetchUrlInput,
     SourceMetadata,
     ValidateCitationsInput,
-    ValidateCitationsOutput,
+    ValidateCitationsStubOutput,
     WriteRunReportInput,
     WriteRunReportOutput,
 )
@@ -64,8 +64,8 @@ def _stub_build_index(
 
 def _stub_validate_citations(
     request: ValidateCitationsInput, runtime: Runtime | None = None
-) -> ValidateCitationsOutput:
-    return ValidateCitationsOutput(citations_checked=0, dangling_source_ids=[])
+) -> ValidateCitationsStubOutput:
+    return ValidateCitationsStubOutput(citations_checked=0, dangling_source_ids=[])
 
 
 def _stub_write_run_report(
@@ -74,12 +74,14 @@ def _stub_write_run_report(
     return WriteRunReportOutput(report_path="output/run.json")
 
 
-def register_stub_tools(registry: ToolRegistry, *, corpus: bool = False) -> None:
+def register_stub_tools(
+    registry: ToolRegistry, *, corpus: bool = False, authoring: bool = False
+) -> None:
     """Register the remaining future-epic stubs.
 
-    A corpus-bound registry replaces `collect_source` and `build_index` with the
-    real tools, so those two stubs are skipped. The citation and report stubs stay
-    until their own epics.
+    A corpus-bound registry replaces `collect_source` and `build_index`, and an
+    authoring-bound registry replaces `validate_citations`. The report stub stays
+    until EPIC-8.
     """
     from tools.registry import TypedTool  # local import avoids a registry/stubs cycle
 
@@ -116,15 +118,16 @@ def register_stub_tools(registry: ToolRegistry, *, corpus: bool = False) -> None
                 description="M1 stub: report the corpus index path; no index is written yet.",
             )
         )
-    registry.register(
-        TypedTool[ValidateCitationsInput, ValidateCitationsOutput](
-            name="validate_citations",
-            input_model=ValidateCitationsInput,
-            output_model=ValidateCitationsOutput,
-            handler=_stub_validate_citations,
-            description="M1 stub: report no citations checked; no validation yet.",
+    if not authoring:
+        registry.register(
+            TypedTool[ValidateCitationsInput, ValidateCitationsStubOutput](
+                name="validate_citations",
+                input_model=ValidateCitationsInput,
+                output_model=ValidateCitationsStubOutput,
+                handler=_stub_validate_citations,
+                description="M1 stub: report no citations checked; no validation yet.",
+            )
         )
-    )
     registry.register(
         TypedTool[WriteRunReportInput, WriteRunReportOutput](
             name="write_run_report",

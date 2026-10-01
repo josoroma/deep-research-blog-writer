@@ -161,19 +161,19 @@ CODEBASE Context: EPIC-1 foundation implemented on 2026-09-30; EPIC-2 contracts 
 | US-6.3#1 | Record each URL's outcome in `RunState`. | DONE | US-6.3 |
 | US-6.3#2 | Contain fetch and extraction exceptions per URL inside `collect_source`. | DONE | US-6.3 |
 | EPIC-7 | Synthesis and Blog Authoring | — | — |
-| US-7.1 | Synthesize the Corpus into a Research Summary | READY | EPIC-7 |
-| US-7.1#1 | Write the analyst prompt covering the FR-7 summary contents. | TODO | US-7.1 |
-| US-7.1#2 | Give analyst_agent read access to the corpus and write access to `research/summary.md`. | TODO | US-7.1 |
-| US-7.2 | Write the Cited Blog Post | READY | EPIC-7 |
-| US-7.2#1 | Write the writer prompt with the PD-015 headings, the length range, and the citation rules. | TODO | US-7.2 |
-| US-7.2#2 | Add a structure and length check for `output/blog.md` that records `blog_length`. | TODO | US-7.2 |
-| US-7.2#3 | Limit writer_agent to filesystem access within the run workspace. | TODO | US-7.2 |
-| US-7.3 | Detect Dangling Citations | READY | EPIC-7 |
-| US-7.3#1 | Implement and register `validate_citations` over `output/blog.md` and source-file front-matter. | TODO | US-7.3 |
-| US-7.3#2 | Add validator tests for resolved, dangling, and mismatched citations. | TODO | US-7.3 |
-| US-7.4 | Repair Dangling Citations Before Completion | READY | EPIC-7 |
-| US-7.4#1 | Loop at most 2 writer repair passes, validating after each. | TODO | US-7.4 |
-| US-7.4#2 | Fail the run with the remaining dangling source_ids when the passes run out. | TODO | US-7.4 |
+| US-7.1 | Synthesize the Corpus into a Research Summary | DONE | EPIC-7 |
+| US-7.1#1 | Write the analyst prompt covering the FR-7 summary contents. | DONE | US-7.1 |
+| US-7.1#2 | Give analyst_agent read access to the corpus and write access to `research/summary.md`. | DONE | US-7.1 |
+| US-7.2 | Write the Cited Blog Post | DONE | EPIC-7 |
+| US-7.2#1 | Write the writer prompt with the PD-015 headings, the length range, and the citation rules. | DONE | US-7.2 |
+| US-7.2#2 | Add a structure and length check for `output/blog.md` that records `blog_length`. | DONE | US-7.2 |
+| US-7.2#3 | Limit writer_agent to filesystem access within the run workspace. | DONE | US-7.2 |
+| US-7.3 | Detect Dangling Citations | DONE | EPIC-7 |
+| US-7.3#1 | Implement and register `validate_citations` over `output/blog.md` and source-file front-matter. | DONE | US-7.3 |
+| US-7.3#2 | Add validator tests for resolved, dangling, and mismatched citations. | DONE | US-7.3 |
+| US-7.4 | Repair Dangling Citations Before Completion | DONE | EPIC-7 |
+| US-7.4#1 | Loop at most 2 writer repair passes, validating after each. | DONE | US-7.4 |
+| US-7.4#2 | Fail the run with the remaining dangling source_ids when the passes run out. | DONE | US-7.4 |
 | EPIC-8 | Reliability and Run Reporting | — | — |
 | US-8.1 | Write the Run Report | READY | EPIC-8 |
 | US-8.1#1 | Extend `RunReport` with the FR-10 and PD-018 fields. | TODO | US-8.1 |
