@@ -18,7 +18,11 @@ Each transcript contains the actual command, combined stdout/stderr, and exit co
 | [10 Python setup](10-python-install.txt) | Python 3.12 already installed |
 | [11 environment](11-environment.txt) | Actual locked dependency/tool versions |
 | [12 verified hooks](12-hooks-verified.txt) | All hooks pass with serialized evidence writes |
+| [13 uv version](13-uv-version.txt) | uv 0.11.14 |
+| [14 source verification](14-source-verification.txt) | All 47 source hashes match |
+| [15 implementation commit](15-implementation-commit.txt) | `f13077a` created with all hooks passing |
+| [16 fresh checkout](16-fresh-checkout.txt) | That exact committed revision passes setup/checks/hooks/demo/build/wheel from a clean temporary clone |
 | [Coverage XML](coverage.xml) | 456/458 lines and 116/118 branches covered |
 | [Source hashes](source-sha256.txt) | SHA-256 snapshot of runtime, tests, build/configuration, and verifier scripts |
 
-Only the explicit live command invokes the provider. Offline smoke unit tests use scripted responses. The recordings contain no real API keys; local `.env` remains ignored. Existing EPIC-1 evidence remains unchanged.
+Only the explicit live command invokes the provider. Offline smoke unit tests use scripted responses. The recordings contain no real API keys; local `.env` remains ignored. Existing EPIC-1 evidence remains unchanged. The tested implementation revision is `f13077a9a5287b1ce7079f225096870dc8e176da`; final documentation/evidence completion is a separate commit without application changes.

@@ -67,6 +67,10 @@ All commands in this table were run successfully; links preserve their actual ou
 | `make build` | Wheel and source distribution built | [08](docs/evidence/epic-2/08-build.txt) |
 | `sh scripts/verify-epic-2-package.sh` | Installed wheel plus 60 locked runtime dependencies in a temporary environment; five prompts and real graph/checkpoint demo pass outside checkout | [09](docs/evidence/epic-2/09-installed-wheel.txt) |
 | `make smoke-epic-2` | One valid live production-model tool call; 391 total tokens | [02](docs/evidence/epic-2/02-live-smoke.txt) |
+| `uv --version` | uv 0.11.14 | [13](docs/evidence/epic-2/13-uv-version.txt) |
+| `shasum -a 256 -c docs/evidence/epic-2/source-sha256.txt` | All 47 tested source/configuration/test/script hashes match | [14](docs/evidence/epic-2/14-source-verification.txt) |
+| `git commit -m 'feat: implement EPIC-2 contracts and agent building blocks'` | Created implementation commit `f13077a` with all hooks passing | [15](docs/evidence/epic-2/15-implementation-commit.txt) |
+| `sh scripts/verify-epic-2-checkout.sh` | Fresh committed clone passes setup, checks, hooks, offline demo, build, and installed-wheel verification | [16](docs/evidence/epic-2/16-fresh-checkout.txt) |
 
 The original hook attempt reported files changing while mypy ran: the evidence recorder was updating the tracked command manifest during that check. Mypy itself reported no type errors. The check was rerun with evidence writes serialized and all hooks passed. Both [original output](docs/evidence/epic-2/07-hooks.txt) and [successful rerun](docs/evidence/epic-2/12-hooks-verified.txt) are retained.
 
@@ -97,7 +101,9 @@ The offline demo creates and removes temporary architecture probes. It does not 
 
 ## Delivery and reproducibility
 
-Implementation commit and fresh-checkout verification are recorded after the delivery commit. Reproduce the committed checkout without local `.env` files using:
+Implementation commit: `f13077a9a5287b1ce7079f225096870dc8e176da`. The [commit transcript](docs/evidence/epic-2/15-implementation-commit.txt) records successful hooks and the committed files. A [fresh temporary clone of that exact revision](docs/evidence/epic-2/16-fresh-checkout.txt) passed setup, all quality gates/hooks, the offline demo, build, and installed-wheel verification with no local `.env`. It reported no tracked-file changes. Final documentation and evidence updates are committed separately; application, configuration, and test hashes remain the same.
+
+Reproduce the committed checkout without local `.env` files using:
 
 ```sh
 sh scripts/verify-epic-2-checkout.sh

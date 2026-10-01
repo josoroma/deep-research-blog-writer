@@ -1,0 +1,60 @@
+$ git commit -m 'feat: implement EPIC-2 contracts and agent building blocks'
+
+ruff check...............................................................Passed
+ruff format..............................................................Passed
+mypy.....................................................................Passed
+pytest (offline, coverage >=80%, agent boundary).........................Passed
+[main f13077a] feat: implement EPIC-2 contracts and agent building blocks
+ 58 files changed, 3186 insertions(+), 64 deletions(-)
+ create mode 100644 EPIC-2-RUNBOOK.md
+ create mode 100644 EPIC-2.md
+ create mode 100644 docs/adr/0002-openrouter-deepseek-v4-1-flash.md
+ create mode 100644 docs/evidence/epic-2/01-settings-dependency.txt
+ create mode 100644 docs/evidence/epic-2/02-live-smoke.txt
+ create mode 100644 docs/evidence/epic-2/03-setup.txt
+ create mode 100644 docs/evidence/epic-2/04-format.txt
+ create mode 100644 docs/evidence/epic-2/05-quality-gates.txt
+ create mode 100644 docs/evidence/epic-2/06-offline-demo.txt
+ create mode 100644 docs/evidence/epic-2/07-hooks.txt
+ create mode 100644 docs/evidence/epic-2/08-build.txt
+ create mode 100644 docs/evidence/epic-2/09-installed-wheel.txt
+ create mode 100644 docs/evidence/epic-2/10-python-install.txt
+ create mode 100644 docs/evidence/epic-2/11-environment.txt
+ create mode 100644 docs/evidence/epic-2/12-hooks-verified.txt
+ create mode 100644 docs/evidence/epic-2/13-uv-version.txt
+ create mode 100644 docs/evidence/epic-2/14-source-verification.txt
+ create mode 100644 docs/evidence/epic-2/README.md
+ create mode 100644 docs/evidence/epic-2/commands.jsonl
+ create mode 100644 docs/evidence/epic-2/coverage.xml
+ create mode 100644 docs/evidence/epic-2/source-sha256.txt
+ create mode 100644 evaluations/agent_architecture.py
+ create mode 100644 evaluations/epic2_demo.py
+ create mode 100644 evaluations/live_smoke.py
+ create mode 100644 prompts/analyst_agent.md
+ create mode 100644 prompts/catalog.py
+ create mode 100644 prompts/orchestrator.md
+ create mode 100644 prompts/research_agent.md
+ create mode 100644 prompts/search_agent.md
+ create mode 100644 prompts/writer_agent.md
+ create mode 100644 schemas/common.py
+ create mode 100644 schemas/config.py
+ create mode 100644 schemas/requests.py
+ create mode 100644 schemas/responses.py
+ create mode 100644 schemas/state.py
+ create mode 100644 scripts/verify-epic-2-checkout.sh
+ create mode 100644 scripts/verify-epic-2-package.sh
+ create mode 100644 services/checkpoints.py
+ create mode 100644 services/llm_service.py
+ create mode 100644 tests/conftest.py
+ create mode 100644 tests/live/test_openrouter_smoke.py
+ create mode 100644 tests/test_contracts.py
+ create mode 100644 tests/test_epic2_demo.py
+ create mode 100644 tests/test_live_smoke_offline.py
+ create mode 100644 tests/test_llm_service.py
+ create mode 100644 tests/test_prompts_and_architecture.py
+ create mode 100644 tests/test_settings.py
+ create mode 100644 tests/test_state_and_tools.py
+ create mode 100644 tools/registry.py
+ create mode 100644 tools/state_tools.py
+
+Exit code: 0 (expected 0)

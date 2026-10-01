@@ -2,7 +2,7 @@
 
 Date: 2026-10-01
 
-Status: Implemented and verified, including the live tool call. Delivery commit and fresh-checkout verification are being recorded in [EPIC-2-RUNBOOK.md](EPIC-2-RUNBOOK.md).
+Status: DONE. All six stories, the live tool call, and fresh-checkout verification passed. Implementation commit: `f13077a`. Commands and acceptance evidence are in [EPIC-2-RUNBOOK.md](EPIC-2-RUNBOOK.md).
 
 ## Objective and scope
 
@@ -49,7 +49,7 @@ Keep agent assembly, real search/extraction, the research CLI, and the per-run S
 - [x] US-2.6 code/defaults/ADR complete; live tool call verified.
 - [x] Locked setup, strict quality checks/hooks, offline demo, build, and installed-wheel check pass.
 - [x] Runbook, raw command transcripts, coverage, and source hashes saved.
-- [ ] Implementation/lockfile committed with hooks active; working tree clean.
+- [x] Implementation/lockfile committed with hooks active; final evidence committed separately.
 
 ## References
 
