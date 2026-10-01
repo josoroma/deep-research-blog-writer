@@ -1,0 +1,28 @@
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+
+# Local research artifacts
+runs/
+logs/
+
+# Python environments, caches, and packaging
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Generated test reports; committed evidence lives under docs/evidence/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# Operating system files
+.DS_Store

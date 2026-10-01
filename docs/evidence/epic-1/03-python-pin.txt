@@ -1,0 +1,6 @@
+$ uv python pin 3.12
+Working directory: /Users/josoroma/sites/langchain
+
+Pinned `.python-version` to `3.12`
+
+Exit code: 0 (expected 0)

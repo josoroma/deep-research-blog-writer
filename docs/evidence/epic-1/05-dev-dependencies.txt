@@ -1,0 +1,37 @@
+$ uv add --dev ruff==0.13.0 mypy==1.18.1 'pytest>=9,<10' 'pytest-cov>=7,<8' 'pre-commit>=4,<5'
+Working directory: /Users/josoroma/sites/langchain
+
+Resolved 80 packages in 1.06s
+   Building deep-research-blog-writer @ file:///Users/josoroma/sites/langchain
+      Built deep-research-blog-writer @ file:///Users/josoroma/sites/langchain
+Downloading virtualenv (5.2MiB)
+Downloading mypy (11.4MiB)
+Downloading ruff (11.5MiB)
+ Downloaded virtualenv
+ Downloaded ruff
+ Downloaded mypy
+Prepared 16 packages in 3.42s
+Uninstalled 1 package in 0.82ms
+Installed 20 packages in 33ms
+ + cfgv==3.5.0
+ + coverage==7.16.2
+ ~ deep-research-blog-writer==0.1.0 (from file:///Users/josoroma/sites/langchain)
+ + distlib==0.4.3
+ + filelock==4.0.7
+ + identify==2.6.20
+ + iniconfig==2.3.0
+ + mypy==1.18.1
+ + mypy-extensions==1.1.0
+ + nodeenv==1.11.0
+ + pathspec==1.1.1
+ + platformdirs==4.12.2
+ + pluggy==1.6.0
+ + pre-commit==4.6.2
+ + pygments==2.21.0
+ + pytest==9.1.1
+ + pytest-cov==7.1.0
+ + python-discovery==1.6.1
+ + ruff==0.13.0
+ + virtualenv==21.14.1
+
+Exit code: 0 (expected 0)

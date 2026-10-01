@@ -1,0 +1,6 @@
+$ git init -b main
+Working directory: /Users/josoroma/sites/langchain
+
+Initialized empty Git repository in /Users/josoroma/sites/langchain/.git/
+
+Exit code: 0 (expected 0)

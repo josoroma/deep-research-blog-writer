@@ -1,0 +1,22 @@
+$ sh scripts/verify-package.sh
+Working directory: /Users/josoroma/sites/langchain
+
+Using CPython 3.12.9
+Creating virtual environment at: /var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T//epic1-wheel.wSvX7p/.venv
+Activate with: source /var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic1-wheel.wSvX7p/.venv/bin/activate
+Using Python 3.12.9 environment at: /var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic1-wheel.wSvX7p/.venv
+Resolved 1 package in 12ms
+Prepared 1 package in 6ms
+Installed 1 package in 3ms
+ + deep-research-blog-writer==0.1.0 (from file:///Users/josoroma/sites/langchain/dist/deep_research_blog_writer-0.1.0-py3-none-any.whl)
+agents: /var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic1-wheel.wSvX7p/.venv/lib/python3.12/site-packages/agents/__init__.py
+tools: /var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic1-wheel.wSvX7p/.venv/lib/python3.12/site-packages/tools/__init__.py
+workflows: /var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic1-wheel.wSvX7p/.venv/lib/python3.12/site-packages/workflows/__init__.py
+prompts: /var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic1-wheel.wSvX7p/.venv/lib/python3.12/site-packages/prompts/__init__.py
+schemas: /var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic1-wheel.wSvX7p/.venv/lib/python3.12/site-packages/schemas/__init__.py
+services: /var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic1-wheel.wSvX7p/.venv/lib/python3.12/site-packages/services/__init__.py
+evaluations: /var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic1-wheel.wSvX7p/.venv/lib/python3.12/site-packages/evaluations/__init__.py
+Wheel 0.1.0 installed; all seven packages import outside the checkout.
+Tests and documentation are excluded from the application wheel.
+
+Exit code: 0 (expected 0)

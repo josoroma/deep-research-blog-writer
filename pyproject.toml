@@ -1,0 +1,61 @@
+[project]
+name = "deep-research-blog-writer"
+version = "0.1.0"
+description = "Evidence-grounded research and blog writing with DeepAgents on LangGraph"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "deepagents>=0.7,<0.8",
+    "langchain>=1,<2",
+    "langchain-openrouter>=0.2,<1",
+    "langgraph>=1,<2",
+    "pydantic>=2,<3",
+]
+
+[build-system]
+requires = ["hatchling==1.32.4"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["agents", "tools", "workflows", "prompts", "schemas", "services", "evaluations"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/agents", "/tools", "/workflows", "/prompts", "/schemas", "/services",
+    "/evaluations", "/tests", "/pyproject.toml", "/uv.lock", "/.python-version",
+    "/README.md", "/.pre-commit-config.yaml", "/Makefile",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["agents", "tools", "workflows", "prompts", "schemas", "services", "evaluations", "tests", "docs"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-config --strict-markers --cov --cov-report=term-missing --cov-report=xml --cov-fail-under=80"
+
+[tool.coverage.run]
+branch = true
+source = ["agents", "tools", "workflows", "prompts", "schemas", "services", "evaluations"]
+
+[tool.coverage.report]
+fail_under = 80
+show_missing = true
+precision = 2
+
+[dependency-groups]
+dev = [
+    "mypy==1.18.1",
+    "pre-commit>=4,<5",
+    "pytest>=9,<10",
+    "pytest-cov>=7,<8",
+    "ruff==0.13.0",
+]

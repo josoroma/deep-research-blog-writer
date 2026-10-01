@@ -1,0 +1,6 @@
+$ uv init --bare --name deep-research-blog-writer --python 3.12 --vcs none
+Working directory: /Users/josoroma/sites/langchain
+
+Initialized project `deep-research-blog-writer`
+
+Exit code: 0 (expected 0)
