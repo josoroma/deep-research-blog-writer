@@ -2865,7 +2865,7 @@ Open Questions:
 
 Make every run observable: traces in LangSmith, structured execution logs, and exported metrics for tokens, latency, cost, tool calls, and retries, viewable in a local Prometheus and Grafana stack.
 
-Verification: see [EPIC-9 runbook](docs/SPECS-LOGS/EPIC-9-RUNBOOK.md). Native LangSmith SDK hierarchy is verified with a recording client; hosted readback remains credential-dependent and has not been run locally. Real OTLP delivery, Prometheus queries, and all Grafana panels were verified against the local Docker stack.
+Verification: see [EPIC-9 runbook](docs/SPECS-LOGS/EPIC-9-RUNBOOK.md). Native LangSmith SDK hierarchy is verified offline with a recording client, and hosted LangSmith upload/readback is verified with `make smoke-langsmith`: one error-free root and its descendants, all carrying run_id and topic metadata. Real OTLP delivery, Prometheus queries, and all Grafana panels were verified against the local Docker stack.
 
 ## Dependencies
 

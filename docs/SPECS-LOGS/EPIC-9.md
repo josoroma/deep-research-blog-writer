@@ -2,11 +2,11 @@
 
 Date: 2026-10-02
 
-Status: Planned before implementation; implementation and local acceptance verified. Final committed-checkout, installed-wheel, source-hash, and local stack verification passed. Hosted LangSmith readback requires a locally configured key and has not been run. Verification and the final runbook are recorded under `docs/SPECS-LOGS/` with supporting evidence under `docs/evidence/epic-9/`.
+Status: Planned before implementation; implementation, local acceptance, and hosted LangSmith upload/readback verified. The initial delivery passed committed-checkout, installed-wheel, source-hash, and local stack verification. The corrected hosted smoke returns a succeeded report and 83 completed spans with run_id/topic metadata and no errors. Verification and the final runbook are recorded under `docs/SPECS-LOGS/` with supporting evidence under `docs/evidence/epic-9/`.
 
 ## Objective
 
-Implement US-9.1–US-9.4 and PD-020 in [SPECS.md](SPECS.md#epic-9-observability): identifiable LangSmith traces, per-run JSON Lines logs, optional OTLP metrics, and a runnable local Collector → Prometheus → Grafana stack. Instrument the existing CLI/workflows, registered tools, model calls, retries, URL outcomes, and reporting rather than relying on manufactured counters.
+Implement US-9.1–US-9.4 and PD-020 in [SPECS.md](../../SPECS.md#epic-9-observability): identifiable LangSmith traces, per-run JSON Lines logs, optional OTLP metrics, and a runnable local Collector → Prometheus → Grafana stack. Instrument the existing CLI/workflows, registered tools, model calls, retries, URL outcomes, and reporting rather than relying on manufactured counters.
 
 ## Implementation sequence
 
@@ -38,6 +38,6 @@ Implement US-9.1–US-9.4 and PD-020 in [SPECS.md](SPECS.md#epic-9-observability
 - [x] Offline demo, meaningful tests, coverage and hooks pass.
 - [x] Build, installed package, existing demos and fresh checkout pass.
 - [x] Runbook, exact command transcripts, snapshots and hashes saved.
-- [x] Implementation and final evidence committed.
+- [x] Implementation and initial delivery evidence committed.
 
-Final source verification: revision `2a587e01e9fdb1b46447d6cb1079a066b7d3fedf`; 451 offline tests passed, 88.82% coverage. See [the runbook](docs/SPECS-LOGS/EPIC-9-RUNBOOK.md) and [verification metadata](docs/evidence/epic-9/verification.json). Hosted LangSmith readback remains unexecuted because the local key is absent.
+Initial implementation verification: revision `2a587e01e9fdb1b46447d6cb1079a066b7d3fedf`; 451 offline tests passed, 88.82% coverage. The subsequent hosted-smoke correction was verified in the worktree based on `e590c69`: 452 offline tests passed, 88.72% coverage; hosted upload/readback returned 83 completed spans, a succeeded report, zero dangling citations, and no trace errors. The default offline failure scenario continues to verify genuine failed-report tracing. See [the runbook](EPIC-9-RUNBOOK.md), [hosted trace evidence](../evidence/epic-9/hosted_trace_evidence.json), and [verification metadata](../evidence/epic-9/verification.json).

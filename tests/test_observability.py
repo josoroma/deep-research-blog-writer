@@ -3,7 +3,7 @@
 import json
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 import pytest
 from langchain_core.messages import AIMessage
@@ -24,7 +24,10 @@ from services.search_provider import FakeSearchProvider
 from workflows.search_run import run_search
 
 
-def test_actual_graph_tools_usage_retries_and_otlp_data(tmp_path: Path) -> None:
+@pytest.mark.parametrize("scenario", ["failure", "success"])
+def test_actual_graph_tools_usage_retries_and_otlp_data(
+    tmp_path: Path, scenario: Literal["failure", "success"]
+) -> None:
     exporter = RecordingMetricExporter()
     metrics = RunMetrics("http://offline.test", 1, exporter=exporter)
     settings = RunSettings(
@@ -32,13 +35,15 @@ def test_actual_graph_tools_usage_retries_and_otlp_data(tmp_path: Path) -> None:
     )
     client = RecordingTraceClient()
     observer = RunObservability(settings, "demo", client=client, metrics=metrics)
-    evidence = run_demo(tmp_path, observer=observer)
+    evidence = run_demo(tmp_path, observer=observer, scenario=scenario)
     assert evidence["telemetry"]["metrics_flushed"]
     assert exporter.closed and exporter.batches
     points = metric_points(decode_metrics(encode_metrics(exporter.batches[-1]).SerializeToString()))
     assert points["research_tokens"][0]["as_int"] == "90"
-    assert points["research_retries"][0]["as_int"] == "5"
-    assert points["research_dangling_citations"][0]["as_int"] == "2"
+    assert points["research_retries"][0]["as_int"] == ("5" if scenario == "failure" else "2")
+    assert points["research_dangling_citations"][0]["as_int"] == (
+        "2" if scenario == "failure" else "0"
+    )
     assert float(points["research_cost_usd"][0]["as_double"]) == pytest.approx(0.06)
     assert {
         "research_run_duration",
@@ -50,7 +55,8 @@ def test_actual_graph_tools_usage_retries_and_otlp_data(tmp_path: Path) -> None:
     } <= points.keys()
     root = observer.root
     assert root is not None
-    assert root.error == "run_failed"
+    assert root.error == ("run_failed" if scenario == "failure" else None)
+    assert evidence["report_status"] == ("failed" if scenario == "failure" else "succeeded")
     records = client.records
     assert sum(row["parent_run_id"] is None for row in records.values()) == 1
     assert any(row["run_type"] == "llm" for row in records.values())

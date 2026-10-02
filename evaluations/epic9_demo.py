@@ -4,7 +4,7 @@ import argparse
 import json
 import time
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from langchain_core.messages import AIMessage
 from pydantic import HttpUrl
@@ -22,6 +22,8 @@ from schemas.responses import SearchResult
 from schemas.state import RunState
 from schemas.tool_io import ExtractMarkdownInput
 from services.artifacts import write_json
+from services.authoring import validate_citations
+from services.corpus import read_corpus
 from services.extraction_service import ExtractionService
 from services.fetch_service import FetchService
 from services.llm_service import LLMService
@@ -47,18 +49,24 @@ class FailureExtraction(ExtractionService):
 
 
 def run_demo(
-    runs_root: Path, *, endpoint: str | None = None, observer: RunObservability | None = None
+    runs_root: Path,
+    *,
+    endpoint: str | None = None,
+    observer: RunObservability | None = None,
+    scenario: Literal["failure", "success"] = "failure",
 ) -> dict[str, Any]:
+    """Exercise failure observability by default, or a successful hosted smoke."""
+    paths = PATHS if scenario == "failure" else ["/article", "/retry"]
     settings = RunSettings(
         _env_file=None,
         crawler_contact="https://example.org/offline-contact",
-        max_urls=len(PATHS),
+        max_urls=len(paths),
         otel_exporter_otlp_endpoint=endpoint,
         langsmith_tracing=True,
     )
     client = RecordingTraceClient()
     active = observer or RunObservability(settings, "demo", client=client)
-    request = ResearchRequest(topic="EPIC-9 observability evidence", pages=1, max_urls=len(PATHS))
+    request = ResearchRequest(topic="EPIC-9 observability evidence", pages=1, max_urls=len(paths))
     started = time.monotonic()
     report = None
     error = None
@@ -73,7 +81,7 @@ def run_demo(
                     query=request.topic,
                     rank=rank,
                 )
-                for rank, path in enumerate(PATHS, 1)
+                for rank, path in enumerate(paths, 1)
             ]
             provider = FakeSearchProvider({(request.topic, 1): clean})
             session = SearchSession(request, workspace, provider)
@@ -146,9 +154,21 @@ def run_demo(
                 1,
             )
             (workspace.root / "output").mkdir(exist_ok=True)
-            (workspace.root / "output/blog.md").write_text(
-                "Evidence [S-98] and [S-99].\n", encoding="utf-8"
-            )
+            blog = "Evidence [S-98] and [S-99].\n"
+            if scenario == "success":
+                sources = [record.source for record in read_corpus(workspace.root)]
+                assert len(sources) == len(paths)
+                citations = " and ".join(f"[{source.source_id}]" for source in sources)
+                references = "\n".join(
+                    f"- [{source.source_id}] {source.title} {source.url}" for source in sources
+                )
+                blog = (
+                    f"# Observability smoke\n\nEvidence {citations}.\n\n"
+                    f"## References\n\n{references}\n"
+                )
+            (workspace.root / "output/blog.md").write_text(blog, encoding="utf-8")
+            if scenario == "success":
+                assert validate_citations(workspace.root).passed
             report = run_report(
                 workspace.root,
                 load_corpus_run(workspace.root),
@@ -157,7 +177,10 @@ def run_demo(
                 blog_path="output/blog.md",
                 duration_seconds=time.monotonic() - started,
             )
-            assert report.status == "failed" and "dangling_citations" in report.status_reasons
+            if scenario == "failure":
+                assert report.status == "failed" and "dangling_citations" in report.status_reasons
+            else:
+                assert report.status == "succeeded" and not report.status_reasons
         except Exception as failure:
             error = failure
             raise
@@ -190,23 +213,29 @@ def run_demo(
     ]
     assert all({"timestamp", "level", "run_id", "phase", "event"} <= row.keys() for row in logs)
     failures = {row["outcome"] for row in logs if row["event"] == "source_failed"}
-    assert {
-        "unreachable",
-        "robots_disallowed",
-        "unsupported_content",
-        "too_thin",
-        "failed",
-    } <= failures
+    if scenario == "failure":
+        assert {
+            "unreachable",
+            "robots_disallowed",
+            "unsupported_content",
+            "too_thin",
+            "failed",
+        } <= failures
+    else:
+        assert telemetry["url_outcomes"] == {"extracted": len(paths)}
     assert telemetry["tokens_used"] == 90 and abs(telemetry["cost_usd"] - 0.06) < 0.000001
-    assert telemetry["retries"] == 5 and telemetry["dangling_citations"] == 2
+    assert telemetry["retries"] == (5 if scenario == "failure" else 2)
+    assert telemetry["dangling_citations"] == (2 if scenario == "failure" else 0)
     result = {
         "mode": "scripted model usage/cost; mock HTTP; actual agent, tools, SDKs",
+        "scenario": scenario,
         "workspace": str(active.workspace),
         "telemetry": telemetry,
         "trace_spans": len(records),
         "log_records": len(logs),
         "failure_categories_verified": sorted(failures),
         "report_status": report.status,
+        "report_status_reasons": report.status_reasons,
     }
     write_json(active.workspace / "demo_evidence.json", result)
     return result

@@ -231,4 +231,4 @@ The offline demo runs the native agent hierarchy with scripted model usage and m
 
 To export normal CLI workflow metrics to the stack, set `OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4318` in the ignored `.env`. For hosted traces, set `LANGSMITH_TRACING=true`, `LANGSMITH_API_KEY`, and optionally `LANGSMITH_PROJECT`, then run `make smoke-langsmith`. This smoke uses fixture research work with real hosted trace upload/readback. Stop the local stack with `make observability-down`; named volumes are retained.
 
-See [EPIC-9.md](EPIC-9.md), [the runbook](docs/SPECS-LOGS/EPIC-9-RUNBOOK.md), and [ADR 0008](docs/adr/0008-run-observability.md) for acceptance evidence, configuration, commands, and limitations.
+See [EPIC-9.md](docs/SPECS-LOGS/EPIC-9.md), [the runbook](docs/SPECS-LOGS/EPIC-9-RUNBOOK.md), and [ADR 0008](docs/adr/0008-run-observability.md) for acceptance evidence, configuration, commands, and limitations.
