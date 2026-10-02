@@ -1,0 +1,120 @@
+$ make eval-offline
+uv run --locked python -m evaluations.run_eval --offline
+benchmark: evaluations/benchmarks/2026-10-02-5dd8bc8.json
+{
+  "date": "2026-10-02",
+  "commit": "5dd8bc8",
+  "model": "openrouter:deepseek/deepseek-v4.1-flash",
+  "judge_model": "openrouter:deepseek/deepseek-v4.1-flash",
+  "topics": [
+    {
+      "topic_id": "agentic-ai-frameworks",
+      "topic": "2026 agentic AI frameworks",
+      "run_id": "2026-agentic-ai-frameworks-20261002T172105Z",
+      "workspace": "runs/agentic-ai-frameworks/2026-agentic-ai-frameworks-20261002T172105Z",
+      "status": "succeeded",
+      "citation_validity": true,
+      "dangling_citations": 0,
+      "word_count": 2128,
+      "length_ok": true,
+      "coverage": 1.0,
+      "groundedness": 1.0,
+      "hallucination_rate": 0.0,
+      "definition_of_done": {
+        "results_processed": true,
+        "corpus_and_index": true,
+        "summary_written": true,
+        "blog_written": true,
+        "blog_length": true,
+        "zero_dangling_citations": true,
+        "references_section": true,
+        "run_report_written": true,
+        "trace_visible": true
+      },
+      "thresholds": {
+        "zero_dangling_citations": true,
+        "length_2000_5000": true,
+        "definition_of_done": true,
+        "coverage_min_0.5": true,
+        "groundedness_min_0.9": true,
+        "hallucination_max_0.05": true
+      },
+      "passed": true,
+      "failures": []
+    },
+    {
+      "topic_id": "vector-databases-rag",
+      "topic": "2026 agentic AI frameworks",
+      "run_id": "2026-agentic-ai-frameworks-20261002T172106Z",
+      "workspace": "runs/vector-databases-rag/2026-agentic-ai-frameworks-20261002T172106Z",
+      "status": "succeeded",
+      "citation_validity": true,
+      "dangling_citations": 0,
+      "word_count": 2128,
+      "length_ok": true,
+      "coverage": 1.0,
+      "groundedness": 1.0,
+      "hallucination_rate": 0.0,
+      "definition_of_done": {
+        "results_processed": true,
+        "corpus_and_index": true,
+        "summary_written": true,
+        "blog_written": true,
+        "blog_length": true,
+        "zero_dangling_citations": true,
+        "references_section": true,
+        "run_report_written": true,
+        "trace_visible": true
+      },
+      "thresholds": {
+        "zero_dangling_citations": true,
+        "length_2000_5000": true,
+        "definition_of_done": true,
+        "coverage_min_0.5": true,
+        "groundedness_min_0.9": true,
+        "hallucination_max_0.05": true
+      },
+      "passed": true,
+      "failures": []
+    },
+    {
+      "topic_id": "platform-engineering",
+      "topic": "2026 agentic AI frameworks",
+      "run_id": "2026-agentic-ai-frameworks-20261002T172106Z",
+      "workspace": "runs/platform-engineering/2026-agentic-ai-frameworks-20261002T172106Z",
+      "status": "succeeded",
+      "citation_validity": true,
+      "dangling_citations": 0,
+      "word_count": 2128,
+      "length_ok": true,
+      "coverage": 1.0,
+      "groundedness": 1.0,
+      "hallucination_rate": 0.0,
+      "definition_of_done": {
+        "results_processed": true,
+        "corpus_and_index": true,
+        "summary_written": true,
+        "blog_written": true,
+        "blog_length": true,
+        "zero_dangling_citations": true,
+        "references_section": true,
+        "run_report_written": true,
+        "trace_visible": true
+      },
+      "thresholds": {
+        "zero_dangling_citations": true,
+        "length_2000_5000": true,
+        "definition_of_done": true,
+        "coverage_min_0.5": true,
+        "groundedness_min_0.9": true,
+        "hallucination_max_0.05": true
+      },
+      "passed": true,
+      "failures": []
+    }
+  ],
+  "passed": true,
+  "failures": []
+}
+
+Exit status: 0

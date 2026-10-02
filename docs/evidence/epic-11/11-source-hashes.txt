@@ -1,0 +1,5 @@
+$ .venv/bin/python scripts/verify-source-manifest.py docs/evidence/epic-11/source-manifest.json
+Verified 225 source/configuration/fixture hashes.
+Verified source revision: 40b676ad8d0b06d5b7dc2d9bd88e5700e91c9e59
+
+Exit status: 0

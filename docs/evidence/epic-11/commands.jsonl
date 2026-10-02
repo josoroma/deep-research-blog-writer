@@ -1,0 +1,12 @@
+{"name": "01-setup", "command": ["uv", "sync", "--locked"], "started_utc": "2026-10-02T17:17:49.946609+00:00", "duration_seconds": 0.024, "exit_status": 0}
+{"name": "02-check", "command": ["make", "check"], "started_utc": "2026-10-02T17:17:51.581098+00:00", "duration_seconds": 15.977, "exit_status": 0}
+{"name": "03-agent-docs", "command": [".venv/bin/python", "-m", "pytest", "tests/test_agent_docs.py", "-q", "--no-cov"], "started_utc": "2026-10-02T17:18:09.296514+00:00", "duration_seconds": 0.411, "exit_status": 0}
+{"name": "04-demo", "command": ["make", "demo-epic-10"], "started_utc": "2026-10-02T17:21:02.958041+00:00", "duration_seconds": 1.658, "exit_status": 0}
+{"name": "05-eval-offline", "command": ["make", "eval-offline"], "started_utc": "2026-10-02T17:21:04.642131+00:00", "duration_seconds": 2.304, "exit_status": 0}
+{"name": "06-build", "command": ["make", "build"], "started_utc": "2026-10-02T17:21:08.680790+00:00", "duration_seconds": 0.555, "exit_status": 0}
+{"name": "07-installed-package", "command": ["sh", "scripts/verify-epic-10-package.sh"], "started_utc": "2026-10-02T17:21:09.261415+00:00", "duration_seconds": 10.715, "exit_status": 0}
+{"name": "08-hooks", "command": ["make", "hooks"], "started_utc": "2026-10-02T17:21:20.004761+00:00", "duration_seconds": 15.993, "exit_status": 0}
+{"name": "09-existing-demos", "command": ["sh", "-c", "make demo-epic-2 demo-epic-3 demo-epic-4 demo-epic-5 demo-epic-6 demo-epic-7 demo-epic-8 demo-epic-9"], "started_utc": "2026-10-02T17:21:41.999059+00:00", "duration_seconds": 11.958, "exit_status": 0}
+{"name": "10-fresh-checkout", "command": ["sh", "scripts/verify-epic-11-checkout.sh"], "started_utc": "2026-10-02T17:22:18.050873+00:00", "duration_seconds": 107.646, "exit_status": 0}
+{"name": "11-source-hashes", "command": [".venv/bin/python", "scripts/verify-source-manifest.py", "docs/evidence/epic-11/source-manifest.json"], "started_utc": "2026-10-02T17:24:27.044546+00:00", "duration_seconds": 0.031, "exit_status": 0}
+{"name": "11-source-hashes", "command": [".venv/bin/python", "scripts/verify-source-manifest.py", "docs/evidence/epic-11/source-manifest.json"], "started_utc": "2026-10-02T17:25:22.945553+00:00", "duration_seconds": 0.032, "exit_status": 0}

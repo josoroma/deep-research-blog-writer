@@ -1,0 +1,52 @@
+{
+  "source_revision": "40b676ad8d0b06d5b7dc2d9bd88e5700e91c9e59",
+  "working_tree_changes": false,
+  "offline_tests_passed": 522,
+  "coverage_percent": 88.69,
+  "new_tests": {
+    "test_agent_docs.py": 31
+  },
+  "documented_agents": [
+    "orchestrator",
+    "search_agent",
+    "research_agent",
+    "analyst_agent",
+    "writer_agent"
+  ],
+  "skill_sections": [
+    "Purpose",
+    "Capabilities",
+    "Non-Capabilities",
+    "Inputs",
+    "Outputs",
+    "Available Tools",
+    "Security",
+    "Observability",
+    "Evaluation Criteria",
+    "Failure Modes",
+    "Example"
+  ],
+  "fresh_checkout_verified": true,
+  "installed_wheel_verified": true,
+  "hooks_passed": true,
+  "offline_eval_passed": true,
+  "distribution_sha256": {
+    "deep_research_blog_writer-0.1.0-py3-none-any.whl": "728cd9daa98178a8530bb58b72b986f75b5083d3cb9119effa810a7b6b116d53",
+    "deep_research_blog_writer-0.1.0.tar.gz": "a91b8fc87c3e3d5505c0e62a5db7b8a512376a08e6fa08ec449b9310ee2a36f2"
+  },
+  "source_manifest": "docs/evidence/epic-11/source-manifest.json",
+  "source_hashes_verified": 225,
+  "transcripts": [
+    "docs/evidence/epic-11/01-setup.txt",
+    "docs/evidence/epic-11/02-check.txt",
+    "docs/evidence/epic-11/03-agent-docs.txt",
+    "docs/evidence/epic-11/04-demo.txt",
+    "docs/evidence/epic-11/05-eval-offline.txt",
+    "docs/evidence/epic-11/06-build.txt",
+    "docs/evidence/epic-11/07-installed-package.txt",
+    "docs/evidence/epic-11/08-hooks.txt",
+    "docs/evidence/epic-11/09-existing-demos.txt",
+    "docs/evidence/epic-11/10-fresh-checkout.txt",
+    "docs/evidence/epic-11/11-source-hashes.txt"
+  ]
+}

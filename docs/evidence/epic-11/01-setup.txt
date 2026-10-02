@@ -1,0 +1,5 @@
+$ uv sync --locked
+Resolved 119 packages in 4ms
+Checked 116 packages in 3ms
+
+Exit status: 0

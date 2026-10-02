@@ -1,0 +1,653 @@
+$ sh -c 'make demo-epic-2 demo-epic-3 demo-epic-4 demo-epic-5 demo-epic-6 demo-epic-7 demo-epic-8 demo-epic-9'
+uv run --locked python -m evaluations.epic2_demo
+{
+  "mode": "offline; no provider request",
+  "topic": "2026 agentic AI frameworks",
+  "budgets": [
+    3,
+    10,
+    30
+  ],
+  "registered_tools": [
+    "record_phase_completion",
+    "collect_source",
+    "build_index",
+    "validate_citations",
+    "write_run_report",
+    "plan_search",
+    "google_search",
+    "normalize_results",
+    "fetch_url",
+    "extract_markdown"
+  ],
+  "prompts_loaded": {
+    "orchestrator": 4804,
+    "search_agent": 423,
+    "research_agent": 520,
+    "analyst_agent": 871,
+    "writer_agent": 1056
+  },
+  "configured_models": {
+    "orchestrator": "openrouter:deepseek/deepseek-v4.1-flash",
+    "search_agent": "openrouter:deepseek/deepseek-v4.1-flash",
+    "research_agent": "openrouter:deepseek/deepseek-v4.1-flash",
+    "analyst_agent": "openrouter:deepseek/deepseek-v4.1-flash",
+    "writer_agent": "openrouter:deepseek/deepseek-v4.1-flash"
+  },
+  "provider_preferences": {
+    "require_parameters": true,
+    "data_collection": "deny"
+  },
+  "fake_injection_verified": true,
+  "checkpoint_restored": true,
+  "run": {
+    "run_id": "epic-2-demo",
+    "topic": "2026 agentic AI frameworks",
+    "completed_phases": [
+      "search"
+    ],
+    "query_variants": [],
+    "clean_results": [
+      {
+        "url": "https://example.com/article",
+        "title": "Offline fixture",
+        "snippet": "Fixture",
+        "rank": 1,
+        "query": "2026 agentic AI frameworks"
+      }
+    ],
+    "url_outcomes": {
+      "https://example.com/article": {
+        "rank": 1,
+        "url": "https://example.com/article",
+        "outcome": "pending",
+        "reason": null,
+        "source_id": null
+      }
+    }
+  },
+  "expected_rejections": [
+    "topic outside 3–250 characters",
+    "topic outside 3–250 characters",
+    "malformed state replacement",
+    "raw dictionary tool output"
+  ],
+  "rejected_agent_patterns": [
+    "/var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic2-agent-check-jx4dc23w/agent.py:1: forbidden HTTP import 'httpx'",
+    "provider construction ChatOpenRouter; use LLMService",
+    "inline system prompt; use prompts.catalog.load_prompt"
+  ]
+}
+uv run --locked python -m evaluations.epic3_demo
+{
+  "mode": "offline; no provider request",
+  "topic": "2026 agentic AI frameworks",
+  "run_id": "2026-agentic-ai-frameworks-20261002T172144Z",
+  "workspace": "/var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic3-demo-a7pnba_k/runs/2026-agentic-ai-frameworks-20261002T172144Z",
+  "subagents": {
+    "search_agent": [
+      "google_search"
+    ],
+    "research_agent": [
+      "collect_source"
+    ],
+    "analyst_agent": [],
+    "writer_agent": []
+  },
+  "orchestrator_tools": [
+    "plan_search",
+    "normalize_results",
+    "build_index",
+    "validate_citations",
+    "write_run_report"
+  ],
+  "bound_tools": {
+    "build_index|delete|edit_file|glob|grep|ls|normalize_results|plan_search|read_file|task|validate_citations|write_file|write_run_report|write_todos": [
+      "build_index",
+      "delete",
+      "edit_file",
+      "glob",
+      "grep",
+      "ls",
+      "normalize_results",
+      "plan_search",
+      "read_file",
+      "task",
+      "validate_citations",
+      "write_file",
+      "write_run_report",
+      "write_todos"
+    ],
+    "delete|edit_file|glob|google_search|grep|ls|read_file|write_file": [
+      "delete",
+      "edit_file",
+      "glob",
+      "google_search",
+      "grep",
+      "ls",
+      "read_file",
+      "write_file"
+    ],
+    "collect_source|delete|edit_file|glob|grep|ls|read_file|write_file": [
+      "collect_source",
+      "delete",
+      "edit_file",
+      "glob",
+      "grep",
+      "ls",
+      "read_file",
+      "write_file"
+    ],
+    "delete|edit_file|glob|grep|ls|read_file|write_file": [
+      "delete",
+      "edit_file",
+      "glob",
+      "grep",
+      "ls",
+      "read_file",
+      "write_file"
+    ]
+  },
+  "prompts_loaded": {
+    "orchestrator": 4804,
+    "search_agent": 423,
+    "research_agent": 520,
+    "analyst_agent": 871,
+    "writer_agent": 1056
+  },
+  "todos": [
+    "plan",
+    "search",
+    "normalize",
+    "fetch",
+    "index",
+    "synthesize",
+    "write",
+    "citations",
+    "report"
+  ],
+  "files_on_disk": [
+    "output/blog.md",
+    "request.json",
+    "research/summary.md"
+  ],
+  "marker_in_model_contexts": false,
+  "general_purpose_rejected": true,
+  "containment_refused": true,
+  "blog_exists": true
+}
+uv run --locked python -m evaluations.epic4_demo
+{
+  "mode": "offline; scripted model and fake provider; real DeepAgents tools",
+  "run_id": "2026-agentic-ai-frameworks-20261002T172146Z",
+  "workspace": "runs/2026-agentic-ai-frameworks-20261002T172146Z",
+  "completed_phases": [
+    "plan",
+    "search",
+    "normalize"
+  ],
+  "query_variants": [
+    "agent framework architecture comparison",
+    "production agent framework evaluation"
+  ],
+  "provider_calls": [
+    {
+      "query": "2026 agentic AI frameworks",
+      "page": 3,
+      "per_page": 10
+    },
+    {
+      "query": "2026 agentic AI frameworks",
+      "page": 2,
+      "per_page": 10
+    },
+    {
+      "query": "production agent framework evaluation",
+      "page": 1,
+      "per_page": 10
+    },
+    {
+      "query": "agent framework architecture comparison",
+      "page": 1,
+      "per_page": 10
+    },
+    {
+      "query": "2026 agentic AI frameworks",
+      "page": 1,
+      "per_page": 10
+    }
+  ],
+  "topic_results": 30,
+  "counts": {
+    "raw": 50,
+    "denied": 3,
+    "duplicates": 1,
+    "capped": 16,
+    "kept": 30
+  },
+  "first_clean_result": {
+    "url": "https://example.com/post?id=7",
+    "title": "Fixture 0-1",
+    "snippet": "Offline search fixture",
+    "rank": 1,
+    "query": "2026 agentic AI frameworks"
+  },
+  "batched_search_tool_calls": true,
+  "merge_order_verified": true,
+  "contiguous_clean_ranks": true,
+  "repeated_call_cached": true,
+  "unplanned_call_rejected": true,
+  "pending_url_outcomes": 30,
+  "files": [
+    "clean_results.json",
+    "request.json",
+    "search_plan.json",
+    "search_results.json"
+  ]
+}
+uv run --locked python -m evaluations.epic5_demo
+{
+  "mode": "offline; mock HTTP, real registered tools and extraction libraries",
+  "timing": "virtual monotonic seconds; HTTP concurrency overlaps in real asyncio tasks",
+  "workspace": "runs/epic-5-polite-evidence-collection-20261002T172147Z",
+  "summary": {
+    "run_id": "epic-5-polite-evidence-collection-20261002T172147Z",
+    "workspace": "runs/epic-5-polite-evidence-collection-20261002T172147Z",
+    "status": "completed",
+    "urls_processed": 11,
+    "outcomes": {
+      "extracted": 6,
+      "unreachable": 2,
+      "robots_disallowed": 1,
+      "unsupported_content": 1,
+      "too_thin": 1
+    },
+    "extractor_strategy": "fallback",
+    "files": [
+      "fetch_outcomes.json",
+      "extraction_results.json",
+      "fetch_state.json"
+    ],
+    "error": null
+  },
+  "completed_phases": [
+    "plan",
+    "search",
+    "normalize",
+    "fetch"
+  ],
+  "user_agent": "DeepResearchBlogWriter/0.1.0 (+https://example.org/offline-demo-contact)",
+  "robots_requests_per_origin": {
+    "https://fixture.test/robots.txt": 1,
+    "https://slow.fixture.test/robots.txt": 1
+  },
+  "page_requests": {
+    "https://fixture.test/redirect": 1,
+    "https://fixture.test/retry": 2,
+    "https://fixture.test/missing": 1,
+    "https://fixture.test/pdf": 1,
+    "https://fixture.test/thin": 1,
+    "https://fixture.test/article": 1,
+    "https://fixture.test/missing-metadata": 1,
+    "https://fixture.test/boilerplate-heavy": 1,
+    "https://fixture.test/exhaust": 4,
+    "https://slow.fixture.test/first": 1,
+    "https://slow.fixture.test/second": 1
+  },
+  "retry_delays": [
+    {
+      "kind": "page",
+      "attempt": 1,
+      "delay": 1.0
+    },
+    {
+      "kind": "page",
+      "attempt": 1,
+      "delay": 1.0
+    },
+    {
+      "kind": "page",
+      "attempt": 2,
+      "delay": 2.0
+    },
+    {
+      "kind": "page",
+      "attempt": 3,
+      "delay": 4.0
+    }
+  ],
+  "requests": [
+    {
+      "url": "https://fixture.test/robots.txt",
+      "host": "fixture.test",
+      "kind": "robots",
+      "started": 0.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/redirect",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 1.0,
+      "status": 302,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/retry",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 2.0,
+      "status": null,
+      "error": "ReadTimeout"
+    },
+    {
+      "url": "https://fixture.test/missing",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 3.0,
+      "status": 404,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/pdf",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 4.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/thin",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 5.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/article",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 6.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/retry",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 7.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/missing-metadata",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 8.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/boilerplate-heavy",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 9.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/exhaust",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 10.0,
+      "status": 503,
+      "error": null
+    },
+    {
+      "url": "https://slow.fixture.test/robots.txt",
+      "host": "slow.fixture.test",
+      "kind": "robots",
+      "started": 10.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/exhaust",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 11.0,
+      "status": 503,
+      "error": null
+    },
+    {
+      "url": "https://slow.fixture.test/first",
+      "host": "slow.fixture.test",
+      "kind": "page",
+      "started": 15.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://slow.fixture.test/second",
+      "host": "slow.fixture.test",
+      "kind": "page",
+      "started": 22.0,
+      "status": 200,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/exhaust",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 22.0,
+      "status": 503,
+      "error": null
+    },
+    {
+      "url": "https://fixture.test/exhaust",
+      "host": "fixture.test",
+      "kind": "page",
+      "started": 26.0,
+      "status": 503,
+      "error": null
+    }
+  ],
+  "slow_host_start_times": [
+    10.0,
+    15.0,
+    22.0
+  ],
+  "thirty_host_probe": {
+    "urls": 30,
+    "max_active": 5,
+    "limit": 5
+  },
+  "fallback_probe": {
+    "first_two_parsers": "forced candidates; third is real beautifulsoup4",
+    "attempts": [
+      {
+        "parser": "trafilatura:forced-empty",
+        "outcome": "empty",
+        "word_count": 0,
+        "error": null
+      },
+      {
+        "parser": "readability-lxml:forced-thin",
+        "outcome": "too_thin",
+        "word_count": 2,
+        "error": null
+      },
+      {
+        "parser": "beautifulsoup4",
+        "outcome": "extracted",
+        "word_count": 288,
+        "error": null
+      }
+    ]
+  },
+  "raw_html_absent_from_artifacts": true,
+  "no_corpus_files_written": true
+}
+uv run --locked python -m evaluations.epic6_demo
+{
+  "mode": "offline; mock HTTP, real registered corpus tools and extraction libraries",
+  "timing": "virtual monotonic seconds",
+  "workspace": "runs/epic-6-research-corpus-20261002T172148Z",
+  "summary": {
+    "run_id": "epic-6-research-corpus-20261002T172148Z",
+    "workspace": "runs/epic-6-research-corpus-20261002T172148Z",
+    "status": "completed",
+    "urls_processed": 10,
+    "sources_written": 5,
+    "sources_indexed": 5,
+    "outcomes": {
+      "extracted": 5,
+      "unreachable": 2,
+      "robots_disallowed": 1,
+      "unsupported_content": 1,
+      "too_thin": 1
+    },
+    "index_path": "research/index.md",
+    "files": [
+      "research/001_polite-evidence-collection.md",
+      "research/002_polite-evidence-collection.md",
+      "research/007_polite-evidence-collection.md",
+      "research/008_polite-evidence-collection.md",
+      "research/010_fixture-test-non-ascii.md",
+      "research/index.md",
+      "corpus_state.json"
+    ],
+    "error": null
+  },
+  "source_files": [
+    "research/001_polite-evidence-collection.md",
+    "research/002_polite-evidence-collection.md",
+    "research/007_polite-evidence-collection.md",
+    "research/008_polite-evidence-collection.md",
+    "research/010_fixture-test-non-ascii.md"
+  ],
+  "rank_gaps": [
+    3,
+    4,
+    5,
+    6,
+    9
+  ],
+  "title_slug": "research/001_polite-evidence-collection.md",
+  "url_slug_fallback": "research/010_fixture-test-non-ascii.md",
+  "index_rows": 5,
+  "immutable_source_refused": true,
+  "metadata_only": true
+}
+uv run --locked python -m evaluations.epic7_demo
+{
+  "mode": "offline; scripted writer, real citation gate",
+  "workspace": "runs/epic-6-research-corpus-20261002T172150Z",
+  "summary_passed": true,
+  "headings_valid": true,
+  "citations_resolved": true,
+  "dangling_detected": [
+    "S-31"
+  ],
+  "source_ids": [
+    "S-01",
+    "S-02",
+    "S-07",
+    "S-08",
+    "S-10"
+  ],
+  "run_id": "epic-6-research-corpus-20261002T172150Z"
+}
+uv run --locked python -m evaluations.epic8_demo
+{
+  "mode": "offline; real report, classification, retry, and checkpoint",
+  "workspace": "runs/epic-6-research-corpus-20261002T172151Z",
+  "status": "degraded",
+  "exit_status": 3,
+  "urls_extracted": 5,
+  "cost_usd": 0.15000000000000002,
+  "outcomes": 10,
+  "retry_recovered": true,
+  "resumed_at": "synthesize",
+  "checkpoint": true,
+  "degraded_rule": "degraded"
+}
+uv run --locked python -m evaluations.epic9_demo
+{
+  "mode": "scripted model usage/cost; mock HTTP; actual agent, tools, SDKs",
+  "scenario": "failure",
+  "workspace": "runs/epic-9-observability-evidence-20261002T172152Z",
+  "telemetry": {
+    "run_id": "epic-9-observability-evidence-20261002T172152Z",
+    "topic": "EPIC-9 observability evidence",
+    "mode": "demo",
+    "status": "failed",
+    "duration_seconds": 0.16864104199885332,
+    "phase_timings_seconds": {
+      "plan": 0.0007430830009980127,
+      "search": 0.0031648750009480864,
+      "normalize": 0.0010051669996755663,
+      "fetch": 0.025492875000054482,
+      "index": 0.0014334999996208353,
+      "demo": 0.16864104199885332
+    },
+    "tool_calls": {
+      "plan_search": 1,
+      "task": 1,
+      "google_search": 3,
+      "normalize_results": 1,
+      "collect_source": 8,
+      "fetch_url": 8,
+      "extract_markdown": 4,
+      "build_index": 1
+    },
+    "tokens_used": 90,
+    "cost_usd": 0.060000000000000005,
+    "cost_available": true,
+    "retries": 5,
+    "url_outcomes": {
+      "robots_disallowed": 1,
+      "unreachable": 2,
+      "unsupported_content": 1,
+      "extracted": 2,
+      "failed": 1,
+      "too_thin": 1
+    },
+    "dangling_citations": 2,
+    "metrics_enabled": true,
+    "metrics_flushed": true,
+    "trace_id": "01a0fda2-ff47-7770-a305-75da175fe1f4",
+    "trace_export_error": null
+  },
+  "trace_spans": 97,
+  "log_records": 77,
+  "failure_categories_verified": [
+    "failed",
+    "robots_disallowed",
+    "too_thin",
+    "unreachable",
+    "unsupported_content"
+  ],
+  "report_status": "failed",
+  "report_status_reasons": [
+    "dangling_citations",
+    "too_few_sources"
+  ],
+  "otlp_protobuf_received": true,
+  "metric_names": [
+    "research_cost_usd",
+    "research_dangling_citations",
+    "research_phase_duration",
+    "research_retries",
+    "research_run_duration",
+    "research_runs",
+    "research_tokens",
+    "research_tool_calls",
+    "research_tool_duration",
+    "research_url_outcomes"
+  ]
+}
+
+Exit status: 0
