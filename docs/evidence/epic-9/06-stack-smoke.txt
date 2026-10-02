@@ -1,0 +1,835 @@
+$ make smoke-epic-9
+uv run --locked python -m evaluations.observability_stack_smoke
+{
+  "workspace": "runs/epic-9-observability-evidence-20261002T141146Z",
+  "run_id": "epic-9-observability-evidence-20261002T141146Z",
+  "otlp_delivered": true,
+  "prometheus": {
+    "runs": [
+      {
+        "metric": {
+          "__name__": "research_runs_total",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "status": "failed",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0"
+        },
+        "value": [
+          1790950307.204,
+          "1"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "metric": {
+          "__name__": "research_tokens_total",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0"
+        },
+        "value": [
+          1790950307.207,
+          "90"
+        ]
+      }
+    ],
+    "cost": [
+      {
+        "metric": {
+          "__name__": "research_cost_usd_total",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0"
+        },
+        "value": [
+          1790950307.209,
+          "0.060000000000000005"
+        ]
+      }
+    ],
+    "phase_latency": [
+      {
+        "metric": {
+          "__name__": "research_phase_duration_seconds_count",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "phase": "demo",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0"
+        },
+        "value": [
+          1790950307.21,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "research_phase_duration_seconds_count",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "phase": "fetch",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0"
+        },
+        "value": [
+          1790950307.21,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "research_phase_duration_seconds_count",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "phase": "index",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0"
+        },
+        "value": [
+          1790950307.21,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "research_phase_duration_seconds_count",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "phase": "normalize",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0"
+        },
+        "value": [
+          1790950307.21,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "research_phase_duration_seconds_count",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "phase": "plan",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0"
+        },
+        "value": [
+          1790950307.21,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "research_phase_duration_seconds_count",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "phase": "search",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0"
+        },
+        "value": [
+          1790950307.21,
+          "1"
+        ]
+      }
+    ],
+    "tool_calls": [
+      {
+        "metric": {
+          "__name__": "research_tool_calls_total",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0",
+          "tool": "build_index"
+        },
+        "value": [
+          1790950307.212,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "research_tool_calls_total",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0",
+          "tool": "collect_source"
+        },
+        "value": [
+          1790950307.212,
+          "8"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "research_tool_calls_total",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0",
+          "tool": "extract_markdown"
+        },
+        "value": [
+          1790950307.212,
+          "4"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "research_tool_calls_total",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0",
+          "tool": "fetch_url"
+        },
+        "value": [
+          1790950307.212,
+          "8"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "research_tool_calls_total",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0",
+          "tool": "google_search"
+        },
+        "value": [
+          1790950307.212,
+          "3"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "research_tool_calls_total",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0",
+          "tool": "normalize_results"
+        },
+        "value": [
+          1790950307.212,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "research_tool_calls_total",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0",
+          "tool": "plan_search"
+        },
+        "value": [
+          1790950307.212,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "research_tool_calls_total",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0",
+          "tool": "task"
+        },
+        "value": [
+          1790950307.212,
+          "1"
+        ]
+      }
+    ],
+    "retries": [
+      {
+        "metric": {
+          "__name__": "research_retries_total",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0"
+        },
+        "value": [
+          1790950307.213,
+          "5"
+        ]
+      }
+    ],
+    "url_outcomes": [
+      {
+        "metric": {
+          "__name__": "research_url_outcomes_total",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "outcome": "extracted",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0"
+        },
+        "value": [
+          1790950307.214,
+          "2"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "research_url_outcomes_total",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "outcome": "failed",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0"
+        },
+        "value": [
+          1790950307.214,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "research_url_outcomes_total",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "outcome": "robots_disallowed",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0"
+        },
+        "value": [
+          1790950307.214,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "research_url_outcomes_total",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "outcome": "too_thin",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0"
+        },
+        "value": [
+          1790950307.214,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "research_url_outcomes_total",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "outcome": "unreachable",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0"
+        },
+        "value": [
+          1790950307.214,
+          "2"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "research_url_outcomes_total",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "outcome": "unsupported_content",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0"
+        },
+        "value": [
+          1790950307.214,
+          "1"
+        ]
+      }
+    ],
+    "dangling_citations": [
+      {
+        "metric": {
+          "__name__": "research_dangling_citations_total",
+          "exported_instance": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "exported_job": "deep-research-blog-writer",
+          "instance": "collector:8889",
+          "job": "research-collector",
+          "mode": "demo",
+          "otel_scope_name": "deep_research_blog_writer",
+          "otel_scope_version": "0.1.0",
+          "run_id": "epic-9-observability-evidence-20261002T141146Z",
+          "service_instance_id": "e00900ab-1803-472f-a7f3-e99c7617bb6f",
+          "service_name": "deep-research-blog-writer",
+          "telemetry_sdk_language": "python",
+          "telemetry_sdk_name": "opentelemetry",
+          "telemetry_sdk_version": "1.45.0"
+        },
+        "value": [
+          1790950307.216,
+          "2"
+        ]
+      }
+    ]
+  },
+  "dashboard_panels": {
+    "Runs by status": [
+      {
+        "metric": {
+          "status": "failed"
+        },
+        "value": [
+          1790950307.245,
+          "1"
+        ]
+      }
+    ],
+    "Tokens": [
+      {
+        "metric": {},
+        "value": [
+          1790950307.246,
+          "90"
+        ]
+      }
+    ],
+    "Cost (USD)": [
+      {
+        "metric": {},
+        "value": [
+          1790950307.247,
+          "0.060000000000000005"
+        ]
+      }
+    ],
+    "Phase latency": [
+      {
+        "metric": {
+          "phase": "demo"
+        },
+        "value": [
+          1790950307.248,
+          "0.16627229099992746"
+        ]
+      },
+      {
+        "metric": {
+          "phase": "fetch"
+        },
+        "value": [
+          1790950307.248,
+          "0.024309249999987514"
+        ]
+      },
+      {
+        "metric": {
+          "phase": "index"
+        },
+        "value": [
+          1790950307.248,
+          "0.0013644999999087304"
+        ]
+      },
+      {
+        "metric": {
+          "phase": "normalize"
+        },
+        "value": [
+          1790950307.248,
+          "0.0009998749999340362"
+        ]
+      },
+      {
+        "metric": {
+          "phase": "plan"
+        },
+        "value": [
+          1790950307.248,
+          "0.0006152079999992566"
+        ]
+      },
+      {
+        "metric": {
+          "phase": "search"
+        },
+        "value": [
+          1790950307.248,
+          "0.0031916670000100567"
+        ]
+      }
+    ],
+    "Tool calls": [
+      {
+        "metric": {
+          "tool": "build_index"
+        },
+        "value": [
+          1790950307.248,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "tool": "collect_source"
+        },
+        "value": [
+          1790950307.248,
+          "8"
+        ]
+      },
+      {
+        "metric": {
+          "tool": "extract_markdown"
+        },
+        "value": [
+          1790950307.248,
+          "4"
+        ]
+      },
+      {
+        "metric": {
+          "tool": "fetch_url"
+        },
+        "value": [
+          1790950307.248,
+          "8"
+        ]
+      },
+      {
+        "metric": {
+          "tool": "google_search"
+        },
+        "value": [
+          1790950307.248,
+          "3"
+        ]
+      },
+      {
+        "metric": {
+          "tool": "normalize_results"
+        },
+        "value": [
+          1790950307.248,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "tool": "plan_search"
+        },
+        "value": [
+          1790950307.248,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "tool": "task"
+        },
+        "value": [
+          1790950307.248,
+          "1"
+        ]
+      }
+    ],
+    "Retries": [
+      {
+        "metric": {},
+        "value": [
+          1790950307.249,
+          "5"
+        ]
+      }
+    ],
+    "URL outcomes": [
+      {
+        "metric": {
+          "outcome": "extracted"
+        },
+        "value": [
+          1790950307.25,
+          "2"
+        ]
+      },
+      {
+        "metric": {
+          "outcome": "failed"
+        },
+        "value": [
+          1790950307.25,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "outcome": "robots_disallowed"
+        },
+        "value": [
+          1790950307.25,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "outcome": "too_thin"
+        },
+        "value": [
+          1790950307.25,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "outcome": "unreachable"
+        },
+        "value": [
+          1790950307.25,
+          "2"
+        ]
+      },
+      {
+        "metric": {
+          "outcome": "unsupported_content"
+        },
+        "value": [
+          1790950307.25,
+          "1"
+        ]
+      }
+    ],
+    "Dangling citations": [
+      {
+        "metric": {},
+        "value": [
+          1790950307.252,
+          "2"
+        ]
+      }
+    ]
+  },
+  "grafana_datasource_proxy_verified": true,
+  "dashboard_url": "http://127.0.0.1:3001/d/research-runs?var-run_id=epic-9-observability-evidence-20261002T141146Z"
+}
+
+Exit status: 0

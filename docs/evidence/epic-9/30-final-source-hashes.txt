@@ -1,0 +1,5 @@
+$ uv run --locked python scripts/verify-source-manifest.py docs/evidence/epic-9/source-manifest.json
+Verified 197 source/configuration/fixture hashes.
+Verified source revision: 2a587e01e9fdb1b46447d6cb1079a066b7d3fedf
+
+Exit status: 0

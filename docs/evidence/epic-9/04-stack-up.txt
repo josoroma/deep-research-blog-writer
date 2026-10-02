@@ -1,0 +1,7 @@
+$ make observability-up
+docker compose -f ops/observability/compose.yaml up -d
+ Container deep-research-observability-collector-1 Running 
+ Container deep-research-observability-prometheus-1 Running 
+ Container deep-research-observability-grafana-1 Running 
+
+Exit status: 0

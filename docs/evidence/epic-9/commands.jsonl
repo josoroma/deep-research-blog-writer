@@ -1,0 +1,33 @@
+{"name": "01-setup", "command": ["make", "setup"], "started_utc": "2026-10-02T14:10:57.345939+00:00", "duration_seconds": 0.224, "exit_status": 0}
+{"name": "02-check", "command": ["make", "check"], "started_utc": "2026-10-02T14:10:58.061732+00:00", "duration_seconds": 11.362, "exit_status": 0}
+{"name": "03-compose-config", "command": ["docker", "compose", "-f", "ops/observability/compose.yaml", "config", "--quiet"], "started_utc": "2026-10-02T14:11:44.004930+00:00", "duration_seconds": 0.053, "exit_status": 0}
+{"name": "04-stack-up", "command": ["make", "observability-up"], "started_utc": "2026-10-02T14:11:44.136392+00:00", "duration_seconds": 0.103, "exit_status": 0}
+{"name": "05-offline-demo", "command": ["make", "demo-epic-9"], "started_utc": "2026-10-02T14:11:44.295063+00:00", "duration_seconds": 2.073, "exit_status": 0}
+{"name": "06-stack-smoke", "command": ["make", "smoke-epic-9"], "started_utc": "2026-10-02T14:11:45.450151+00:00", "duration_seconds": 1.991, "exit_status": 0}
+{"name": "07-existing-demos", "command": ["make", "demo-epic-2", "demo-epic-3", "demo-epic-4", "demo-epic-5", "demo-epic-6", "demo-epic-7", "demo-epic-8"], "started_utc": "2026-10-02T14:11:46.608137+00:00", "duration_seconds": 9.088, "exit_status": 0}
+{"name": "08-build", "command": ["make", "build"], "started_utc": "2026-10-02T14:13:52.412635+00:00", "duration_seconds": 0.549, "exit_status": 0}
+{"name": "09-stack-status", "command": ["docker", "compose", "-f", "ops/observability/compose.yaml", "ps"], "started_utc": "2026-10-02T14:13:53.010386+00:00", "duration_seconds": 0.113, "exit_status": 0}
+{"name": "10-installed-package", "command": ["sh", "scripts/verify-epic-9-package.sh"], "started_utc": "2026-10-02T14:13:53.171175+00:00", "duration_seconds": 11.712, "exit_status": 0}
+{"name": "02-check", "command": ["make", "check"], "started_utc": "2026-10-02T14:16:09.578900+00:00", "duration_seconds": 11.392, "exit_status": 0}
+{"name": "11-inspect-demo", "command": ["uv", "run", "--locked", "python", "scripts/inspect-observability.py", "runs/epic-9-observability-evidence-20261002T141145Z"], "started_utc": "2026-10-02T14:18:02.853650+00:00", "duration_seconds": 0.045, "exit_status": 0}
+{"name": "12-hooks", "command": ["make", "hooks"], "started_utc": "2026-10-02T14:18:03.062028+00:00", "duration_seconds": 10.739, "exit_status": 0}
+{"name": "13-implementation-commit", "command": ["git", "commit", "-m", "Implement EPIC-9 run observability"], "started_utc": "2026-10-02T14:22:11.452031+00:00", "duration_seconds": 10.208, "exit_status": 0}
+{"name": "16-stack-stop", "command": ["make", "observability-down"], "started_utc": "2026-10-02T14:23:59.876299+00:00", "duration_seconds": 0.947, "exit_status": 0}
+{"name": "15-final-offline-demo", "command": ["make", "demo-epic-9"], "started_utc": "2026-10-02T14:23:58.740509+00:00", "duration_seconds": 2.751, "exit_status": 0}
+{"name": "17-stack-restart", "command": ["make", "observability-up"], "started_utc": "2026-10-02T14:25:20.033229+00:00", "duration_seconds": 0.652, "exit_status": 0}
+{"name": "14-fresh-checkout", "command": ["sh", "scripts/verify-epic-9-checkout.sh"], "started_utc": "2026-10-02T14:23:57.567906+00:00", "duration_seconds": 89.258, "exit_status": 0}
+{"name": "19-final-build", "command": ["make", "build"], "started_utc": "2026-10-02T14:26:49.693307+00:00", "duration_seconds": 0.551, "exit_status": 0}
+{"name": "21-source-hashes", "command": ["uv", "run", "--locked", "python", "scripts/verify-source-manifest.py", "docs/evidence/epic-9/source-manifest.json"], "started_utc": "2026-10-02T14:26:51.614504+00:00", "duration_seconds": 0.052, "exit_status": 0}
+{"name": "18-stack-after-restart", "command": ["make", "smoke-epic-9"], "started_utc": "2026-10-02T14:26:48.560524+00:00", "duration_seconds": 3.958, "exit_status": 0}
+{"name": "20-final-installed-package", "command": ["sh", "scripts/verify-epic-9-package.sh"], "started_utc": "2026-10-02T14:26:50.296546+00:00", "duration_seconds": 11.62, "exit_status": 0}
+{"name": "22-final-check", "command": ["make", "check"], "started_utc": "2026-10-02T14:31:25.764995+00:00", "duration_seconds": 14.002, "exit_status": 0}
+{"name": "23-recovery-fix-commit", "command": ["git", "commit", "-m", "Keep recovered source outcome metrics consistent"], "started_utc": "2026-10-02T14:33:16.992970+00:00", "duration_seconds": 13.373, "exit_status": 0}
+{"name": "25-final-build", "command": ["make", "build"], "started_utc": "2026-10-02T14:36:22.206200+00:00", "duration_seconds": 1.728, "exit_status": 0}
+{"name": "27-parallel-collision", "command": ["make", "demo-epic-9"], "started_utc": "2026-10-02T14:36:25.156103+00:00", "duration_seconds": 5.146, "exit_status": 2}
+{"name": "28-final-stack-smoke", "command": ["make", "smoke-epic-9"], "started_utc": "2026-10-02T14:36:26.308850+00:00", "duration_seconds": 6.2, "exit_status": 0}
+{"name": "26-final-installed-package", "command": ["sh", "scripts/verify-epic-9-package.sh"], "started_utc": "2026-10-02T14:36:23.993808+00:00", "duration_seconds": 18.431, "exit_status": 0}
+{"name": "24-final-fresh-checkout", "command": ["sh", "scripts/verify-epic-9-checkout.sh"], "started_utc": "2026-10-02T14:36:21.152728+00:00", "duration_seconds": 95.755, "exit_status": 0}
+{"name": "29-history-after-restart", "command": ["curl", "--fail", "--silent", "--show-error", "http://127.0.0.1:9090/api/v1/query_range?query=research_tokens_total%7Brun_id%3D%22epic-9-observability-evidence-20261002T141146Z%22%7D&start=1790950307&end=1790950367&step=2"], "started_utc": "2026-10-02T14:39:50.968739+00:00", "duration_seconds": 0.011, "exit_status": 0}
+{"name": "27-final-demo", "command": ["make", "demo-epic-9"], "started_utc": "2026-10-02T14:41:04.610151+00:00", "duration_seconds": 2.437, "exit_status": 0}
+{"name": "30-final-source-hashes", "command": ["uv", "run", "--locked", "python", "scripts/verify-source-manifest.py", "docs/evidence/epic-9/source-manifest.json"], "started_utc": "2026-10-02T14:49:37.194302+00:00", "duration_seconds": 0.15, "exit_status": 0}
+{"name": "31-final-inspect", "command": ["uv", "run", "--locked", "python", "scripts/inspect-observability.py", "runs/epic-9-observability-evidence-20261002T144106Z"], "started_utc": "2026-10-02T14:52:36.586586+00:00", "duration_seconds": 0.14, "exit_status": 0}

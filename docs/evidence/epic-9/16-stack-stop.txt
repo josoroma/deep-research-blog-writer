@@ -1,0 +1,18 @@
+$ make observability-down
+docker compose -f ops/observability/compose.yaml down
+ Container deep-research-observability-grafana-1 Stopping 
+ Container deep-research-observability-grafana-1 Stopped 
+ Container deep-research-observability-grafana-1 Removing 
+ Container deep-research-observability-grafana-1 Removed 
+ Container deep-research-observability-prometheus-1 Stopping 
+ Container deep-research-observability-prometheus-1 Stopped 
+ Container deep-research-observability-prometheus-1 Removing 
+ Container deep-research-observability-prometheus-1 Removed 
+ Container deep-research-observability-collector-1 Stopping 
+ Container deep-research-observability-collector-1 Stopped 
+ Container deep-research-observability-collector-1 Removing 
+ Container deep-research-observability-collector-1 Removed 
+ Network deep-research-observability_default Removing 
+ Network deep-research-observability_default Removed 
+
+Exit status: 0

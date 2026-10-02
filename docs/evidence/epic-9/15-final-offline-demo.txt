@@ -1,0 +1,73 @@
+$ make demo-epic-9
+uv run --locked python -m evaluations.epic9_demo
+{
+  "mode": "scripted model usage/cost; mock HTTP; actual agent, tools, SDKs",
+  "workspace": "runs/epic-9-observability-evidence-20261002T142400Z",
+  "telemetry": {
+    "run_id": "epic-9-observability-evidence-20261002T142400Z",
+    "topic": "EPIC-9 observability evidence",
+    "mode": "demo",
+    "status": "failed",
+    "duration_seconds": 0.2567736660000719,
+    "phase_timings_seconds": {
+      "plan": 0.0008566669998799625,
+      "search": 0.005481250000002547,
+      "normalize": 0.001845541000193407,
+      "fetch": 0.04347795800003951,
+      "index": 0.001706540999975914,
+      "demo": 0.2567736660000719
+    },
+    "tool_calls": {
+      "plan_search": 1,
+      "task": 1,
+      "google_search": 3,
+      "normalize_results": 1,
+      "collect_source": 8,
+      "fetch_url": 8,
+      "extract_markdown": 4,
+      "build_index": 1
+    },
+    "tokens_used": 90,
+    "cost_usd": 0.060000000000000005,
+    "cost_available": true,
+    "retries": 5,
+    "url_outcomes": {
+      "robots_disallowed": 1,
+      "unreachable": 2,
+      "unsupported_content": 1,
+      "extracted": 2,
+      "too_thin": 1,
+      "failed": 1
+    },
+    "dangling_citations": 2,
+    "metrics_enabled": true,
+    "metrics_flushed": true,
+    "trace_id": "01a0fd00-25b6-76a3-880b-fd3ca174a228",
+    "trace_export_error": null
+  },
+  "trace_spans": 97,
+  "log_records": 77,
+  "failure_categories_verified": [
+    "failed",
+    "robots_disallowed",
+    "too_thin",
+    "unreachable",
+    "unsupported_content"
+  ],
+  "report_status": "failed",
+  "otlp_protobuf_received": true,
+  "metric_names": [
+    "research_cost_usd",
+    "research_dangling_citations",
+    "research_phase_duration",
+    "research_retries",
+    "research_run_duration",
+    "research_runs",
+    "research_tokens",
+    "research_tool_calls",
+    "research_tool_duration",
+    "research_url_outcomes"
+  ]
+}
+
+Exit status: 0

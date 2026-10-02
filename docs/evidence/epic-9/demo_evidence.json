@@ -1,0 +1,69 @@
+{
+  "mode": "scripted model usage/cost; mock HTTP; actual agent, tools, SDKs",
+  "workspace": "runs/epic-9-observability-evidence-20261002T144106Z",
+  "telemetry": {
+    "run_id": "epic-9-observability-evidence-20261002T144106Z",
+    "topic": "EPIC-9 observability evidence",
+    "mode": "demo",
+    "status": "failed",
+    "duration_seconds": 0.18218174999992698,
+    "phase_timings_seconds": {
+      "plan": 0.0005695830000149726,
+      "search": 0.0032266250000247965,
+      "normalize": 0.0010011669996856654,
+      "fetch": 0.02488683299998229,
+      "index": 0.0014512920001834573,
+      "demo": 0.18218174999992698
+    },
+    "tool_calls": {
+      "plan_search": 1,
+      "task": 1,
+      "google_search": 3,
+      "normalize_results": 1,
+      "collect_source": 8,
+      "fetch_url": 8,
+      "extract_markdown": 4,
+      "build_index": 1
+    },
+    "tokens_used": 90,
+    "cost_usd": 0.060000000000000005,
+    "cost_available": true,
+    "retries": 5,
+    "url_outcomes": {
+      "robots_disallowed": 1,
+      "unreachable": 2,
+      "unsupported_content": 1,
+      "extracted": 2,
+      "failed": 1,
+      "too_thin": 1
+    },
+    "dangling_citations": 2,
+    "metrics_enabled": true,
+    "metrics_flushed": true,
+    "trace_id": "01a0fd0f-cc0c-77e2-b1a9-7a411d7e7c81",
+    "trace_export_error": null
+  },
+  "trace_spans": 97,
+  "log_records": 77,
+  "failure_categories_verified": [
+    "failed",
+    "robots_disallowed",
+    "too_thin",
+    "unreachable",
+    "unsupported_content"
+  ],
+  "report_status": "failed",
+  "otlp_protobuf_received": true,
+  "metric_names": [
+    "research_cost_usd",
+    "research_dangling_citations",
+    "research_phase_duration",
+    "research_retries",
+    "research_run_duration",
+    "research_runs",
+    "research_tokens",
+    "research_tool_calls",
+    "research_tool_duration",
+    "research_url_outcomes"
+  ]
+}

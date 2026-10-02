@@ -1,0 +1,1516 @@
+{
+  "resource_metrics": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "telemetry.sdk.language",
+            "value": {
+              "string_value": "python"
+            }
+          },
+          {
+            "key": "telemetry.sdk.name",
+            "value": {
+              "string_value": "opentelemetry"
+            }
+          },
+          {
+            "key": "telemetry.sdk.version",
+            "value": {
+              "string_value": "1.45.0"
+            }
+          },
+          {
+            "key": "service.instance.id",
+            "value": {
+              "string_value": "3989ff2d-f71e-4a62-8888-4641dafe7623"
+            }
+          },
+          {
+            "key": "service.name",
+            "value": {
+              "string_value": "deep-research-blog-writer"
+            }
+          }
+        ]
+      },
+      "scope_metrics": [
+        {
+          "scope": {
+            "name": "deep_research_blog_writer",
+            "version": "0.1.0"
+          },
+          "metrics": [
+            {
+              "name": "research_tool_duration",
+              "unit": "s",
+              "histogram": {
+                "data_points": [
+                  {
+                    "start_time_unix_nano": "1790952066187834000",
+                    "time_unix_nano": "1790952066244541000",
+                    "count": "1",
+                    "sum": 0.0005695830000149726,
+                    "bucket_counts": [
+                      "0",
+                      "1",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0"
+                    ],
+                    "explicit_bounds": [
+                      0.0,
+                      5.0,
+                      10.0,
+                      25.0,
+                      50.0,
+                      75.0,
+                      100.0,
+                      250.0,
+                      500.0,
+                      750.0,
+                      1000.0,
+                      2500.0,
+                      5000.0,
+                      7500.0,
+                      10000.0
+                    ],
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "tool",
+                        "value": {
+                          "string_value": "plan_search"
+                        }
+                      },
+                      {
+                        "key": "phase",
+                        "value": {
+                          "string_value": "plan"
+                        }
+                      }
+                    ],
+                    "min": 0.0005695830000149726,
+                    "max": 0.0005695830000149726
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066199419000",
+                    "time_unix_nano": "1790952066244541000",
+                    "count": "3",
+                    "sum": 0.005633166999814421,
+                    "bucket_counts": [
+                      "0",
+                      "3",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0"
+                    ],
+                    "explicit_bounds": [
+                      0.0,
+                      5.0,
+                      10.0,
+                      25.0,
+                      50.0,
+                      75.0,
+                      100.0,
+                      250.0,
+                      500.0,
+                      750.0,
+                      1000.0,
+                      2500.0,
+                      5000.0,
+                      7500.0,
+                      10000.0
+                    ],
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "tool",
+                        "value": {
+                          "string_value": "google_search"
+                        }
+                      },
+                      {
+                        "key": "phase",
+                        "value": {
+                          "string_value": "search"
+                        }
+                      }
+                    ],
+                    "min": 0.0016264160003629513,
+                    "max": 0.0020370839997667645
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066207789000",
+                    "time_unix_nano": "1790952066244541000",
+                    "count": "1",
+                    "sum": 0.0010011669996856654,
+                    "bucket_counts": [
+                      "0",
+                      "1",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0"
+                    ],
+                    "explicit_bounds": [
+                      0.0,
+                      5.0,
+                      10.0,
+                      25.0,
+                      50.0,
+                      75.0,
+                      100.0,
+                      250.0,
+                      500.0,
+                      750.0,
+                      1000.0,
+                      2500.0,
+                      5000.0,
+                      7500.0,
+                      10000.0
+                    ],
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "tool",
+                        "value": {
+                          "string_value": "normalize_results"
+                        }
+                      },
+                      {
+                        "key": "phase",
+                        "value": {
+                          "string_value": "normalize"
+                        }
+                      }
+                    ],
+                    "min": 0.0010011669996856654,
+                    "max": 0.0010011669996856654
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066215437000",
+                    "time_unix_nano": "1790952066244541000",
+                    "count": "8",
+                    "sum": 0.02943091800034381,
+                    "bucket_counts": [
+                      "0",
+                      "8",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0"
+                    ],
+                    "explicit_bounds": [
+                      0.0,
+                      5.0,
+                      10.0,
+                      25.0,
+                      50.0,
+                      75.0,
+                      100.0,
+                      250.0,
+                      500.0,
+                      750.0,
+                      1000.0,
+                      2500.0,
+                      5000.0,
+                      7500.0,
+                      10000.0
+                    ],
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "tool",
+                        "value": {
+                          "string_value": "fetch_url"
+                        }
+                      },
+                      {
+                        "key": "phase",
+                        "value": {
+                          "string_value": "fetch"
+                        }
+                      }
+                    ],
+                    "min": 0.0020610000001397566,
+                    "max": 0.006563874999756081
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066222421000",
+                    "time_unix_nano": "1790952066244541000",
+                    "count": "8",
+                    "sum": 0.10413016600068659,
+                    "bucket_counts": [
+                      "0",
+                      "8",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0"
+                    ],
+                    "explicit_bounds": [
+                      0.0,
+                      5.0,
+                      10.0,
+                      25.0,
+                      50.0,
+                      75.0,
+                      100.0,
+                      250.0,
+                      500.0,
+                      750.0,
+                      1000.0,
+                      2500.0,
+                      5000.0,
+                      7500.0,
+                      10000.0
+                    ],
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "tool",
+                        "value": {
+                          "string_value": "collect_source"
+                        }
+                      },
+                      {
+                        "key": "phase",
+                        "value": {
+                          "string_value": "fetch"
+                        }
+                      }
+                    ],
+                    "min": 0.009265500000310567,
+                    "max": 0.018958875000407716
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066226665000",
+                    "time_unix_nano": "1790952066244541000",
+                    "count": "4",
+                    "sum": 0.029343624999455642,
+                    "bucket_counts": [
+                      "0",
+                      "4",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0"
+                    ],
+                    "explicit_bounds": [
+                      0.0,
+                      5.0,
+                      10.0,
+                      25.0,
+                      50.0,
+                      75.0,
+                      100.0,
+                      250.0,
+                      500.0,
+                      750.0,
+                      1000.0,
+                      2500.0,
+                      5000.0,
+                      7500.0,
+                      10000.0
+                    ],
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "tool",
+                        "value": {
+                          "string_value": "extract_markdown"
+                        }
+                      },
+                      {
+                        "key": "phase",
+                        "value": {
+                          "string_value": "fetch"
+                        }
+                      }
+                    ],
+                    "min": 0.002940666999620589,
+                    "max": 0.0106944580002164
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066239560000",
+                    "time_unix_nano": "1790952066244541000",
+                    "count": "1",
+                    "sum": 0.0014512920001834573,
+                    "bucket_counts": [
+                      "0",
+                      "1",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0"
+                    ],
+                    "explicit_bounds": [
+                      0.0,
+                      5.0,
+                      10.0,
+                      25.0,
+                      50.0,
+                      75.0,
+                      100.0,
+                      250.0,
+                      500.0,
+                      750.0,
+                      1000.0,
+                      2500.0,
+                      5000.0,
+                      7500.0,
+                      10000.0
+                    ],
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "tool",
+                        "value": {
+                          "string_value": "build_index"
+                        }
+                      },
+                      {
+                        "key": "phase",
+                        "value": {
+                          "string_value": "index"
+                        }
+                      }
+                    ],
+                    "min": 0.0014512920001834573,
+                    "max": 0.0014512920001834573
+                  }
+                ],
+                "aggregation_temporality": "AGGREGATION_TEMPORALITY_CUMULATIVE"
+              }
+            },
+            {
+              "name": "research_tokens",
+              "unit": "1",
+              "sum": {
+                "data_points": [
+                  {
+                    "start_time_unix_nano": "1790952066242049000",
+                    "time_unix_nano": "1790952066244541000",
+                    "as_int": "90",
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "aggregation_temporality": "AGGREGATION_TEMPORALITY_CUMULATIVE",
+                "is_monotonic": true
+              }
+            },
+            {
+              "name": "research_cost_usd",
+              "unit": "1",
+              "sum": {
+                "data_points": [
+                  {
+                    "start_time_unix_nano": "1790952066242071000",
+                    "time_unix_nano": "1790952066244541000",
+                    "as_double": 0.060000000000000005,
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "aggregation_temporality": "AGGREGATION_TEMPORALITY_CUMULATIVE",
+                "is_monotonic": true
+              }
+            },
+            {
+              "name": "research_retries",
+              "unit": "1",
+              "sum": {
+                "data_points": [
+                  {
+                    "start_time_unix_nano": "1790952066242085000",
+                    "time_unix_nano": "1790952066244541000",
+                    "as_int": "5",
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "aggregation_temporality": "AGGREGATION_TEMPORALITY_CUMULATIVE",
+                "is_monotonic": true
+              }
+            },
+            {
+              "name": "research_dangling_citations",
+              "unit": "1",
+              "sum": {
+                "data_points": [
+                  {
+                    "start_time_unix_nano": "1790952066242096000",
+                    "time_unix_nano": "1790952066244541000",
+                    "as_int": "2",
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "aggregation_temporality": "AGGREGATION_TEMPORALITY_CUMULATIVE",
+                "is_monotonic": true
+              }
+            },
+            {
+              "name": "research_runs",
+              "unit": "1",
+              "sum": {
+                "data_points": [
+                  {
+                    "start_time_unix_nano": "1790952066242107000",
+                    "time_unix_nano": "1790952066244541000",
+                    "as_int": "1",
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "status",
+                        "value": {
+                          "string_value": "failed"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "aggregation_temporality": "AGGREGATION_TEMPORALITY_CUMULATIVE",
+                "is_monotonic": true
+              }
+            },
+            {
+              "name": "research_run_duration",
+              "unit": "s",
+              "histogram": {
+                "data_points": [
+                  {
+                    "start_time_unix_nano": "1790952066242125000",
+                    "time_unix_nano": "1790952066244541000",
+                    "count": "1",
+                    "sum": 0.18218174999992698,
+                    "bucket_counts": [
+                      "0",
+                      "1",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0"
+                    ],
+                    "explicit_bounds": [
+                      0.0,
+                      5.0,
+                      10.0,
+                      25.0,
+                      50.0,
+                      75.0,
+                      100.0,
+                      250.0,
+                      500.0,
+                      750.0,
+                      1000.0,
+                      2500.0,
+                      5000.0,
+                      7500.0,
+                      10000.0
+                    ],
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      }
+                    ],
+                    "min": 0.18218174999992698,
+                    "max": 0.18218174999992698
+                  }
+                ],
+                "aggregation_temporality": "AGGREGATION_TEMPORALITY_CUMULATIVE"
+              }
+            },
+            {
+              "name": "research_phase_duration",
+              "unit": "s",
+              "histogram": {
+                "data_points": [
+                  {
+                    "start_time_unix_nano": "1790952066242140000",
+                    "time_unix_nano": "1790952066244541000",
+                    "count": "1",
+                    "sum": 0.0005695830000149726,
+                    "bucket_counts": [
+                      "0",
+                      "1",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0"
+                    ],
+                    "explicit_bounds": [
+                      0.0,
+                      5.0,
+                      10.0,
+                      25.0,
+                      50.0,
+                      75.0,
+                      100.0,
+                      250.0,
+                      500.0,
+                      750.0,
+                      1000.0,
+                      2500.0,
+                      5000.0,
+                      7500.0,
+                      10000.0
+                    ],
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "phase",
+                        "value": {
+                          "string_value": "plan"
+                        }
+                      }
+                    ],
+                    "min": 0.0005695830000149726,
+                    "max": 0.0005695830000149726
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066242152000",
+                    "time_unix_nano": "1790952066244541000",
+                    "count": "1",
+                    "sum": 0.0032266250000247965,
+                    "bucket_counts": [
+                      "0",
+                      "1",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0"
+                    ],
+                    "explicit_bounds": [
+                      0.0,
+                      5.0,
+                      10.0,
+                      25.0,
+                      50.0,
+                      75.0,
+                      100.0,
+                      250.0,
+                      500.0,
+                      750.0,
+                      1000.0,
+                      2500.0,
+                      5000.0,
+                      7500.0,
+                      10000.0
+                    ],
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "phase",
+                        "value": {
+                          "string_value": "search"
+                        }
+                      }
+                    ],
+                    "min": 0.0032266250000247965,
+                    "max": 0.0032266250000247965
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066242161000",
+                    "time_unix_nano": "1790952066244541000",
+                    "count": "1",
+                    "sum": 0.0010011669996856654,
+                    "bucket_counts": [
+                      "0",
+                      "1",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0"
+                    ],
+                    "explicit_bounds": [
+                      0.0,
+                      5.0,
+                      10.0,
+                      25.0,
+                      50.0,
+                      75.0,
+                      100.0,
+                      250.0,
+                      500.0,
+                      750.0,
+                      1000.0,
+                      2500.0,
+                      5000.0,
+                      7500.0,
+                      10000.0
+                    ],
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "phase",
+                        "value": {
+                          "string_value": "normalize"
+                        }
+                      }
+                    ],
+                    "min": 0.0010011669996856654,
+                    "max": 0.0010011669996856654
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066242168000",
+                    "time_unix_nano": "1790952066244541000",
+                    "count": "1",
+                    "sum": 0.02488683299998229,
+                    "bucket_counts": [
+                      "0",
+                      "1",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0"
+                    ],
+                    "explicit_bounds": [
+                      0.0,
+                      5.0,
+                      10.0,
+                      25.0,
+                      50.0,
+                      75.0,
+                      100.0,
+                      250.0,
+                      500.0,
+                      750.0,
+                      1000.0,
+                      2500.0,
+                      5000.0,
+                      7500.0,
+                      10000.0
+                    ],
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "phase",
+                        "value": {
+                          "string_value": "fetch"
+                        }
+                      }
+                    ],
+                    "min": 0.02488683299998229,
+                    "max": 0.02488683299998229
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066242176000",
+                    "time_unix_nano": "1790952066244541000",
+                    "count": "1",
+                    "sum": 0.0014512920001834573,
+                    "bucket_counts": [
+                      "0",
+                      "1",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0"
+                    ],
+                    "explicit_bounds": [
+                      0.0,
+                      5.0,
+                      10.0,
+                      25.0,
+                      50.0,
+                      75.0,
+                      100.0,
+                      250.0,
+                      500.0,
+                      750.0,
+                      1000.0,
+                      2500.0,
+                      5000.0,
+                      7500.0,
+                      10000.0
+                    ],
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "phase",
+                        "value": {
+                          "string_value": "index"
+                        }
+                      }
+                    ],
+                    "min": 0.0014512920001834573,
+                    "max": 0.0014512920001834573
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066242184000",
+                    "time_unix_nano": "1790952066244541000",
+                    "count": "1",
+                    "sum": 0.18218174999992698,
+                    "bucket_counts": [
+                      "0",
+                      "1",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0",
+                      "0"
+                    ],
+                    "explicit_bounds": [
+                      0.0,
+                      5.0,
+                      10.0,
+                      25.0,
+                      50.0,
+                      75.0,
+                      100.0,
+                      250.0,
+                      500.0,
+                      750.0,
+                      1000.0,
+                      2500.0,
+                      5000.0,
+                      7500.0,
+                      10000.0
+                    ],
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "phase",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      }
+                    ],
+                    "min": 0.18218174999992698,
+                    "max": 0.18218174999992698
+                  }
+                ],
+                "aggregation_temporality": "AGGREGATION_TEMPORALITY_CUMULATIVE"
+              }
+            },
+            {
+              "name": "research_tool_calls",
+              "unit": "1",
+              "sum": {
+                "data_points": [
+                  {
+                    "start_time_unix_nano": "1790952066242196000",
+                    "time_unix_nano": "1790952066244541000",
+                    "as_int": "1",
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "tool",
+                        "value": {
+                          "string_value": "plan_search"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066242203000",
+                    "time_unix_nano": "1790952066244541000",
+                    "as_int": "1",
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "tool",
+                        "value": {
+                          "string_value": "task"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066242210000",
+                    "time_unix_nano": "1790952066244541000",
+                    "as_int": "3",
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "tool",
+                        "value": {
+                          "string_value": "google_search"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066242216000",
+                    "time_unix_nano": "1790952066244541000",
+                    "as_int": "1",
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "tool",
+                        "value": {
+                          "string_value": "normalize_results"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066242223000",
+                    "time_unix_nano": "1790952066244541000",
+                    "as_int": "8",
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "tool",
+                        "value": {
+                          "string_value": "collect_source"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066242229000",
+                    "time_unix_nano": "1790952066244541000",
+                    "as_int": "8",
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "tool",
+                        "value": {
+                          "string_value": "fetch_url"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066242235000",
+                    "time_unix_nano": "1790952066244541000",
+                    "as_int": "4",
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "tool",
+                        "value": {
+                          "string_value": "extract_markdown"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066242241000",
+                    "time_unix_nano": "1790952066244541000",
+                    "as_int": "1",
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "tool",
+                        "value": {
+                          "string_value": "build_index"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "aggregation_temporality": "AGGREGATION_TEMPORALITY_CUMULATIVE",
+                "is_monotonic": true
+              }
+            },
+            {
+              "name": "research_url_outcomes",
+              "unit": "1",
+              "sum": {
+                "data_points": [
+                  {
+                    "start_time_unix_nano": "1790952066242250000",
+                    "time_unix_nano": "1790952066244541000",
+                    "as_int": "1",
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "outcome",
+                        "value": {
+                          "string_value": "robots_disallowed"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066242256000",
+                    "time_unix_nano": "1790952066244541000",
+                    "as_int": "2",
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "outcome",
+                        "value": {
+                          "string_value": "unreachable"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066242262000",
+                    "time_unix_nano": "1790952066244541000",
+                    "as_int": "1",
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "outcome",
+                        "value": {
+                          "string_value": "unsupported_content"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066242268000",
+                    "time_unix_nano": "1790952066244541000",
+                    "as_int": "2",
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "outcome",
+                        "value": {
+                          "string_value": "extracted"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066242274000",
+                    "time_unix_nano": "1790952066244541000",
+                    "as_int": "1",
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "outcome",
+                        "value": {
+                          "string_value": "failed"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "start_time_unix_nano": "1790952066242280000",
+                    "time_unix_nano": "1790952066244541000",
+                    "as_int": "1",
+                    "attributes": [
+                      {
+                        "key": "run_id",
+                        "value": {
+                          "string_value": "epic-9-observability-evidence-20261002T144106Z"
+                        }
+                      },
+                      {
+                        "key": "mode",
+                        "value": {
+                          "string_value": "demo"
+                        }
+                      },
+                      {
+                        "key": "outcome",
+                        "value": {
+                          "string_value": "too_thin"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "aggregation_temporality": "AGGREGATION_TEMPORALITY_CUMULATIVE",
+                "is_monotonic": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

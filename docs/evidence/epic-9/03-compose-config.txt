@@ -1,0 +1,3 @@
+$ docker compose -f ops/observability/compose.yaml config --quiet
+
+Exit status: 0

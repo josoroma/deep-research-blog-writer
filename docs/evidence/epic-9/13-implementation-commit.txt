@@ -1,0 +1,30 @@
+$ git commit -m 'Implement EPIC-9 run observability'
+ruff check...............................................................Passed
+ruff format..............................................................Passed
+mypy.....................................................................Passed
+pytest (offline, coverage >=80%, agent boundary).........................Passed
+[main 670f75b] Implement EPIC-9 run observability
+ 43 files changed, 2485 insertions(+), 50 deletions(-)
+ create mode 100644 EPIC-9.md
+ create mode 100644 docs/SPECS-LOGS/EPIC-9-RUNBOOK.md
+ create mode 100644 docs/adr/0008-run-observability.md
+ create mode 100644 evaluations/epic9_demo.py
+ create mode 100644 evaluations/langsmith_live_smoke.py
+ create mode 100644 evaluations/observability_fixtures.py
+ create mode 100644 evaluations/observability_stack_smoke.py
+ create mode 100644 evaluations/otlp_receiver.py
+ create mode 100644 ops/observability/collector.yaml
+ create mode 100644 ops/observability/compose.yaml
+ create mode 100644 ops/observability/grafana/dashboards/research.json
+ create mode 100644 ops/observability/grafana/provisioning/dashboards/research.yaml
+ create mode 100644 ops/observability/grafana/provisioning/datasources/prometheus.yaml
+ create mode 100644 ops/observability/prometheus.yaml
+ create mode 100644 scripts/inspect-observability.py
+ create mode 100644 scripts/verify-epic-9-checkout.sh
+ create mode 100644 scripts/verify-epic-9-package.sh
+ create mode 100644 services/execution_log.py
+ create mode 100644 services/observability.py
+ create mode 100644 services/run_metrics.py
+ create mode 100644 tests/test_observability.py
+
+Exit status: 0

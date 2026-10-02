@@ -1,0 +1,22 @@
+$ make demo-epic-9
+uv run --locked python -m evaluations.epic9_demo
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/josoroma/sites/langchain/evaluations/epic9_demo.py", line 238, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/Users/josoroma/sites/langchain/evaluations/epic9_demo.py", line 223, in main
+    result = run_demo(Path("runs"), endpoint=endpoint)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/josoroma/sites/langchain/evaluations/epic9_demo.py", line 67, in run_demo
+    workspace = create_run_workspace(request, runs_root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/josoroma/sites/langchain/services/workspace.py", line 42, in create_run_workspace
+    root.mkdir(parents=True, exist_ok=False)
+  File "/Users/josoroma/.local/share/uv/python/cpython-3.12-macos-aarch64-none/lib/python3.12/pathlib.py", line 1311, in mkdir
+    os.mkdir(self, mode)
+FileExistsError: [Errno 17] File exists: 'runs/epic-9-observability-evidence-20261002T143629Z'
+make: *** [demo-epic-9] Error 1
+
+Exit status: 2

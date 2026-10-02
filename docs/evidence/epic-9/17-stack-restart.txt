@@ -1,0 +1,18 @@
+$ make observability-up
+docker compose -f ops/observability/compose.yaml up -d
+ Network deep-research-observability_default Creating 
+ Network deep-research-observability_default Created 
+ Container deep-research-observability-collector-1 Creating 
+ Container deep-research-observability-collector-1 Created 
+ Container deep-research-observability-prometheus-1 Creating 
+ Container deep-research-observability-prometheus-1 Created 
+ Container deep-research-observability-grafana-1 Creating 
+ Container deep-research-observability-grafana-1 Created 
+ Container deep-research-observability-collector-1 Starting 
+ Container deep-research-observability-collector-1 Started 
+ Container deep-research-observability-prometheus-1 Starting 
+ Container deep-research-observability-prometheus-1 Started 
+ Container deep-research-observability-grafana-1 Starting 
+ Container deep-research-observability-grafana-1 Started 
+
+Exit status: 0

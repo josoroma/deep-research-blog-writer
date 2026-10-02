@@ -1,0 +1,7 @@
+$ docker compose -f ops/observability/compose.yaml ps
+NAME                                       IMAGE                                          COMMAND                  SERVICE      CREATED         STATUS         PORTS
+deep-research-observability-collector-1    otel/opentelemetry-collector-contrib:0.143.0   "/otelcol-contrib --…"   collector    3 minutes ago   Up 3 minutes   127.0.0.1:4318->4318/tcp
+deep-research-observability-grafana-1      grafana/grafana:12.2.0                         "/run.sh"                grafana      3 minutes ago   Up 3 minutes   127.0.0.1:3001->3000/tcp
+deep-research-observability-prometheus-1   prom/prometheus:v3.5.0                         "/bin/prometheus --c…"   prometheus   3 minutes ago   Up 3 minutes   127.0.0.1:9090->9090/tcp
+
+Exit status: 0

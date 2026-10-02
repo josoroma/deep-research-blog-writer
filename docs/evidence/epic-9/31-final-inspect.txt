@@ -1,0 +1,112 @@
+$ uv run --locked python scripts/inspect-observability.py runs/epic-9-observability-evidence-20261002T144106Z
+{
+  "workspace": "runs/epic-9-observability-evidence-20261002T144106Z",
+  "telemetry": {
+    "run_id": "epic-9-observability-evidence-20261002T144106Z",
+    "topic": "EPIC-9 observability evidence",
+    "mode": "demo",
+    "status": "failed",
+    "duration_seconds": 0.18218174999992698,
+    "phase_timings_seconds": {
+      "plan": 0.0005695830000149726,
+      "search": 0.0032266250000247965,
+      "normalize": 0.0010011669996856654,
+      "fetch": 0.02488683299998229,
+      "index": 0.0014512920001834573,
+      "demo": 0.18218174999992698
+    },
+    "tool_calls": {
+      "plan_search": 1,
+      "task": 1,
+      "google_search": 3,
+      "normalize_results": 1,
+      "collect_source": 8,
+      "fetch_url": 8,
+      "extract_markdown": 4,
+      "build_index": 1
+    },
+    "tokens_used": 90,
+    "cost_usd": 0.060000000000000005,
+    "cost_available": true,
+    "retries": 5,
+    "url_outcomes": {
+      "robots_disallowed": 1,
+      "unreachable": 2,
+      "unsupported_content": 1,
+      "extracted": 2,
+      "failed": 1,
+      "too_thin": 1
+    },
+    "dangling_citations": 2,
+    "metrics_enabled": true,
+    "metrics_flushed": true,
+    "trace_id": "01a0fd0f-cc0c-77e2-b1a9-7a411d7e7c81",
+    "trace_export_error": null
+  },
+  "valid_json_log_records": 77,
+  "ended_trace_spans": 97,
+  "source_failures": [
+    {
+      "timestamp": "2026-10-02T14:41:06.221414+00:00",
+      "level": "WARNING",
+      "run_id": "epic-9-observability-evidence-20261002T144106Z",
+      "phase": "fetch",
+      "event": "source_failed",
+      "url": "https://fixture.test/blocked",
+      "outcome": "robots_disallowed",
+      "reason": "robots_rule"
+    },
+    {
+      "timestamp": "2026-10-02T14:41:06.221650+00:00",
+      "level": "WARNING",
+      "run_id": "epic-9-observability-evidence-20261002T144106Z",
+      "phase": "fetch",
+      "event": "source_failed",
+      "url": "https://fixture.test/missing",
+      "outcome": "unreachable",
+      "reason": "http_404"
+    },
+    {
+      "timestamp": "2026-10-02T14:41:06.221872+00:00",
+      "level": "WARNING",
+      "run_id": "epic-9-observability-evidence-20261002T144106Z",
+      "phase": "fetch",
+      "event": "source_failed",
+      "url": "https://fixture.test/pdf",
+      "outcome": "unsupported_content",
+      "reason": "non_html_content_type"
+    },
+    {
+      "timestamp": "2026-10-02T14:41:06.232992+00:00",
+      "level": "WARNING",
+      "run_id": "epic-9-observability-evidence-20261002T144106Z",
+      "phase": "fetch",
+      "event": "source_failed",
+      "url": "https://fixture.test/exhaust",
+      "outcome": "unreachable",
+      "reason": "retry_exhausted:http_503"
+    },
+    {
+      "timestamp": "2026-10-02T14:41:06.237436+00:00",
+      "level": "WARNING",
+      "run_id": "epic-9-observability-evidence-20261002T144106Z",
+      "phase": "fetch",
+      "event": "source_failed",
+      "url": "https://fixture.test/failure",
+      "outcome": "failed",
+      "reason": "RuntimeError"
+    },
+    {
+      "timestamp": "2026-10-02T14:41:06.237602+00:00",
+      "level": "WARNING",
+      "run_id": "epic-9-observability-evidence-20261002T144106Z",
+      "phase": "fetch",
+      "event": "source_failed",
+      "url": "https://fixture.test/thin",
+      "outcome": "too_thin",
+      "reason": "no_parser_reached_200_words"
+    }
+  ]
+}
+
+Exit status: 0

@@ -1,0 +1,89 @@
+{
+  "run_id": "epic-9-observability-evidence-20261002T144106Z",
+  "topic": "EPIC-9 observability evidence",
+  "model": "openrouter:deepseek/deepseek-v4.1-flash",
+  "status": "failed",
+  "status_reasons": [
+    "dangling_citations",
+    "too_few_sources"
+  ],
+  "phase_timings_seconds": {
+    "plan": 0.0005695830000149726,
+    "search": 0.0032266250000247965,
+    "normalize": 0.0010011669996856654,
+    "fetch": 0.02488683299998229,
+    "index": 0.0014512920001834573,
+    "demo": 0.18218174999992698
+  },
+  "urls_found": 8,
+  "urls_clean": 8,
+  "urls_fetched": 8,
+  "urls_extracted": 2,
+  "urls_thin": 1,
+  "urls_failed": 1,
+  "extraction_failures": 6,
+  "url_outcomes": [
+    {
+      "rank": 1,
+      "url": "https://fixture.test/article",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-01"
+    },
+    {
+      "rank": 2,
+      "url": "https://fixture.test/retry",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-02"
+    },
+    {
+      "rank": 3,
+      "url": "https://fixture.test/missing",
+      "outcome": "unreachable",
+      "reason": "http_404",
+      "source_id": null
+    },
+    {
+      "rank": 4,
+      "url": "https://fixture.test/blocked",
+      "outcome": "robots_disallowed",
+      "reason": "robots_rule",
+      "source_id": null
+    },
+    {
+      "rank": 5,
+      "url": "https://fixture.test/pdf",
+      "outcome": "unsupported_content",
+      "reason": "non_html_content_type",
+      "source_id": null
+    },
+    {
+      "rank": 6,
+      "url": "https://fixture.test/thin",
+      "outcome": "too_thin",
+      "reason": "no_parser_reached_200_words",
+      "source_id": null
+    },
+    {
+      "rank": 7,
+      "url": "https://fixture.test/exhaust",
+      "outcome": "unreachable",
+      "reason": "retry_exhausted:http_503",
+      "source_id": null
+    },
+    {
+      "rank": 8,
+      "url": "https://fixture.test/failure",
+      "outcome": "failed",
+      "reason": "RuntimeError",
+      "source_id": null
+    }
+  ],
+  "blog_path": "output/blog.md",
+  "citation_count": 2,
+  "tokens_used": 90,
+  "cost_usd": 0.060000000000000005,
+  "duration_seconds": 0.1810040829996069,
+  "retries": 5
+}

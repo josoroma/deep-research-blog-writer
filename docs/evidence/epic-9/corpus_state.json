@@ -1,0 +1,128 @@
+{
+  "run_id": "epic-9-observability-evidence-20261002T144106Z",
+  "topic": "EPIC-9 observability evidence",
+  "completed_phases": [
+    "plan",
+    "search",
+    "normalize",
+    "fetch",
+    "index"
+  ],
+  "query_variants": [],
+  "clean_results": [
+    {
+      "url": "https://fixture.test/article",
+      "title": "Fixture /article",
+      "snippet": "Offline fixture",
+      "rank": 1,
+      "query": "EPIC-9 observability evidence"
+    },
+    {
+      "url": "https://fixture.test/retry",
+      "title": "Fixture /retry",
+      "snippet": "Offline fixture",
+      "rank": 2,
+      "query": "EPIC-9 observability evidence"
+    },
+    {
+      "url": "https://fixture.test/missing",
+      "title": "Fixture /missing",
+      "snippet": "Offline fixture",
+      "rank": 3,
+      "query": "EPIC-9 observability evidence"
+    },
+    {
+      "url": "https://fixture.test/blocked",
+      "title": "Fixture /blocked",
+      "snippet": "Offline fixture",
+      "rank": 4,
+      "query": "EPIC-9 observability evidence"
+    },
+    {
+      "url": "https://fixture.test/pdf",
+      "title": "Fixture /pdf",
+      "snippet": "Offline fixture",
+      "rank": 5,
+      "query": "EPIC-9 observability evidence"
+    },
+    {
+      "url": "https://fixture.test/thin",
+      "title": "Fixture /thin",
+      "snippet": "Offline fixture",
+      "rank": 6,
+      "query": "EPIC-9 observability evidence"
+    },
+    {
+      "url": "https://fixture.test/exhaust",
+      "title": "Fixture /exhaust",
+      "snippet": "Offline fixture",
+      "rank": 7,
+      "query": "EPIC-9 observability evidence"
+    },
+    {
+      "url": "https://fixture.test/failure",
+      "title": "Fixture /failure",
+      "snippet": "Offline fixture",
+      "rank": 8,
+      "query": "EPIC-9 observability evidence"
+    }
+  ],
+  "url_outcomes": {
+    "https://fixture.test/article": {
+      "rank": 1,
+      "url": "https://fixture.test/article",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-01"
+    },
+    "https://fixture.test/retry": {
+      "rank": 2,
+      "url": "https://fixture.test/retry",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-02"
+    },
+    "https://fixture.test/missing": {
+      "rank": 3,
+      "url": "https://fixture.test/missing",
+      "outcome": "unreachable",
+      "reason": "http_404",
+      "source_id": null
+    },
+    "https://fixture.test/blocked": {
+      "rank": 4,
+      "url": "https://fixture.test/blocked",
+      "outcome": "robots_disallowed",
+      "reason": "robots_rule",
+      "source_id": null
+    },
+    "https://fixture.test/pdf": {
+      "rank": 5,
+      "url": "https://fixture.test/pdf",
+      "outcome": "unsupported_content",
+      "reason": "non_html_content_type",
+      "source_id": null
+    },
+    "https://fixture.test/thin": {
+      "rank": 6,
+      "url": "https://fixture.test/thin",
+      "outcome": "too_thin",
+      "reason": "no_parser_reached_200_words",
+      "source_id": null
+    },
+    "https://fixture.test/exhaust": {
+      "rank": 7,
+      "url": "https://fixture.test/exhaust",
+      "outcome": "unreachable",
+      "reason": "retry_exhausted:http_503",
+      "source_id": null
+    },
+    "https://fixture.test/failure": {
+      "rank": 8,
+      "url": "https://fixture.test/failure",
+      "outcome": "failed",
+      "reason": "RuntimeError",
+      "source_id": null
+    }
+  }
+}

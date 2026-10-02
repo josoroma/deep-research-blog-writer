@@ -1,0 +1,111 @@
+$ sh scripts/verify-epic-9-package.sh
+Resolved 119 packages in 3ms
+Using CPython 3.12.9
+Creating virtual environment at: /var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T//epic9-wheel.Bo6H4A/.venv
+Activate with: source /var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic9-wheel.Bo6H4A/.venv/bin/activate
+Using Python 3.12.9 environment at: /var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic9-wheel.Bo6H4A/.venv
+Resolved 94 packages in 9ms
+Installed 94 packages in 120ms
+ + aiosqlite==0.22.1
+ + annotated-types==0.8.0
+ + anthropic==1.11.0
+ + anyio==4.15.1
+ + babel==2.18.0
+ + beautifulsoup4==4.15.0
+ + bracex==3.0.1
+ + certifi==2026.7.22
+ + cffi==2.1.1
+ + chardet==5.2.0
+ + charset-normalizer==3.5.2
+ + courlan==1.4.0
+ + cryptography==50.0.2
+ + cssselect==1.3.0
+ + dateparser==1.4.3
+ + deepagents==0.7.21
+ + distro==1.9.0
+ + docstring-parser==0.18.0
+ + filetype==1.2.0
+ + google-auth==2.59.1
+ + google-genai==2.26.0
+ + googleapis-common-protos==1.75.5
+ + h11==0.16.0
+ + htmldate==1.10.0
+ + httpcore==1.0.9
+ + httpcore2==2.13.1
+ + httpx==0.28.1
+ + httpx2==2.13.1
+ + idna==3.20
+ + jiter==0.17.0
+ + jsonpatch==1.33
+ + jsonpath-python==1.1.6
+ + jsonpointer==3.1.1
+ + justext==3.0.2
+ + langchain==1.4.3
+ + langchain-anthropic==1.7.5
+ + langchain-core==1.6.6
+ + langchain-google-genai==4.4.0
+ + langchain-openrouter==0.2.9
+ + langchain-protocol==0.0.19
+ + langgraph==1.2.12
+ + langgraph-checkpoint==4.2.0
+ + langgraph-checkpoint-sqlite==3.1.1
+ + langgraph-prebuilt==1.1.0
+ + langgraph-sdk==0.4.5
+ + langsmith==0.14.2
+ + lxml==6.1.3
+ + lxml-html-clean==0.4.5
+ + markdownify==1.2.3
+ + openrouter==0.11.46
+ + opentelemetry-api==1.45.0
+ + opentelemetry-exporter-http-transport==0.66b0
+ + opentelemetry-exporter-otlp-common==0.66b0
+ + opentelemetry-exporter-otlp-proto-common==1.45.0
+ + opentelemetry-exporter-otlp-proto-http==1.45.0
+ + opentelemetry-proto==1.45.0
+ + opentelemetry-sdk==1.45.0
+ + opentelemetry-semantic-conventions==0.66b0
+ + orjson==3.12.0
+ + ormsgpack==1.12.2
+ + packaging==26.3
+ + protego==0.7.0
+ + protobuf==7.36.2
+ + pyasn1==0.6.4
+ + pyasn1-modules==0.4.2
+ + pycparser==3.0
+ + pydantic==2.12.5
+ + pydantic-core==2.41.5
+ + pydantic-settings==2.15.0
+ + python-dateutil==2.9.0.post0
+ + python-dotenv==1.2.4
+ + pytz==2026.4
+ + pyyaml==6.0.3
+ + readability-lxml==0.9
+ + regex==2026.9.29
+ + requests==2.34.2
+ + requests-toolbelt==1.0.0
+ + six==1.17.0
+ + sniffio==1.3.1
+ + soupsieve==2.10
+ + sqlite-vec==0.1.9
+ + tenacity==9.1.4
+ + tld==0.13.2
+ + trafilatura==2.2.0
+ + truststore==0.10.4
+ + typing-extensions==4.16.0
+ + typing-inspection==0.4.4
+ + tzlocal==5.4.4
+ + urllib3==2.8.0
+ + uuid-utils==0.17.1
+ + wcmatch==11.0.1
+ + websockets==16.1.1
+ + xxhash==4.0.1
+ + zstandard==0.25.0
+Using Python 3.12.9 environment at: /var/folders/46/br4h6sv561q33ld7c_720shm0000gn/T/epic9-wheel.Bo6H4A/.venv
+Resolved 1 package in 0.83ms
+Prepared 1 package in 5ms
+Installed 1 package in 3ms
+ + deep-research-blog-writer==0.1.0 (from file:///Users/josoroma/sites/langchain/dist/deep_research_blog_writer-0.1.0-py3-none-any.whl)
+Installed-wheel agent traces, structured logs, actual usage, retries and citations passed.
+Installed console script rejected an unknown run with exit 2.
+
+Exit status: 0

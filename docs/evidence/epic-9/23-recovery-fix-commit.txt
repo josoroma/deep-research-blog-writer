@@ -1,0 +1,9 @@
+$ git commit -m 'Keep recovered source outcome metrics consistent'
+ruff check...............................................................Passed
+ruff format..............................................................Passed
+mypy.....................................................................Passed
+pytest (offline, coverage >=80%, agent boundary).........................Passed
+[main 2a587e0] Keep recovered source outcome metrics consistent
+ 2 files changed, 63 insertions(+), 3 deletions(-)
+
+Exit status: 0
