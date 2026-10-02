@@ -92,3 +92,18 @@ smoke-epic-9:
 
 smoke-langsmith:
 	$(UV) run --locked python -m evaluations.langsmith_live_smoke
+
+# EPIC-10: evaluation and release gate. `eval` is live; `eval-offline` needs no keys.
+.PHONY: eval eval-offline release demo-epic-10
+eval:
+	$(UV) run --locked python -m evaluations.run_eval
+
+eval-offline:
+	$(UV) run --locked python -m evaluations.run_eval --offline
+
+demo-epic-10:
+	$(UV) run --locked python -m evaluations.epic10_demo
+
+release:
+	@test -n "$(VERSION)" || { printf '%s\n' 'Usage: make release VERSION=x.y.z'; exit 2; }
+	$(UV) run --locked python -m evaluations.release --version "$(VERSION)"

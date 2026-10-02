@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "source": "SPECS.md PD-021",
+  "topics": [
+    {
+      "id": "agentic-ai-frameworks",
+      "topic": "2026 agentic AI frameworks",
+      "pages": 3,
+      "per_page": 10,
+      "max_urls": 30
+    },
+    {
+      "id": "vector-databases-rag",
+      "topic": "Vector databases for retrieval-augmented generation",
+      "pages": 3,
+      "per_page": 10,
+      "max_urls": 30
+    },
+    {
+      "id": "platform-engineering",
+      "topic": "Platform engineering and internal developer portals",
+      "pages": 3,
+      "per_page": 10,
+      "max_urls": 30
+    }
+  ]
+}

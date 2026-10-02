@@ -207,21 +207,21 @@ CODEBASE Context: EPIC-1 foundation implemented on 2026-09-30; EPIC-2 contracts 
 | US-9.4#2 | Provision the Grafana dashboard with the PD-020 panels. | DONE | US-9.4 |
 | US-9.4#3 | Record the observability stack as an ADR. | DONE | US-9.4 |
 | EPIC-10 | Testing and Evaluation | — | — |
-| US-10.1 | Run Unit Tests Offline with a Fake Chat Model | READY | EPIC-10 |
-| US-10.1#1 | Provide a fake chat model with scripted responses and tool calls as a test fixture. | TODO | US-10.1 |
-| US-10.1#2 | Block outbound network access in unit tests. | TODO | US-10.1 |
-| US-10.2 | Test the Full Workflow with Fakes | READY | EPIC-10 |
-| US-10.2#1 | Add fixture pages and a fake search provider for the workflow test. | TODO | US-10.2 |
-| US-10.2#2 | Add workflow tests for the full pipeline and for partial source failure. | TODO | US-10.2 |
-| US-10.3 | Evaluate Releases with make eval | READY | EPIC-10 |
-| US-10.3#1 | Create `evaluations/golden_dataset.json` with the PD-021 topics. | TODO | US-10.3 |
-| US-10.3#2 | Create `evaluations/scoring.py` with citation-validity, length, and Definition of Done checks. | TODO | US-10.3 |
-| US-10.3#3 | Add the `make eval` target, writing results to `evaluations/benchmarks/`. | TODO | US-10.3 |
-| US-10.4 | Score Coverage, Groundedness, and Hallucination Rate | READY | EPIC-10 |
-| US-10.4#1 | Implement the coverage scorer. | TODO | US-10.4 |
-| US-10.4#2 | Implement the claim-level judge for groundedness and hallucination rate, defaulting to DeepSeek V4.1 Flash on OpenRouter. | TODO | US-10.4 |
-| US-10.5 | Gate Releases on Evaluation Results | READY | EPIC-10 |
-| US-10.5#1 | Add the `make release` target, which runs `make eval` and tags only when every threshold passes. | TODO | US-10.5 |
+| US-10.1 | Run Unit Tests Offline with a Fake Chat Model | DONE | EPIC-10 |
+| US-10.1#1 | Provide a fake chat model with scripted responses and tool calls as a test fixture. | DONE | US-10.1 |
+| US-10.1#2 | Block outbound network access in unit tests. | DONE | US-10.1 |
+| US-10.2 | Test the Full Workflow with Fakes | DONE | EPIC-10 |
+| US-10.2#1 | Add fixture pages and a fake search provider for the workflow test. | DONE | US-10.2 |
+| US-10.2#2 | Add workflow tests for the full pipeline and for partial source failure. | DONE | US-10.2 |
+| US-10.3 | Evaluate Releases with make eval | DONE | EPIC-10 |
+| US-10.3#1 | Create `evaluations/golden_dataset.json` with the PD-021 topics. | DONE | US-10.3 |
+| US-10.3#2 | Create `evaluations/scoring.py` with citation-validity, length, and Definition of Done checks. | DONE | US-10.3 |
+| US-10.3#3 | Add the `make eval` target, writing results to `evaluations/benchmarks/`. | DONE | US-10.3 |
+| US-10.4 | Score Coverage, Groundedness, and Hallucination Rate | DONE | EPIC-10 |
+| US-10.4#1 | Implement the coverage scorer. | DONE | US-10.4 |
+| US-10.4#2 | Implement the claim-level judge for groundedness and hallucination rate, defaulting to DeepSeek V4.1 Flash on OpenRouter. | DONE | US-10.4 |
+| US-10.5 | Gate Releases on Evaluation Results | DONE | EPIC-10 |
+| US-10.5#1 | Add the `make release` target, which runs `make eval` and tags only when every threshold passes. | DONE | US-10.5 |
 | EPIC-11 | Agent Documentation | — | — |
 | US-11.1 | Document Every Agent with a Skill File and a Contract | READY | EPIC-11 |
 | US-11.1#1 | Write `skill.md` for the orchestrator and each sub-agent with the PD-022 sections. | TODO | US-11.1 |
@@ -3037,6 +3037,8 @@ Open Questions:
 
 Keep the unit suite offline and deterministic, test the full workflow with fakes, and evaluate real runs against a golden dataset before every release (PRD.md milestone M5).
 
+Verification: see [EPIC-10 runbook](docs/SPECS-LOGS/EPIC-10-RUNBOOK.md). The offline suite proves both US-10.1 scenarios, the fixture pipeline proves both US-10.2 scenarios, and `make eval-offline` plus `make demo-epic-10` exercise the scoring and release gate without credentials. Live `make eval` and `make release` use the production models and SerpApi and are opt-in.
+
 ## Dependencies
 
 - EPIC-1
@@ -3048,7 +3050,7 @@ Keep the unit suite offline and deterministic, test the full workflow with fakes
 
 ### US-10.1: Run Unit Tests Offline with a Fake Chat Model
 
-Status: READY
+Status: DONE
 
 As an Engineering Lead
 I want unit tests to run against a fake chat model with no network access
@@ -3079,15 +3081,15 @@ Dependencies:
 - US-2.5
 
 Tasks:
-- [ ] Provide a fake chat model with scripted responses and tool calls as a test fixture.
-- [ ] Block outbound network access in unit tests.
+- [x] Provide a fake chat model with scripted responses and tool calls as a test fixture.
+- [x] Block outbound network access in unit tests.
 
 Open Questions:
 - None.
 
 ### US-10.2: Test the Full Workflow with Fakes
 
-Status: READY
+Status: DONE
 
 As an Engineering Lead
 I want an end-to-end workflow test that runs the whole pipeline on fixtures
@@ -3123,15 +3125,15 @@ Dependencies:
 - US-10.1
 
 Tasks:
-- [ ] Add fixture pages and a fake search provider for the workflow test.
-- [ ] Add workflow tests for the full pipeline and for partial source failure.
+- [x] Add fixture pages and a fake search provider for the workflow test.
+- [x] Add workflow tests for the full pipeline and for partial source failure.
 
 Open Questions:
 - None.
 
 ### US-10.3: Evaluate Releases with make eval
 
-Status: READY
+Status: DONE
 
 As a Product Manager
 I want make eval to run the pipeline on a golden dataset and score the results
@@ -3173,16 +3175,16 @@ Dependencies:
 - US-10.2
 
 Tasks:
-- [ ] Create `evaluations/golden_dataset.json` with the PD-021 topics.
-- [ ] Create `evaluations/scoring.py` with citation-validity, length, and Definition of Done checks.
-- [ ] Add the `make eval` target, writing results to `evaluations/benchmarks/`.
+- [x] Create `evaluations/golden_dataset.json` with the PD-021 topics.
+- [x] Create `evaluations/scoring.py` with citation-validity, length, and Definition of Done checks.
+- [x] Add the `make eval` target, writing results to `evaluations/benchmarks/`.
 
 Open Questions:
 - None.
 
 ### US-10.4: Score Coverage, Groundedness, and Hallucination Rate
 
-Status: READY
+Status: DONE
 
 As a Product Manager
 I want coverage, groundedness, and hallucination rate scored for every evaluated run
@@ -3215,15 +3217,15 @@ Dependencies:
 - US-10.3
 
 Tasks:
-- [ ] Implement the coverage scorer.
-- [ ] Implement the claim-level judge for groundedness and hallucination rate, defaulting to DeepSeek V4.1 Flash on OpenRouter.
+- [x] Implement the coverage scorer.
+- [x] Implement the claim-level judge for groundedness and hallucination rate, defaulting to DeepSeek V4.1 Flash on OpenRouter.
 
 Open Questions:
 - None.
 
 ### US-10.5: Gate Releases on Evaluation Results
 
-Status: READY
+Status: DONE
 
 As a Product Manager
 I want a release tagged only when its evaluation passes
@@ -3256,7 +3258,7 @@ Dependencies:
 - US-10.4
 
 Tasks:
-- [ ] Add the `make release` target, which runs `make eval` and tags only when every threshold passes.
+- [x] Add the `make release` target, which runs `make eval` and tags only when every threshold passes.
 
 Open Questions:
 - None.
