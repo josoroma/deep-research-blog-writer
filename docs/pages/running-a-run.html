@@ -1019,7 +1019,18 @@ td.num { min-width: 0; }
       <img src="images/grafana-dashboard.png" alt="Grafana Deep Research Runs dashboard with eight panels: runs by status, tokens, cost in USD, phase latency, tool calls, retries, URL outcomes, and dangling citations" loading="lazy" width="1440" height="1290">
       <figcaption>The Grafana <strong>Deep Research Runs</strong> dashboard after <code>make demo-epic-9</code>, all runs selected. The demo fails two citations on purpose, so the failure and dangling-citation panels have data.</figcaption>
     </figure>
-    <div class="callout"><p class="callout-title">LangSmith traces</p><p>Hosted traces appear under the <code>deep-research-blog-writer</code> project. <code>make smoke-langsmith</code> uploads two succeeded runs and one deliberate <code>run_failed</code>, and each root carries <code>run_id</code> and <code>topic</code> metadata. Create a personal key under <strong>Settings → API Keys</strong>, put it in <code>LANGSMITH_API_KEY</code> in the git-ignored <code>.env</code>, and never commit it.</p></div>
+    <figure class="shot">
+      <img src="images/langsmith-traces.png" alt="LangSmith Tracing view of the deep-research-blog-writer project with three research.hosted-smoke root traces, two successful and one with error run_failed" loading="lazy" width="1440" height="720">
+      <figcaption>LangSmith traces from <code>make smoke-langsmith</code> in the <code>deep-research-blog-writer</code> project: two succeeded runs and one deliberate <code>run_failed</code>. Each root carries <code>run_id</code> and <code>topic</code> metadata.</figcaption>
+    </figure>
+    <figure class="shot">
+      <img src="images/langsmith-trace-tree.png" alt="LangSmith trace tree for one research.hosted-smoke run: model, ScriptedChatModel, tools, plan_search, task, and search_agent spans" loading="lazy" width="1440" height="778">
+      <figcaption>One trace opened: the orchestrator's <code>model</code> and <code>tools</code> steps, the <code>plan_search</code> tool, and the <code>task</code> call that delegates to <code>search_agent</code>, all nested under the root.</figcaption>
+    </figure>
+    <figure class="shot">
+      <img src="images/langsmith-api-keys.png" alt="LangSmith Settings, API Keys page with one personal key described as deep-research-blog-writer" loading="lazy" width="1440" height="722">
+      <figcaption>LangSmith <strong>Settings → API Keys</strong>. Create a personal key, put it in <code>LANGSMITH_API_KEY</code> in the git-ignored <code>.env</code>, and never commit it.</figcaption>
+    </figure>
   </section>
 
   <section id="status">

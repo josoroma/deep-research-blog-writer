@@ -261,7 +261,17 @@ See [EPIC-9.md](docs/SPECS-LOGS/EPIC-9.md), [the runbook](docs/SPECS-LOGS/EPIC-9
 
 *Grafana's Deep Research Runs dashboard after `make demo-epic-9`, all runs selected. The demo fails two citations on purpose, so the failure and dangling-citation panels have data.*
 
-Hosted traces appear in LangSmith under the `deep-research-blog-writer` project. `make smoke-langsmith` uploads two succeeded runs and one deliberate `run_failed`, and each root carries `run_id` and `topic` metadata. Create a personal key under LangSmith **Settings → API Keys**, put it in `LANGSMITH_API_KEY` in the git-ignored `.env`, and never commit it.
+![LangSmith Tracing view of the deep-research-blog-writer project with three research.hosted-smoke root traces, two successful and one with error run_failed](docs/pages/images/langsmith-traces.png)
+
+*LangSmith traces from `make smoke-langsmith` in the `deep-research-blog-writer` project: two succeeded runs and one deliberate `run_failed`. Each root carries `run_id` and `topic` metadata.*
+
+![LangSmith trace tree for one research.hosted-smoke run: model, ScriptedChatModel, tools, plan_search, task, and search_agent spans](docs/pages/images/langsmith-trace-tree.png)
+
+*One trace opened: the orchestrator's `model` and `tools` steps, the `plan_search` tool, and the `task` call that delegates to `search_agent`, all nested under the root.*
+
+![LangSmith Settings, API Keys page with one personal key described as deep-research-blog-writer](docs/pages/images/langsmith-api-keys.png)
+
+*LangSmith **Settings → API Keys**. Create a personal key, put it in `LANGSMITH_API_KEY` in the git-ignored `.env`, and never commit it.*
 
 ## Service URLs
 
