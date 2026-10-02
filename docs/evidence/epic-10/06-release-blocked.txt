@@ -1,0 +1,14 @@
+$ uv run --locked python -m evaluations.release --version 1.0.0 --benchmark /tmp/epic10-blocked.json --dry-run
+release blocked: agentic-ai-frameworks: coverage_min_0.5
+{
+  "version": "1.0.0",
+  "tag": "v1.0.0",
+  "benchmark": "/tmp/epic10-blocked.json",
+  "passed": false,
+  "failures": [
+    "agentic-ai-frameworks: coverage_min_0.5"
+  ],
+  "tagged": false
+}
+
+Exit status: 1

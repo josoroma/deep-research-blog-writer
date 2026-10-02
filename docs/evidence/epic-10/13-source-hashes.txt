@@ -1,0 +1,5 @@
+$ uv run --locked python scripts/verify-source-manifest.py docs/evidence/epic-10/source-manifest.json
+Verified 211 source/configuration/fixture hashes.
+Verified source revision: 20f486d7351d4ab12282c2251e6812c9c710c32e
+
+Exit status: 0

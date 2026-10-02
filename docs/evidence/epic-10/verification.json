@@ -1,0 +1,40 @@
+{
+  "source_revision": "20f486d7351d4ab12282c2251e6812c9c710c32e",
+  "working_tree_changes": false,
+  "offline_tests_passed": 491,
+  "coverage_percent": 88.69,
+  "new_tests": {
+    "test_offline_suite.py": 5,
+    "test_workflow_end_to_end.py": 6,
+    "test_evaluation.py": 28
+  },
+  "fresh_checkout_verified": true,
+  "installed_wheel_verified": true,
+  "hooks_passed": true,
+  "offline_eval_passed": true,
+  "release_gate": {
+    "blocked_exit": 1,
+    "passing_exit": 0,
+    "tag": "v1.0.0"
+  },
+  "distribution_sha256": {
+    "deep_research_blog_writer-0.1.0-py3-none-any.whl": "bd774483a05d1f34af827bf69991037cedeeb21d75d7164eb96b79bc4b8d28e6",
+    "deep_research_blog_writer-0.1.0.tar.gz": "d50af473be5698e3cfa4a83b36df78e7222070743a0e7fd98053084946465d4f"
+  },
+  "source_manifest": "docs/evidence/epic-10/source-manifest.json",
+  "transcripts": [
+    "docs/evidence/epic-10/01-setup.txt",
+    "docs/evidence/epic-10/02-check.txt",
+    "docs/evidence/epic-10/03-offline-suite.txt",
+    "docs/evidence/epic-10/04-demo.txt",
+    "docs/evidence/epic-10/05-eval-offline.txt",
+    "docs/evidence/epic-10/06-release-blocked.txt",
+    "docs/evidence/epic-10/07-release-passing.txt",
+    "docs/evidence/epic-10/08-build.txt",
+    "docs/evidence/epic-10/09-installed-package.txt",
+    "docs/evidence/epic-10/10-hooks.txt",
+    "docs/evidence/epic-10/11-existing-demos.txt",
+    "docs/evidence/epic-10/12-fresh-checkout.txt",
+    "docs/evidence/epic-10/13-source-hashes.txt"
+  ]
+}

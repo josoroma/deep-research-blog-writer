@@ -1,0 +1,47 @@
+$ make demo-epic-10
+uv run --locked python -m evaluations.epic10_demo
+{
+  "mode": "offline; fixture pipeline, deterministic scoring, offline judge",
+  "workspace": "runs/2026-agentic-ai-frameworks-20261002T170329Z",
+  "topic_id": "agentic-ai-frameworks",
+  "status": "succeeded",
+  "citation_validity": true,
+  "word_count": 2128,
+  "coverage": 1.0,
+  "groundedness": 1.0,
+  "hallucination_rate": 0.0,
+  "definition_of_done": {
+    "results_processed": true,
+    "corpus_and_index": true,
+    "summary_written": true,
+    "blog_written": true,
+    "blog_length": true,
+    "zero_dangling_citations": true,
+    "references_section": true,
+    "run_report_written": true,
+    "trace_visible": true
+  },
+  "thresholds": {
+    "zero_dangling_citations": true,
+    "length_2000_5000": true,
+    "definition_of_done": true,
+    "coverage_min_0.5": true,
+    "groundedness_min_0.9": true,
+    "hallucination_max_0.05": true
+  },
+  "passed": true,
+  "factual_claims": 7,
+  "benchmark": "runs/benchmarks/demo-offline-demo.json",
+  "release_passing_tagged": true,
+  "release_blocked_failures": [
+    "agentic-ai-frameworks: coverage_min_0.5"
+  ],
+  "thresholds_pd_021": {
+    "coverage_min": 0.5,
+    "groundedness_min": 0.9,
+    "hallucination_max": 0.05
+  },
+  "coverage_recomputed": 1.0
+}
+
+Exit status: 0

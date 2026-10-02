@@ -1,0 +1,11 @@
+$ uv run --locked python -m evaluations.release --version 1.0.0 --benchmark docs/evidence/epic-10/benchmark-offline.json --dry-run
+{
+  "version": "1.0.0",
+  "tag": "v1.0.0",
+  "benchmark": "docs/evidence/epic-10/benchmark-offline.json",
+  "passed": true,
+  "failures": [],
+  "tagged": false
+}
+
+Exit status: 0

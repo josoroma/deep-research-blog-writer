@@ -1,0 +1,14 @@
+{"name": "01-setup", "command": ["make", "setup"], "started_utc": "2026-10-02T17:03:02.658900+00:00", "duration_seconds": 0.34, "exit_status": 0}
+{"name": "02-check", "command": ["make", "check"], "started_utc": "2026-10-02T17:03:03.024802+00:00", "duration_seconds": 17.523, "exit_status": 0}
+{"name": "03-offline-suite", "command": ["uv", "run", "--locked", "pytest", "tests/test_offline_suite.py", "tests/test_workflow_end_to_end.py", "tests/test_evaluation.py", "--no-cov", "-q"], "started_utc": "2026-10-02T17:03:24.025183+00:00", "duration_seconds": 4.685, "exit_status": 0}
+{"name": "04-demo", "command": ["make", "demo-epic-10"], "started_utc": "2026-10-02T17:03:28.738946+00:00", "duration_seconds": 1.743, "exit_status": 0}
+{"name": "05-eval-offline", "command": ["make", "eval-offline"], "started_utc": "2026-10-02T17:03:30.509045+00:00", "duration_seconds": 2.39, "exit_status": 0}
+{"name": "06-release-blocked", "command": ["uv", "run", "--locked", "python", "-m", "evaluations.release", "--version", "1.0.0", "--benchmark", "/tmp/epic10-blocked.json", "--dry-run"], "started_utc": "2026-10-02T17:03:36.273876+00:00", "duration_seconds": 1.275, "exit_status": 1}
+{"name": "06-release-blocked", "command": ["uv", "run", "--locked", "python", "-m", "evaluations.release", "--version", "1.0.0", "--benchmark", "/tmp/epic10-blocked.json", "--dry-run"], "started_utc": "2026-10-02T17:03:41.652519+00:00", "duration_seconds": 1.257, "exit_status": 1}
+{"name": "07-release-passing", "command": ["uv", "run", "--locked", "python", "-m", "evaluations.release", "--version", "1.0.0", "--benchmark", "docs/evidence/epic-10/benchmark-offline.json", "--dry-run"], "started_utc": "2026-10-02T17:03:42.935054+00:00", "duration_seconds": 1.238, "exit_status": 0}
+{"name": "08-build", "command": ["make", "build"], "started_utc": "2026-10-02T17:03:51.632309+00:00", "duration_seconds": 0.628, "exit_status": 0}
+{"name": "09-installed-package", "command": ["sh", "scripts/verify-epic-10-package.sh"], "started_utc": "2026-10-02T17:03:52.287810+00:00", "duration_seconds": 10.577, "exit_status": 0}
+{"name": "10-hooks", "command": ["make", "hooks"], "started_utc": "2026-10-02T17:04:02.892347+00:00", "duration_seconds": 17.338, "exit_status": 0}
+{"name": "11-existing-demos", "command": ["sh", "-c", "make demo-epic-2 demo-epic-3 demo-epic-4 demo-epic-5 demo-epic-6 demo-epic-7 demo-epic-8 demo-epic-9"], "started_utc": "2026-10-02T17:04:20.287396+00:00", "duration_seconds": 12.278, "exit_status": 0}
+{"name": "12-fresh-checkout", "command": ["sh", "scripts/verify-epic-10-checkout.sh"], "started_utc": "2026-10-02T17:04:36.095352+00:00", "duration_seconds": 106.961, "exit_status": 0}
+{"name": "13-source-hashes", "command": ["uv", "run", "--locked", "python", "scripts/verify-source-manifest.py", "docs/evidence/epic-10/source-manifest.json"], "started_utc": "2026-10-02T17:06:35.283831+00:00", "duration_seconds": 0.08, "exit_status": 0}

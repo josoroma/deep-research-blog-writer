@@ -1,6 +1,6 @@
 # Deep Research Blog Writer
 
-A Python research-to-blog pipeline using DeepAgents on LangGraph. A topic goes in. Ranked search results, an immutable source corpus, a research summary, and a cited blog draft come out. EPIC-1 to EPIC-9 are delivered: locked setup and quality gates, typed contracts and tools, the four-agent skeleton, API search with ranked normalization, polite fetching with parser fallback, the research corpus, synthesis and blog authoring behind a citation gate, the run-report, retry, and resume building blocks, and run-owned observability with a local metrics dashboard. Evaluation and agent documentation (EPIC-10 to EPIC-11) are next.
+A Python research-to-blog pipeline using DeepAgents on LangGraph. A topic goes in. Ranked search results, an immutable source corpus, a research summary, and a cited blog draft come out. EPIC-1 to EPIC-10 are delivered: locked setup and quality gates, typed contracts and tools, the four-agent skeleton, API search with ranked normalization, polite fetching with parser fallback, the research corpus, synthesis and blog authoring behind a citation gate, the run-report, retry, and resume building blocks, run-owned observability with a local metrics dashboard, and an offline test suite plus a golden-dataset evaluation and release gate. Agent documentation (EPIC-11) is next.
 
 **Documentation site:** [https://josoroma.github.io/deep-research-blog-writer](https://josoroma.github.io/deep-research-blog-writer). It explains setup, the run loop, and the committed example run with diagrams. The same page is at [docs/pages/running-a-run.html](docs/pages/running-a-run.html).
 
@@ -9,6 +9,7 @@ A Python research-to-blog pipeline using DeepAgents on LangGraph. A topic goes i
 - [Install and run](#install-and-run)
 - [Fetch and extraction](#fetch-and-extraction)
 - [Live run](#live-run)
+- [Evaluation and release gate](#evaluation-and-release-gate)
 - [Development checks](#development-checks)
 - [Layout and rules](#layout-and-rules)
 - [Working one epic per session](#working-one-epic-per-session)
@@ -144,6 +145,26 @@ Authoring wrote `research/summary.md` and a 3193-word `output/blog.md`, then ran
   "error": null
 }
 ```
+
+## Evaluation and release gate
+
+The unit suite is offline: it strips provider credentials and blocks sockets, so it needs no keys and no network. The whole pipeline also runs on fixtures, and releases are scored against the PD-021 golden dataset before a tag is created.
+
+```sh
+make demo-epic-10
+make eval-offline
+```
+
+`make demo-epic-10` scores one fixture topic and shows both a passing and a blocked release decision. `make eval-offline` runs the fixture pipeline for every golden topic and writes `evaluations/benchmarks/<date>-<commit>.json`. Neither needs credentials.
+
+A live evaluation uses the production models and SerpApi, and the release gate tags only when every golden topic passes every PD-021 threshold:
+
+```sh
+make eval
+make release VERSION=1.0.0
+```
+
+Each topic is scored for citation validity, length, coverage, groundedness, hallucination rate, and every PRD.md §13 Definition of Done item. The judge defaults to DeepSeek V4.1 Flash on OpenRouter. See [EPIC-10.md](docs/SPECS-LOGS/EPIC-10.md) and [the runbook](docs/SPECS-LOGS/EPIC-10-RUNBOOK.md).
 
 ## Development checks
 
