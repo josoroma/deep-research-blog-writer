@@ -1,0 +1,2593 @@
+$ make smoke-langsmith
+uv run --locked python -m evaluations.langsmith_live_smoke
+/Users/josoroma/sites/langchain/evaluations/langsmith_live_smoke.py:40: DeprecationWarning: read_run() is deprecated and will be removed after Jan 31, 2027. Use client.runs.retrieve() instead. See https://docs.langchain.com/langsmith/smithdb-sdk-migration-runs#runs-retrieve for the migration guide.
+  root = client.read_run(observer.root.id, load_child_runs=True)
+/Users/josoroma/sites/langchain/evaluations/langsmith_live_smoke.py:78: DeprecationWarning: get_run_url() is deprecated and will be removed after Jan 31, 2027. Use client.runs.get_url() instead. See https://docs.langchain.com/langsmith/smithdb-sdk-migration-runs#runs-get-url for the migration guide.
+  "trace_url": client.get_run_url(run=root),
+{
+  "workspace": "runs/epic-9-observability-evidence-20261002T164436Z",
+  "trace_url": "https://smith.langchain.com/o/b621eff1-7373-525b-af60-627dc06dfb60/projects/p/fb415e04-9ac6-4413-87fa-86b73a256ad2/r/01a0fd80-deac-7ac1-80a8-b5d888464521?poll=true",
+  "trace_id": "01a0fd80-deac-7ac1-80a8-b5d888464521",
+  "project": "deep-research-blog-writer",
+  "scenario": "success",
+  "report_status": "succeeded",
+  "root_error": null,
+  "dangling_citations": 0,
+  "spans": [
+    {
+      "id": "01a0fd80-deac-7ac1-80a8-b5d888464521",
+      "parent_run_id": null,
+      "name": "research.hosted-smoke",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "ls_run_depth": 0,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df37-7d31-8ba6-37068067b910",
+      "parent_run_id": "01a0fd80-deac-7ac1-80a8-b5d888464521",
+      "name": "LangGraph",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_run_depth": 1,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df38-70c3-bf9b-b3a80365b3d3",
+      "parent_run_id": "01a0fd80-df37-7d31-8ba6-37068067b910",
+      "name": "PatchToolCallsMiddleware.before_agent",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "PatchToolCallsMiddleware.before_agent:f01ee3c3-9c30-d70f-82fb-a541f40ef6bb",
+        "langgraph_node": "PatchToolCallsMiddleware.before_agent",
+        "langgraph_path": [
+          "__pregel_pull",
+          "PatchToolCallsMiddleware.before_agent"
+        ],
+        "langgraph_step": 1,
+        "langgraph_triggers": [
+          "branch:to:PatchToolCallsMiddleware.before_agent"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_run_depth": 2,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df38-70c3-bf9b-b3bc44b77a78",
+      "parent_run_id": "01a0fd80-df37-7d31-8ba6-37068067b910",
+      "name": "model",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:75f3c4c1-fa80-325f-e7e9-9f0b14bea9b0",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 2,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_run_depth": 2,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df39-7f51-bf69-4e9bcc06c3f5",
+      "parent_run_id": "01a0fd80-df38-70c3-bf9b-b3bc44b77a78",
+      "name": "FilesystemMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:75f3c4c1-fa80-325f-e7e9-9f0b14bea9b0",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 2,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 3,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df3a-75a0-b4e1-fbbfa71f7350",
+      "parent_run_id": "01a0fd80-df39-7f51-bf69-4e9bcc06c3f5",
+      "name": "SubAgentMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:75f3c4c1-fa80-325f-e7e9-9f0b14bea9b0",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 2,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 4,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df3a-7192-b195-38e74c581489",
+      "parent_run_id": "01a0fd80-df3a-75a0-b4e1-fbbfa71f7350",
+      "name": "SummarizationMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:75f3c4c1-fa80-325f-e7e9-9f0b14bea9b0",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 2,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 5,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df3f-7a80-b3b9-4997b137907e",
+      "parent_run_id": "01a0fd80-df3a-7192-b195-38e74c581489",
+      "name": "TodoListMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:75f3c4c1-fa80-325f-e7e9-9f0b14bea9b0",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 2,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 6,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df3f-7bd0-9d77-96040f7060d4",
+      "parent_run_id": "01a0fd80-df3f-7a80-b3b9-4997b137907e",
+      "name": "AnthropicPromptCachingMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:75f3c4c1-fa80-325f-e7e9-9f0b14bea9b0",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 2,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 7,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df40-7171-b6d4-bbcd6600ce9a",
+      "parent_run_id": "01a0fd80-df3f-7bd0-9d77-96040f7060d4",
+      "name": "UnsupportedContentMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:75f3c4c1-fa80-325f-e7e9-9f0b14bea9b0",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 2,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 8,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df40-73c3-a2e5-aeba5ae4e490",
+      "parent_run_id": "01a0fd80-df40-7171-b6d4-bbcd6600ce9a",
+      "name": "ScriptedChatModel",
+      "type": "llm",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "_type": "epic3-scripted",
+        "checkpoint_ns": "model:75f3c4c1-fa80-325f-e7e9-9f0b14bea9b0",
+        "langgraph_checkpoint_ns": "model:75f3c4c1-fa80-325f-e7e9-9f0b14bea9b0",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 2,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21",
+          "langchain": "1.4.3",
+          "langchain-core": "1.6.6"
+        },
+        "ls_integration": "langchain_chat_model",
+        "ls_method": "traceable",
+        "ls_model_type": "chat",
+        "ls_provider": "scriptedchatmodel",
+        "ls_run_depth": 9,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "stop": null,
+        "topic": "EPIC-9 observability evidence",
+        "usage_metadata": {
+          "input_tokens": 10,
+          "output_tokens": 5,
+          "total_tokens": 15
+        }
+      }
+    },
+    {
+      "id": "01a0fd80-df41-7822-94bb-48c447162916",
+      "parent_run_id": "01a0fd80-df37-7d31-8ba6-37068067b910",
+      "name": "TodoListMiddleware.after_model",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "TodoListMiddleware.after_model:c7f866e9-254d-de22-b917-a481e17bb86e",
+        "langgraph_node": "TodoListMiddleware.after_model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "TodoListMiddleware.after_model"
+        ],
+        "langgraph_step": 3,
+        "langgraph_triggers": [
+          "branch:to:TodoListMiddleware.after_model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_run_depth": 2,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df42-7e62-82ff-fe0543ed18c8",
+      "parent_run_id": "01a0fd80-df37-7d31-8ba6-37068067b910",
+      "name": "tools",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "tools:ab1b63d6-0bbb-5668-5c25-980932f17db4",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          0,
+          false
+        ],
+        "langgraph_step": 4,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_run_depth": 2,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df42-7b00-8da2-1ef19f3bc105",
+      "parent_run_id": "01a0fd80-df42-7e62-82ff-fe0543ed18c8",
+      "name": "FilesystemMiddleware.wrap_tool_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "tools:ab1b63d6-0bbb-5668-5c25-980932f17db4",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          0,
+          false
+        ],
+        "langgraph_step": 4,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 3,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df42-7e62-82ff-fe1847e97fa7",
+      "parent_run_id": "01a0fd80-df42-7b00-8da2-1ef19f3bc105",
+      "name": "plan_search",
+      "type": "tool",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:ab1b63d6-0bbb-5668-5c25-980932f17db4",
+        "langgraph_checkpoint_ns": "tools:ab1b63d6-0bbb-5668-5c25-980932f17db4",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          0,
+          false
+        ],
+        "langgraph_step": 4,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 4,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df43-7341-81bb-b3aaa749fd07",
+      "parent_run_id": "01a0fd80-df42-7e62-82ff-fe1847e97fa7",
+      "name": "plan_search",
+      "type": "tool",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:ab1b63d6-0bbb-5668-5c25-980932f17db4",
+        "langgraph_checkpoint_ns": "tools:ab1b63d6-0bbb-5668-5c25-980932f17db4",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          0,
+          false
+        ],
+        "langgraph_step": 4,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 5,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df44-7b63-bc66-12aeea6bbed0",
+      "parent_run_id": "01a0fd80-df37-7d31-8ba6-37068067b910",
+      "name": "model",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:79e6e9f4-a058-97c0-964b-400c19043d6b",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 5,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_run_depth": 2,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df44-7d12-9839-697f7bb32a8a",
+      "parent_run_id": "01a0fd80-df44-7b63-bc66-12aeea6bbed0",
+      "name": "FilesystemMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:79e6e9f4-a058-97c0-964b-400c19043d6b",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 5,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 3,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df44-7b13-ba97-158f017d23a0",
+      "parent_run_id": "01a0fd80-df44-7d12-9839-697f7bb32a8a",
+      "name": "SubAgentMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:79e6e9f4-a058-97c0-964b-400c19043d6b",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 5,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 4,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df44-7072-8265-4d2f7cd4dee6",
+      "parent_run_id": "01a0fd80-df44-7b13-ba97-158f017d23a0",
+      "name": "SummarizationMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:79e6e9f4-a058-97c0-964b-400c19043d6b",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 5,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 5,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df45-7bb1-9e7d-5e619fa7a463",
+      "parent_run_id": "01a0fd80-df44-7072-8265-4d2f7cd4dee6",
+      "name": "TodoListMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:79e6e9f4-a058-97c0-964b-400c19043d6b",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 5,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 6,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df45-7b11-88d6-d8a41155afc5",
+      "parent_run_id": "01a0fd80-df45-7bb1-9e7d-5e619fa7a463",
+      "name": "AnthropicPromptCachingMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:79e6e9f4-a058-97c0-964b-400c19043d6b",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 5,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 7,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df46-7822-aad4-3d3ed46c9183",
+      "parent_run_id": "01a0fd80-df45-7b11-88d6-d8a41155afc5",
+      "name": "UnsupportedContentMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:79e6e9f4-a058-97c0-964b-400c19043d6b",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 5,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 8,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df46-7872-96ce-901959da1208",
+      "parent_run_id": "01a0fd80-df46-7822-aad4-3d3ed46c9183",
+      "name": "ScriptedChatModel",
+      "type": "llm",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "_type": "epic3-scripted",
+        "checkpoint_ns": "model:79e6e9f4-a058-97c0-964b-400c19043d6b",
+        "langgraph_checkpoint_ns": "model:79e6e9f4-a058-97c0-964b-400c19043d6b",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 5,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21",
+          "langchain": "1.4.3",
+          "langchain-core": "1.6.6"
+        },
+        "ls_integration": "langchain_chat_model",
+        "ls_method": "traceable",
+        "ls_model_type": "chat",
+        "ls_provider": "scriptedchatmodel",
+        "ls_run_depth": 9,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "stop": null,
+        "topic": "EPIC-9 observability evidence",
+        "usage_metadata": {
+          "input_tokens": 10,
+          "output_tokens": 5,
+          "total_tokens": 15
+        }
+      }
+    },
+    {
+      "id": "01a0fd80-df48-7911-9802-5252f7280648",
+      "parent_run_id": "01a0fd80-df37-7d31-8ba6-37068067b910",
+      "name": "TodoListMiddleware.after_model",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "TodoListMiddleware.after_model:b98634f6-c8f3-aa0d-9db6-94092401db8d",
+        "langgraph_node": "TodoListMiddleware.after_model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "TodoListMiddleware.after_model"
+        ],
+        "langgraph_step": 6,
+        "langgraph_triggers": [
+          "branch:to:TodoListMiddleware.after_model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_run_depth": 2,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df49-7732-9400-02fa1e764f1f",
+      "parent_run_id": "01a0fd80-df37-7d31-8ba6-37068067b910",
+      "name": "tools",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          0,
+          false
+        ],
+        "langgraph_step": 7,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_run_depth": 2,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df49-7463-a4ed-b5116e8f0468",
+      "parent_run_id": "01a0fd80-df49-7732-9400-02fa1e764f1f",
+      "name": "FilesystemMiddleware.wrap_tool_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          0,
+          false
+        ],
+        "langgraph_step": 7,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 3,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df49-7732-9400-03026a1c5242",
+      "parent_run_id": "01a0fd80-df49-7463-a4ed-b5116e8f0468",
+      "name": "task",
+      "type": "tool",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          0,
+          false
+        ],
+        "langgraph_step": 7,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 4,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df4a-7561-969e-8e375d152535",
+      "parent_run_id": "01a0fd80-df49-7732-9400-03026a1c5242",
+      "name": "search_agent",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          0,
+          false
+        ],
+        "langgraph_step": 7,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 5,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df4a-7561-969e-8e45315e271f",
+      "parent_run_id": "01a0fd80-df4a-7561-969e-8e375d152535",
+      "name": "PatchToolCallsMiddleware.before_agent",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|PatchToolCallsMiddleware.before_agent:0e2263c6-b184-52a7-eccf-509e778749af",
+        "langgraph_node": "PatchToolCallsMiddleware.before_agent",
+        "langgraph_path": [
+          "__pregel_pull",
+          "PatchToolCallsMiddleware.before_agent"
+        ],
+        "langgraph_step": 1,
+        "langgraph_triggers": [
+          "branch:to:PatchToolCallsMiddleware.before_agent"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 6,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df4a-7561-969e-8e5417073591",
+      "parent_run_id": "01a0fd80-df4a-7561-969e-8e375d152535",
+      "name": "model",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|model:af2a7d66-81f9-88e1-da68-57d13de3b9d0",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 2,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 6,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df4a-7b50-b54e-3b828a09208a",
+      "parent_run_id": "01a0fd80-df4a-7561-969e-8e5417073591",
+      "name": "FilesystemMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|model:af2a7d66-81f9-88e1-da68-57d13de3b9d0",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 2,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 7,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df4b-76b1-8524-f0ddcb148518",
+      "parent_run_id": "01a0fd80-df4a-7b50-b54e-3b828a09208a",
+      "name": "SummarizationMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|model:af2a7d66-81f9-88e1-da68-57d13de3b9d0",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 2,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 8,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df4e-7222-ba8c-5330f15c60af",
+      "parent_run_id": "01a0fd80-df4b-76b1-8524-f0ddcb148518",
+      "name": "AnthropicPromptCachingMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|model:af2a7d66-81f9-88e1-da68-57d13de3b9d0",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 2,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 9,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df4f-7841-9166-7cb4e503785b",
+      "parent_run_id": "01a0fd80-df4e-7222-ba8c-5330f15c60af",
+      "name": "UnsupportedContentMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|model:af2a7d66-81f9-88e1-da68-57d13de3b9d0",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 2,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 10,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df4f-7f01-8f27-57f9845e9184",
+      "parent_run_id": "01a0fd80-df4f-7841-9166-7cb4e503785b",
+      "name": "ScriptedChatModel",
+      "type": "llm",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "_type": "epic3-scripted",
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|model:af2a7d66-81f9-88e1-da68-57d13de3b9d0",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 2,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21",
+          "langchain": "1.4.3",
+          "langchain-core": "1.6.6"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_chat_model",
+        "ls_method": "traceable",
+        "ls_model_type": "chat",
+        "ls_provider": "scriptedchatmodel",
+        "ls_run_depth": 11,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "stop": null,
+        "topic": "EPIC-9 observability evidence",
+        "usage_metadata": {
+          "input_tokens": 10,
+          "output_tokens": 5,
+          "total_tokens": 15
+        }
+      }
+    },
+    {
+      "id": "01a0fd80-df50-7790-8e09-1d441284a433",
+      "parent_run_id": "01a0fd80-df4a-7561-969e-8e375d152535",
+      "name": "tools",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|tools:1a6cbcd1-868b-3fb0-eef6-73409fd1257b",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          0,
+          false
+        ],
+        "langgraph_step": 3,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 6,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df50-7d63-89bb-1daa2427541f",
+      "parent_run_id": "01a0fd80-df50-7790-8e09-1d441284a433",
+      "name": "FilesystemMiddleware.wrap_tool_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|tools:1a6cbcd1-868b-3fb0-eef6-73409fd1257b",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          0,
+          false
+        ],
+        "langgraph_step": 3,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 7,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df50-7790-8e09-1d50ed851739",
+      "parent_run_id": "01a0fd80-df50-7d63-89bb-1daa2427541f",
+      "name": "google_search",
+      "type": "tool",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|tools:1a6cbcd1-868b-3fb0-eef6-73409fd1257b",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          0,
+          false
+        ],
+        "langgraph_step": 3,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 8,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df52-7370-8856-66234eddb988",
+      "parent_run_id": "01a0fd80-df50-7790-8e09-1d50ed851739",
+      "name": "google_search",
+      "type": "tool",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|tools:1a6cbcd1-868b-3fb0-eef6-73409fd1257b",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          0,
+          false
+        ],
+        "langgraph_step": 3,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 9,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df51-7a30-8787-dd92868a2642",
+      "parent_run_id": "01a0fd80-df4a-7561-969e-8e375d152535",
+      "name": "tools",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|tools:7575e47c-d0f8-956e-b992-7d574a77dd59",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          1,
+          false
+        ],
+        "langgraph_step": 3,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 6,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df51-7090-bf75-699e817c2d74",
+      "parent_run_id": "01a0fd80-df51-7a30-8787-dd92868a2642",
+      "name": "FilesystemMiddleware.wrap_tool_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|tools:7575e47c-d0f8-956e-b992-7d574a77dd59",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          1,
+          false
+        ],
+        "langgraph_step": 3,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 7,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df51-7a30-8787-dda0b062397b",
+      "parent_run_id": "01a0fd80-df51-7090-bf75-699e817c2d74",
+      "name": "google_search",
+      "type": "tool",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|tools:7575e47c-d0f8-956e-b992-7d574a77dd59",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          1,
+          false
+        ],
+        "langgraph_step": 3,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 8,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df53-71f3-b02d-f7bb829b078a",
+      "parent_run_id": "01a0fd80-df51-7a30-8787-dda0b062397b",
+      "name": "google_search",
+      "type": "tool",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|tools:7575e47c-d0f8-956e-b992-7d574a77dd59",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          1,
+          false
+        ],
+        "langgraph_step": 3,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 9,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df52-7b93-a6af-091f7643b215",
+      "parent_run_id": "01a0fd80-df4a-7561-969e-8e375d152535",
+      "name": "tools",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|tools:8443c54c-0a3e-8c88-d119-a8e42228dda6",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          2,
+          false
+        ],
+        "langgraph_step": 3,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 6,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df52-7f01-9f20-6689006c3f73",
+      "parent_run_id": "01a0fd80-df52-7b93-a6af-091f7643b215",
+      "name": "FilesystemMiddleware.wrap_tool_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|tools:8443c54c-0a3e-8c88-d119-a8e42228dda6",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          2,
+          false
+        ],
+        "langgraph_step": 3,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 7,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df52-7b93-a6af-0925b3d198e6",
+      "parent_run_id": "01a0fd80-df52-7f01-9f20-6689006c3f73",
+      "name": "google_search",
+      "type": "tool",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|tools:8443c54c-0a3e-8c88-d119-a8e42228dda6",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          2,
+          false
+        ],
+        "langgraph_step": 3,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 8,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df53-7480-8b47-a6637bedee9e",
+      "parent_run_id": "01a0fd80-df52-7b93-a6af-0925b3d198e6",
+      "name": "google_search",
+      "type": "tool",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|tools:8443c54c-0a3e-8c88-d119-a8e42228dda6",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          2,
+          false
+        ],
+        "langgraph_step": 3,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 9,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df55-7bc0-ae6f-4b6b5cefad4f",
+      "parent_run_id": "01a0fd80-df4a-7561-969e-8e375d152535",
+      "name": "model",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|model:5c3f7414-b5ee-a0e2-e8d9-650f5da2eaf5",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 4,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 6,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df55-7590-bd48-bd3b1ee45f74",
+      "parent_run_id": "01a0fd80-df55-7bc0-ae6f-4b6b5cefad4f",
+      "name": "FilesystemMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|model:5c3f7414-b5ee-a0e2-e8d9-650f5da2eaf5",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 4,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 7,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df55-76c3-8e15-ebad88878108",
+      "parent_run_id": "01a0fd80-df55-7590-bd48-bd3b1ee45f74",
+      "name": "SummarizationMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|model:5c3f7414-b5ee-a0e2-e8d9-650f5da2eaf5",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 4,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 8,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df57-7511-88e9-6d507ff204bd",
+      "parent_run_id": "01a0fd80-df55-76c3-8e15-ebad88878108",
+      "name": "AnthropicPromptCachingMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|model:5c3f7414-b5ee-a0e2-e8d9-650f5da2eaf5",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 4,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 9,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df57-7362-9ecb-1c093b34c77e",
+      "parent_run_id": "01a0fd80-df57-7511-88e9-6d507ff204bd",
+      "name": "UnsupportedContentMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|model:5c3f7414-b5ee-a0e2-e8d9-650f5da2eaf5",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 4,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_create_agent",
+        "ls_method": "traceable",
+        "ls_run_depth": 10,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df57-7431-a442-ae18cc6edb26",
+      "parent_run_id": "01a0fd80-df57-7362-9ecb-1c093b34c77e",
+      "name": "ScriptedChatModel",
+      "type": "llm",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "_type": "epic3-scripted",
+        "checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6",
+        "langgraph_checkpoint_ns": "tools:37a6bc6f-96ee-2434-485f-312bf7635ae6|model:5c3f7414-b5ee-a0e2-e8d9-650f5da2eaf5",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 4,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": "search_agent",
+        "lc_versions": {
+          "deepagents": "0.7.21",
+          "langchain": "1.4.3",
+          "langchain-core": "1.6.6"
+        },
+        "ls_agent_type": "subagent",
+        "ls_integration": "langchain_chat_model",
+        "ls_method": "traceable",
+        "ls_model_type": "chat",
+        "ls_provider": "scriptedchatmodel",
+        "ls_run_depth": 11,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "stop": null,
+        "topic": "EPIC-9 observability evidence",
+        "usage_metadata": {
+          "input_tokens": 10,
+          "output_tokens": 5,
+          "total_tokens": 15
+        }
+      }
+    },
+    {
+      "id": "01a0fd80-df59-7261-8b5f-a2e692d7b638",
+      "parent_run_id": "01a0fd80-df37-7d31-8ba6-37068067b910",
+      "name": "model",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:0d102cdb-8ee2-7c2e-f736-a3f7e3421073",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 8,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_run_depth": 2,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df59-7340-85b5-ef2ecda82b46",
+      "parent_run_id": "01a0fd80-df59-7261-8b5f-a2e692d7b638",
+      "name": "FilesystemMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:0d102cdb-8ee2-7c2e-f736-a3f7e3421073",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 8,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 3,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df5a-7b13-9238-805866955555",
+      "parent_run_id": "01a0fd80-df59-7340-85b5-ef2ecda82b46",
+      "name": "SubAgentMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:0d102cdb-8ee2-7c2e-f736-a3f7e3421073",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 8,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 4,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df5a-7aa3-98da-a86bed1dc356",
+      "parent_run_id": "01a0fd80-df5a-7b13-9238-805866955555",
+      "name": "SummarizationMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:0d102cdb-8ee2-7c2e-f736-a3f7e3421073",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 8,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 5,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df5b-7780-a412-e6f48c9ff9b1",
+      "parent_run_id": "01a0fd80-df5a-7aa3-98da-a86bed1dc356",
+      "name": "TodoListMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:0d102cdb-8ee2-7c2e-f736-a3f7e3421073",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 8,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 6,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df5b-76d3-9c35-93cf7283539e",
+      "parent_run_id": "01a0fd80-df5b-7780-a412-e6f48c9ff9b1",
+      "name": "AnthropicPromptCachingMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:0d102cdb-8ee2-7c2e-f736-a3f7e3421073",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 8,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 7,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df5b-7f51-9f91-4c56140c3df5",
+      "parent_run_id": "01a0fd80-df5b-76d3-9c35-93cf7283539e",
+      "name": "UnsupportedContentMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:0d102cdb-8ee2-7c2e-f736-a3f7e3421073",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 8,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 8,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df5c-7da0-a169-38d9e2af3470",
+      "parent_run_id": "01a0fd80-df5b-7f51-9f91-4c56140c3df5",
+      "name": "ScriptedChatModel",
+      "type": "llm",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "_type": "epic3-scripted",
+        "checkpoint_ns": "model:0d102cdb-8ee2-7c2e-f736-a3f7e3421073",
+        "langgraph_checkpoint_ns": "model:0d102cdb-8ee2-7c2e-f736-a3f7e3421073",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 8,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21",
+          "langchain": "1.4.3",
+          "langchain-core": "1.6.6"
+        },
+        "ls_integration": "langchain_chat_model",
+        "ls_method": "traceable",
+        "ls_model_type": "chat",
+        "ls_provider": "scriptedchatmodel",
+        "ls_run_depth": 9,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "stop": null,
+        "topic": "EPIC-9 observability evidence",
+        "usage_metadata": {
+          "input_tokens": 10,
+          "output_tokens": 5,
+          "total_tokens": 15
+        }
+      }
+    },
+    {
+      "id": "01a0fd80-df5c-7da0-a169-38e0a6a6db9e",
+      "parent_run_id": "01a0fd80-df37-7d31-8ba6-37068067b910",
+      "name": "TodoListMiddleware.after_model",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "TodoListMiddleware.after_model:fb89e365-afe4-5c24-b198-e779b873f5cb",
+        "langgraph_node": "TodoListMiddleware.after_model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "TodoListMiddleware.after_model"
+        ],
+        "langgraph_step": 9,
+        "langgraph_triggers": [
+          "branch:to:TodoListMiddleware.after_model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_run_depth": 2,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df5d-7213-81e4-c82cd228f531",
+      "parent_run_id": "01a0fd80-df37-7d31-8ba6-37068067b910",
+      "name": "tools",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "tools:a773e22f-3126-dc58-56af-34884c2c0e9f",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          0,
+          false
+        ],
+        "langgraph_step": 10,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_run_depth": 2,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df5d-76a2-8eb1-6663fe67b73c",
+      "parent_run_id": "01a0fd80-df5d-7213-81e4-c82cd228f531",
+      "name": "FilesystemMiddleware.wrap_tool_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "tools:a773e22f-3126-dc58-56af-34884c2c0e9f",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          0,
+          false
+        ],
+        "langgraph_step": 10,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 3,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df5e-7433-aa44-5e2cef16facd",
+      "parent_run_id": "01a0fd80-df5d-76a2-8eb1-6663fe67b73c",
+      "name": "normalize_results",
+      "type": "tool",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:a773e22f-3126-dc58-56af-34884c2c0e9f",
+        "langgraph_checkpoint_ns": "tools:a773e22f-3126-dc58-56af-34884c2c0e9f",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          0,
+          false
+        ],
+        "langgraph_step": 10,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 4,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df5e-75a2-9b8f-0fa66f25d0b4",
+      "parent_run_id": "01a0fd80-df5e-7433-aa44-5e2cef16facd",
+      "name": "normalize_results",
+      "type": "tool",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "checkpoint_ns": "tools:a773e22f-3126-dc58-56af-34884c2c0e9f",
+        "langgraph_checkpoint_ns": "tools:a773e22f-3126-dc58-56af-34884c2c0e9f",
+        "langgraph_node": "tools",
+        "langgraph_path": [
+          "__pregel_push",
+          0,
+          false
+        ],
+        "langgraph_step": 10,
+        "langgraph_triggers": [
+          "__pregel_push"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 5,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df60-7312-8ee6-32eff4b9362a",
+      "parent_run_id": "01a0fd80-df37-7d31-8ba6-37068067b910",
+      "name": "model",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:21f483f5-bbee-d7da-d7ca-98f30b6a7407",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 11,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_run_depth": 2,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df60-74e0-9e1d-5ee39e275844",
+      "parent_run_id": "01a0fd80-df60-7312-8ee6-32eff4b9362a",
+      "name": "FilesystemMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:21f483f5-bbee-d7da-d7ca-98f30b6a7407",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 11,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 3,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df61-7653-a294-9cdc6a50d8c2",
+      "parent_run_id": "01a0fd80-df60-74e0-9e1d-5ee39e275844",
+      "name": "SubAgentMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:21f483f5-bbee-d7da-d7ca-98f30b6a7407",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 11,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 4,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df61-74c1-9104-a285d772f6c1",
+      "parent_run_id": "01a0fd80-df61-7653-a294-9cdc6a50d8c2",
+      "name": "SummarizationMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:21f483f5-bbee-d7da-d7ca-98f30b6a7407",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 11,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 5,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df62-73e1-a8e4-0245f2e2173d",
+      "parent_run_id": "01a0fd80-df61-74c1-9104-a285d772f6c1",
+      "name": "TodoListMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:21f483f5-bbee-d7da-d7ca-98f30b6a7407",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 11,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 6,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df62-75a0-8bdf-80b6edbf26b6",
+      "parent_run_id": "01a0fd80-df62-73e1-a8e4-0245f2e2173d",
+      "name": "AnthropicPromptCachingMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:21f483f5-bbee-d7da-d7ca-98f30b6a7407",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 11,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 7,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df62-7a01-86ff-7c4385ad8021",
+      "parent_run_id": "01a0fd80-df62-75a0-8bdf-80b6edbf26b6",
+      "name": "UnsupportedContentMiddleware.wrap_model_call",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "model:21f483f5-bbee-d7da-d7ca-98f30b6a7407",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 11,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_method": "traceable",
+        "ls_run_depth": 8,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df62-7351-9f76-ebe9255a0a04",
+      "parent_run_id": "01a0fd80-df62-7a01-86ff-7c4385ad8021",
+      "name": "ScriptedChatModel",
+      "type": "llm",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "_type": "epic3-scripted",
+        "checkpoint_ns": "model:21f483f5-bbee-d7da-d7ca-98f30b6a7407",
+        "langgraph_checkpoint_ns": "model:21f483f5-bbee-d7da-d7ca-98f30b6a7407",
+        "langgraph_node": "model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "model"
+        ],
+        "langgraph_step": 11,
+        "langgraph_triggers": [
+          "branch:to:model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21",
+          "langchain": "1.4.3",
+          "langchain-core": "1.6.6"
+        },
+        "ls_integration": "langchain_chat_model",
+        "ls_method": "traceable",
+        "ls_model_type": "chat",
+        "ls_provider": "scriptedchatmodel",
+        "ls_run_depth": 9,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "stop": null,
+        "topic": "EPIC-9 observability evidence",
+        "usage_metadata": {
+          "input_tokens": 10,
+          "output_tokens": 5,
+          "total_tokens": 15
+        }
+      }
+    },
+    {
+      "id": "01a0fd80-df63-7ea0-8ab0-14a6b658142a",
+      "parent_run_id": "01a0fd80-df37-7d31-8ba6-37068067b910",
+      "name": "TodoListMiddleware.after_model",
+      "type": "chain",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "langgraph_checkpoint_ns": "TodoListMiddleware.after_model:6f25f3b7-ae5a-df73-479a-53a79f520607",
+        "langgraph_node": "TodoListMiddleware.after_model",
+        "langgraph_path": [
+          "__pregel_pull",
+          "TodoListMiddleware.after_model"
+        ],
+        "langgraph_step": 12,
+        "langgraph_triggers": [
+          "branch:to:TodoListMiddleware.after_model"
+        ],
+        "lc_agent_name": null,
+        "lc_versions": {
+          "deepagents": "0.7.21"
+        },
+        "ls_integration": "deepagents",
+        "ls_run_depth": 2,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df66-7283-b72b-bfde6e1aab80",
+      "parent_run_id": "01a0fd80-deac-7ac1-80a8-b5d888464521",
+      "name": "collect_source",
+      "type": "tool",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "ls_run_depth": 1,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df66-7f22-99ee-b699893a409d",
+      "parent_run_id": "01a0fd80-df66-7283-b72b-bfde6e1aab80",
+      "name": "fetch_url",
+      "type": "tool",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "ls_run_depth": 2,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df69-79e3-a3b8-8640c0a527ba",
+      "parent_run_id": "01a0fd80-df66-7283-b72b-bfde6e1aab80",
+      "name": "extract_markdown",
+      "type": "tool",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "ls_run_depth": 2,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df66-7623-ba45-fbb04589a818",
+      "parent_run_id": "01a0fd80-deac-7ac1-80a8-b5d888464521",
+      "name": "collect_source",
+      "type": "tool",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "ls_run_depth": 1,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df67-7c12-9e0d-f43cdbd1ea42",
+      "parent_run_id": "01a0fd80-df66-7623-ba45-fbb04589a818",
+      "name": "fetch_url",
+      "type": "tool",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "ls_run_depth": 2,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df6d-7850-9ac7-e0c1bf35eca3",
+      "parent_run_id": "01a0fd80-df66-7623-ba45-fbb04589a818",
+      "name": "extract_markdown",
+      "type": "tool",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "ls_run_depth": 2,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    },
+    {
+      "id": "01a0fd80-df76-7552-9af4-9a7dc4f3d23a",
+      "parent_run_id": "01a0fd80-deac-7ac1-80a8-b5d888464521",
+      "name": "build_index",
+      "type": "tool",
+      "ended": true,
+      "error": null,
+      "metadata": {
+        "ls_run_depth": 1,
+        "mode": "hosted-smoke",
+        "revision_id": "a162c6d-dirty",
+        "run_id": "epic-9-observability-evidence-20261002T164436Z",
+        "topic": "EPIC-9 observability evidence"
+      }
+    }
+  ]
+}
+
+Exit status: 0

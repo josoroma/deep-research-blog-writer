@@ -5,11 +5,87 @@
   "offline_tests_passed": 451,
   "coverage_percent": 88.82,
   "fresh_checkout_verified": true,
-  "hosted_langsmith_verified": false,
-  "hosted_langsmith_reason": "LANGSMITH_API_KEY not configured",
+  "hosted_langsmith_verified": true,
   "distribution_sha256": {
     "dist/.gitignore": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
     "dist/deep_research_blog_writer-0.1.0-py3-none-any.whl": "75ad76268390d5d52abc56e24f30047410464a284247ce3f68c7eef57055bc26",
     "dist/deep_research_blog_writer-0.1.0.tar.gz": "aa64b20b77f4aa7a19a190f0983a7ab9fb97d56b5bec167b5622e6ed2b3195d8"
+  },
+  "hosted_langsmith": {
+    "command": "make smoke-langsmith",
+    "exit_status": 0,
+    "workspace": "runs/epic-9-observability-evidence-20261002T162219Z",
+    "project": "deep-research-blog-writer",
+    "trace_url": "https://smith.langchain.com/o/b621eff1-7373-525b-af60-627dc06dfb60/projects/p/fb415e04-9ac6-4413-87fa-86b73a256ad2/r/01a0fd6c-7949-7cd3-8ebd-72b982c19c83?poll=true",
+    "trace_id": "01a0fd6c-7949-7cd3-8ebd-72b982c19c83",
+    "scenario": "success",
+    "report_status": "succeeded",
+    "root_error": null,
+    "dangling_citations": 0,
+    "span_count": 83,
+    "span_types": {
+      "chain": 59,
+      "llm": 6,
+      "tool": 18
+    },
+    "all_ended": true,
+    "all_errors_null": true,
+    "single_root_and_ancestry_verified": true,
+    "all_run_id_topic_metadata_verified": true,
+    "model_subagent_and_internal_tool_descendants_verified": true,
+    "verified_utc": "2026-10-02T16:27:31.399001+00:00",
+    "tested_revision": "e590c69-dirty",
+    "evidence": "docs/evidence/epic-9/hosted_trace_evidence.json",
+    "fixture_work": true,
+    "live_model_or_search_requests": false
+  },
+  "hosted_fix_verification": {
+    "base_revision": "e590c6971c6554f64fa0ca3d87113f2f2061eae7",
+    "working_tree_changes": true,
+    "command": "make check",
+    "exit_status": 0,
+    "offline_tests_passed": 452,
+    "coverage_percent": 88.72,
+    "source_manifest": "docs/evidence/epic-9/hosted-fix-source-manifest.json",
+    "quality_transcript": "docs/evidence/epic-9/35-hosted-fix-check.txt",
+    "hosted_transcript": "docs/evidence/epic-9/33-hosted-success.txt",
+    "initial_build_and_fresh_checkout_apply_to": "2a587e01e9fdb1b46447d6cb1079a066b7d3fedf"
+  },
+  "final_verification": {
+    "source_revision": "a162c6d117d0f061de7e6a3ca38bd668844e4eca",
+    "working_tree_changes": false,
+    "offline_tests_passed": 452,
+    "coverage_percent": 88.72,
+    "fresh_checkout_verified": true,
+    "installed_wheel_verified": true,
+    "hooks_passed": true,
+    "stack_dashboard_panels_with_data": 8,
+    "hosted_langsmith": {
+      "scenario": "success",
+      "report_status": "succeeded",
+      "root_error": null,
+      "dangling_citations": 0,
+      "spans": 83,
+      "span_errors": 0,
+      "run_id": "epic-9-observability-evidence-20261002T164436Z",
+      "evidence": "docs/evidence/epic-9/hosted_trace_evidence_final.json"
+    },
+    "distribution_sha256": {
+      "deep_research_blog_writer-0.1.0-py3-none-any.whl": "a65cf71533530feca8449c0d8b564f421e488b31d5f6782d4ddd8d3ee20eaf16",
+      "deep_research_blog_writer-0.1.0.tar.gz": "27f0ffd14e26a35064081bf0f32cb789a399632bdc392c57cbebb5b6d57db202"
+    },
+    "source_manifest": "docs/evidence/epic-9/final-source-manifest.json",
+    "transcripts": [
+      "docs/evidence/epic-9/37-final-check.txt",
+      "docs/evidence/epic-9/38-final-demo.txt",
+      "docs/evidence/epic-9/39-final-stack-up.txt",
+      "docs/evidence/epic-9/40-final-stack-smoke.txt",
+      "docs/evidence/epic-9/41-final-hosted-smoke.txt",
+      "docs/evidence/epic-9/42-final-build.txt",
+      "docs/evidence/epic-9/43-final-installed-package.txt",
+      "docs/evidence/epic-9/44-final-hooks.txt",
+      "docs/evidence/epic-9/45-final-fresh-checkout.txt",
+      "docs/evidence/epic-9/46-final-source-hashes.txt"
+    ]
   }
 }

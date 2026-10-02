@@ -31,3 +31,18 @@
 {"name": "27-final-demo", "command": ["make", "demo-epic-9"], "started_utc": "2026-10-02T14:41:04.610151+00:00", "duration_seconds": 2.437, "exit_status": 0}
 {"name": "30-final-source-hashes", "command": ["uv", "run", "--locked", "python", "scripts/verify-source-manifest.py", "docs/evidence/epic-9/source-manifest.json"], "started_utc": "2026-10-02T14:49:37.194302+00:00", "duration_seconds": 0.15, "exit_status": 0}
 {"name": "31-final-inspect", "command": ["uv", "run", "--locked", "python", "scripts/inspect-observability.py", "runs/epic-9-observability-evidence-20261002T144106Z"], "started_utc": "2026-10-02T14:52:36.586586+00:00", "duration_seconds": 0.14, "exit_status": 0}
+{"name": "32-hosted-smoke", "command": ["make", "smoke-langsmith"], "verified_utc": "2026-10-02T16:14:51.390438+00:00", "exit_status": 0, "output_capture": "saved JSON stdout and verification summary; terminal output truncated", "evidence": "docs/evidence/epic-9/hosted_trace_evidence.json"}
+{"name": "33-hosted-success", "command": ["make", "smoke-langsmith"], "started_utc": "2026-10-02T16:22:18.639147+00:00", "duration_seconds": 8.845, "exit_status": 0}
+{"name": "34-hosted-fix-check", "command": ["make", "check"], "started_utc": "2026-10-02T16:22:48.400529+00:00", "duration_seconds": 0.104, "exit_status": 2}
+{"name": "35-hosted-fix-check", "command": ["make", "check"], "started_utc": "2026-10-02T16:23:12.749598+00:00", "duration_seconds": 12.362, "exit_status": 0}
+{"name": "36-hosted-fix-source-hashes", "command": ["uv", "run", "--locked", "python", "scripts/verify-source-manifest.py", "docs/evidence/epic-9/hosted-fix-source-manifest.json"], "started_utc": "2026-10-02T16:28:18.329679+00:00", "duration_seconds": 0.088, "exit_status": 0}
+{"name": "37-final-check", "command": ["make", "check"], "started_utc": "2026-10-02T16:43:51.689658+00:00", "duration_seconds": 10.774, "exit_status": 0}
+{"name": "38-final-demo", "command": ["make", "demo-epic-9"], "started_utc": "2026-10-02T16:44:02.489632+00:00", "duration_seconds": 2.279, "exit_status": 0}
+{"name": "39-final-stack-up", "command": ["make", "observability-up"], "started_utc": "2026-10-02T16:44:15.179246+00:00", "duration_seconds": 0.135, "exit_status": 0}
+{"name": "40-final-stack-smoke", "command": ["make", "smoke-epic-9"], "started_utc": "2026-10-02T16:44:15.341897+00:00", "duration_seconds": 2.079, "exit_status": 0}
+{"name": "41-final-hosted-smoke", "command": ["make", "smoke-langsmith"], "started_utc": "2026-10-02T16:44:35.281981+00:00", "duration_seconds": 7.595, "exit_status": 0}
+{"name": "42-final-build", "command": ["make", "build"], "started_utc": "2026-10-02T16:44:56.013826+00:00", "duration_seconds": 1.439, "exit_status": 0}
+{"name": "43-final-installed-package", "command": ["sh", "scripts/verify-epic-9-package.sh"], "started_utc": "2026-10-02T16:44:57.480204+00:00", "duration_seconds": 12.841, "exit_status": 0}
+{"name": "44-final-hooks", "command": ["make", "hooks"], "started_utc": "2026-10-02T16:45:10.348969+00:00", "duration_seconds": 10.698, "exit_status": 0}
+{"name": "45-final-fresh-checkout", "command": ["sh", "scripts/verify-epic-9-checkout.sh"], "started_utc": "2026-10-02T16:45:27.351009+00:00", "duration_seconds": 90.605, "exit_status": 0}
+{"name": "46-final-source-hashes", "command": ["uv", "run", "--locked", "python", "scripts/verify-source-manifest.py", "docs/evidence/epic-9/final-source-manifest.json"], "started_utc": "2026-10-02T16:47:07.486340+00:00", "duration_seconds": 0.135, "exit_status": 0}

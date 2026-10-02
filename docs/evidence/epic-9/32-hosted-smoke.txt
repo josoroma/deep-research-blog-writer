@@ -1,0 +1,26 @@
+$ make smoke-langsmith
+uv run --locked python -m evaluations.langsmith_live_smoke
+
+Exit status: 0
+Verification summary derived from the saved JSON output; this is not a full terminal transcript.
+Complete JSON output: docs/evidence/epic-9/hosted_trace_evidence.json
+Stderr contained SDK deprecation warnings for read_run() and get_run_url().
+
+{
+  "command": "make smoke-langsmith",
+  "exit_status": 0,
+  "workspace": "runs/epic-9-observability-evidence-20261002T161127Z",
+  "project": "deep-research-blog-writer",
+  "trace_url": "https://smith.langchain.com/o/b621eff1-7373-525b-af60-627dc06dfb60/projects/p/fb415e04-9ac6-4413-87fa-86b73a256ad2/r/01a0fd62-83f2-7de0-b3cd-9dd5f8a00fd9?poll=true",
+  "trace_id": "01a0fd62-83f2-7de0-b3cd-9dd5f8a00fd9",
+  "span_count": 97,
+  "span_types": {
+    "chain": 59,
+    "llm": 6,
+    "tool": 32
+  },
+  "all_ended": true,
+  "single_root_and_ancestry_verified": true,
+  "all_run_id_topic_metadata_verified": true,
+  "model_subagent_and_internal_tool_descendants_verified": true
+}

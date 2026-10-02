@@ -1,0 +1,44 @@
+{
+  "run_id": "epic-9-observability-evidence-20261002T162219Z",
+  "topic": "EPIC-9 observability evidence",
+  "model": "openrouter:deepseek/deepseek-v4.1-flash",
+  "status": "succeeded",
+  "status_reasons": [],
+  "phase_timings_seconds": {
+    "plan": 0.0006016249999447609,
+    "search": 0.0031304169997383724,
+    "normalize": 0.000856957999531005,
+    "fetch": 0.012030500000037136,
+    "index": 0.0011616660003710422,
+    "hosted-smoke": 0.19162866599981498
+  },
+  "urls_found": 2,
+  "urls_clean": 2,
+  "urls_fetched": 2,
+  "urls_extracted": 2,
+  "urls_thin": 0,
+  "urls_failed": 0,
+  "extraction_failures": 0,
+  "url_outcomes": [
+    {
+      "rank": 1,
+      "url": "https://fixture.test/article",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-01"
+    },
+    {
+      "rank": 2,
+      "url": "https://fixture.test/retry",
+      "outcome": "extracted",
+      "reason": null,
+      "source_id": "S-02"
+    }
+  ],
+  "blog_path": "output/blog.md",
+  "citation_count": 2,
+  "tokens_used": 90,
+  "cost_usd": 0.060000000000000005,
+  "duration_seconds": 0.18955075000030774,
+  "retries": 2
+}

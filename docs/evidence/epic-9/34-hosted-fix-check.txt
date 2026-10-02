@@ -1,0 +1,21 @@
+$ make check
+uv lock --check
+Resolved 119 packages in 6ms
+/Library/Developer/CommandLineTools/usr/bin/make lint format-check typecheck test
+uv run --locked ruff check .
+E501 Line too long (107 > 100)
+   --> evaluations/epic9_demo.py:165:101
+    |
+163 |                     f"- [{source.source_id}] {source.title} {source.url}" for source in sources
+164 |                 )
+165 |                 blog = f"# Observability smoke\n\nEvidence {citations}.\n\n## References\n\n{references}\n"
+    |                                                                                                     ^^^^^^^
+166 |             (workspace.root / "output/blog.md").write_text(blog, encoding="utf-8")
+167 |             if scenario == "success":
+    |
+
+Found 1 error.
+make[1]: *** [lint] Error 1
+make: *** [check] Error 2
+
+Exit status: 2

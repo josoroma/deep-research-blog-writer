@@ -2,11 +2,11 @@
 
 Date: 2026-10-02, America/Costa_Rica.
 
-Status: implementation and local acceptance verified. Final committed-checkout, installed-wheel, source-hash, stop/restart, and historical-data verification passed. Hosted LangSmith readback has not run: `LANGSMITH_API_KEY` is absent locally. Native LangSmith SDK traces were verified with a recording client; the hosted smoke is implemented and available when credentials are configured.
+Status: DONE. Final verification ran on committed revision `a162c6d117d0f061de7e6a3ca38bd668844e4eca` with no source changes in the working tree: gates, demo, live stack with all eight panels, hosted LangSmith readback, build, installed wheel, hooks, fresh checkout, and source hashes all passed. See [Final verification](#final-verification). The hosted smoke returns a succeeded report and 83 completed spans with run_id/topic metadata, including model, sub-agent, and internal-tool descendants; every hosted span is error-free.
 
 ## Delivered behavior
 
-[EPIC-9.md](../../EPIC-9.md) was written before implementation. The existing research, search, fetch, corpus, authoring, reporting, and resume-inspection entry points now own their observability lifecycle. Each run appends JSON objects to `logs/execution.log` and saves totals to `logs/telemetry.json`. No global execution log is used.
+[EPIC-9.md](EPIC-9.md) was written before implementation. The existing research, search, fetch, corpus, authoring, reporting, and resume-inspection entry points now own their observability lifecycle. Each run appends JSON objects to `logs/execution.log` and saves totals to `logs/telemetry.json`. No global execution log is used.
 
 Registered tools retain the run observer across worker threads. Native model callbacks collect usage and reported cost. Fetch backoffs, phase retries, citation repairs, source outcomes, and dangling citation checks populate the ledger. Full `RunReport` totals are kept consistent with that ledger. LangSmith roots and descendants carry run_id/topic metadata. Trace inputs/outputs are hidden at the SDK boundary; logs omit raw HTML and messages, redact credential query parameters, and reject log-path symlinks.
 
@@ -45,20 +45,49 @@ For hosted trace upload/readback with deterministic fixture work:
 make smoke-langsmith
 ```
 
-The hosted smoke checks root/descendant metadata, finished spans, model/sub-agent/internal-tool descendants, and saves `logs/hosted_trace_evidence.json` including a LangSmith URL. It uses no live model or search request. This command is credential-dependent and is not listed as passed in this delivery.
+The hosted smoke checks root/descendant metadata, finished spans, model/sub-agent/internal-tool descendants, and saves `logs/hosted_trace_evidence.json` including a LangSmith URL. It uses no live model or search request. This command passed after credentials were configured locally; the key remains outside committed evidence.
 
-## Successful commands and exact outputs
+The verified successful hosted run is `epic-9-observability-evidence-20261002T162219Z` in project `deep-research-blog-writer`. Open [its LangSmith trace](https://smith.langchain.com/o/b621eff1-7373-525b-af60-627dc06dfb60/projects/p/fb415e04-9ac6-4413-87fa-86b73a256ad2/r/01a0fd6c-7949-7cd3-8ebd-72b982c19c83?poll=true) using an account with access to that workspace. Readback verified one root and 82 descendants: 59 chain spans, six model spans, and 18 tool spans, all completed and carrying the expected run_id/topic. The report status is `succeeded`, dangling citations are zero, and root/descendant errors are all null. The SDK emitted deprecation warnings for `read_run` and `get_run_url`; they did not prevent upload or readback.
 
-All listed commands completed with exit 0. Full stdout/stderr and exit statuses are saved in [docs/evidence/epic-9](../evidence/epic-9/); [commands.jsonl](../evidence/epic-9/commands.jsonl) records their start times and durations.
+The earlier hosted run at `20261002T161127Z` used the default failure fixture, which deliberately cites nonexistent `[S-98]` and `[S-99]`. Its upload/readback succeeded, but its research report failed and its root correctly displayed `run_failed`. The smoke originally checked transport and completion without checking trace errors. It now selects a success scenario with two extracted sources, builds citations and References from the actual saved corpus, requires a succeeded report, and rejects errors on the hosted root or descendants. Readback waits for the observed tool-call counts and all six model calls instead of requiring the failure fixture's span count. Offline regression checks cover both scenarios.
+
+## Final verification
+
+Every command below ran on 2026-10-02 against committed revision `a162c6d`, the first commit that contains the hosted-smoke correction. The working tree had no in-scope source changes. Each exited 0, and each transcript records the exact command, its full output, and its exit status. [commands.jsonl](../evidence/epic-9/commands.jsonl) indexes them with start times and durations.
+
+| Command | Verified result | Transcript |
+| --- | --- | --- |
+| `make check` | Lock, lint, format, strict typing; 452 passed, 3 live tests excluded; coverage 88.72% | [37-final-check.txt](../evidence/epic-9/37-final-check.txt), [coverage](../evidence/epic-9/coverage-final.xml) |
+| `make demo-epic-9` | 97 SDK spans, 77 JSON log records, 90 tokens, 5 retries, 2 dangling citations, real OTLP protobuf received, intended `failed` report | [38-final-demo.txt](../evidence/epic-9/38-final-demo.txt) |
+| `make observability-up` | Collector, Prometheus, and Grafana running | [39-final-stack-up.txt](../evidence/epic-9/39-final-stack-up.txt) |
+| `make smoke-epic-9` | OTLP delivered; all eight provisioned panels return data: 1 failed run, 90 tokens, $0.06, phase latency, tool calls, 5 retries, URL outcomes, 2 dangling citations; Grafana datasource proxy works | [40-final-stack-smoke.txt](../evidence/epic-9/40-final-stack-smoke.txt) |
+| `make smoke-langsmith` | Success scenario; report `succeeded`; 83 spans (59 chain, 6 model, 18 tool), all ended, zero errors, one run_id and topic on every span; zero dangling citations | [41-final-hosted-smoke.txt](../evidence/epic-9/41-final-hosted-smoke.txt), [saved readback](../evidence/epic-9/hosted_trace_evidence_final.json) |
+| `make build` | Wheel and source distribution built | [42-final-build.txt](../evidence/epic-9/42-final-build.txt) |
+| `sh scripts/verify-epic-9-package.sh` | Installed wheel outside the checkout reproduces traces, logs, usage, retries, and citations; unknown resume exits 2 | [43-final-installed-package.txt](../evidence/epic-9/43-final-installed-package.txt) |
+| `make hooks` | All four hooks passed | [44-final-hooks.txt](../evidence/epic-9/44-final-hooks.txt) |
+| `sh scripts/verify-epic-9-checkout.sh` | Clean clone of `a162c6d` without `.env`: setup, gates, hooks, demos EPIC-2 to EPIC-9, build, installed wheel | [45-final-fresh-checkout.txt](../evidence/epic-9/45-final-fresh-checkout.txt) |
+| `uv run --locked python scripts/verify-source-manifest.py docs/evidence/epic-9/final-source-manifest.json` | 197 source/configuration/fixture hashes match `a162c6d` | [46-final-source-hashes.txt](../evidence/epic-9/46-final-source-hashes.txt) |
+
+The final hosted run is `epic-9-observability-evidence-20261002T164436Z` in project `deep-research-blog-writer`. Open [its LangSmith trace](https://smith.langchain.com/o/b621eff1-7373-525b-af60-627dc06dfb60/projects/p/fb415e04-9ac6-4413-87fa-86b73a256ad2/r/01a0fd80-deac-7ac1-80a8-b5d888464521?poll=true) with an account that can access that workspace. [verification.json](../evidence/epic-9/verification.json) records these results under `final_verification`, with the distribution hashes.
+
+## Earlier verification records
+
+The tables below are kept as history. They cover the initial delivery at `2a587e0` and the hosted-smoke correction before it was committed.
+
+### Successful commands and exact outputs
+
+All listed commands completed with exit 0. Full stdout/stderr and exit statuses are saved in [docs/evidence/epic-9](../evidence/epic-9/); [commands.jsonl](../evidence/epic-9/commands.jsonl) records their start times and durations. The original hosted run's [transport-only summary](../evidence/epic-9/32-hosted-smoke.txt) is preserved separately; the corrected successful hosted smoke has a full transcript.
 
 | Command | Verified result | Transcript |
 | --- | --- | --- |
 | `make setup` | Locked install; pre-commit installed | [01-setup.txt](../evidence/epic-9/01-setup.txt) |
 | `make check` | Lock, lint, format, strict typing; 451 passed, 3 live tests excluded; coverage 88.82% | [22-final-check.txt](../evidence/epic-9/22-final-check.txt) |
+| `make check` after hosted-smoke correction | Lock, lint, format, strict typing; 452 passed, 3 live tests excluded; coverage 88.72% | [35-hosted-fix-check.txt](../evidence/epic-9/35-hosted-fix-check.txt) |
 | `docker compose -f ops/observability/compose.yaml config --quiet` | Compose configuration valid | [03-compose-config.txt](../evidence/epic-9/03-compose-config.txt) |
 | `make observability-up` | All three services running | [04-stack-up.txt](../evidence/epic-9/04-stack-up.txt) |
 | `make demo-epic-9` | 97 SDK spans, 77 JSON log records, real OTLP protobuf delivery | [27-final-demo.txt](../evidence/epic-9/27-final-demo.txt) |
 | `make smoke-epic-9` | All metric values queryable; eight provisioned panels have data; Grafana proxy works | [28-final-stack-smoke.txt](../evidence/epic-9/28-final-stack-smoke.txt) |
+| `make smoke-langsmith` after correction | Hosted upload/readback passed; succeeded report; 83 completed spans with metadata, one root, no errors, zero dangling citations | [33-hosted-success.txt](../evidence/epic-9/33-hosted-success.txt), [saved JSON output](../evidence/epic-9/hosted_trace_evidence.json) |
 | `make demo-epic-2 demo-epic-3 demo-epic-4 demo-epic-5 demo-epic-6 demo-epic-7 demo-epic-8` | Existing milestone demonstrations passed | [07-existing-demos.txt](../evidence/epic-9/07-existing-demos.txt) |
 | `make build` | Wheel and source distribution built | [25-final-build.txt](../evidence/epic-9/25-final-build.txt) |
 | `docker compose -f ops/observability/compose.yaml ps` | Collector :4318, Prometheus :9090, Grafana :3001 bound to 127.0.0.1 | [09-stack-status.txt](../evidence/epic-9/09-stack-status.txt) |
@@ -69,14 +98,15 @@ All listed commands completed with exit 0. Full stdout/stderr and exit statuses 
 | `make observability-down` then `make observability-up` | Services stop/restart and retain named volumes | [16-stack-stop.txt](../evidence/epic-9/16-stack-stop.txt), [17-stack-restart.txt](../evidence/epic-9/17-stack-restart.txt) |
 | `curl --fail --silent --show-error '<recorded Prometheus query_range URL>'` | Pre-restart token history still returns 90; exact URL/parameters in transcript | [29-history-after-restart.txt](../evidence/epic-9/29-history-after-restart.txt) |
 | `uv run --locked python scripts/verify-source-manifest.py docs/evidence/epic-9/source-manifest.json` | 197 source/configuration/fixture hashes match final implementation | [30-final-source-hashes.txt](../evidence/epic-9/30-final-source-hashes.txt) |
+| `uv run --locked python scripts/verify-source-manifest.py docs/evidence/epic-9/hosted-fix-source-manifest.json` | 197 current file hashes match the hosted-smoke correction worktree | [36-hosted-fix-source-hashes.txt](../evidence/epic-9/36-hosted-fix-source-hashes.txt) |
 
-Selected output from the quality gate:
+Selected output from the quality gate after the hosted-smoke correction:
 
 ```text
 All checks passed!
 Success: no issues found in 98 source files
-451 passed, 3 deselected
-Required test coverage of 80% reached. Total coverage: 88.82%
+452 passed, 3 deselected
+Required test coverage of 80% reached. Total coverage: 88.72%
 ```
 
 Selected demo results (timings vary on each run):
@@ -101,13 +131,13 @@ The failed report is intentional: the demo inserts `[S-98]` and `[S-99]`, which 
 2. Run `make observability-up`, then `make smoke-epic-9`. Open its printed dashboard URL at [Grafana](http://127.0.0.1:3001/d/research-runs), using the printed run ID in the Run selector. Viewer access needs no login.
 3. Show all eight panels: one failed run, 90 tokens, $0.06 fixture cost, measured phase latency, 27 tool calls by name, five retries, eight URL outcomes, and two dangling citations. Source outcomes are two extracted, two unreachable, and one each robots_disallowed/unsupported_content/too_thin/failed.
 4. Open [Prometheus](http://127.0.0.1:9090) and query `research_tokens_total{run_id="<printed-run-id>"}`. Show the value 90. The stack smoke also checked Grafana's datasource proxy and every panel's actual query.
-5. Show the [saved dashboard screenshot](../evidence/epic-9/grafana-dashboard.png) and committed snapshots when a live stack is unavailable. Hosted LangSmith navigation is a separate demo after the key is configured; run `make smoke-langsmith` and open its returned URL.
+5. Open the [successful hosted LangSmith trace](https://smith.langchain.com/o/b621eff1-7373-525b-af60-627dc06dfb60/projects/p/fb415e04-9ac6-4413-87fa-86b73a256ad2/r/01a0fd6c-7949-7cd3-8ebd-72b982c19c83?poll=true). Expand `task` and `search_agent`, then a model call and `collect_source`. Show that all 83 spans completed without errors and carry the run_id/topic. Show `report_status: succeeded`, `root_error: null`, and `dangling_citations: 0` in the saved evidence. To produce a new hosted run, execute `make smoke-langsmith` and open its returned URL. Use the [saved trace JSON](../evidence/epic-9/hosted_trace_evidence.json) and [dashboard screenshot](../evidence/epic-9/grafana-dashboard.png) when live access is unavailable.
 
 ## Acceptance evidence and limits
 
 | Story | Evidence |
 | --- | --- |
-| US-9.1 | 97 native SDK spans, one root, completed descendants, root ancestry and run_id/topic metadata on every span; hosted smoke implemented but not executed |
+| US-9.1 | Offline failure scenario: 97 native SDK spans and a failed root; hosted success scenario: 83 spans and no errors. Both verify one root, completed descendants, root ancestry and run_id/topic metadata on every span |
 | US-9.2 | Every log line is JSON with timestamp/level/run_id/phase/event; all five required failure categories carry URL/reason; concurrent isolated logs and credential redaction tested |
 | US-9.3 | Actual OTLP/HTTP protobuf received/decoded; token/cost/retry/citation values checked; disabled export constructs no provider; failing metrics and trace exporters preserve workflow results |
 | US-9.4 | Real Compose services and Prometheus queries; all eight provisioned Grafana panels return data; Grafana datasource proxy verified; ADR committed |
@@ -131,12 +161,14 @@ Compose `down` retains named volumes. Avoid `--volumes` when keeping PM evidence
 Docker Desktop was started with `docker desktop start` after its daemon stopped. The first pull then stalled in the Desktop credential helper. Public images were pulled using a temporary, task-owned Docker configuration with no credential helper; the user's Docker configuration was unchanged. Normal `make observability-up` subsequently succeeded with cached images. If this occurs locally, start/unlock Docker Desktop and retry the public image pull. No reset or prune was used.
 
 
-## Committed delivery evidence
+## Delivery evidence
 
-The final implementation source is `2a587e01e9fdb1b46447d6cb1079a066b7d3fedf` (initial implementation: `670f75b`). [source-manifest.json](../evidence/epic-9/source-manifest.json) records 197 tracked source/configuration/fixture hashes; epic plans, runbooks, and delivery evidence are excluded so a documentation-only commit does not change the verified implementation. [verification.json](../evidence/epic-9/verification.json) records the source revision, final workspaces, quality results, hosted-verification limit, and built distribution SHA-256 values.
+The initial delivery implementation source is `2a587e01e9fdb1b46447d6cb1079a066b7d3fedf` (initial implementation: `670f75b`), with its original hashes in [source-manifest.json](../evidence/epic-9/source-manifest.json). The hosted-smoke correction is verified in the worktree based on `e590c69`; [hosted-fix-source-manifest.json](../evidence/epic-9/hosted-fix-source-manifest.json) records 197 current file hashes. Epic plans, runbooks, and delivery evidence are excluded from both manifests. [verification.json](../evidence/epic-9/verification.json) retains the initial delivery's build/fresh-checkout results and separately records the correction's quality gate and successful, error-free hosted readback.
 
 - [Final demo summary](../evidence/epic-9/demo_evidence.json), [execution log](../evidence/epic-9/execution.log), and [telemetry totals](../evidence/epic-9/telemetry.json).
 - [97 finished SDK trace spans](../evidence/epic-9/trace_evidence.json), [decoded OTLP protobuf](../evidence/epic-9/otlp_evidence.json), and [validated full run report](../evidence/epic-9/run.json).
+- [83 error-free hosted trace spans read back from LangSmith](../evidence/epic-9/hosted_trace_evidence.json), [succeeded hosted run report](../evidence/epic-9/hosted_success_run.json), [successful hosted command transcript](../evidence/epic-9/33-hosted-success.txt), and [correction quality-gate transcript](../evidence/epic-9/35-hosted-fix-check.txt).
+- [Earlier failure-fixture hosted trace](../evidence/epic-9/hosted_failure_trace_evidence.json), preserved to explain the original `run_failed` screenshot.
 - [Actual Prometheus/Grafana results](../evidence/epic-9/stack_evidence.json), [rendered dashboard screenshot](../evidence/epic-9/grafana-dashboard.png), and [coverage XML](../evidence/epic-9/coverage.xml).
 
 Run demo commands sequentially. One parallel verification attempt was correctly rejected by the existing second-resolution workspace collision guard; [that failed attempt is preserved](../evidence/epic-9/27-parallel-collision.txt) in the command index. The subsequent sequential replay passed and is the final demo transcript above.
