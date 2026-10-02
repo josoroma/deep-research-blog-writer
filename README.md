@@ -4,7 +4,7 @@ Give it a topic. It searches the web, cleans and ranks the URLs, fetches what it
 
 If the citations do not line up, the run fails **without throwing the work away**. The last draft stays in the workspace with a machine-readable reason for the failure.
 
-![Deep Research Blog Writer pipeline](doc/images/pipeline.svg)
+![Deep Research Blog Writer pipeline](docs/images/pipeline.svg)
 
 > Built in Python with DeepAgents on LangGraph. EPIC-1 through EPIC-11 are delivered. The project includes typed contracts and tools, search and fetch workflows, corpus construction, research synthesis, authoring, citation validation, retry/resume building blocks, observability, offline evaluation, and per-agent skill/contract documentation.
 
@@ -20,7 +20,7 @@ A live run is intentionally boring:
 2. **Collect** those URLs into a research corpus.
 3. **Author** from that corpus and run the citation gate.
 
-![The three-command live run](doc/images/live-run.svg)
+![The three-command live run](docs/images/live-run.svg)
 
 ```sh
 SEARCH_TIMEOUT_SECONDS=60 uv run deep-research-blog \
@@ -42,7 +42,7 @@ uv run deep-research-blog --author-only --workspace "$RUN"
 
 Each stage leaves artifacts in the same run directory, so you can inspect what happened instead of treating the agent as a black box.
 
-![Run workspace artifacts](doc/images/workspace.svg)
+![Run workspace artifacts](docs/images/workspace.svg)
 
 ---
 
@@ -123,7 +123,7 @@ Environment variables override `.env`.
 
 The orchestrator delegates work to the search, research, analyst, and writer agents. Provider clients and credentials stay outside agent/checkpoint state.
 
-![Agent architecture](doc/images/agents.svg)
+![Agent architecture](docs/images/agents.svg)
 
 The repository keeps responsibilities separated:
 
@@ -332,7 +332,7 @@ That failure is useful: the pipeline does not silently turn a citation mismatch 
 
 ## Evaluation and release gate
 
-![Quality gates](doc/images/quality-gates.svg)
+![Quality gates](docs/images/quality-gates.svg)
 
 The unit suite is offline. It removes provider credentials and blocks sockets, so it needs no keys and no network.
 
@@ -403,7 +403,7 @@ runs/<run-id>/logs/telemetry.json
 
 Registered tools, native model calls, retries, source outcomes, and citation checks populate the counters.
 
-![Observability flow](doc/images/observability.svg)
+![Observability flow](docs/images/observability.svg)
 
 Start the local stack:
 
@@ -463,7 +463,7 @@ Named volumes are retained.
 
 The delivery rule is simple: finish one epic before touching the next one.
 
-![One epic per session](doc/images/epic-loop.svg)
+![One epic per session](docs/images/epic-loop.svg)
 
 ### 1. Plan
 
