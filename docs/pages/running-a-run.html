@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Run it like the example</title>
 <meta name="description" content="How a developer sets up, starts, and runs the deep research blog writer, which loops each phase runs, and what the committed example run produced.">
@@ -347,6 +347,9 @@ td.num { min-width: 0; }
 .svg-cell-block { fill: var(--muted-foreground); }
 .svg-cell-thin { fill: var(--chart-1); }
 .svg-cell-ready { fill: var(--muted); stroke: var(--border); stroke-width: 1; }
+.shot { margin: 1rem 0; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.75rem; }
+.shot img { display: block; width: 100%; height: auto; border-radius: calc(var(--radius) - 4px); border: 1px solid var(--border); }
+.shot figcaption { color: var(--muted-foreground); font-size: 0.8rem; margin-top: 0.5rem; }
 .header-links { display: flex; gap: 1rem; margin-left: auto; font-size: 0.85rem; }
 .header-links a { color: var(--muted-foreground); text-decoration: none; }
 .header-links a:hover { color: var(--foreground); text-decoration: underline; }
@@ -373,7 +376,7 @@ td.num { min-width: 0; }
   <div class="hero">
     <h1>Run it like the example</h1>
     <p class="lead">How a developer sets up, starts, and runs the deep research blog writer, which loops each phase runs, and what the committed example run produced at every step.</p>
-    <p class="meta">Generated 2026-10-01 from revision 58041ed · example run <code>python-langchain-deep-agents-startup-ideas-20261001T195605Z</code> · see <a href="#sources">Sources</a></p>
+    <p class="meta">Generated 2026-10-01 from revision 58041ed, delivery status and observability updated 2026-10-02 · example run <code>python-langchain-deep-agents-startup-ideas-20261001T195605Z</code> · see <a href="#sources">Sources</a></p>
     <p class="meta">Documentation site: <a href="https://josoroma.github.io/deep-research-blog-writer">josoroma.github.io/deep-research-blog-writer</a> · Source: <a href="https://github.com/josoroma/deep-research-blog-writer">github.com/josoroma/deep-research-blog-writer</a></p>
   </div>
 
@@ -388,6 +391,7 @@ td.num { min-width: 0; }
       <li><a href="#authoring">Authoring and the citation gate</a></li>
       <li><a href="#outcome">Outcome and retries</a></li>
       <li><a href="#workspace">Workspace layout</a></li>
+      <li><a href="#observability">Observability and service URLs</a></li>
       <li><a href="#status">Delivery status</a></li>
       <li><a href="#limits">What is not wired yet</a></li>
       <li><a href="#sources">Sources</a></li>
@@ -398,8 +402,8 @@ td.num { min-width: 0; }
     <h2>Overview</h2>
     <p class="section-lead">deep-research-blog-writer 0.1.0 on Python 3.12 or newer, built with DeepAgents on LangGraph. A topic goes in. Ranked search results, an immutable source corpus, a research summary, and a cited blog draft come out.</p>
     <div class="stats">
-      <div class="card"><div class="stat-label">Stories delivered</div><div class="stat-value">31 / 42</div><div class="progress" role="progressbar" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100" aria-label="Stories delivered"><span style="width: 74%"></span></div></div>
-      <div class="card"><div class="stat-label">Epics complete</div><div class="stat-value">8 / 11</div><div class="progress" role="progressbar" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100" aria-label="Epics complete"><span style="width: 73%"></span></div></div>
+      <div class="card"><div class="stat-label">Stories delivered</div><div class="stat-value">42 / 42</div><div class="progress" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-label="Stories delivered"><span style="width: 100%"></span></div></div>
+      <div class="card"><div class="stat-label">Epics complete</div><div class="stat-value">11 / 11</div><div class="progress" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-label="Epics complete"><span style="width: 100%"></span></div></div>
       <div class="card"><div class="stat-label">Clean URLs to sources</div><div class="stat-value">30 → 21</div><div class="progress" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" aria-label="Clean URLs extracted"><span style="width: 70%"></span></div></div>
       <div class="card"><div class="stat-label">Example draft</div><div class="stat-value">3,193</div><div class="stat-note">words · 17 cited sources · gate <span class="badge badge-danger">failed</span></div></div>
     </div>
@@ -984,13 +988,47 @@ td.num { min-width: 0; }
     <div class="callout"><p class="callout-title">Why runs.example/ is committed</p><p><code>runs/</code> is git-ignored, so a fresh run is never committed. <code>runs.example/</code> is a saved copy of the three commands' output that anyone with a checkout can open.</p></div>
   </section>
 
+  <section id="observability">
+    <h2>Observability and service URLs</h2>
+    <p class="section-lead">Every run writes <code>logs/execution.log</code> and <code>logs/telemetry.json</code> into its workspace. Metrics go to a local Grafana stack and traces go to hosted LangSmith; both are opt-in.</p>
+    <ol class="steps">
+      <li><code>make observability-up</code> starts the OpenTelemetry collector, Prometheus, and Grafana from <code>ops/observability/compose.yaml</code>. Every port is bound to <code>127.0.0.1</code>.</li>
+      <li><code>make demo-epic-9</code> runs the agent hierarchy offline, exports real OTLP metrics, and prints a run id. <code>make smoke-epic-9</code> checks that Prometheus and Grafana received them.</li>
+      <li>For hosted traces, set <code>LANGSMITH_TRACING=true</code> and <code>LANGSMITH_API_KEY</code> in <code>.env</code>, then run <code>make smoke-langsmith</code>.</li>
+      <li><code>make observability-down</code> stops the stack. The named volumes keep the history.</li>
+    </ol>
+    <div class="table-wrap">
+      <table>
+        <caption>Where each service lives. Local URLs work only while the Compose stack is running.</caption>
+        <thead><tr><th scope="col">Service</th><th scope="col">URL</th><th scope="col">Used for</th></tr></thead>
+        <tbody>
+          <tr><td>Grafana dashboard</td><td><a href="http://127.0.0.1:3001/d/research-runs">127.0.0.1:3001/d/research-runs</a></td><td>Runs by status, tokens, cost, phase latency, tool calls, retries, URL outcomes, dangling citations. Anonymous Viewer access.</td></tr>
+          <tr><td>Prometheus</td><td><a href="http://127.0.0.1:9090">127.0.0.1:9090</a></td><td>Raw run metrics scraped from the collector</td></tr>
+          <tr><td>OTLP collector</td><td><code>http://127.0.0.1:4318/v1/metrics</code></td><td>Set <code>OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4318</code> to export CLI metrics</td></tr>
+          <tr><td>LangSmith</td><td><a href="https://smith.langchain.com">smith.langchain.com</a></td><td>Hosted traces in the <code>deep-research-blog-writer</code> project; API keys under Settings → API Keys</td></tr>
+          <tr><td>LangSmith API</td><td><code>https://api.smith.langchain.com</code></td><td><code>LANGSMITH_ENDPOINT</code> default</td></tr>
+          <tr><td>OpenRouter</td><td><a href="https://openrouter.ai">openrouter.ai</a></td><td><code>OPENROUTER_API_KEY</code>; every agent defaults to <code>deepseek/deepseek-v4.1-flash</code></td></tr>
+          <tr><td>SerpApi</td><td><a href="https://serpapi.com">serpapi.com</a></td><td><code>SERPAPI_API_KEY</code>; requests go to <code>https://serpapi.com/search.json</code></td></tr>
+          <tr><td>Serper</td><td><a href="https://serper.dev">serper.dev</a></td><td><code>SERPER_API_KEY</code> with <code>SEARCH_PROVIDER=serper</code>; requests go to <code>https://google.serper.dev/search</code></td></tr>
+          <tr><td>LangGraph</td><td><a href="https://docs.langchain.com/oss/python/langgraph/overview">docs.langchain.com/oss/python/langgraph</a></td><td>The runtime under DeepAgents. It runs in-process; there is no LangGraph server to open.</td></tr>
+          <tr><td>DeepAgents</td><td><a href="https://docs.langchain.com/oss/python/deepagents/overview">docs.langchain.com/oss/python/deepagents</a></td><td>The orchestrator and sub-agent harness (ADR 0001)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <figure class="shot">
+      <img src="images/grafana-dashboard.png" alt="Grafana Deep Research Runs dashboard with eight panels: runs by status, tokens, cost in USD, phase latency, tool calls, retries, URL outcomes, and dangling citations" loading="lazy" width="1440" height="1290">
+      <figcaption>The Grafana <strong>Deep Research Runs</strong> dashboard after <code>make demo-epic-9</code>, all runs selected. The demo fails two citations on purpose, so the failure and dangling-citation panels have data.</figcaption>
+    </figure>
+    <div class="callout"><p class="callout-title">LangSmith traces</p><p>Hosted traces appear under the <code>deep-research-blog-writer</code> project. <code>make smoke-langsmith</code> uploads two succeeded runs and one deliberate <code>run_failed</code>, and each root carries <code>run_id</code> and <code>topic</code> metadata. Create a personal key under <strong>Settings → API Keys</strong>, put it in <code>LANGSMITH_API_KEY</code> in the git-ignored <code>.env</code>, and never commit it.</p></div>
+  </section>
+
   <section id="status">
     <h2>Delivery status</h2>
     <p class="section-lead">One square per user story, coloured by its row in the SPECS.md status table.</p>
     <figure class="figure">
       <svg viewBox="0 0 720 285" role="img" aria-labelledby="epics-title epics-desc">
         <title id="epics-title">Stories per epic, done and ready</title>
-        <desc id="epics-desc">EPIC-1 through EPIC-8 have all 31 of their stories done. EPIC-9 has 4 ready, EPIC-10 has 5 ready, and EPIC-11 has 1 ready.</desc>
+        <desc id="epics-desc">All 42 stories across EPIC-1 through EPIC-11 are done.</desc>
         <text x="20" y="26" class="svg-text-sm">EPIC-1 · Project Foundation and Quality Gates</text>
         <rect x="380" y="14" width="20" height="16" rx="3" class="svg-cell-ok"/><rect x="404" y="14" width="20" height="16" rx="3" class="svg-cell-ok"/><rect x="428" y="14" width="20" height="16" rx="3" class="svg-cell-ok"/><rect x="452" y="14" width="20" height="16" rx="3" class="svg-cell-ok"/>
         <text x="540" y="26" class="svg-text-sm">4 done</text>
@@ -1016,19 +1054,18 @@ td.num { min-width: 0; }
         <rect x="380" y="182" width="20" height="16" rx="3" class="svg-cell-ok"/><rect x="404" y="182" width="20" height="16" rx="3" class="svg-cell-ok"/><rect x="428" y="182" width="20" height="16" rx="3" class="svg-cell-ok"/><rect x="452" y="182" width="20" height="16" rx="3" class="svg-cell-ok"/>
         <text x="540" y="194" class="svg-text-sm">4 done</text>
         <text x="20" y="218" class="svg-text-sm">EPIC-9 · Observability</text>
-        <rect x="380" y="206" width="20" height="16" rx="3" class="svg-cell-ready"/><rect x="404" y="206" width="20" height="16" rx="3" class="svg-cell-ready"/><rect x="428" y="206" width="20" height="16" rx="3" class="svg-cell-ready"/><rect x="452" y="206" width="20" height="16" rx="3" class="svg-cell-ready"/>
-        <text x="540" y="218" class="svg-text-sm">4 ready</text>
+        <rect x="380" y="206" width="20" height="16" rx="3" class="svg-cell-ok"/><rect x="404" y="206" width="20" height="16" rx="3" class="svg-cell-ok"/><rect x="428" y="206" width="20" height="16" rx="3" class="svg-cell-ok"/><rect x="452" y="206" width="20" height="16" rx="3" class="svg-cell-ok"/>
+        <text x="540" y="218" class="svg-text-sm">4 done</text>
         <text x="20" y="242" class="svg-text-sm">EPIC-10 · Testing and Evaluation</text>
-        <rect x="380" y="230" width="20" height="16" rx="3" class="svg-cell-ready"/><rect x="404" y="230" width="20" height="16" rx="3" class="svg-cell-ready"/><rect x="428" y="230" width="20" height="16" rx="3" class="svg-cell-ready"/><rect x="452" y="230" width="20" height="16" rx="3" class="svg-cell-ready"/><rect x="476" y="230" width="20" height="16" rx="3" class="svg-cell-ready"/>
-        <text x="540" y="242" class="svg-text-sm">5 ready</text>
+        <rect x="380" y="230" width="20" height="16" rx="3" class="svg-cell-ok"/><rect x="404" y="230" width="20" height="16" rx="3" class="svg-cell-ok"/><rect x="428" y="230" width="20" height="16" rx="3" class="svg-cell-ok"/><rect x="452" y="230" width="20" height="16" rx="3" class="svg-cell-ok"/><rect x="476" y="230" width="20" height="16" rx="3" class="svg-cell-ok"/>
+        <text x="540" y="242" class="svg-text-sm">5 done</text>
         <text x="20" y="266" class="svg-text-sm">EPIC-11 · Agent Documentation</text>
-        <rect x="380" y="254" width="20" height="16" rx="3" class="svg-cell-ready"/>
-        <text x="540" y="266" class="svg-text-sm">1 ready</text>
+        <rect x="380" y="254" width="20" height="16" rx="3" class="svg-cell-ok"/>
+        <text x="540" y="266" class="svg-text-sm">1 done</text>
       </svg>
       <figcaption>Each epic's plan and runbook are in <code>docs/SPECS-LOGS/</code>. Raw evidence, coverage, and source manifests are in <code>docs/evidence/epic-N/</code>.</figcaption>
       <div class="legend">
-        <span><i class="swatch" style="background: var(--chart-3)"></i>DONE (31)</span>
-        <span><i class="swatch" style="background: var(--muted)"></i>READY (11)</span>
+        <span><i class="swatch" style="background: var(--chart-3)"></i>DONE (42)</span>
       </div>
     </figure>
     <div class="table-wrap">
@@ -1043,6 +1080,7 @@ td.num { min-width: 0; }
           <tr><td class="num">0005</td><td>SerpApi Google search behind a provider interface</td></tr>
           <tr><td class="num">0006</td><td>Run-owned polite fetching and replaceable extraction</td></tr>
           <tr><td class="num">0007</td><td>Per-run SQLite checkpointer</td></tr>
+          <tr><td class="num">0008</td><td>Run-owned observability and a local metrics stack</td></tr>
         </tbody>
       </table>
     </div>
@@ -1057,7 +1095,7 @@ td.num { min-width: 0; }
       <li><code>--resume</code> prints the phase it would restart at. It does not continue the run.</li>
       <li>The retry-once wrapper and the SQLite checkpointer are used by the report workflow and the EPIC-8 demo, not by the three phase commands.</li>
       <li>The citation gate checks that each citation exists and that its title and URL match. It does not check whether a source is on topic.</li>
-      <li>Traces, structured logs beyond the retry line, and metrics belong to EPIC-9 (Observability), which is not started.</li>
+      <li>Traces and metrics are opt-in. LangSmith needs <code>LANGSMITH_TRACING=true</code> and a key; metrics export needs <code>OTEL_EXPORTER_OTLP_ENDPOINT</code>. With both unset, a run still writes its local logs.</li>
     </ul>
   </section>
 
@@ -1066,7 +1104,8 @@ td.num { min-width: 0; }
     <p class="section-lead">Every figure on this page came from one of these files or commands, read or run on 2026-10-01 at revision 58041ed.</p>
     <ul class="list">
       <li><code>grep -E '^# EPIC-[0-9]+:' SPECS.md</code> gives the 11 epics and their titles. <code>grep -cE '^### US-[0-9]+\.[0-9]+:' SPECS.md</code> gives 42 stories.</li>
-      <li><code>SPECS.md</code> status table: 31 stories DONE across EPIC-1 to EPIC-8. EPIC-9 (4), EPIC-10 (5), and EPIC-11 (1) are READY.</li>
+      <li><code>SPECS.md</code> status table, re-read 2026-10-02: all 42 stories DONE across EPIC-1 to EPIC-11.</li>
+      <li><code>ops/observability/compose.yaml</code>, <code>.env.example</code>, <code>schemas/config.py</code>, and <code>services/search_provider.py</code>: the local ports and the provider and LangSmith endpoints. The Grafana screenshot was captured from the local stack on 2026-10-02.</li>
       <li><code>runs.example/…-20261001T195605Z/search_plan.json</code> and <code>request.json</code>: 3 variants, 6 calls, 3 pages of 10, and <code>max_urls</code> 30.</li>
       <li><code>runs.example/…/corpus_state.json</code>: the per-rank outcomes and reasons, and the completed phases.</li>
       <li><code>runs.example/…/output/run.json</code>: 3,193 words, 17 citations checked, 2 repair passes, S-14 and S-24 mismatched, reason <code>dangling_citations</code>.</li>
@@ -1077,7 +1116,7 @@ td.num { min-width: 0; }
       <li><code>services/fetch_service.py</code>: 5 concurrent fetches, 3 retries, 5 redirects, a 15 s page budget, 1 s per-host spacing, and the <code>2^(n−1)</code> back-off with jitter capped at 0.25 s.</li>
       <li><code>services/extraction_service.py</code>: the parser order and the 200-word minimum. <code>services/authoring.py</code>: the 2,000–5,000-word range. <code>workflows/authoring_run.py</code>: 2 repair passes.</li>
       <li><code>services/reporting.py</code>, <code>services/reliability.py</code>, <code>workflows/resume.py</code>, and <code>workflows/cli.py</code>: the outcome rules, retry-once, resume, and exit statuses.</li>
-      <li><code>head -1 docs/adr/000*.md</code>: the seven ADR titles. <code>pyproject.toml</code>: name, version 0.1.0, and Python 3.12 or newer. <code>git rev-parse --short HEAD</code>: 58041ed.</li>
+      <li><code>head -1 docs/adr/000*.md</code>: the eight ADR titles. <code>pyproject.toml</code>: name, version 0.1.0, and Python 3.12 or newer. <code>git rev-parse --short HEAD</code>: 58041ed.</li>
     </ul>
   </section>
 

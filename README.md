@@ -13,6 +13,8 @@ A Python research-to-blog pipeline using DeepAgents on LangGraph. A topic goes i
 - [Development checks](#development-checks)
 - [Layout and rules](#layout-and-rules)
 - [Working one epic per session](#working-one-epic-per-session)
+- [Observability (EPIC-9)](#observability-epic-9)
+- [Service URLs](#service-urls)
 
 ## Install and run
 
@@ -254,3 +256,27 @@ The offline demo runs the native agent hierarchy with scripted model usage and m
 To export normal CLI workflow metrics to the stack, set `OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4318` in the ignored `.env`. For hosted traces, set `LANGSMITH_TRACING=true`, `LANGSMITH_API_KEY`, and optionally `LANGSMITH_PROJECT`, then run `make smoke-langsmith`. This smoke uses fixture research work with real hosted trace upload/readback. Stop the local stack with `make observability-down`; named volumes are retained.
 
 See [EPIC-9.md](docs/SPECS-LOGS/EPIC-9.md), [the runbook](docs/SPECS-LOGS/EPIC-9-RUNBOOK.md), and [ADR 0008](docs/adr/0008-run-observability.md) for acceptance evidence, configuration, commands, and limitations.
+
+![Grafana Deep Research Runs dashboard: runs by status, tokens, cost, phase latency, tool calls, retries, URL outcomes, and dangling citations](docs/pages/images/grafana-dashboard.png)
+
+*Grafana's Deep Research Runs dashboard after `make demo-epic-9`, all runs selected. The demo fails two citations on purpose, so the failure and dangling-citation panels have data.*
+
+Hosted traces appear in LangSmith under the `deep-research-blog-writer` project. `make smoke-langsmith` uploads two succeeded runs and one deliberate `run_failed`, and each root carries `run_id` and `topic` metadata. Create a personal key under LangSmith **Settings → API Keys**, put it in `LANGSMITH_API_KEY` in the git-ignored `.env`, and never commit it.
+
+## Service URLs
+
+Local URLs work only while `make observability-up` is running; every port is bound to `127.0.0.1`.
+
+| Service | URL | Used for |
+| --- | --- | --- |
+| Grafana dashboard | [http://127.0.0.1:3001/d/research-runs](http://127.0.0.1:3001/d/research-runs) | Run metrics panels; anonymous Viewer access |
+| Prometheus | [http://127.0.0.1:9090](http://127.0.0.1:9090) | Raw run metrics scraped from the collector |
+| OTLP collector | `http://127.0.0.1:4318/v1/metrics` | Set `OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4318` to export CLI metrics |
+| LangSmith | [https://smith.langchain.com](https://smith.langchain.com) | Hosted traces in the `deep-research-blog-writer` project; keys under Settings → API Keys |
+| LangSmith API | `https://api.smith.langchain.com` | `LANGSMITH_ENDPOINT` default |
+| OpenRouter | [https://openrouter.ai](https://openrouter.ai) | `OPENROUTER_API_KEY`; every agent defaults to `deepseek/deepseek-v4.1-flash` |
+| SerpApi | [https://serpapi.com](https://serpapi.com) | `SERPAPI_API_KEY`; requests go to `https://serpapi.com/search.json` |
+| Serper | [https://serper.dev](https://serper.dev) | `SERPER_API_KEY` with `SEARCH_PROVIDER=serper`; requests go to `https://google.serper.dev/search` |
+| LangGraph | [docs.langchain.com/oss/python/langgraph](https://docs.langchain.com/oss/python/langgraph/overview) | Runtime under DeepAgents; runs in-process, so there is no LangGraph server to open |
+| DeepAgents | [docs.langchain.com/oss/python/deepagents](https://docs.langchain.com/oss/python/deepagents/overview) | Orchestrator and sub-agent harness ([ADR 0001](docs/adr/0001-deepagents-on-langgraph.md)) |
+| Documentation site | [https://josoroma.github.io/deep-research-blog-writer](https://josoroma.github.io/deep-research-blog-writer) | This project's GitHub Pages explainer |
