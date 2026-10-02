@@ -270,6 +270,10 @@ td.num { min-width: 0; }
 .svg-arrow-primary { fill: var(--primary); }
 .svg-pin     { fill: var(--primary); }
 .svg-pin-text { fill: var(--primary-foreground); font: 700 11px ui-sans-serif, system-ui, sans-serif; }
+/* Pins are controls: clicking one opens only its own note beside it. */
+.figure-canvas .svg-pin { cursor: pointer; }
+.figure-canvas .svg-pin:hover, .figure-canvas .svg-pin:focus-visible, .figure-canvas .svg-pin.is-active { stroke: var(--ring); stroke-width: 3; outline: none; }
+.svg-pin-text { pointer-events: none; }
 /* Overlay: a <details> control reveals callouts over the diagram. It opens without
    script, and the callouts are real text, readable by assistive technology.
    .figure-canvas wraps exactly the SVG, so a note's --x / --y percentages are its
@@ -308,6 +312,12 @@ td.num { min-width: 0; }
 .overlay-note[data-side="left"]::before  { left: auto; right: -0.36rem; border: 1px solid var(--border); border-bottom: 0; border-left: 0; }
 .overlay-note[data-side="below"]::before { top: -0.36rem; left: calc(50% - 0.3rem); border: 1px solid var(--border); border-bottom: 0; border-right: 0; }
 .overlay-note[data-side="above"]::before { top: auto; bottom: -0.36rem; left: calc(50% - 0.3rem); border: 1px solid var(--border); border-top: 0; border-left: 0; }
+.overlay-note { cursor: auto; }
+/* Single-note mode: only the clicked pin's note shows, the layer is transparent and
+   lets clicks through, so the other pins stay clickable. */
+.overlay-toggle[data-mode="single"] .overlay-layer { background: transparent; pointer-events: none; }
+.overlay-toggle[data-mode="single"] .overlay-note { display: none; }
+.overlay-toggle[data-mode="single"] .overlay-note.is-active { display: block; pointer-events: auto; }
 .overlay-note b { display: inline-grid; place-items: center; width: 1.2rem; height: 1.2rem; border-radius: 999px; background: var(--primary); color: var(--primary-foreground); font-size: 0.7rem; margin-right: 0.3rem; }
 
 /* ---- Legend, footer, print ------------------------------------------------- */
@@ -520,7 +530,7 @@ td.num { min-width: 0; }
           </div>
         </details>
       </div>
-      <figcaption>Dashed blue edges are loops. Select <em>Explain</em> for the numbered notes; click anywhere else to close them.</figcaption>
+      <figcaption>Dashed blue edges are loops. Click a numbered pin to read its note beside it, or select <em>Explain</em> to show every note. Click outside a note or press Escape to close it.</figcaption>
     </figure>
 
     <h3>Which command runs which phase</h3>
@@ -1147,16 +1157,115 @@ td.num { min-width: 0; }
     try { stored = localStorage.getItem("theme"); } catch (err) {}
     if (!stored) document.documentElement.classList.toggle("dark", e.matches);
   });
-  /* Overlays: a click anywhere but an open overlay's own "Explain" control closes it,
-     and so does Escape. The control itself still toggles natively. */
-  function closeOverlays(except) {
+  /* Overlays. A numbered pin opens only its own note, beside the pin (single mode).
+     "Explain" shows every note (all mode). A click inside a note, on the Explain
+     control, or on a pin keeps the overlay open; any other click, or Escape, closes
+     it. */
+  function hits(a, b) { return a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom; }
+  function grow(r, d) { return { left: r.left - d, right: r.right + d, top: r.top - d, bottom: r.bottom + d }; }
+  function pinsOf(canvas) { return [].slice.call(canvas.querySelectorAll(".svg-pin")); }
+  function pinNumber(pin) { var t = pin.nextElementSibling; return t ? t.textContent.trim() : ""; }
+  function noteFor(details, num) {
+    var notes = details.querySelectorAll(".overlay-note");
+    for (var i = 0; i < notes.length; i++) {
+      var b = notes[i].querySelector("b");
+      if (b && b.textContent.trim() === num) return notes[i];
+    }
+    return null;
+  }
+  function clearSingle(details) {
+    details.removeAttribute("data-mode");
+    details.removeAttribute("data-active");
+    var marked = details.parentNode.querySelectorAll(".is-active");
+    for (var i = 0; i < marked.length; i++) marked[i].classList.remove("is-active");
+    var pins = pinsOf(details.parentNode);
+    for (var k = 0; k < pins.length; k++) pins[k].setAttribute("aria-expanded", "false");
+  }
+  function closeOverlays(keep) {
     var open = document.querySelectorAll("details.overlay-toggle[open]");
-    for (var i = 0; i < open.length; i++) {
-      if (!except || !open[i].querySelector("summary").contains(except)) open[i].removeAttribute("open");
+    for (var i = 0; i < open.length; i++) if (open[i] !== keep) open[i].open = false;
+  }
+  /* Place the one visible note next to its pin: try each side and width, and take
+     the first that covers no other pin and stays inside the figure. If none is
+     perfect, take the one with the fewest covered pins, then the least overflow. */
+  function placeSingle(details) {
+    var canvas = details.parentNode, num = details.getAttribute("data-active");
+    canvas.classList.remove("overlay-stacked");
+    var note = noteFor(details, num);
+    if (!note || getComputedStyle(note).position !== "absolute") return;
+    var pins = pinsOf(canvas), self = null, others = [];
+    for (var p = 0; p < pins.length; p++) {
+      if (pinNumber(pins[p]) === num) self = pins[p]; else others.push(grow(pins[p].getBoundingClientRect(), 4));
+    }
+    if (!self) return;
+    var cbox = canvas.getBoundingClientRect(), pr = self.getBoundingClientRect();
+    var bound = (canvas.closest(".figure") || canvas).getBoundingClientRect();
+    note.style.setProperty("--x", ((pr.left + pr.width / 2 - cbox.left) / cbox.width * 100) + "%");
+    note.style.setProperty("--y", ((pr.top + pr.height / 2 - cbox.top) / cbox.height * 100) + "%");
+    if (!note.hasAttribute("data-authored-side")) {
+      note.setAttribute("data-authored-side", note.getAttribute("data-side") || "right");
+      note.setAttribute("data-authored-w", note.style.getPropertyValue("--note-w").trim() || "15rem");
+    }
+    var first = note.getAttribute("data-authored-side");
+    var sides = [first, "right", "left", "below", "above"];
+    var widths = [note.getAttribute("data-authored-w"), "13rem", "11rem", "9rem"];
+    var best = null, bestScore = Infinity;
+    for (var w = 0; w < widths.length && bestScore > 0; w++) {
+      for (var s = 0; s < sides.length; s++) {
+        note.style.setProperty("--note-w", widths[w]);
+        note.setAttribute("data-side", sides[s]);
+        var r = note.getBoundingClientRect(), covered = 0;
+        for (var o = 0; o < others.length; o++) if (hits(r, others[o])) covered++;
+        var overflow = Math.max(0, bound.left - r.left) + Math.max(0, r.right - bound.right) +
+                       Math.max(0, bound.top - r.top) + Math.max(0, r.bottom - bound.bottom);
+        var score = covered * 100000 + overflow;
+        if (score < bestScore) { bestScore = score; best = [widths[w], sides[s]]; }
+        if (score === 0) break;
+      }
+    }
+    note.style.setProperty("--note-w", best[0]);
+    note.setAttribute("data-side", best[1]);
+  }
+  function openPin(details, num) {
+    closeOverlays(details);
+    clearSingle(details);
+    details.setAttribute("data-mode", "single");
+    details.setAttribute("data-active", num);
+    var note = noteFor(details, num);
+    if (note) note.classList.add("is-active");
+    var pins = pinsOf(details.parentNode);
+    for (var k = 0; k < pins.length; k++) {
+      var on = pinNumber(pins[k]) === num;
+      pins[k].classList.toggle("is-active", on);
+      pins[k].setAttribute("aria-expanded", on ? "true" : "false");
+    }
+    if (details.open) placeSingle(details); else details.open = true;
+  }
+  function pinActivated(pin) {
+    var details = pin.closest(".figure-canvas").querySelector("details.overlay-toggle");
+    var num = pinNumber(pin);
+    if (details.open && details.getAttribute("data-mode") === "single" && details.getAttribute("data-active") === num) {
+      details.open = false;
+    } else {
+      openPin(details, num);
     }
   }
-  document.addEventListener("click", function (e) { closeOverlays(e.target); });
-  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeOverlays(null); });
+  document.addEventListener("click", function (e) {
+    var t = e.target;
+    var pin = t.closest && t.closest(".figure-canvas .svg-pin");
+    if (pin) { pinActivated(pin); return; }
+    var open = document.querySelectorAll("details.overlay-toggle[open]");
+    for (var i = 0; i < open.length; i++) {
+      var d = open[i];
+      var keep = d.querySelector("summary").contains(t) || (d.contains(t) && t.closest(".overlay-note"));
+      if (!keep) d.open = false;
+    }
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") { closeOverlays(null); return; }
+    var pin = e.target.closest && e.target.closest(".figure-canvas .svg-pin");
+    if (pin && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); pinActivated(pin); }
+  });
   /* Layout: each note keeps its authored side (data-side) when that fits. Otherwise it
      takes the first other side that stays inside the diagram without overlapping a note
      already placed or covering another pin. Notes stay anchored to their own pin. */
@@ -1199,12 +1308,36 @@ td.num { min-width: 0; }
        list the numbered notes under the diagram instead. */
     if (misfit) canvas.classList.add("overlay-stacked");
   }
+  function relayout(details) {
+    if (!details.open) { clearSingle(details); details.parentNode.classList.remove("overlay-stacked"); return; }
+    if (details.getAttribute("data-mode") === "single") placeSingle(details); else layoutNotes(details);
+  }
   var overlays = document.querySelectorAll("details.overlay-toggle");
   for (var o = 0; o < overlays.length; o++) {
-    overlays[o].addEventListener("toggle", function (e) { layoutNotes(e.currentTarget); });
+    var details = overlays[o];
+    details.addEventListener("toggle", function (e) { relayout(e.currentTarget); });
+    /* Explain always means "show every note": from single mode it switches to all
+       mode instead of closing. */
+    details.querySelector("summary").addEventListener("click", function (e) {
+      var d = e.currentTarget.parentNode;
+      if (d.open && d.getAttribute("data-mode") === "single") {
+        e.preventDefault();
+        clearSingle(d);
+        layoutNotes(d);
+      } else if (!d.open) {
+        clearSingle(d);
+      }
+    });
+    var pins = pinsOf(details.parentNode);
+    for (var k = 0; k < pins.length; k++) {
+      pins[k].setAttribute("tabindex", "0");
+      pins[k].setAttribute("role", "button");
+      pins[k].setAttribute("aria-label", "Show note " + pinNumber(pins[k]));
+      pins[k].setAttribute("aria-expanded", "false");
+    }
   }
   window.addEventListener("resize", function () {
-    for (var o = 0; o < overlays.length; o++) layoutNotes(overlays[o]);
+    for (var o = 0; o < overlays.length; o++) relayout(overlays[o]);
   });
 </script>
 </body>
