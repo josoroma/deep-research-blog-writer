@@ -12,7 +12,7 @@
     ".python-version": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d",
     "Makefile": "a9101a5eb9ef0d984531dcd4b13ee39e5c04a7186d538664856e8e890394e5d2",
     "PRD.md": "af8d3471f55dd5b406911c2a7c984abcb06c2251d1c1053646fac4bbde0e8f0b",
-    "README.md": "66f27893c1b864a50a9df792077a7e36c087c7f339f9fb6e548b5f7de76493e6",
+    "README.md": "adbf331569dd4646a536db23f9892597f6c82ace3a791eaacd898134c5bc1e37",
     "SPECS.md": "3ccabf3b0745b736d4c150910bdab6ae3bf4370bbee6b8b96f2b0150f0ea9d59",
     "agents/__init__.py": "61345c865fd2f5c5ba4d72e3a9a0b907da51e272b66dafda4a80cee7a7c7cc97",
     "agents/deep_research.py": "487f9fc6d8dd8c1ae28bc67801fdcd0288f41d1a98554a46f246b917007df193",
@@ -215,5 +215,13 @@
     "workflows/research_run.py": "c28c58e8585721d7b8fb2642b8d4104be833deffb576cd914241c618d87d4648",
     "workflows/resume.py": "6603b1a8ad2364338d624200fd09e70797812710c09731d4b295fc23aa9cde17",
     "workflows/search_run.py": "5c80f5ee8c3be36b8898c4a009ca11be17aacba64aac9aeb0d861bffb537c790"
-  }
+  },
+  "documentation_updates": [
+    {
+      "path": "README.md",
+      "implementation_revision_sha256": "66f27893c1b864a50a9df792077a7e36c087c7f339f9fb6e548b5f7de76493e6",
+      "current_sha256": "adbf331569dd4646a536db23f9892597f6c82ace3a791eaacd898134c5bc1e37",
+      "reason": "Document the EPIC-10 evaluation and release gate; implementation unchanged"
+    }
+  ]
 }
