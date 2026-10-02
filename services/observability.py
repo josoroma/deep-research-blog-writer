@@ -144,7 +144,7 @@ class RunObservability:
         self.callback = UsageCallback(self)
         self.tools: Counter[str] = Counter()
         self.outcomes: Counter[str] = Counter()
-        self._outcome_urls: set[str] = set()
+        self._outcome_urls: dict[str, tuple[str, str | None]] = {}
         self._phase_windows: dict[str, tuple[float, float]] = {}
         self._lock = RLock()
         self._contexts: list[Any] = []
@@ -309,9 +309,14 @@ class RunObservability:
         if outcome == "pending":
             return
         with self._lock:
-            if url in self._outcome_urls:
+            previous = self._outcome_urls.get(url)
+            if previous == (outcome, reason):
                 return
-            self._outcome_urls.add(url)
+            if previous is not None:
+                self.outcomes[previous[0]] -= 1
+                if not self.outcomes[previous[0]]:
+                    del self.outcomes[previous[0]]
+            self._outcome_urls[url] = (outcome, reason)
             self.outcomes[outcome] += 1
         self.event(
             "fetch",

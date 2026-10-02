@@ -215,3 +215,58 @@ def test_tracing_export_exception_does_not_replace_tool_result(tmp_path: Path) -
         ]
         == "RuntimeError"
     )
+
+
+def test_recovered_source_updates_final_outcome_without_losing_failure_log(tmp_path: Path) -> None:
+    import httpx
+    from pydantic import HttpUrl
+
+    from evaluations.fetch_fixtures import FixtureHTTP, VirtualClock
+    from schemas.responses import SearchResult
+    from schemas.state import RunState, UrlOutcome
+    from services.extraction_service import ExtractionService
+    from services.fetch_service import FetchService
+    from tools.corpus_tools import CorpusSession
+    from tools.registry import create_tool_registry
+    from workflows.search_run import tool_runtime
+
+    class RecoveredHTTP(FixtureHTTP):
+        async def respond(self, request: httpx.Request) -> httpx.Response:
+            if request.url.path == "/article" and not self.counts["first-failure"]:
+                self.counts["first-failure"] += 1
+                return httpx.Response(404)
+            return await super().respond(request)
+
+    settings = RunSettings(_env_file=None, crawler_contact="https://example.org/contact")
+    observer = RunObservability(settings, "recovery")
+    url = HttpUrl("https://fixture.test/article")
+    run = RunState(
+        run_id=tmp_path.name,
+        topic="Source recovery evidence",
+        clean_results=[
+            SearchResult(url=url, title="Fixture", snippet="Fixture", rank=1, query="evidence")
+        ],
+        url_outcomes={str(url): UrlOutcome(rank=1, url=url)},
+    )
+    with observability_scope(observer):
+        observer.bind(tmp_path, run.topic)
+        transport, clock = RecoveredHTTP(), VirtualClock()
+        with FetchService(
+            settings, client=transport.client(), clock=clock, sleep=clock.sleep, jitter=lambda: 0
+        ) as fetcher:
+            extractor = ExtractionService()
+            registry = create_tool_registry(
+                fetcher=fetcher,
+                extractor=extractor,
+                corpus_session=CorpusSession(tmp_path, run, fetcher, extractor),
+            )
+            registry["collect_source"].invoke({"rank": 1, "url": url}, tool_runtime(run))
+            assert dict(observer.outcomes) == {"unreachable": 1}
+            registry["collect_source"].invoke({"rank": 1, "url": url}, tool_runtime(run))
+            assert dict(observer.outcomes) == {"extracted": 1}
+        observer.finish()
+    events = [
+        json.loads(line)["event"]
+        for line in (tmp_path / "logs/execution.log").read_text().splitlines()
+    ]
+    assert "source_failed" in events and "source_extracted" in events
