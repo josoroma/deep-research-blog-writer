@@ -83,6 +83,31 @@ class RunSettings(BaseSettings):
     model_max_retries: int = Field(default=2, ge=0, strict=True)
     runs_dir: str = Field(default="runs", min_length=1)
     recursion_limit: int = Field(default=50, ge=1, strict=True)
+    langsmith_tracing: bool = False
+    langsmith_api_key: SecretStr | None = None
+    langsmith_endpoint: str = "https://api.smith.langchain.com"
+    langsmith_project: str = Field(default="deep-research-blog-writer", min_length=1)
+    otel_exporter_otlp_endpoint: str | None = None
+    telemetry_timeout_seconds: float = Field(default=3.0, gt=0, le=30, allow_inf_nan=False)
+
+    @field_validator("langsmith_endpoint", "otel_exporter_otlp_endpoint")
+    @classmethod
+    def validate_telemetry_endpoint(cls, value: str | None) -> str | None:
+        from urllib.parse import urlsplit
+
+        if value is None:
+            return None
+        parts = urlsplit(value)
+        if (
+            parts.scheme not in {"http", "https"}
+            or not parts.hostname
+            or parts.username
+            or parts.password
+        ):
+            raise ValueError("Telemetry endpoint must be an HTTP(S) URL without credentials")
+        if parts.query or parts.fragment:
+            raise ValueError("Telemetry endpoint must not contain a query or fragment")
+        return value.rstrip("/")
 
     @field_validator("crawler_contact")
     @classmethod

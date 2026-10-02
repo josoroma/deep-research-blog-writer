@@ -6,6 +6,11 @@ from schemas.config import RunSettings
 from schemas.responses import RunReport
 from schemas.state import RunState
 from services.authoring import validate_citations
+from services.observability import (
+    bind_workspace,
+    current_observer,
+    observed_workflow,
+)
 from services.reliability import run_phase
 from services.reporting import (
     RunLedger,
@@ -17,6 +22,7 @@ from services.reporting import (
 LOG_PATH = "logs/execution.log"
 
 
+@observed_workflow("report")
 def run_report(
     workspace: Path,
     run: RunState,
@@ -28,7 +34,11 @@ def run_report(
     recorded_reasons: list[str] | None = None,
 ) -> RunReport:
     """Classify, then always write the report, including after a failed phase."""
+    bind_workspace(workspace, run.topic)
     finding = validate_citations(workspace)
+    observer = current_observer()
+    if observer is not None:
+        observer.record_citations(len(finding.dangling_source_ids))
     reasons = list(recorded_reasons or [])
     if finding.dangling_source_ids and "dangling_citations" not in reasons:
         reasons.append("dangling_citations")
@@ -53,7 +63,8 @@ def run_report(
     try:
         report, retries = run_phase("report", write, workspace / LOG_PATH)
     except Exception:
-        ledger.retries += 1
+        if observer is None:
+            ledger.retries += 1
         failed, failed_reasons = classify_outcome(
             run, max_urls=settings.max_urls, recorded_reasons=[*reasons, "phase_failed"]
         )
@@ -69,5 +80,9 @@ def run_report(
         )
         write_run_report(workspace, report)
         return report
-    ledger.retries += retries
+    if observer is None:
+        ledger.retries += retries
+    if report.retries != ledger.retries:
+        report = report.model_copy(update={"retries": ledger.retries})
+        write_run_report(workspace, report)
     return report

@@ -1,8 +1,10 @@
 """One retry per phase, logged to the run's own JSON Lines file (US-8.3)."""
 
-import json
 from collections.abc import Callable
 from pathlib import Path
+
+from services.execution_log import ExecutionLog
+from services.observability import current_observer
 
 
 def run_phase[T](name: str, call: Callable[[], T], log_path: Path) -> tuple[T, int]:
@@ -14,8 +16,16 @@ def run_phase[T](name: str, call: Callable[[], T], log_path: Path) -> tuple[T, i
     try:
         return call(), 0
     except Exception as first:
-        log_path.parent.mkdir(parents=True, exist_ok=True)
-        with log_path.open("a", encoding="utf-8") as handle:
-            record = {"phase": name, "retry": 1, "error": type(first).__name__}
-            handle.write(json.dumps(record) + "\n")
+        observer = current_observer()
+        if observer is not None:
+            observer.retry(name, type(first).__name__, error=type(first).__name__)
+        else:
+            ExecutionLog(log_path.parent.parent, log_path.parent.parent.name).event(
+                name,
+                "retry",
+                level="WARNING",
+                retry=1,
+                reason=type(first).__name__,
+                error=type(first).__name__,
+            )
         return call(), 1

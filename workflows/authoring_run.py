@@ -21,6 +21,12 @@ from schemas.workspace import RunWorkspace
 from services.artifacts import write_json
 from services.authoring import BLOG_PATH, SUMMARY_PATH, check_blog, validate_citations
 from services.llm_service import LLMService
+from services.observability import (
+    bind_workspace,
+    current_observer,
+    observed_config,
+    observed_workflow,
+)
 from tools.authoring_tools import AuthoringSession
 from tools.registry import create_tool_registry
 from workflows.search_run import tool_runtime
@@ -92,11 +98,13 @@ def _finish(workspace: Path, run: RunState, summary: AuthoringSummary) -> Author
     return summary
 
 
+@observed_workflow("authoring")
 def run_authoring(
     workspace: Path, settings: RunSettings, *, llm: LLMService | None = None
 ) -> AuthoringSummary:
     """Run the analyst, the writer, and at most two citation repair passes."""
     run = load_corpus_run(workspace)
+    bind_workspace(workspace, run.topic)
     summary = AuthoringSummary(run_id=run.run_id, workspace=str(workspace), status="completed")
     service = llm or LLMService(settings)
     agent = build_deep_agent(
@@ -112,7 +120,7 @@ def run_authoring(
         for prompt in prompts:
             agent.invoke(
                 {"messages": [HumanMessage(content=prompt)], "run": run},
-                config={"recursion_limit": settings.recursion_limit},
+                config=observed_config(settings.recursion_limit),
             )
         for _ in range(MAX_REPAIR_PASSES):
             finding = validate_now(workspace)
@@ -120,6 +128,9 @@ def run_authoring(
                 break
             outstanding = finding.dangling_source_ids + finding.mismatched_source_ids
             summary.repair_passes += 1
+            observer = current_observer()
+            if observer is not None:
+                observer.retry("citations", "citation_repair")
             agent.invoke(
                 {
                     "messages": [
@@ -130,7 +141,7 @@ def run_authoring(
                     ],
                     "run": run,
                 },
-                config={"recursion_limit": settings.recursion_limit},
+                config=observed_config(settings.recursion_limit),
             )
     except Exception as error:  # noqa: BLE001 - the CLI reports any invocation failure
         summary.status = "failed"

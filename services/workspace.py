@@ -7,6 +7,7 @@ from pathlib import Path
 
 from schemas.requests import ResearchRequest
 from schemas.workspace import RunWorkspace
+from services.observability import bind_workspace
 
 MAX_SLUG_LENGTH = 60
 REQUEST_FILENAME = "request.json"
@@ -40,4 +41,5 @@ def create_run_workspace(
     root = runs_root / run_id
     root.mkdir(parents=True, exist_ok=False)
     (root / REQUEST_FILENAME).write_text(request.model_dump_json(indent=2) + "\n", encoding="utf-8")
+    bind_workspace(root, request.topic)
     return RunWorkspace(run_id=run_id, root=root)

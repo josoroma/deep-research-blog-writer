@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Iterator, Mapping
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import TYPE_CHECKING, Annotated, Protocol
 
 from langchain.tools import ToolRuntime
@@ -21,6 +21,7 @@ from tools.stubs import register_stub_tools
 if TYPE_CHECKING:
     from services.extraction_service import ExtractionService
     from services.fetch_service import Fetcher
+    from services.observability import RunObservability
     from services.search_session import SearchSession
     from tools.authoring_tools import AuthoringSession
     from tools.corpus_tools import CorpusSession
@@ -62,6 +63,7 @@ class TypedTool[InputT: BaseModel, OutputT: BaseModel]:
     handler: Callable[[InputT, Runtime | None], OutputT]
     description: str
     updates_state: bool = False
+    observer: RunObservability | None = None
 
     def __post_init__(self) -> None:
         validate_definition(self)
@@ -70,6 +72,14 @@ class TypedTool[InputT: BaseModel, OutputT: BaseModel]:
 
     def invoke(self, payload: object, runtime: Runtime | None = None) -> OutputT:
         request = self.input_model.model_validate(payload)
+        if self.observer is not None:
+            with self.observer.operation(self.name, request):
+                result = self._execute(request, runtime)
+                self.observer.inspect_output(result)
+                return result
+        return self._execute(request, runtime)
+
+    def _execute(self, request: InputT, runtime: Runtime | None) -> OutputT:
         result = self.handler(request, runtime)
         if not isinstance(result, self.output_model):
             raise ToolOutputError(
@@ -111,13 +121,16 @@ class TypedTool[InputT: BaseModel, OutputT: BaseModel]:
 
 
 class ToolRegistry(Mapping[str, ToolDefinition]):
-    def __init__(self) -> None:
+    def __init__(self, observer: RunObservability | None = None) -> None:
+        self.observer = observer
         self._tools: dict[str, ToolDefinition] = {}
 
     def register(self, definition: ToolDefinition) -> None:
         validate_definition(definition)
         if definition.name in self._tools:
             raise ValueError(f"Tool already registered: {definition.name}")
+        if isinstance(definition, TypedTool) and self.observer is not None:
+            definition = replace(definition, observer=self.observer)
         self._tools[definition.name] = definition
 
     def __getitem__(self, name: str) -> ToolDefinition:
@@ -139,11 +152,12 @@ def create_tool_registry(
     authoring_session: AuthoringSession | None = None,
 ) -> ToolRegistry:
     """Build independent tool bindings; credentials and provider clients stay off state."""
+    from services.observability import current_observer
     from tools.authoring_tools import register_authoring_tools
     from tools.content_tools import register_content_tools
     from tools.corpus_tools import register_corpus_tools
 
-    registry = ToolRegistry()
+    registry = ToolRegistry(current_observer())
     registry.register(
         TypedTool[CompletePhaseInput, RunStateUpdate](
             name="record_phase_completion",

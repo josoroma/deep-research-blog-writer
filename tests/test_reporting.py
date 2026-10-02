@@ -127,7 +127,13 @@ def test_phase_retries_once_then_fails(tmp_path: Path) -> None:
     result, retries = run_phase("search", flaky, tmp_path / "logs" / "execution.log")
     assert result == "ok" and retries == 1
     logged = json.loads((tmp_path / "logs" / "execution.log").read_text().splitlines()[0])
-    assert logged == {"phase": "search", "retry": 1, "error": "RuntimeError"}
+    assert {key: logged[key] for key in ("phase", "retry", "error")} == {
+        "phase": "search",
+        "retry": 1,
+        "error": "RuntimeError",
+    }
+    assert logged["run_id"] == tmp_path.name and logged["event"] == "retry"
+    assert logged["level"] == "WARNING" and logged["timestamp"]
 
     def always() -> str:
         raise RuntimeError("permanent")

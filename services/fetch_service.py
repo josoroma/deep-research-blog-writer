@@ -85,6 +85,9 @@ class FetchService:
         sleep: Callable[[float], Awaitable[None]] = asyncio.sleep,
         jitter: Callable[[], float] | None = None,
     ) -> None:
+        from services.observability import current_observer
+
+        self.observer = current_observer()
         self.user_agent = crawler_user_agent(settings)
         self._client = client or httpx.AsyncClient(trust_env=False)
         self._clock = clock
@@ -193,6 +196,10 @@ class FetchService:
     async def _backoff(self, kind: Literal["robots", "page"], attempt: int) -> None:
         delay = float(2 ** (attempt - 1)) + max(0.0, min(0.25, self._jitter()))
         self.retries.append(RetryEvent(kind=kind, attempt=attempt, delay=delay))
+        if self.observer is not None:
+            self.observer.retry(
+                "fetch", "fetch_backoff", kind=kind, attempt=attempt, delay_seconds=delay
+            )
         await self._sleep(delay)
 
     @staticmethod

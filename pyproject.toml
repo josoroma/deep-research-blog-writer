@@ -12,7 +12,10 @@ dependencies = [
     "langchain-openrouter>=0.2,<1",
     "langgraph>=1,<2",
     "langgraph-checkpoint-sqlite>=2,<4",
+    "langsmith>=0.14,<1",
     "markdownify>=1,<2",
+    "opentelemetry-exporter-otlp-proto-http>=1.38,<2",
+    "opentelemetry-sdk>=1.38,<2",
     "protego>=0.5,<1",
     "pydantic>=2,<3",
     "pydantic-settings>=2,<3",
@@ -35,7 +38,7 @@ packages = ["agents", "tools", "workflows", "prompts", "schemas", "services", "e
 include = [
     "/agents", "/tools", "/workflows", "/prompts", "/schemas", "/services",
     "/evaluations", "/tests", "/pyproject.toml", "/uv.lock", "/.python-version",
-    "/README.md", "/.pre-commit-config.yaml", "/Makefile",
+    "/README.md", "/.pre-commit-config.yaml", "/Makefile", "/ops", "/EPIC-9.md",
 ]
 
 [tool.ruff]
@@ -76,5 +79,6 @@ dev = [
     "pytest>=9,<10",
     "pytest-cov>=7,<8",
     "ruff==0.13.0",
+    "types-protobuf>=6,<8",
     "types-pyyaml>=6,<7",
 ]

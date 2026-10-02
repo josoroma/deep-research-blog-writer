@@ -11,3 +11,5 @@ Record accepted decisions with a zero-padded four-digit prefix: `NNNN-short-titl
 
 - [0005: SerpApi search behind a provider interface](0005-search-provider.md)
 - [0006: Run-owned polite fetching and replaceable extraction](0006-polite-fetch-and-extraction.md)
+
+- [0008: Run-owned observability and a local metrics stack](0008-run-observability.md)

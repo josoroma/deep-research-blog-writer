@@ -1,6 +1,6 @@
 # Deep Research Blog Writer
 
-A Python research-to-blog pipeline using DeepAgents on LangGraph. A topic goes in. Ranked search results, an immutable source corpus, a research summary, and a cited blog draft come out. EPIC-1 to EPIC-8 are delivered: locked setup and quality gates, typed contracts and tools, the four-agent skeleton, API search with ranked normalization, polite fetching with parser fallback, the research corpus, synthesis and blog authoring behind a citation gate, and the run-report, retry, and resume building blocks. Observability, evaluation, and agent documentation (EPIC-9 to EPIC-11) are next.
+A Python research-to-blog pipeline using DeepAgents on LangGraph. A topic goes in. Ranked search results, an immutable source corpus, a research summary, and a cited blog draft come out. EPIC-1 to EPIC-9 are delivered: locked setup and quality gates, typed contracts and tools, the four-agent skeleton, API search with ranked normalization, polite fetching with parser fallback, the research corpus, synthesis and blog authoring behind a citation gate, the run-report, retry, and resume building blocks, and run-owned observability with a local metrics dashboard. Evaluation and agent documentation (EPIC-10 to EPIC-11) are next.
 
 **Documentation site:** [https://josoroma.github.io/deep-research-blog-writer](https://josoroma.github.io/deep-research-blog-writer). It explains setup, the run loop, and the committed example run with diagrams. The same page is at [docs/pages/running-a-run.html](docs/pages/running-a-run.html).
 
@@ -214,3 +214,21 @@ Check each acceptance scenario against the code and the tests, and report any sc
 
 Write docs/SPECS-LOGS/EPIC-N-RUNBOOK.md with the commands that passed, the PM demo steps, and an evidence table. Save coverage, the command list, and a source manifest pinned to the implementation commit under docs/evidence/epic-N/. Mark a story or task DONE in SPECS.md only when its scenario passed. Commit the implementation and the evidence separately, with hooks active, and exclude .env and runs/.
 ```
+
+
+## Observability (EPIC-9)
+
+Run commands now write JSON Lines to `runs/<run-id>/logs/execution.log` and an inspectable `logs/telemetry.json` snapshot. Registered tools, native agent model calls, fetch/phase retries, source outcomes and citation checks populate actual counts. Model usage/cost is read from response metadata; missing provider cost is marked unavailable. The existing report retains its ledger fallback. No metric exporter is constructed when `OTEL_EXPORTER_OTLP_ENDPOINT` is unset.
+
+```sh
+make setup
+make demo-epic-9
+make observability-up
+make smoke-epic-9
+```
+
+The offline demo runs the native agent hierarchy with scripted model usage and mock web responses, receives real OTLP protobuf on loopback, and deliberately fails two citations to make the dashboard's failure and citation panels demonstrable. Open [Grafana's research dashboard](http://127.0.0.1:3001/d/research-runs) and select the printed run ID. [Prometheus](http://127.0.0.1:9090) exposes the corresponding run metrics. Grafana provides anonymous Viewer access locally.
+
+To export normal CLI workflow metrics to the stack, set `OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4318` in the ignored `.env`. For hosted traces, set `LANGSMITH_TRACING=true`, `LANGSMITH_API_KEY`, and optionally `LANGSMITH_PROJECT`, then run `make smoke-langsmith`. This smoke uses fixture research work with real hosted trace upload/readback. Stop the local stack with `make observability-down`; named volumes are retained.
+
+See [EPIC-9.md](EPIC-9.md), [the runbook](docs/SPECS-LOGS/EPIC-9-RUNBOOK.md), and [ADR 0008](docs/adr/0008-run-observability.md) for acceptance evidence, configuration, commands, and limitations.

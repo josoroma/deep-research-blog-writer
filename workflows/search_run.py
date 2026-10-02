@@ -13,6 +13,10 @@ from schemas.search import NormalizationCounts, QueryVariants, SearchPlanOutput
 from schemas.state import RunState
 from schemas.tool_io import GoogleSearchOutput, NormalizeResultsOutput
 from services.llm_service import LLMService
+from services.observability import (
+    observed_config,
+    observed_workflow,
+)
 from services.search_provider import SearchProvider, SearchProviderError, create_search_provider
 from services.search_session import SearchSession
 from services.workspace import create_run_workspace
@@ -43,6 +47,7 @@ def tool_runtime(run: RunState) -> Runtime:
     )
 
 
+@observed_workflow("search")
 def run_search(
     request: ResearchRequest,
     settings: RunSettings,
@@ -54,12 +59,20 @@ def run_search(
 ) -> SearchSummary:
     provider = search_provider if search_provider is not None else create_search_provider(settings)
     provider.preflight(request.per_page)
-    planned_variants = variants or derive_query_variants(
-        request, LLMService(settings, fake_model=fake_model)
-    )
-    if any(query.casefold() == request.topic.casefold() for query in planned_variants.variants):
+    llm = LLMService(settings, fake_model=fake_model) if variants is None else None
+    if llm is not None:
+        llm.for_agent("orchestrator")
+    if variants and any(
+        query.casefold() == request.topic.casefold() for query in variants.variants
+    ):
         raise ValueError("variants must differ from the topic")
     workspace = create_run_workspace(request, runs_root)
+    planned_variants = variants
+    if planned_variants is None:
+        assert llm is not None
+        planned_variants = derive_query_variants(
+            request, llm, config=observed_config(settings.recursion_limit)
+        )
     session = SearchSession(request, workspace, provider)
     registry = create_tool_registry(session)
     run = RunState(run_id=workspace.run_id, topic=request.topic)

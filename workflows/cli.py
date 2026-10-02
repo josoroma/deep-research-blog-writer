@@ -16,6 +16,7 @@ from schemas.config import RunSettings
 from schemas.requests import ResearchRequest
 from schemas.search import QueryVariants
 from services.llm_service import MissingOpenRouterKey
+from services.observability import RunObservability, observability_scope
 from services.search_provider import SearchProviderError
 from workflows.authoring_run import run_authoring
 from workflows.corpus_run import run_corpus
@@ -108,6 +109,11 @@ def main(argv: Sequence[str] | None = None, settings: RunSettings | None = None)
                 raise ValueError(f"No workspace for run {args.resume}")
             saved_run = load_saved_run(workspace)
             phase = next_phase(saved_run.completed_phases)
+            observer = RunObservability(resolved, "resume")
+            with observability_scope(observer):
+                observer.bind(workspace, saved_run.topic)
+                observer.event("resume", "resume_inspected", resumed_at=phase)
+                observer.finish()
             print(json.dumps({"run_id": args.resume, "resumed_at": phase}))
             return EXIT_COMPLETED
         if args.fetch_only or args.corpus_only or args.author_only:

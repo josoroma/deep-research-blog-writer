@@ -16,6 +16,11 @@ from schemas.state import RunState, UrlOutcome
 from services.artifacts import write_json
 from services.extraction_service import ExtractionService, create_extraction_service
 from services.fetch_service import Fetcher, FetchService, crawler_user_agent
+from services.observability import (
+    bind_workspace,
+    current_observer,
+    observed_workflow,
+)
 from tools.registry import ToolRegistry, create_tool_registry
 
 ARTIFACT_NAMES = ("fetch_outcomes.json", "extraction_results.json", "fetch_state.json")
@@ -115,6 +120,7 @@ def _collect(
     )
 
 
+@observed_workflow("fetch")
 def run_fetch(
     workspace: Path,
     settings: RunSettings,
@@ -128,6 +134,7 @@ def run_fetch(
     for name in ARTIFACT_NAMES:
         if (workspace / name).is_symlink():
             raise ValueError(f"Artifact destination is a symlink: {name}")
+    bind_workspace(workspace, run.topic)
     extraction = extractor if extractor is not None else create_extraction_service(settings)
     owned = FetchService(settings) if fetcher is None else None
     bound = owned if owned is not None else fetcher
@@ -136,6 +143,10 @@ def run_fetch(
     try:
         with ThreadPoolExecutor(max_workers=5) as pool:
             results = list(pool.map(lambda row: _collect(registry, row), run.clean_results))
+        observer = current_observer()
+        if observer is not None:
+            for _, _, outcome in results:
+                observer.source_outcome(str(outcome.url), outcome.outcome, outcome.reason)
         completed = run.replaced(
             completed_phases=[*run.completed_phases, "fetch"],
             url_outcomes={str(outcome.url): outcome for _, _, outcome in results},

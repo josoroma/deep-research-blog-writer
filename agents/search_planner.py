@@ -1,6 +1,7 @@
 """The orchestrator derives typed variants through the central model service."""
 
 from langchain_core.messages import BaseMessage, HumanMessage, SystemMessage
+from langchain_core.runnables import RunnableConfig
 from pydantic import ValidationError
 
 from prompts.catalog import load_prompt
@@ -13,7 +14,9 @@ class SearchPlanningError(ValueError):
     """The planner exhausted its one validation-repair attempt."""
 
 
-def derive_query_variants(request: ResearchRequest, llm: LLMService) -> QueryVariants:
+def derive_query_variants(
+    request: ResearchRequest, llm: LLMService, *, config: RunnableConfig | None = None
+) -> QueryVariants:
     model = llm.for_agent("orchestrator").with_structured_output(QueryVariants)
     messages: list[BaseMessage] = [
         SystemMessage(content=load_prompt("orchestrator")),
@@ -23,7 +26,7 @@ def derive_query_variants(request: ResearchRequest, llm: LLMService) -> QueryVar
     ]
     for attempt in range(2):
         try:
-            variants = QueryVariants.model_validate(model.invoke(messages))
+            variants = QueryVariants.model_validate(model.invoke(messages, config=config))
             if any(query.casefold() == request.topic.casefold() for query in variants.variants):
                 raise SearchPlanningError("variants must differ from the topic")
             return variants

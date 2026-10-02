@@ -14,6 +14,10 @@ from schemas.config import RunSettings
 from schemas.requests import ResearchRequest
 from schemas.state import RunState
 from services.llm_service import LLMService
+from services.observability import (
+    observed_config,
+    observed_workflow,
+)
 from services.search_provider import SearchProvider, SearchProviderError, create_search_provider
 from services.search_session import SearchSession
 from services.workspace import create_run_workspace
@@ -33,6 +37,7 @@ class RunSummary(Contract):
     error: str | None = None
 
 
+@observed_workflow("research")
 def run_research(
     request: ResearchRequest,
     settings: RunSettings,
@@ -60,7 +65,7 @@ def run_research(
                 "messages": [HumanMessage(content=request.model_dump_json())],
                 "run": RunState(run_id=workspace.run_id, topic=request.topic),
             },
-            config={"recursion_limit": settings.recursion_limit},
+            config=observed_config(settings.recursion_limit),
         )
     except Exception as error:  # noqa: BLE001 - the CLI reports any invocation failure
         return RunSummary(
@@ -86,7 +91,7 @@ def invoke_agent(
     """Invoke a built agent with the validated request as its initial message."""
     return agent.invoke(
         {"messages": [HumanMessage(content=request.model_dump_json())]},
-        config={"recursion_limit": settings.recursion_limit},
+        config=observed_config(settings.recursion_limit),
     )
 
 

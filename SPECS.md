@@ -193,19 +193,19 @@ CODEBASE Context: EPIC-1 foundation implemented on 2026-09-30; EPIC-2 contracts 
 | US-8.4#4 | Make `collect_source` skip URLs whose source file already exists. | DONE | US-8.4 |
 | US-8.4#5 | Add `--resume <run_id>` to the run command. | DONE | US-8.4 |
 | EPIC-9 | Observability | — | — |
-| US-9.1 | Trace Every Run in LangSmith | READY | EPIC-9 |
-| US-9.1#1 | Enable LangSmith tracing through configuration. | TODO | US-9.1 |
-| US-9.1#2 | Attach the run_id and topic to every trace as metadata. | TODO | US-9.1 |
-| US-9.1#3 | Verify that sub-agent and tool spans appear in the trace. | TODO | US-9.1 |
-| US-9.2 | Write Structured Execution Logs | READY | EPIC-9 |
-| US-9.2#1 | Configure JSON Lines logging to `runs/<run_id>/logs/execution.log`. | TODO | US-9.2 |
-| US-9.3 | Export Run Metrics with OpenTelemetry | READY | EPIC-9 |
-| US-9.3#1 | Instrument runs with OpenTelemetry metrics for tokens, latency, cost, tool calls, retries, and dangling citations. | TODO | US-9.3 |
-| US-9.3#2 | Export over OTLP only when `OTEL_EXPORTER_OTLP_ENDPOINT` is set. | TODO | US-9.3 |
-| US-9.4 | Visualize Metrics in Prometheus and Grafana | READY | EPIC-9 |
-| US-9.4#1 | Add a Docker Compose stack under `ops/observability/` for the OpenTelemetry Collector, Prometheus, and Grafana. | TODO | US-9.4 |
-| US-9.4#2 | Provision the Grafana dashboard with the PD-020 panels. | TODO | US-9.4 |
-| US-9.4#3 | Record the observability stack as an ADR. | TODO | US-9.4 |
+| US-9.1 | Trace Every Run in LangSmith | DONE | EPIC-9 |
+| US-9.1#1 | Enable LangSmith tracing through configuration. | DONE | US-9.1 |
+| US-9.1#2 | Attach the run_id and topic to every trace as metadata. | DONE | US-9.1 |
+| US-9.1#3 | Verify that sub-agent and tool spans appear in the trace. | DONE | US-9.1 |
+| US-9.2 | Write Structured Execution Logs | DONE | EPIC-9 |
+| US-9.2#1 | Configure JSON Lines logging to `runs/<run_id>/logs/execution.log`. | DONE | US-9.2 |
+| US-9.3 | Export Run Metrics with OpenTelemetry | DONE | EPIC-9 |
+| US-9.3#1 | Instrument runs with OpenTelemetry metrics for tokens, latency, cost, tool calls, retries, and dangling citations. | DONE | US-9.3 |
+| US-9.3#2 | Export over OTLP only when `OTEL_EXPORTER_OTLP_ENDPOINT` is set. | DONE | US-9.3 |
+| US-9.4 | Visualize Metrics in Prometheus and Grafana | DONE | EPIC-9 |
+| US-9.4#1 | Add a Docker Compose stack under `ops/observability/` for the OpenTelemetry Collector, Prometheus, and Grafana. | DONE | US-9.4 |
+| US-9.4#2 | Provision the Grafana dashboard with the PD-020 panels. | DONE | US-9.4 |
+| US-9.4#3 | Record the observability stack as an ADR. | DONE | US-9.4 |
 | EPIC-10 | Testing and Evaluation | — | — |
 | US-10.1 | Run Unit Tests Offline with a Fake Chat Model | READY | EPIC-10 |
 | US-10.1#1 | Provide a fake chat model with scripted responses and tool calls as a test fixture. | TODO | US-10.1 |
@@ -2865,6 +2865,8 @@ Open Questions:
 
 Make every run observable: traces in LangSmith, structured execution logs, and exported metrics for tokens, latency, cost, tool calls, and retries, viewable in a local Prometheus and Grafana stack.
 
+Verification: see [EPIC-9 runbook](docs/SPECS-LOGS/EPIC-9-RUNBOOK.md). Native LangSmith SDK hierarchy is verified with a recording client; hosted readback remains credential-dependent and has not been run locally. Real OTLP delivery, Prometheus queries, and all Grafana panels were verified against the local Docker stack.
+
 ## Dependencies
 
 - EPIC-1
@@ -2872,7 +2874,7 @@ Make every run observable: traces in LangSmith, structured execution logs, and e
 
 ### US-9.1: Trace Every Run in LangSmith
 
-Status: READY
+Status: DONE
 
 As an Engineering Lead
 I want every run traced in LangSmith
@@ -2905,16 +2907,16 @@ Dependencies:
 - US-3.2
 
 Tasks:
-- [ ] Enable LangSmith tracing through configuration.
-- [ ] Attach the run_id and topic to every trace as metadata.
-- [ ] Verify that sub-agent and tool spans appear in the trace.
+- [x] Enable LangSmith tracing through configuration.
+- [x] Attach the run_id and topic to every trace as metadata.
+- [x] Verify that sub-agent and tool spans appear in the trace.
 
 Open Questions:
 - None.
 
 ### US-9.2: Write Structured Execution Logs
 
-Status: READY
+Status: DONE
 
 As an Engineering Lead
 I want structured execution logs for every run
@@ -2947,14 +2949,14 @@ Dependencies:
 - US-3.1
 
 Tasks:
-- [ ] Configure JSON Lines logging to `runs/<run_id>/logs/execution.log`.
+- [x] Configure JSON Lines logging to `runs/<run_id>/logs/execution.log`.
 
 Open Questions:
 - None.
 
 ### US-9.3: Export Run Metrics with OpenTelemetry
 
-Status: READY
+Status: DONE
 
 As an Engineering Lead
 I want token usage, latency, cost, tool calls, retries, and dangling citations exported as OpenTelemetry metrics
@@ -2986,15 +2988,15 @@ Dependencies:
 - US-3.2
 
 Tasks:
-- [ ] Instrument runs with OpenTelemetry metrics for tokens, latency, cost, tool calls, retries, and dangling citations.
-- [ ] Export over OTLP only when `OTEL_EXPORTER_OTLP_ENDPOINT` is set.
+- [x] Instrument runs with OpenTelemetry metrics for tokens, latency, cost, tool calls, retries, and dangling citations.
+- [x] Export over OTLP only when `OTEL_EXPORTER_OTLP_ENDPOINT` is set.
 
 Open Questions:
 - None.
 
 ### US-9.4: Visualize Metrics in Prometheus and Grafana
 
-Status: READY
+Status: DONE
 
 As an Engineering Lead
 I want run metrics stored in Prometheus and shown on a Grafana dashboard
@@ -3020,9 +3022,9 @@ Dependencies:
 - US-9.3
 
 Tasks:
-- [ ] Add a Docker Compose stack under `ops/observability/` for the OpenTelemetry Collector, Prometheus, and Grafana.
-- [ ] Provision the Grafana dashboard with the PD-020 panels.
-- [ ] Record the observability stack as an ADR.
+- [x] Add a Docker Compose stack under `ops/observability/` for the OpenTelemetry Collector, Prometheus, and Grafana.
+- [x] Provision the Grafana dashboard with the PD-020 panels.
+- [x] Record the observability stack as an ADR.
 
 Open Questions:
 - None.

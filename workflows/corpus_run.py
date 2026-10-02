@@ -16,6 +16,11 @@ from schemas.tool_io import BuildIndexOutput, CollectSourceOutput, SourceMetadat
 from services.artifacts import write_json
 from services.extraction_service import ExtractionService, create_extraction_service
 from services.fetch_service import Fetcher, FetchService, crawler_user_agent
+from services.observability import (
+    bind_workspace,
+    current_observer,
+    observed_workflow,
+)
 from tools.corpus_tools import CorpusSession
 from tools.registry import ToolRegistry, create_tool_registry
 from workflows.fetch_run import load_search_workspace
@@ -54,6 +59,7 @@ def _collect_one(
     return output.source, outcome
 
 
+@observed_workflow("corpus")
 def run_corpus(
     workspace: Path,
     settings: RunSettings,
@@ -66,6 +72,7 @@ def run_corpus(
     crawler_user_agent(settings)
     if (workspace / CORPUS_STATE).is_symlink():
         raise ValueError(f"Artifact destination is a symlink: {CORPUS_STATE}")
+    bind_workspace(workspace, run.topic)
     extraction = extractor if extractor is not None else create_extraction_service(settings)
     owned = FetchService(settings) if fetcher is None else None
     bound = owned if owned is not None else fetcher
@@ -85,6 +92,10 @@ def run_corpus(
         with ThreadPoolExecutor(max_workers=5) as pool:
             ranks = range(1, len(run.clean_results) + 1)
             collected = list(pool.map(lambda rank: _collect_one(registry, run, rank), ranks))
+        observer = current_observer()
+        if observer is not None:
+            for _, outcome in collected:
+                observer.source_outcome(str(outcome.url), outcome.outcome, outcome.reason)
         outcomes = {str(outcome.url): outcome for _, outcome in collected}
         progressed = run.replaced(
             completed_phases=[*run.completed_phases, "fetch"], url_outcomes=outcomes
