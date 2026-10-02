@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+<defs>
+<filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="#18181b" flood-opacity="0.08"/></filter>
+<marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#A1A1AA"/></marker>
+</defs>
+<rect width="1600" height="900" rx="32" fill="#FAFAFA"/>
+<text x="90" y="95" font-family="Inter, ui-sans-serif, system-ui" font-size="46" font-weight="750" fill="#18181B">Quality is a gate, not a vibe</text>
+<text x="90" y="140" font-family="Inter, ui-sans-serif, system-ui" font-size="22" fill="#71717A">Offline checks first. Golden-dataset evaluation before release.</text>
+<rect x="105" y="250" width="315" height="390" rx="24" fill="#FFFFFF" stroke="#E4E4E7" filter="url(#shadow)"/>
+<rect x="129" y="274" width="180" height="42" rx="21" fill="#E0F2FE" stroke="#E4E4E7"/><text x="219.0" y="302" font-family="Inter, ui-sans-serif, system-ui" font-size="16" font-weight="650" fill="#18181B" text-anchor="middle">make check</text>
+<text x="139" y="370" font-family="Inter, ui-sans-serif, system-ui" font-size="18" font-weight="550" fill="#71717A" text-anchor="start">• lock</text>
+<text x="139" y="416" font-family="Inter, ui-sans-serif, system-ui" font-size="18" font-weight="550" fill="#71717A" text-anchor="start">• Ruff</text>
+<text x="139" y="462" font-family="Inter, ui-sans-serif, system-ui" font-size="18" font-weight="550" fill="#71717A" text-anchor="start">• format</text>
+<text x="139" y="508" font-family="Inter, ui-sans-serif, system-ui" font-size="18" font-weight="550" fill="#71717A" text-anchor="start">• mypy --strict</text>
+<text x="139" y="554" font-family="Inter, ui-sans-serif, system-ui" font-size="18" font-weight="550" fill="#71717A" text-anchor="start">• offline tests ≥80%</text>
+<line x1="420" y1="445" x2="455" y2="445" stroke="#A1A1AA" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="475" y="250" width="315" height="390" rx="24" fill="#FFFFFF" stroke="#E4E4E7" filter="url(#shadow)"/>
+<rect x="499" y="274" width="180" height="42" rx="21" fill="#DCFCE7" stroke="#E4E4E7"/><text x="589.0" y="302" font-family="Inter, ui-sans-serif, system-ui" font-size="16" font-weight="650" fill="#18181B" text-anchor="middle">make eval-offline</text>
+<text x="509" y="370" font-family="Inter, ui-sans-serif, system-ui" font-size="18" font-weight="550" fill="#71717A" text-anchor="start">• fixture pipeline</text>
+<text x="509" y="416" font-family="Inter, ui-sans-serif, system-ui" font-size="18" font-weight="550" fill="#71717A" text-anchor="start">• golden topics</text>
+<text x="509" y="462" font-family="Inter, ui-sans-serif, system-ui" font-size="18" font-weight="550" fill="#71717A" text-anchor="start">• benchmark JSON</text>
+<line x1="790" y1="445" x2="825" y2="445" stroke="#A1A1AA" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="845" y="250" width="315" height="390" rx="24" fill="#FFFFFF" stroke="#E4E4E7" filter="url(#shadow)"/>
+<rect x="869" y="274" width="180" height="42" rx="21" fill="#FEF3C7" stroke="#E4E4E7"/><text x="959.0" y="302" font-family="Inter, ui-sans-serif, system-ui" font-size="16" font-weight="650" fill="#18181B" text-anchor="middle">make eval</text>
+<text x="879" y="370" font-family="Inter, ui-sans-serif, system-ui" font-size="18" font-weight="550" fill="#71717A" text-anchor="start">• production models</text>
+<text x="879" y="416" font-family="Inter, ui-sans-serif, system-ui" font-size="18" font-weight="550" fill="#71717A" text-anchor="start">• SerpApi</text>
+<text x="879" y="462" font-family="Inter, ui-sans-serif, system-ui" font-size="18" font-weight="550" fill="#71717A" text-anchor="start">• PD-021 scores</text>
+<line x1="1160" y1="445" x2="1195" y2="445" stroke="#A1A1AA" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="1215" y="250" width="315" height="390" rx="24" fill="#FFFFFF" stroke="#E4E4E7" filter="url(#shadow)"/>
+<rect x="1239" y="274" width="180" height="42" rx="21" fill="#F3E8FF" stroke="#E4E4E7"/><text x="1329.0" y="302" font-family="Inter, ui-sans-serif, system-ui" font-size="16" font-weight="650" fill="#18181B" text-anchor="middle">make release VERSION=x.y.z</text>
+<text x="1249" y="370" font-family="Inter, ui-sans-serif, system-ui" font-size="18" font-weight="550" fill="#71717A" text-anchor="start">• tag only if</text>
+<text x="1249" y="416" font-family="Inter, ui-sans-serif, system-ui" font-size="18" font-weight="550" fill="#71717A" text-anchor="start">• every threshold passes</text>
+<rect x="360" y="700" width="880" height="110" rx="24" fill="#FFE4E6" stroke="#E4E4E7"/>
+<text x="800" y="745" font-family="Inter, ui-sans-serif, system-ui" font-size="21" font-weight="700" fill="#18181B" text-anchor="middle">A failed citation check keeps the last draft and records the reason.</text>
+<text x="800" y="778" font-family="Inter, ui-sans-serif, system-ui" font-size="18" font-weight="500" fill="#71717A" text-anchor="middle">The committed example fails on two mismatched source references.</text>
+</svg>

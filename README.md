@@ -1,24 +1,60 @@
 # Deep Research Blog Writer
 
-A Python research-to-blog pipeline using DeepAgents on LangGraph. A topic goes in. Ranked search results, an immutable source corpus, a research summary, and a cited blog draft come out. EPIC-1 to EPIC-11 are delivered: locked setup and quality gates, typed contracts and tools, the four-agent skeleton, API search with ranked normalization, polite fetching with parser fallback, the research corpus, synthesis and blog authoring behind a citation gate, the run-report, retry, and resume building blocks, run-owned observability with a local metrics dashboard, an offline test suite plus a golden-dataset evaluation and release gate, and a skill file and contract for every agent under [docs/architecture](docs/architecture/README.md).
+Give it a topic. It searches the web, cleans and ranks the URLs, fetches what it can, builds a source corpus, writes a research summary, drafts the article, and checks every citation before calling the run complete.
 
-**Documentation site:** [https://josoroma.github.io/deep-research-blog-writer](https://josoroma.github.io/deep-research-blog-writer). It explains setup, the run loop, and the committed example run with diagrams. The same page is at [docs/pages/running-a-run.html](docs/pages/running-a-run.html).
+If the citations do not line up, the run fails **without throwing the work away**. The last draft stays in the workspace with a machine-readable reason for the failure.
 
-## Contents
+![Deep Research Blog Writer pipeline](doc/images/pipeline.svg)
 
-- [Install and run](#install-and-run)
-- [Fetch and extraction](#fetch-and-extraction)
-- [Live run](#live-run)
-- [Evaluation and release gate](#evaluation-and-release-gate)
-- [Development checks](#development-checks)
-- [Layout and rules](#layout-and-rules)
-- [Working one epic per session](#working-one-epic-per-session)
-- [Observability (EPIC-9)](#observability-epic-9)
-- [Service URLs](#service-urls)
+> Built in Python with DeepAgents on LangGraph. EPIC-1 through EPIC-11 are delivered. The project includes typed contracts and tools, search and fetch workflows, corpus construction, research synthesis, authoring, citation validation, retry/resume building blocks, observability, offline evaluation, and per-agent skill/contract documentation.
 
-## Install and run
+**Documentation site:** https://josoroma.github.io/deep-research-blog-writer
 
-Prerequisites: Git, [uv](https://docs.astral.sh/uv/getting-started/installation/), and Make. uv selects Python 3.12 through `.python-version` and can install it when needed. No server is required.
+---
+
+## The 60-second version
+
+A live run is intentionally boring:
+
+1. **Search** for ranked source URLs.
+2. **Collect** those URLs into a research corpus.
+3. **Author** from that corpus and run the citation gate.
+
+![The three-command live run](doc/images/live-run.svg)
+
+```sh
+SEARCH_TIMEOUT_SECONDS=60 uv run deep-research-blog \
+  "Python LangChain Deep Agents Startup Ideas" \
+  --search-only \
+  --pages 3 \
+  --per-page 10 \
+  --max-urls 30
+```
+
+The command prints a workspace path. Reuse it for the next two stages:
+
+```sh
+RUN=runs/python-langchain-deep-agents-startup-ideas-20261001T195605Z
+
+uv run deep-research-blog --corpus-only --workspace "$RUN"
+uv run deep-research-blog --author-only --workspace "$RUN"
+```
+
+Each stage leaves artifacts in the same run directory, so you can inspect what happened instead of treating the agent as a black box.
+
+![Run workspace artifacts](doc/images/workspace.svg)
+
+---
+
+## Install
+
+Prerequisites:
+
+- Git
+- [uv](https://docs.astral.sh/uv/getting-started/installation/)
+- Make
+
+`uv` selects Python 3.12 through `.python-version` and can install it when needed.
 
 ```sh
 make setup
@@ -27,9 +63,30 @@ make demo-epic-4
 make demo-epic-5
 ```
 
-`make setup` installs `uv.lock` and the Git hook. `make check` verifies the lock, Ruff, formatting, strict typing, and offline tests with an 80% coverage floor. The Search demo uses a scripted model and fake provider through the actual DeepAgents orchestrator/search sub-agent; it needs no API keys. It saves a plan, 50 raw results, and 30 clean URLs in the printed `runs/<run_id>/` workspace. The fixture deliberately includes tracking links, duplicates, and denied hosts; it also verifies reversed arrival order and cached replay.
+`make setup` installs from `uv.lock` and installs the Git hook.
 
-Create `.env` only if it does not exist (`cp -n .env.example .env`), then set credentials locally:
+`make check` verifies:
+
+- the lock file
+- Ruff
+- formatting
+- strict typing
+- offline tests
+- an 80% coverage floor
+
+No server is required for the core pipeline.
+
+---
+
+## Credentials
+
+Create `.env` only when it does not already exist:
+
+```sh
+cp -n .env.example .env
+```
+
+Then add the provider keys you actually use:
 
 ```dotenv
 SEARCH_PROVIDER=serpapi
@@ -37,48 +94,99 @@ SERPAPI_API_KEY=<your SerpApi key>
 OPENROUTER_API_KEY=<your OpenRouter key>
 ```
 
-`.env` and `runs/` are Git-ignored. SerpApi and Serper are separate services: Serper requires `SEARCH_PROVIDER=serper` and `SERPER_API_KEY`. There is no fallback between their keys. SerpApi Google search requires `--per-page 10`; unsupported sizes and missing selected credentials fail before workspace creation. The HTTP timeout defaults to 15 seconds; use a larger bound for slow uncached provider requests:
+`.env` and `runs/` are Git-ignored.
+
+SerpApi and Serper are separate providers. If you use Serper:
+
+```dotenv
+SEARCH_PROVIDER=serper
+SERPER_API_KEY=<your Serper key>
+```
+
+There is no fallback between the two credentials.
+
+All five model IDs are independently configurable:
+
+```dotenv
+MODELS__ORCHESTRATOR=openrouter:deepseek/deepseek-v4.1-flash
+MODELS__SEARCH_AGENT=openrouter:deepseek/deepseek-v4.1-flash
+MODELS__RESEARCH_AGENT=openrouter:deepseek/deepseek-v4.1-flash
+MODELS__ANALYST_AGENT=openrouter:deepseek/deepseek-v4.1-flash
+MODELS__WRITER_AGENT=openrouter:deepseek/deepseek-v4.1-flash
+```
+
+Environment variables override `.env`.
+
+---
+
+## How the agents fit together
+
+The orchestrator delegates work to the search, research, analyst, and writer agents. Provider clients and credentials stay outside agent/checkpoint state.
+
+![Agent architecture](doc/images/agents.svg)
+
+The repository keeps responsibilities separated:
+
+| Directory | Responsibility |
+| --- | --- |
+| `agents/` | Orchestration; models from `LLMService`, prompts from the catalog |
+| `tools/` | Typed execution and validated state updates |
+| `workflows/` | CLI, assembly, and run lifecycle |
+| `prompts/` | Packaged agent prompts |
+| `schemas/` | Pydantic contracts |
+| `services/` | Provider integration, per-run search session, workspace services |
+| `evaluations/` | Architecture checks and runnable demonstrations |
+| `tests/` | Offline regression and opt-in live tests |
+| `docs/` | ADRs, agent docs, recorded delivery evidence, explainer pages |
+| `docs/architecture/` | A `skill.md` and `contract.md` for every agent |
+| `docs/SPECS-LOGS/` | Per-epic plans and runbooks |
+
+Agents never import HTTP clients or construct provider clients. Search tools validate both input and output.
+
+---
+
+## Search
+
+For a live provider smoke test:
 
 ```sh
 make smoke-epic-4
-SEARCH_TIMEOUT_SECONDS=60 uv run --locked deep-research-blog "2026 agentic AI frameworks" --search-only
 ```
 
-The smoke makes one page-2 API request, validates ranks 11–20, and makes no model request. The search-only command uses the production orchestrator to derive 2–3 variants, searches topic pages 1–3 plus each variant's first page, and saves `request.json`, `search_plan.json`, `search_results.json`, and `clean_results.json`. It prints counts, status, and paths, and exits 0 for completion, 1 for execution failure, or 2 for rejected input/configuration. Inspect the workspace printed by that command:
+For a full search-only run:
+
+```sh
+SEARCH_TIMEOUT_SECONDS=60 uv run --locked deep-research-blog \
+  "2026 agentic AI frameworks" \
+  --search-only
+```
+
+The production orchestrator derives 2–3 query variants, searches topic pages 1–3 plus each variant's first page, normalizes the URLs, filters denied hosts and duplicates, caps the result set, and writes:
+
+- `request.json`
+- `search_plan.json`
+- `search_results.json`
+- `clean_results.json`
+
+Inspect the workspace:
 
 ```sh
 uv run --locked python scripts/inspect-search-artifacts.py runs/<run_id>
 ```
 
-For a reproducible provider-only run, provide two or three repeated `--query-variant` arguments with `--search-only`; this avoids a model call. `--pages`, `--per-page`, and `--max-urls` override the configured budgets. Results merge as topic page 1, variant page 1s in derivation order, then remaining topic pages. Normalization strips tracking/fragments/trailing slashes, filters the specified hosts and subdomains, retains the earliest duplicate, caps at `max_urls`, and assigns contiguous clean ranks.
+For a reproducible provider-only run, pass two or three repeated `--query-variant` arguments with `--search-only`. That avoids a model call.
 
-The command without `--search-only` invokes the full agent skeleton; downstream pipeline tools still contain explicitly named stubs. Its completion status describes that invocation, not a finished production blog. `make demo-epic-3` demonstrates the skeleton offline. `make demo-epic-2` demonstrates contracts, state/checkpoints, prompts, and tools. `make smoke-epic-2` validates one live OpenRouter tool call with a 30-second timeout and no SDK retries.
+You can override the configured budgets with:
 
-All five model IDs are independently configurable using `MODELS__ORCHESTRATOR`, `MODELS__SEARCH_AGENT`, `MODELS__RESEARCH_AGENT`, `MODELS__ANALYST_AGENT`, and `MODELS__WRITER_AGENT`, each an `openrouter:<model-id>`. The default remains `openrouter:deepseek/deepseek-v4.1-flash`. Environment variables override `.env`.
-
-## Fetch and extraction
-
-Set `CRAWLER_CONTACT` in your Git-ignored `.env` to a public URL or email. Then fetch and extract the clean URLs from a completed Search workspace:
-
-```sh
-uv run --locked deep-research-blog --fetch-only --workspace runs/<search_run_id>
-uv run --locked python scripts/inspect-fetch-artifacts.py runs/<search_run_id>
-make smoke-epic-5
+```text
+--pages
+--per-page
+--max-urls
 ```
 
-Fetch-only needs no LLM or search key. It saves `fetch_outcomes.json` (HTTP metadata without HTML), `extraction_results.json` (clean Source previews and parser attempts), and `fetch_state.json` (one outcome per URL). Individual failures are recorded while processing continues. Exit 0 means this milestone processed every URL; it does not classify a completed research/blog run. Re-running replaces these JSON previews and fetches again. Immutable source files and production collection belong to EPIC-6.
+SerpApi Google search requires `--per-page 10`.
 
-Every request identifies the crawler. Page attempts share a 15-second network/body budget across redirects, with up to three transient retries, at most five active fetches, and at least one second between starts on a hostname. Longer robots Crawl-delay takes precedence. Redirect destinations are robots-checked. Non-HTML and blocked pages never reach extraction. The default parser chain is trafilatura → readability-lxml → beautifulsoup4 with a minimum of 200 visible body words. `EXTRACTOR_STRATEGY=trafilatura|readability|beautifulsoup` selects one parser; `fallback` restores the chain.
-
-`make demo-epic-5` uses original packaged HTML, mocked HTTP and explicitly labelled virtual timing. It demonstrates redirects, retries, permanent failure, robots blocking, PDF skipping, thin-page rejection, optional metadata, ordered fallback and the 30-host concurrency probe. The live smoke separately retrieves one public Python documentation page with your configured contact.
-
-## Live run
-
-A live run is three commands. Search writes the workspace, corpus collection reads it, and authoring reads the corpus. The first uncached SerpApi query for a fresh topic can exceed the 15-second default, so raise the timeout:
-
-```sh
-SEARCH_TIMEOUT_SECONDS=60 uv run deep-research-blog "Python LangChain Deep Agents Startup Ideas" --search-only --pages 3 --per-page 10 --max-urls 30
-```
+### Example search output
 
 ```json
 {
@@ -100,15 +208,70 @@ SEARCH_TIMEOUT_SECONDS=60 uv run deep-research-blog "Python LangChain Deep Agent
 }
 ```
 
-`runs/` is git-ignored, so the workspace shows up as untracked and should stay that way. The committed `runs.example/` folder is the saved output of the three commands below, kept for reference because a fresh run lands in `runs/` and is never committed. Collect the corpus, then write the draft, both against the printed workspace:
+---
 
-```sh
-RUN=runs/python-langchain-deep-agents-startup-ideas-20261001T195605Z
-uv run deep-research-blog --corpus-only --workspace "$RUN"
-uv run deep-research-blog --author-only --workspace "$RUN"
+## Fetch and extraction
+
+Set a public crawler contact in `.env`:
+
+```dotenv
+CRAWLER_CONTACT=<public URL or email>
 ```
 
-Corpus collection fetched all 30 URLs and kept going past individual failures. 21 sources were written and indexed; 6 were unreachable, 1 was blocked by robots, and 2 were too thin to extract:
+Then fetch and extract the clean URLs from a completed search workspace:
+
+```sh
+uv run --locked deep-research-blog --fetch-only --workspace runs/<search_run_id>
+uv run --locked python scripts/inspect-fetch-artifacts.py runs/<search_run_id>
+make smoke-epic-5
+```
+
+Fetch-only needs no LLM key and no search key.
+
+It writes:
+
+- `fetch_outcomes.json`
+- `extraction_results.json`
+- `fetch_state.json`
+
+Individual failures are recorded while the run continues.
+
+The fetcher:
+
+- identifies the crawler on every request
+- respects robots rules
+- robots-checks redirect destinations
+- shares a 15-second network/body budget across redirects
+- retries transient failures up to three times
+- keeps at most five active fetches
+- waits at least one second between starts on the same hostname
+- skips non-HTML and blocked pages before extraction
+
+Parser fallback order:
+
+```text
+trafilatura → readability-lxml → beautifulsoup4
+```
+
+The default minimum is 200 visible body words.
+
+Override the parser with:
+
+```dotenv
+EXTRACTOR_STRATEGY=trafilatura
+```
+
+Valid values:
+
+```text
+trafilatura | readability | beautifulsoup | fallback
+```
+
+---
+
+## Corpus collection
+
+The committed example processed all 30 URLs. It wrote and indexed 21 sources while continuing past individual failures:
 
 ```json
 {
@@ -129,7 +292,22 @@ Corpus collection fetched all 30 URLs and kept going past individual failures. 2
 }
 ```
 
-Authoring wrote `research/summary.md` and a 3193-word `output/blog.md`, then ran the citation gate. All 17 citations resolved to a source file, but two cited sources were listed in `## References` with a title or URL that did not match the source file. Two repair passes did not fix them, so the run ended `failed` with reason `dangling_citations`. The last draft is kept:
+Fresh runs live in Git-ignored `runs/`. The committed `runs.example/` directory keeps a reference output.
+
+---
+
+## Authoring and the citation gate
+
+Authoring writes:
+
+```text
+research/summary.md
+output/blog.md
+```
+
+Then it verifies the citations.
+
+The committed example produced a 3,193-word draft with 17 citations. Every citation resolved to a source file, but two reference entries had a title or URL mismatch. Two repair passes did not fix them, so the run failed and kept the last draft:
 
 ```json
 {
@@ -148,25 +326,50 @@ Authoring wrote `research/summary.md` and a 3193-word `output/blog.md`, then ran
 }
 ```
 
+That failure is useful: the pipeline does not silently turn a citation mismatch into a "successful" article.
+
+---
+
 ## Evaluation and release gate
 
-The unit suite is offline: it strips provider credentials and blocks sockets, so it needs no keys and no network. The whole pipeline also runs on fixtures, and releases are scored against the PD-021 golden dataset before a tag is created.
+![Quality gates](doc/images/quality-gates.svg)
+
+The unit suite is offline. It removes provider credentials and blocks sockets, so it needs no keys and no network.
+
+Run the offline demos and evaluation:
 
 ```sh
 make demo-epic-10
 make eval-offline
 ```
 
-`make demo-epic-10` scores one fixture topic and shows both a passing and a blocked release decision. `make eval-offline` runs the fixture pipeline for every golden topic and writes `evaluations/benchmarks/<date>-<commit>.json`. Neither needs credentials.
+`make eval-offline` runs the fixture pipeline for every golden topic and writes:
 
-A live evaluation uses the production models and SerpApi, and the release gate tags only when every golden topic passes every PD-021 threshold:
+```text
+evaluations/benchmarks/<date>-<commit>.json
+```
+
+For a live evaluation and release:
 
 ```sh
 make eval
 make release VERSION=1.0.0
 ```
 
-Each topic is scored for citation validity, length, coverage, groundedness, hallucination rate, and every PRD.md §13 Definition of Done item. The judge defaults to DeepSeek V4.1 Flash on OpenRouter. See [EPIC-10.md](docs/SPECS-LOGS/EPIC-10.md) and [the runbook](docs/SPECS-LOGS/EPIC-10-RUNBOOK.md).
+The release gate checks every golden topic against the PD-021 thresholds before creating a tag.
+
+Topics are scored for:
+
+- citation validity
+- length
+- coverage
+- groundedness
+- hallucination rate
+- every PRD.md §13 Definition of Done item
+
+The judge defaults to DeepSeek V4.1 Flash on OpenRouter.
+
+---
 
 ## Development checks
 
@@ -181,33 +384,86 @@ sh scripts/verify-epic-5-checkout.sh
 uv run --locked pytest -m live tests/test_search_workflow.py --no-cov
 ```
 
-The package verifier runs the installed wheel outside the checkout. The checkout verifier clones committed files into a temporary directory, installs locked dependencies, runs all offline gates/demos, builds, and verifies the wheel without `.env`. The final pytest command is an explicit real provider request; live tests are excluded from offline gates. Search failures preserve completed artifacts and do not retry automatically. Start a new run to retry a failed search; cross-process resume is scoped to EPIC-8.
+The package verifier runs the installed wheel outside the checkout.
 
-Git hooks and GitHub Actions use the same offline quality gates, including agent HTTP/provider/prompt architecture checks. uv handles virtual environment selection; activation is optional. Hosted CI execution is separate from local verification.
+The checkout verifier clones committed files into a temporary directory, installs locked dependencies, runs the offline gates and demos, builds, and verifies the wheel without `.env`.
 
-## Layout and rules
+Live tests are opt-in and excluded from offline gates.
 
-| Directory | Responsibility |
-| --- | --- |
-| `agents/` | Orchestration; models from `LLMService`, system prompts from the catalog |
-| `tools/` | Typed execution and validated state updates |
-| `workflows/` | CLI, assembly, and run lifecycle |
-| `prompts/` | Packaged agent prompts |
-| `schemas/` | Pydantic contracts |
-| `services/` | Provider integration, per-run search session, and workspace services |
-| `evaluations/` | Architecture checks and runnable demonstrations |
-| `tests/` | Offline regression and opt-in live tests |
-| `docs/` | ADRs, agent documentation, recorded delivery evidence, and explainer pages |
-| `docs/architecture/` | A `skill.md` and `contract.md` for every agent |
-| `docs/SPECS-LOGS/` | Per-epic plans (`EPIC-N.md`) and runbooks (`EPIC-N-RUNBOOK.md`) |
+---
 
-Agents never import HTTP clients or construct provider clients. Per-run registry closures bind search tools to a workspace and provider; credentials and clients stay outside agent/checkpoint state. Search tools validate both input and output. The static boundary checker parses imports and prompt/model construction; computed indirect network access is outside its scope.
+## Observability
 
-Each epic's plan and runbook live in [docs/SPECS-LOGS/](docs/SPECS-LOGS/): for example [EPIC-8.md](docs/SPECS-LOGS/EPIC-8.md) and [EPIC-8-RUNBOOK.md](docs/SPECS-LOGS/EPIC-8-RUNBOOK.md). Product decisions live in [SPECS.md](SPECS.md); architectural decisions in [docs/adr/](docs/adr/README.md); each agent's skill file and contract in [docs/architecture/](docs/architecture/README.md). [docs/pages/running-a-run.html](docs/pages/running-a-run.html) explains a live run visually; open it from disk.
+Each run writes local observability data to:
 
-## Working one epic per session
+```text
+runs/<run-id>/logs/execution.log
+runs/<run-id>/logs/telemetry.json
+```
 
-Each epic is one session: plan it, implement that plan, then review and test it. Do not start the next epic in the same session. The three prompts below are the ones that produced EPIC-6, EPIC-7, and EPIC-8. Replace `N` with the epic number.
+Registered tools, native model calls, retries, source outcomes, and citation checks populate the counters.
+
+![Observability flow](doc/images/observability.svg)
+
+Start the local stack:
+
+```sh
+make setup
+make demo-epic-9
+make observability-up
+make smoke-epic-9
+```
+
+Open:
+
+- Grafana: http://127.0.0.1:3001/d/research-runs
+- Prometheus: http://127.0.0.1:9090
+
+To export normal CLI metrics to the local stack:
+
+```dotenv
+OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4318
+```
+
+For hosted LangSmith traces:
+
+```dotenv
+LANGSMITH_TRACING=true
+LANGSMITH_API_KEY=<your key>
+LANGSMITH_PROJECT=<optional project>
+```
+
+Then:
+
+```sh
+make smoke-langsmith
+```
+
+Stop the local stack:
+
+```sh
+make observability-down
+```
+
+Named volumes are retained.
+
+### Existing observability screenshots
+
+![Grafana Deep Research Runs dashboard](docs/pages/images/grafana-dashboard.png)
+
+![LangSmith traces](docs/pages/images/langsmith-traces.png)
+
+![LangSmith trace tree](docs/pages/images/langsmith-trace-tree.png)
+
+![LangSmith API keys](docs/pages/images/langsmith-api-keys.png)
+
+---
+
+## One epic per session
+
+The delivery rule is simple: finish one epic before touching the next one.
+
+![One epic per session](doc/images/epic-loop.svg)
 
 ### 1. Plan
 
@@ -239,54 +495,37 @@ Check each acceptance scenario against the code and the tests, and report any sc
 Write docs/SPECS-LOGS/EPIC-N-RUNBOOK.md with the commands that passed, the PM demo steps, and an evidence table. Save coverage, the command list, and a source manifest pinned to the implementation commit under docs/evidence/epic-N/. Mark a story or task DONE in SPECS.md only when its scenario passed. Commit the implementation and the evidence separately, with hooks active, and exclude .env and runs/.
 ```
 
-
-## Observability (EPIC-9)
-
-Run commands now write JSON Lines to `runs/<run-id>/logs/execution.log` and an inspectable `logs/telemetry.json` snapshot. Registered tools, native agent model calls, fetch/phase retries, source outcomes and citation checks populate actual counts. Model usage/cost is read from response metadata; missing provider cost is marked unavailable. The existing report retains its ledger fallback. No metric exporter is constructed when `OTEL_EXPORTER_OTLP_ENDPOINT` is unset.
-
-```sh
-make setup
-make demo-epic-9
-make observability-up
-make smoke-epic-9
-```
-
-The offline demo runs the native agent hierarchy with scripted model usage and mock web responses, receives real OTLP protobuf on loopback, and deliberately fails two citations to make the dashboard's failure and citation panels demonstrable. Open [Grafana's research dashboard](http://127.0.0.1:3001/d/research-runs) and select the printed run ID. [Prometheus](http://127.0.0.1:9090) exposes the corresponding run metrics. Grafana provides anonymous Viewer access locally.
-
-To export normal CLI workflow metrics to the stack, set `OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4318` in the ignored `.env`. For hosted traces, set `LANGSMITH_TRACING=true`, `LANGSMITH_API_KEY`, and optionally `LANGSMITH_PROJECT`, then run `make smoke-langsmith`. This smoke uses fixture research work with real hosted trace upload/readback. Stop the local stack with `make observability-down`; named volumes are retained.
-
-See [EPIC-9.md](docs/SPECS-LOGS/EPIC-9.md), [the runbook](docs/SPECS-LOGS/EPIC-9-RUNBOOK.md), and [ADR 0008](docs/adr/0008-run-observability.md) for acceptance evidence, configuration, commands, and limitations.
-
-![Grafana Deep Research Runs dashboard: runs by status, tokens, cost, phase latency, tool calls, retries, URL outcomes, and dangling citations](docs/pages/images/grafana-dashboard.png)
-
-*Grafana's Deep Research Runs dashboard after `make demo-epic-9`, all runs selected. The demo fails two citations on purpose, so the failure and dangling-citation panels have data.*
-
-![LangSmith Tracing view of the deep-research-blog-writer project with three research.hosted-smoke root traces, two successful and one with error run_failed](docs/pages/images/langsmith-traces.png)
-
-*LangSmith traces from `make smoke-langsmith` in the `deep-research-blog-writer` project: two succeeded runs and one deliberate `run_failed`. Each root carries `run_id` and `topic` metadata.*
-
-![LangSmith trace tree for one research.hosted-smoke run: model, ScriptedChatModel, tools, plan_search, task, and search_agent spans](docs/pages/images/langsmith-trace-tree.png)
-
-*One trace opened: the orchestrator's `model` and `tools` steps, the `plan_search` tool, and the `task` call that delegates to `search_agent`, all nested under the root.*
-
-![LangSmith Settings, API Keys page with one personal key described as deep-research-blog-writer](docs/pages/images/langsmith-api-keys.png)
-
-*LangSmith **Settings → API Keys**. Create a personal key, put it in `LANGSMITH_API_KEY` in the git-ignored `.env`, and never commit it.*
+---
 
 ## Service URLs
 
-Local URLs work only while `make observability-up` is running; every port is bound to `127.0.0.1`.
+Local URLs only work while `make observability-up` is running. Every local port is bound to `127.0.0.1`.
 
 | Service | URL | Used for |
 | --- | --- | --- |
-| Grafana dashboard | [http://127.0.0.1:3001/d/research-runs](http://127.0.0.1:3001/d/research-runs) | Run metrics panels; anonymous Viewer access |
-| Prometheus | [http://127.0.0.1:9090](http://127.0.0.1:9090) | Raw run metrics scraped from the collector |
-| OTLP collector | `http://127.0.0.1:4318/v1/metrics` | Set `OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4318` to export CLI metrics |
-| LangSmith | [https://smith.langchain.com](https://smith.langchain.com) | Hosted traces in the `deep-research-blog-writer` project; keys under Settings → API Keys |
-| LangSmith API | `https://api.smith.langchain.com` | `LANGSMITH_ENDPOINT` default |
-| OpenRouter | [https://openrouter.ai](https://openrouter.ai) | `OPENROUTER_API_KEY`; every agent defaults to `deepseek/deepseek-v4.1-flash` |
-| SerpApi | [https://serpapi.com](https://serpapi.com) | `SERPAPI_API_KEY`; requests go to `https://serpapi.com/search.json` |
-| Serper | [https://serper.dev](https://serper.dev) | `SERPER_API_KEY` with `SEARCH_PROVIDER=serper`; requests go to `https://google.serper.dev/search` |
-| LangGraph | [docs.langchain.com/oss/python/langgraph](https://docs.langchain.com/oss/python/langgraph/overview) | Runtime under DeepAgents; runs in-process, so there is no LangGraph server to open |
-| DeepAgents | [docs.langchain.com/oss/python/deepagents](https://docs.langchain.com/oss/python/deepagents/overview) | Orchestrator and sub-agent harness ([ADR 0001](docs/adr/0001-deepagents-on-langgraph.md)) |
-| Documentation site | [https://josoroma.github.io/deep-research-blog-writer](https://josoroma.github.io/deep-research-blog-writer) | This project's GitHub Pages explainer |
+| Grafana dashboard | http://127.0.0.1:3001/d/research-runs | Run metrics panels |
+| Prometheus | http://127.0.0.1:9090 | Raw run metrics |
+| OTLP collector | `http://127.0.0.1:4318/v1/metrics` | CLI metrics export |
+| LangSmith | https://smith.langchain.com | Hosted traces |
+| LangSmith API | https://api.smith.langchain.com | `LANGSMITH_ENDPOINT` default |
+| OpenRouter | https://openrouter.ai | Agent model access |
+| SerpApi | https://serpapi.com | Search provider |
+| Serper | https://serper.dev | Search provider |
+| LangGraph | https://docs.langchain.com/oss/python/langgraph/overview | Runtime under DeepAgents |
+| DeepAgents | https://docs.langchain.com/oss/python/deepagents/overview | Orchestrator and sub-agent harness |
+| Documentation | https://josoroma.github.io/deep-research-blog-writer | Project explainer |
+
+---
+
+## More detail
+
+For the full implementation record, architecture decisions, and per-epic evidence:
+
+- `SPECS.md` — product decisions and epic status
+- `docs/SPECS-LOGS/` — plans and runbooks
+- `docs/adr/` — architecture decisions
+- `docs/architecture/` — per-agent `skill.md` and `contract.md`
+- `docs/evidence/` — recorded delivery evidence
+- `docs/pages/running-a-run.html` — visual walkthrough of a live run
+
+The README should get you running. The docs explain why the system is built this way.
