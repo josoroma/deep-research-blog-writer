@@ -2,7 +2,7 @@
 
 Date: 2026-10-02
 
-Status: Planned. This plan is written before implementation. Successful commands and PM evidence will be recorded in `EPIC-11-RUNBOOK.md` and `docs/evidence/epic-11/` after verification.
+Status: DONE. Implementation and offline acceptance verified on committed revision `40b676ad8d0b06d5b7dc2d9bd88e5700e91c9e59`. Successful commands and PM evidence are recorded in [EPIC-11-RUNBOOK.md](EPIC-11-RUNBOOK.md) and `docs/evidence/epic-11/`.
 
 ## Objective
 
@@ -34,14 +34,14 @@ Implement US-11.1 and PD-022 in [SPECS.md](../../SPECS.md#epic-11-agent-document
 
 ## Completion checklist
 
-- [ ] `docs/architecture/agents/` holds `skill.md` and `contract.md` for all five agents.
-- [ ] Every `skill.md` carries the eleven PD-022 sections and names its contract types.
-- [ ] Every `contract.md` states input, output, success criteria, and failure conditions with a traceable source.
-- [ ] The documentation check passes and is part of the offline suite.
-- [ ] Offline demo, meaningful tests, coverage, and hooks pass.
-- [ ] Build, installed package, existing demos, and fresh checkout pass.
-- [ ] Runbook, exact command transcripts, snapshots, and hashes saved.
-- [ ] Implementation and evidence committed.
+- [x] `docs/architecture/agents/` holds `skill.md` and `contract.md` for all five agents.
+- [x] Every `skill.md` carries the eleven PD-022 sections and names its contract types.
+- [x] Every `contract.md` states input, output, success criteria, and failure conditions with a traceable source.
+- [x] The documentation check passes and is part of the offline suite.
+- [x] Offline demo, meaningful tests, coverage, and hooks pass.
+- [x] Build, installed package, existing demos, and fresh checkout pass.
+- [x] Runbook, exact command transcripts, snapshots, and hashes saved.
+- [x] Implementation and evidence committed.
 
 ## Scope boundary
 

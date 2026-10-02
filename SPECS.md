@@ -223,9 +223,9 @@ CODEBASE Context: EPIC-1 foundation implemented on 2026-09-30; EPIC-2 contracts 
 | US-10.5 | Gate Releases on Evaluation Results | DONE | EPIC-10 |
 | US-10.5#1 | Add the `make release` target, which runs `make eval` and tags only when every threshold passes. | DONE | US-10.5 |
 | EPIC-11 | Agent Documentation | — | — |
-| US-11.1 | Document Every Agent with a Skill File and a Contract | READY | EPIC-11 |
-| US-11.1#1 | Write `skill.md` for the orchestrator and each sub-agent with the PD-022 sections. | TODO | US-11.1 |
-| US-11.1#2 | Write `contract.md` for the orchestrator and each sub-agent. | TODO | US-11.1 |
+| US-11.1 | Document Every Agent with a Skill File and a Contract | DONE | EPIC-11 |
+| US-11.1#1 | Write `skill.md` for the orchestrator and each sub-agent with the PD-022 sections. | DONE | US-11.1 |
+| US-11.1#2 | Write `contract.md` for the orchestrator and each sub-agent. | DONE | US-11.1 |
 
 ## Dependency Diagram
 
@@ -3271,13 +3271,15 @@ Open Questions:
 
 Document every agent with a skill file and a contract under docs/architecture/, so the system stays understandable as agents are added.
 
+Verification: see [EPIC-11 runbook](docs/SPECS-LOGS/EPIC-11-RUNBOOK.md). `docs/architecture/agents/` holds a `skill.md` and `contract.md` for the orchestrator and each of its four sub-agents, and `tests/test_agent_docs.py` asserts every `skill.md` carries the eleven PD-022 sections in order and names its contract types, and that every `contract.md` states input, output, success criteria, and failure conditions with a traceable `PRD.md` or `SPECS.md` source.
+
 ## Dependencies
 
 - EPIC-3
 
 ### US-11.1: Document Every Agent with a Skill File and a Contract
 
-Status: READY
+Status: DONE
 
 As an Engineering Lead
 I want a skill.md and a contract for the orchestrator and each sub-agent
@@ -3310,8 +3312,8 @@ Dependencies:
 - US-3.2
 
 Tasks:
-- [ ] Write `skill.md` for the orchestrator and each sub-agent with the PD-022 sections.
-- [ ] Write `contract.md` for the orchestrator and each sub-agent.
+- [x] Write `skill.md` for the orchestrator and each sub-agent with the PD-022 sections.
+- [x] Write `contract.md` for the orchestrator and each sub-agent.
 
 Open Questions:
 - None.

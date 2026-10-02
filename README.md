@@ -1,6 +1,6 @@
 # Deep Research Blog Writer
 
-A Python research-to-blog pipeline using DeepAgents on LangGraph. A topic goes in. Ranked search results, an immutable source corpus, a research summary, and a cited blog draft come out. EPIC-1 to EPIC-10 are delivered: locked setup and quality gates, typed contracts and tools, the four-agent skeleton, API search with ranked normalization, polite fetching with parser fallback, the research corpus, synthesis and blog authoring behind a citation gate, the run-report, retry, and resume building blocks, run-owned observability with a local metrics dashboard, and an offline test suite plus a golden-dataset evaluation and release gate. Agent documentation (EPIC-11) is next.
+A Python research-to-blog pipeline using DeepAgents on LangGraph. A topic goes in. Ranked search results, an immutable source corpus, a research summary, and a cited blog draft come out. EPIC-1 to EPIC-11 are delivered: locked setup and quality gates, typed contracts and tools, the four-agent skeleton, API search with ranked normalization, polite fetching with parser fallback, the research corpus, synthesis and blog authoring behind a citation gate, the run-report, retry, and resume building blocks, run-owned observability with a local metrics dashboard, an offline test suite plus a golden-dataset evaluation and release gate, and a skill file and contract for every agent under [docs/architecture](docs/architecture/README.md).
 
 **Documentation site:** [https://josoroma.github.io/deep-research-blog-writer](https://josoroma.github.io/deep-research-blog-writer). It explains setup, the run loop, and the committed example run with diagrams. The same page is at [docs/pages/running-a-run.html](docs/pages/running-a-run.html).
 
@@ -195,12 +195,13 @@ Git hooks and GitHub Actions use the same offline quality gates, including agent
 | `services/` | Provider integration, per-run search session, and workspace services |
 | `evaluations/` | Architecture checks and runnable demonstrations |
 | `tests/` | Offline regression and opt-in live tests |
-| `docs/` | ADRs, recorded delivery evidence, and explainer pages |
+| `docs/` | ADRs, agent documentation, recorded delivery evidence, and explainer pages |
+| `docs/architecture/` | A `skill.md` and `contract.md` for every agent |
 | `docs/SPECS-LOGS/` | Per-epic plans (`EPIC-N.md`) and runbooks (`EPIC-N-RUNBOOK.md`) |
 
 Agents never import HTTP clients or construct provider clients. Per-run registry closures bind search tools to a workspace and provider; credentials and clients stay outside agent/checkpoint state. Search tools validate both input and output. The static boundary checker parses imports and prompt/model construction; computed indirect network access is outside its scope.
 
-Each epic's plan and runbook live in [docs/SPECS-LOGS/](docs/SPECS-LOGS/): for example [EPIC-8.md](docs/SPECS-LOGS/EPIC-8.md) and [EPIC-8-RUNBOOK.md](docs/SPECS-LOGS/EPIC-8-RUNBOOK.md). Product decisions live in [SPECS.md](SPECS.md); architectural decisions in [docs/adr/](docs/adr/README.md). [docs/pages/running-a-run.html](docs/pages/running-a-run.html) explains a live run visually; open it from disk.
+Each epic's plan and runbook live in [docs/SPECS-LOGS/](docs/SPECS-LOGS/): for example [EPIC-8.md](docs/SPECS-LOGS/EPIC-8.md) and [EPIC-8-RUNBOOK.md](docs/SPECS-LOGS/EPIC-8-RUNBOOK.md). Product decisions live in [SPECS.md](SPECS.md); architectural decisions in [docs/adr/](docs/adr/README.md); each agent's skill file and contract in [docs/architecture/](docs/architecture/README.md). [docs/pages/running-a-run.html](docs/pages/running-a-run.html) explains a live run visually; open it from disk.
 
 ## Working one epic per session
 
