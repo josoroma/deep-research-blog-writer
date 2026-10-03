@@ -4,7 +4,7 @@
 
 It searches the web, reads the best sources, takes notes, and writes the article. Then it checks every citation. If something doesn't add up, it says so and keeps the draft, so no work is lost.
 
-![Deep Research Blog Writer pipeline](docs/images/pipeline.svg)
+![Deep Research Blog Writer overview](docs/images/deep_research_blog_writer_infographic.png)
 
 **Live walkthrough:** https://josoroma.github.io/deep-research-blog-writer
 
@@ -18,11 +18,9 @@ Three steps, each one picking up where the last left off.
 2. **Collect.** Read each page and save the useful ones as sources.
 3. **Write.** Summarize the sources, draft the article, and check the citations.
 
-![The three-command live run](docs/images/live-run.svg)
+![How a run works](docs/images/how_a_run_works_three_step_research_workflow.png)
 
 Everything from a run lands in one folder, so you can open it and see exactly what happened.
-
-![Run workspace artifacts](docs/images/workspace.svg)
 
 ---
 
@@ -42,6 +40,8 @@ To run it for real, copy `.env.example` to `.env` and add a search key and a mod
 ```sh
 uv run deep-research-blog "Your topic here" --search-only
 ```
+
+![Get started](docs/images/get_started_setup_and_testing_guide.png)
 
 ---
 
@@ -84,6 +84,8 @@ curl --include --silent --show-error \
 
 `mode` is `search` or `research`. The same idempotency key and body return the original job; a changed body returns `409`. Once the worker assigns a run id, read `/v1/runs/<run_id>`, `/report`, and `/artifacts/...`.
 
+![Develop against it](docs/images/develop_against_it_cli_api_and_worker_flow.png)
+
 | Make target | What it does |
 | --- | --- |
 | `make check` | Lock, lint, format, strict typing, offline tests, 80% coverage |
@@ -104,7 +106,7 @@ The phase commands, settings, and artifact layout are in [`README-DEV.md`](READM
 
 One coordinator hands work to four specialists: a searcher, a researcher, an analyst, and a writer.
 
-![Agent architecture](docs/images/agents.svg)
+![Who does what](docs/images/who_does_what_agent_workflow.png)
 
 Each one has a short description of its job in [`docs/architecture/`](docs/architecture/README.md).
 
@@ -114,7 +116,7 @@ Each one has a short description of its job in [`docs/architecture/`](docs/archi
 
 A draft only counts as done if every citation points to a real source. The example run wrote a 3,193-word article, but two references didn't match their sources, so it was marked **failed** rather than passed off as finished.
 
-![Quality gates](docs/images/quality-gates.svg)
+![Honest by design](docs/images/honest_by_design_citation_validation_dashboard.png)
 
 Before any release, it's scored on a fixed set of topics for accuracy and coverage.
 
@@ -122,17 +124,9 @@ Before any release, it's scored on a fixed set of topics for accuracy and covera
 
 ## See what's happening
 
-Every run can be watched live: metrics in a local dashboard, and a step-by-step trace in LangSmith.
+Every run can be watched live: metrics in a local dashboard, and step-by-step traces in LangSmith.
 
-![Observability flow](docs/images/observability.svg)
-
-![Grafana Deep Research Runs dashboard](docs/pages/images/grafana-dashboard.png)
-
-![LangSmith traces](docs/pages/images/langsmith-traces.png)
-
-![LangSmith trace tree](docs/pages/images/langsmith-trace-tree.png)
-
-![LangSmith API keys](docs/pages/images/langsmith-api-keys.png)
+![Observability](docs/images/live_observability_dashboard_and_traces.png)
 
 ---
 
@@ -140,7 +134,7 @@ Every run can be watched live: metrics in a local dashboard, and a step-by-step 
 
 One piece at a time: plan it, build it, test it, then move on.
 
-![One epic per session](docs/images/epic-loop.svg)
+![How it was built](docs/images/how_it_was_built_a_four_step_process.png)
 
 ---
 
