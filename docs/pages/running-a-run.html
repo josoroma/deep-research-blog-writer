@@ -671,6 +671,24 @@ $ curl http://127.0.0.1:8000/v1/jobs/1b9ce543-5237-4031-93ae-46467e1aa188
         </tbody>
       </table>
     </div>
+    <h3>OpenAPI and interactive docs</h3>
+    <p>There is no <code>openapi.json</code> file in the repository. FastAPI generates the schema from the routers and Pydantic models each time the API starts, so it only exists while <code>make run-api</code> is running. All three URLs below returned <code>200</code> on 2026-10-03, and the schema reported <code>title: deep-research-blog-api</code>, <code>version: 0.1.0</code>, and 10 paths.</p>
+    <div class="table-wrap">
+      <table>
+        <caption>Served by the running API on 127.0.0.1:8000.</caption>
+        <thead><tr><th scope="col">URL</th><th scope="col">What it is</th></tr></thead>
+        <tbody>
+          <tr><td><a href="http://127.0.0.1:8000/openapi.json"><code>/openapi.json</code></a></td><td>The OpenAPI 3 schema as JSON. Every <code>/v1</code> route declares the error envelope for 401, 404, 409, 413, 422, 429, 500, and 503.</td></tr>
+          <tr><td><a href="http://127.0.0.1:8000/docs"><code>/docs</code></a></td><td>Swagger UI, generated from the schema. Use <em>Try it out</em> to send real requests.</td></tr>
+          <tr><td><a href="http://127.0.0.1:8000/redoc"><code>/redoc</code></a></td><td>ReDoc, the same schema in a reading layout.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>To keep a copy, save it while the API runs: <code>curl -s http://127.0.0.1:8000/openapi.json -o openapi.json</code>.</p>
+    <figure class="shot">
+      <img src="images/swagger-endpoints.png" alt="Swagger UI for deep-research-blog-api listing three groups: health with GET /health/live and GET /health/ready; jobs with POST /v1/runs, GET /v1/jobs/{job_id}, and POST /v1/runs/{run_id}/resume; and runs with GET /v1/runs, GET /v1/runs/{run_id}, its report, artifacts, artifact download, and logs" loading="lazy" width="1094" height="1560">
+      <figcaption>Swagger UI at <code>/docs</code> on 2026-10-03: the 11 operations across 10 paths, grouped by the <code>health</code>, <code>jobs</code>, and <code>runs</code> router tags.</figcaption>
+    </figure>
     <h3>Error responses</h3>
     <p>Every error uses the same envelope: <code>{"error":{"code":…,"message":…,"request_id":…}}</code>. Each response below was returned by the running API. <code>GET /openapi.json</code> declares the envelope for every <code>/v1</code> route.</p>
     <div class="table-wrap">

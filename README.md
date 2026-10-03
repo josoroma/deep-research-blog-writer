@@ -92,6 +92,24 @@ $ curl http://127.0.0.1:8000/v1/jobs/f65fa89e-08da-4e78-9e7e-ef364e4ac7a9
 
 Errors share one envelope, `{"error":{"code","message","request_id"}}`: `422` for bad input or a budget over the server cap, `404` for an unknown run, job, or artifact, `409` for a conflict, `413` for an oversized artifact, `429` with `Retry-After` when the queue is full, `401` for a bad token, and `503` when PostgreSQL is down.
 
+### OpenAPI and interactive docs
+
+There is no `openapi.json` file in the repo. FastAPI generates the schema from the routers and Pydantic models each time the API starts, so it exists only while `make run-api` is running:
+
+| URL | What it is |
+| --- | --- |
+| http://127.0.0.1:8000/openapi.json | The OpenAPI 3 schema as JSON |
+| http://127.0.0.1:8000/docs | Swagger UI; *Try it out* sends real requests |
+| http://127.0.0.1:8000/redoc | ReDoc, the same schema in a reading layout |
+
+The schema reports `deep-research-blog-api` `0.1.0` with 10 paths and 11 operations. Every `/v1` route declares the error envelope. To keep a copy:
+
+```sh
+curl -s http://127.0.0.1:8000/openapi.json -o openapi.json
+```
+
+![Swagger UI listing the health, jobs, and runs endpoints](docs/pages/images/swagger-endpoints.png)
+
 ![Develop against it](docs/images/develop_against_it_cli_api_and_worker_flow.png)
 
 | Make target | What it does |
@@ -164,6 +182,9 @@ Local links work while the dashboard is running (`make observability-up`).
 | Documentation | https://josoroma.github.io/deep-research-blog-writer | Project explainer |
 | Research API | http://127.0.0.1:8000 | `make run-api`; jobs at `/v1/runs` |
 | API readiness | http://127.0.0.1:8000/health/ready | Database and queue; `503` when admission cannot proceed |
+| OpenAPI schema | http://127.0.0.1:8000/openapi.json | Generated at runtime; not a file in the repo |
+| Swagger UI | http://127.0.0.1:8000/docs | Interactive API docs |
+| ReDoc | http://127.0.0.1:8000/redoc | Reference API docs |
 
 ---
 
