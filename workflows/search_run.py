@@ -12,6 +12,8 @@ from schemas.requests import ResearchRequest
 from schemas.search import NormalizationCounts, QueryVariants, SearchPlanOutput
 from schemas.state import RunState
 from schemas.tool_io import GoogleSearchOutput, NormalizeResultsOutput
+from schemas.workspace import RunWorkspace
+from services.artifacts import write_json
 from services.llm_service import LLMService
 from services.observability import (
     observed_config,
@@ -56,6 +58,7 @@ def run_search(
     variants: QueryVariants | None = None,
     search_provider: SearchProvider | None = None,
     fake_model: BaseChatModel | None = None,
+    workspace: RunWorkspace | None = None,
 ) -> SearchSummary:
     provider = search_provider if search_provider is not None else create_search_provider(settings)
     provider.preflight(request.per_page)
@@ -66,7 +69,9 @@ def run_search(
         query.casefold() == request.topic.casefold() for query in variants.variants
     ):
         raise ValueError("variants must differ from the topic")
-    workspace = create_run_workspace(request, runs_root)
+    # A caller that already owns the run's workspace (the worker) supplies it here,
+    # so search never invents a second directory for the same run.
+    workspace = workspace if workspace is not None else create_run_workspace(request, runs_root)
     planned_variants = variants
     if planned_variants is None:
         assert llm is not None
@@ -92,6 +97,8 @@ def run_search(
         )
         assert isinstance(normalized, NormalizeResultsOutput)
         counts = normalized.counts
+        observed = normalized.run
+        write_json(workspace.root / "search_state.json", observed.model_dump(mode="json"))
     except Exception as failure:  # noqa: BLE001 - credential-safe CLI boundary
         error = str(failure) if isinstance(failure, SearchProviderError) else type(failure).__name__
     return SearchSummary(

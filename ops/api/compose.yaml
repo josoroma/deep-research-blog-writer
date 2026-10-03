@@ -1,0 +1,73 @@
+# Single-host deployment: PostgreSQL, the API, and one research worker.
+#
+# The API and worker share a persistent volume so the worker can mutate the same
+# run workspaces the API reads. This is the migration plan's initial deployment
+# assumption; multiple hosts require shared artifact storage and coordinated
+# crawler limits before raising worker concurrency.
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: research
+      POSTGRES_PASSWORD: research
+      POSTGRES_DB: research
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U research -d research"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
+
+  api:
+    build:
+      context: ../..
+      dockerfile: ops/api/Dockerfile
+    command:
+      - uvicorn
+      - api.main:create_app
+      - --factory
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8000"
+    environment:
+      API_DATABASE: postgresql://research:research@postgres:5432/research
+      API_RUNS_DIR: /data/runs
+      API_ALLOWED_ORIGINS: ${API_ALLOWED_ORIGINS:-}
+      API_TOKEN: ${API_TOKEN:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - runs:/data/runs
+
+  worker:
+    build:
+      context: ../..
+      dockerfile: ops/api/Dockerfile
+    command: ["python", "-m", "workers.research_worker"]
+    environment:
+      API_DATABASE: postgresql://research:research@postgres:5432/research
+      API_RUNS_DIR: /data/runs
+      API_WORKER_POLL_SECONDS: "1"
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      SERPAPI_API_KEY: ${SERPAPI_API_KEY:-}
+      SEARCH_PROVIDER: ${SEARCH_PROVIDER:-serpapi}
+      CRAWLER_CONTACT: ${CRAWLER_CONTACT:-}
+      LANGSMITH_TRACING: ${LANGSMITH_TRACING:-false}
+      LANGSMITH_API_KEY: ${LANGSMITH_API_KEY:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - runs:/data/runs
+
+volumes:
+  pgdata:
+  runs:

@@ -1059,6 +1059,18 @@ Each agent has `docs/architecture/agents/<agent>/skill.md` and a `contract.md` b
 
 Applies to: US-11.1.
 
+### PD-023 — Durable HTTP Job Queue and Server Execution
+
+- **Transport:** a FastAPI app adds an HTTP entry point beside the local CLI. All business endpoints use `/v1`. Handlers never invoke `main()` or parse console output; they call shared application use cases.
+- **Acceptance:** `POST /v1/runs` returns `202` with an opaque job UUID and `Location: /v1/jobs/<job_id>`. Submission requires an `Idempotency-Key`; the same key and normalized payload return the original job, and a changed payload returns `409`. Business rules stay in the shared use cases; the API only enforces transport concerns and configured budget caps.
+- **Queue:** accepted jobs are stored in PostgreSQL, which is both the durable record and the work queue. A worker claims work transactionally with `FOR UPDATE SKIP LOCKED` and acquires an exclusive OS workspace lock before writing. One worker processes one job at a time; request-local background tasks are not used for research.
+- **Runs:** the canonical run ID is assigned by the worker after provider preflight, not by the API. Job states are `queued`, `running`, `succeeded`, `degraded`, `failed`, and `interrupted`; a search job's success means search completed, while a research job's terminal outcome comes from the final report.
+- **Reads:** run status, the final `RunReport`, allowlisted artifacts, and bounded log pages are read through a single `ArtifactReader` with workspace containment and symlink rejection. Provider secrets, raw HTML caches, and checkpoint databases are never artifacts.
+- **Errors:** malformed input is `422`, unknown resources `404`, invalid transitions and idempotency conflicts `409`, admission limits `429` with `Retry-After`, and unavailable configuration or storage `503`. Responses carry a typed error envelope with a stable code, safe message, and request ID; raw exceptions and secret-bearing configuration never reach a client.
+- **Server checkpoints:** server graphs use PostgreSQL savers prepared once at startup; local CLI execution keeps the per-run SQLite saver from PD-019.
+
+Applies to: server milestone.
+
 ---
 
 # EPIC-1: Project Foundation and Quality Gates

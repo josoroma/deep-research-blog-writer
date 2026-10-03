@@ -45,6 +45,61 @@ uv run deep-research-blog "Your topic here" --search-only
 
 ---
 
+## Develop against it
+
+The CLI is still the local path. The HTTP API admits a job; a separate worker runs the same use cases and writes a workspace the API can read back.
+
+Offline, with no database and no keys:
+
+```sh
+make demo-api
+```
+
+On one machine, with PostgreSQL:
+
+```sh
+make api-up
+make migrate-api
+make run-api
+```
+
+In a second terminal:
+
+```sh
+make worker-api
+```
+
+`make api-up` starts only Postgres on `127.0.0.1:5432`. The API listens on `127.0.0.1:8000`. Set `API_DATABASE=postgresql://research:research@127.0.0.1:5432/research` before `migrate-api`, `run-api`, and `worker-api`. Server workspaces go to `runs-api/`, not `runs/`.
+
+Submit a job, then poll the job the `Location` header points at:
+
+```sh
+curl --fail --silent --show-error http://127.0.0.1:8000/health/ready
+curl --include --silent --show-error \
+  -H 'Content-Type: application/json' \
+  -H 'Idempotency-Key: dev-1' \
+  -d '{"mode":"search","topic":"Your topic here","pages":1,"per_page":10,"max_urls":2}' \
+  http://127.0.0.1:8000/v1/runs
+```
+
+`mode` is `search` or `research`. The same idempotency key and body return the original job; a changed body returns `409`. Once the worker assigns a run id, read `/v1/runs/<run_id>`, `/report`, and `/artifacts/...`.
+
+| Make target | What it does |
+| --- | --- |
+| `make check` | Lock, lint, format, strict typing, offline tests, 80% coverage |
+| `make demo-api` | In-process fixture job: submit, run one worker attempt, read the report |
+| `make api-up` / `make api-down` | Start or stop local Postgres |
+| `make migrate-api` | Apply server SQL migrations |
+| `make run-api` | Serve the API on `127.0.0.1:8000` |
+| `make worker-api` | Claim jobs and execute them |
+| `make observability-up` | Local collector, Prometheus, and Grafana |
+
+Importing `api` does not start a worker, create a run directory, or call a provider. Set `API_TOKEN` before anything other than loopback use. `API_RUN_PROFILE=fixture` is a server setting, not a client choice.
+
+The phase commands, settings, and artifact layout are in [`README-DEV.md`](README-DEV.md). The API walkthrough is in [`docs/SPECS-LOGS/FASTAPI-MIGRATION-RUNBOOK.md`](docs/SPECS-LOGS/FASTAPI-MIGRATION-RUNBOOK.md).
+
+---
+
 ## Who does what
 
 One coordinator hands work to four specialists: a searcher, a researcher, an analyst, and a writer.
@@ -106,6 +161,8 @@ Local links work while the dashboard is running (`make observability-up`).
 | LangGraph | https://docs.langchain.com/oss/python/langgraph/overview | Runtime under DeepAgents |
 | DeepAgents | https://docs.langchain.com/oss/python/deepagents/overview | Orchestrator and sub-agent harness |
 | Documentation | https://josoroma.github.io/deep-research-blog-writer | Project explainer |
+| Research API | http://127.0.0.1:8000 | `make run-api`; jobs at `/v1/runs` |
+| API readiness | http://127.0.0.1:8000/health/ready | Database and queue; `503` when admission cannot proceed |
 
 ---
 

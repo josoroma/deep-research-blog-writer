@@ -75,13 +75,13 @@ def _stub_write_run_report(
 
 
 def register_stub_tools(
-    registry: ToolRegistry, *, corpus: bool = False, authoring: bool = False
+    registry: ToolRegistry, *, corpus: bool = False, authoring: bool = False, report: bool = True
 ) -> None:
     """Register the remaining future-epic stubs.
 
     A corpus-bound registry replaces `collect_source` and `build_index`, and an
-    authoring-bound registry replaces `validate_citations`. The report stub stays
-    until EPIC-8.
+    authoring-bound registry replaces `validate_citations`. The report stub is
+    omitted in production, where `tools.report_tools` provides the real tool.
     """
     from tools.registry import TypedTool  # local import avoids a registry/stubs cycle
 
@@ -128,12 +128,13 @@ def register_stub_tools(
                 description="M1 stub: report no citations checked; no validation yet.",
             )
         )
-    registry.register(
-        TypedTool[WriteRunReportInput, WriteRunReportOutput](
-            name="write_run_report",
-            input_model=WriteRunReportInput,
-            output_model=WriteRunReportOutput,
-            handler=_stub_write_run_report,
-            description="M1 stub: report the run report path; no report is written yet.",
+    if report:
+        registry.register(
+            TypedTool[WriteRunReportInput, WriteRunReportOutput](
+                name="write_run_report",
+                input_model=WriteRunReportInput,
+                output_model=WriteRunReportOutput,
+                handler=_stub_write_run_report,
+                description="M1 stub: report the run report path; no report is written yet.",
+            )
         )
-    )

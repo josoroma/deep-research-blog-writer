@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Run it like the example</title>
-<meta name="description" content="How a developer sets up, starts, and runs the deep research blog writer, which loops each phase runs, and what the committed example run produced.">
+<meta name="description" content="How a developer sets up the CLI, API, and worker, which loops each phase runs, and what the committed example run produced.">
 <!--
   Harness page template (US-14.1). One self-contained file: every style, script, and
   diagram is inline, and nothing is loaded from the network.
@@ -386,7 +386,7 @@ td.num { min-width: 0; }
   <div class="hero">
     <h1>Run it like the example</h1>
     <p class="lead">How a developer sets up, starts, and runs the deep research blog writer, which loops each phase runs, and what the committed example run produced at every step.</p>
-    <p class="meta">Generated 2026-10-01 from revision 58041ed, delivery status and observability updated 2026-10-02 · example run <code>python-langchain-deep-agents-startup-ideas-20261001T195605Z</code> · see <a href="#sources">Sources</a></p>
+    <p class="meta">Generated 2026-10-01 from revision 58041ed, delivery status, observability, and the API/worker path updated 2026-10-02 · example run <code>python-langchain-deep-agents-startup-ideas-20261001T195605Z</code> · see <a href="#sources">Sources</a></p>
     <p class="meta">Documentation site: <a href="https://josoroma.github.io/deep-research-blog-writer">josoroma.github.io/deep-research-blog-writer</a> · Source: <a href="https://github.com/josoroma/deep-research-blog-writer">github.com/josoroma/deep-research-blog-writer</a></p>
   </div>
 
@@ -395,6 +395,7 @@ td.num { min-width: 0; }
     <ol>
       <li><a href="#overview">Overview</a></li>
       <li><a href="#setup">Setup</a></li>
+      <li><a href="#api">API and worker</a></li>
       <li><a href="#loop">The run loop</a></li>
       <li><a href="#search">Search</a></li>
       <li><a href="#corpus">Corpus collection</a></li>
@@ -449,6 +450,53 @@ td.num { min-width: 0; }
           <tr><td class="num">2</td><td>Input or configuration was rejected before any work started, such as a missing key, <code>--per-page</code> other than 10 on SerpApi, or a missing workspace.</td></tr>
         </tbody>
       </table>
+    <div class="callout"><p class="callout-title">Two entry points, one pipeline</p><p>The three phase commands below are the inspectable CLI path. The <a href="#api">API and worker</a> admit the same work as a durable job and write under <code>runs-api/</code> instead of <code>runs/</code>.</p></div>
+  </section>
+
+  <section id="api">
+    <h2>API and worker</h2>
+    <p class="section-lead">The HTTP API only admits and reads. A separate worker claims the job, runs the shared use cases, and writes the workspace. Importing <code>api</code> starts no worker and calls no provider.</p>
+    <ol class="steps">
+      <li><code>make demo-api</code> is the offline check: in-memory queue, fixture providers, one worker attempt, then job, report, artifact, and log reads. No database and no keys.</li>
+      <li><code>make api-up</code> starts PostgreSQL on <code>127.0.0.1:5432</code> (<code>research</code> / <code>research</code>, database <code>research</code>). <code>make api-down</code> stops it and keeps the volume.</li>
+      <li>Export <code>API_DATABASE=postgresql://research:research@127.0.0.1:5432/research</code>, then <code>make migrate-api</code> and <code>make run-api</code>. The API listens on <code>127.0.0.1:8000</code>.</li>
+      <li>In a second terminal, with the same <code>API_DATABASE</code> and the provider keys from <code>.env</code>, run <code>make worker-api</code>.</li>
+    </ol>
+    <div class="table-wrap">
+      <table>
+        <caption>Settings the API and worker read. Provider keys are unchanged.</caption>
+        <thead><tr><th scope="col">Variable</th><th scope="col">Default</th><th scope="col">Notes</th></tr></thead>
+        <tbody>
+          <tr><td><code>API_DATABASE</code></td><td>required</td><td>PostgreSQL DSN. Not required for <code>make demo-api</code>.</td></tr>
+          <tr><td><code>API_RUNS_DIR</code></td><td><code>runs-api</code></td><td>Server workspace root. Separate from the CLI's <code>runs/</code>.</td></tr>
+          <tr><td><code>API_TOKEN</code></td><td>unset</td><td>Shared bearer token. Leave unset only for loopback use.</td></tr>
+          <tr><td><code>API_QUEUE_LIMIT</code></td><td><code>100</code></td><td>Admission returns <code>429</code> when that many jobs are already active.</td></tr>
+          <tr><td><code>API_RUN_PROFILE</code></td><td><code>production</code></td><td><code>fixture</code> swaps in fake providers. Clients cannot select it.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Submit, then poll</h3>
+    <pre><code>curl --fail --silent --show-error http://127.0.0.1:8000/health/ready
+curl --include --silent --show-error \
+  -H 'Content-Type: application/json' \
+  -H 'Idempotency-Key: dev-1' \
+  -d '{"mode":"search","topic":"Your topic here","pages":1,"per_page":10,"max_urls":2}' \
+  http://127.0.0.1:8000/v1/runs</code></pre>
+    <p><code>POST /v1/runs</code> returns <code>202</code> and <code>Location: /v1/jobs/<job_id></code>. <code>mode</code> is <code>search</code> or <code>research</code>. The same idempotency key and body return the original job; a different body returns <code>409</code>. After the worker assigns a run id, follow <code>/v1/runs/<run_id></code>, <code>/report</code>, and <code>/artifacts/...</code>.</p>
+    <div class="table-wrap">
+      <table>
+        <caption>Developer targets. The full endpoint list is in the migration runbook.</caption>
+        <thead><tr><th scope="col">Target</th><th scope="col">What it does</th></tr></thead>
+        <tbody>
+          <tr><td><code>make demo-api</code></td><td>Fixture acceptance: submit, execute one attempt, read the result</td></tr>
+          <tr><td><code>make api-up</code></td><td>Postgres only, bound to loopback</td></tr>
+          <tr><td><code>make migrate-api</code></td><td>Apply server SQL migrations and prepare checkpoints</td></tr>
+          <tr><td><code>make run-api</code></td><td><code>uvicorn api.main:create_app --factory</code> on port 8000</td></tr>
+          <tr><td><code>make worker-api</code></td><td><code>python -m workers.research_worker</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><p class="callout-title">Resume is a new job, not a flag</p><p><code>POST /v1/runs/<run_id>/resume</code> returns <code>202</code> for an interrupted run. The worker continues from the last completed phase and does not rewrite existing source files. A completed run cannot be resumed. The CLI <code>--resume</code> flag still only prints the next phase.</p></div>
     </div>
   </section>
 
@@ -973,7 +1021,9 @@ td.num { min-width: 0; }
         <path d="M320,54 L130,88" class="svg-edge" marker-end="url(#ws-arrow)"/>
         <path d="M360,54 L360,88" class="svg-edge" marker-end="url(#ws-arrow)"/>
         <path d="M400,54 L590,88" class="svg-edge" marker-end="url(#ws-arrow)"/>
-        <rect x="15" y="90" width="220" height="175" rx="12" class="svg-zone"/>
+        <rect x="1Research API</td><td><a href="http://127.0.0.1:8000">127.0.0.1:8000</a></td><td><code>make run-api</code>. Readiness is <code>/health/ready</code>; jobs are <code>POST /v1/runs</code>.</td></tr>
+          <tr><td>PostgreSQL</td><td><code>127.0.0.1:5432</code></td><td><code>make api-up</code>. User, password, and database are <code>research</code>.</td></tr>
+          <tr><td>5" y="90" width="220" height="175" rx="12" class="svg-zone"/>
         <text x="27" y="110" class="svg-text-sm">written by --search-only</text>
         <text x="125" y="140" text-anchor="middle" class="svg-mono">request.json</text>
         <text x="125" y="165" text-anchor="middle" class="svg-mono">search_plan.json</text>
@@ -1065,7 +1115,7 @@ td.num { min-width: 0; }
         <text x="20" y="122" class="svg-text-sm">EPIC-5 · Fetch and Extraction</text>
         <rect x="380" y="110" width="20" height="16" rx="3" class="svg-cell-ok"/><rect x="404" y="110" width="20" height="16" rx="3" class="svg-cell-ok"/><rect x="428" y="110" width="20" height="16" rx="3" class="svg-cell-ok"/>
         <text x="540" y="122" class="svg-text-sm">3 done</text>
-        <text x="20" y="146" class="svg-text-sm">EPIC-6 · Research Corpus</text>
+        <text x="20" y="146" class="svg-text-sm">EPIC-6 · Research Corpus</text> The worker resumes an interrupted job from the last completed phase; that path is <code>POST /v1/runs/<run_id>/resume</code>, not the CLI flag.
         <rect x="380" y="134" width="20" height="16" rx="3" class="svg-cell-ok"/><rect x="404" y="134" width="20" height="16" rx="3" class="svg-cell-ok"/><rect x="428" y="134" width="20" height="16" rx="3" class="svg-cell-ok"/>
         <text x="540" y="146" class="svg-text-sm">3 done</text>
         <text x="20" y="170" class="svg-text-sm">EPIC-7 · Synthesis and Blog Authoring</text>
@@ -1135,7 +1185,8 @@ td.num { min-width: 0; }
       <li><code>uv run python</code> calling <code>services.reporting.classify_outcome</code> on the example, read-only: degraded <code>too_few_sources</code> on the corpus alone, and failed with the gate reason added.</li>
       <li><code>schemas/common.py</code>: the nine phases. <code>agents/search_planner.py</code>: two planning attempts. <code>services/search_provider.py</code> and <code>.env.example</code>: the 15 s search timeout.</li>
       <li><code>services/fetch_service.py</code>: 5 concurrent fetches, 3 retries, 5 redirects, a 15 s page budget, 1 s per-host spacing, and the <code>2^(n−1)</code> back-off with jitter capped at 0.25 s.</li>
-      <li><code>services/extraction_service.py</code>: the parser order and the 200-word minimum. <code>services/authoring.py</code>: the 2,000–5,000-word range. <code>workflows/authoring_run.py</code>: 2 repair passes.</li>
+      <li><code>services/extraction_service.py</code>: the parser order and the 200-word minimum. <code>services/authoring.py</code>: the 2,000–5,000-word range. <code>workflows/authoring_run.py</code>
+      <li><code>Makefile</code> targets <code>demo-api</code>, <code>api-up</code>, <code>migrate-api</code>, <code>run-api</code>, and <code>worker-api</code>; <code>ops/api/compose.yaml</code>; <code>docs/SPECS-LOGS/FASTAPI-MIGRATION-RUNBOOK.md</code>. Re-read 2026-10-02 for the API and worker section.</li>: 2 repair passes.</li>
       <li><code>services/reporting.py</code>, <code>services/reliability.py</code>, <code>workflows/resume.py</code>, and <code>workflows/cli.py</code>: the outcome rules, retry-once, resume, and exit statuses.</li>
       <li><code>head -1 docs/adr/000*.md</code>: the eight ADR titles. <code>pyproject.toml</code>: name, version 0.1.0, and Python 3.12 or newer. <code>git rev-parse --short HEAD</code>: 58041ed.</li>
     </ul>

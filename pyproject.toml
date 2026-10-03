@@ -7,37 +7,49 @@ requires-python = ">=3.12"
 dependencies = [
     "beautifulsoup4>=4.13,<5",
     "deepagents>=0.7,<0.8",
+    "fastapi>=0.142.2",
     "httpx>=0.28,<1",
     "langchain>=1,<2",
     "langchain-openrouter>=0.2,<1",
     "langgraph>=1,<2",
+    "langgraph-checkpoint-postgres>=3.1.2",
     "langgraph-checkpoint-sqlite>=2,<4",
     "langsmith>=0.14,<1",
     "markdownify>=1,<2",
     "opentelemetry-exporter-otlp-proto-http>=1.38,<2",
     "opentelemetry-sdk>=1.38,<2",
     "protego>=0.5,<1",
+    "psycopg[binary,pool]>=3.3.6",
     "pydantic>=2,<3",
     "pydantic-settings>=2,<3",
     "pyyaml>=6,<7",
     "readability-lxml>=0.8,<1",
     "trafilatura>=2,<3",
+    "uvicorn[standard]>=0.54.0",
 ]
 
 [build-system]
 requires = ["hatchling==1.32.4"]
 build-backend = "hatchling.build"
 
+[tool.hatch.build.hooks.custom]
+path = "ops/build_hooks.py"
+
 [project.scripts]
 deep-research-blog = "workflows.cli:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["agents", "tools", "workflows", "prompts", "schemas", "services", "evaluations"]
+packages = [
+    "agents", "tools", "workflows", "prompts", "schemas", "services",
+    "evaluations", "api", "application", "workers",
+]
+artifacts = ["application/_migrations/*.sql"]
 
 [tool.hatch.build.targets.sdist]
 include = [
     "/agents", "/tools", "/workflows", "/prompts", "/schemas", "/services",
-    "/evaluations", "/tests", "/pyproject.toml", "/uv.lock", "/.python-version",
+    "/evaluations", "/api", "/application", "/workers",
+    "/tests", "/pyproject.toml", "/uv.lock", "/.python-version",
     "/README.md", "/.pre-commit-config.yaml", "/Makefile", "/ops", "/EPIC-9.md",
 ]
 
@@ -48,11 +60,15 @@ line-length = 100
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
 
+[tool.ruff.lint.per-file-ignores]
+# FastAPI requires Depends() call results as parameter defaults.
+"api/**" = ["B008"]
+
 [tool.mypy]
 plugins = ["pydantic.mypy"]
 python_version = "3.12"
 strict = true
-files = ["agents", "tools", "workflows", "prompts", "schemas", "services", "evaluations", "tests", "docs"]
+files = ["agents", "tools", "workflows", "prompts", "schemas", "services", "evaluations", "tests", "docs", "api", "application", "workers"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -65,7 +81,7 @@ ignore_missing_imports = true
 
 [tool.coverage.run]
 branch = true
-source = ["agents", "tools", "workflows", "prompts", "schemas", "services", "evaluations"]
+source = ["agents", "tools", "workflows", "prompts", "schemas", "services", "evaluations", "api", "application", "workers"]
 
 [tool.coverage.report]
 fail_under = 80

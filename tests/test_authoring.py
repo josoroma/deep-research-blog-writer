@@ -274,7 +274,7 @@ def test_repair_loop_stops_after_two_passes(
     assert summary.reason == "dangling_citations"
     assert summary.repair_passes == 2
     assert summary.dangling_source_ids == ["S-31"]
-    report = json.loads((root / "output/run.json").read_text())
+    report = json.loads((root / "output/authoring.json").read_text())
     assert report["dangling_source_ids"] == ["S-31"]
     assert "[S-31]" in (root / "output/blog.md").read_text(encoding="utf-8")
 

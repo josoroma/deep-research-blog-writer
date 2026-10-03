@@ -19,6 +19,7 @@ from deepagents.profiles import register_harness_profile
 from langchain.agents.middleware import TodoListMiddleware
 from langchain_core.language_models import BaseChatModel
 from langchain_core.tools import BaseTool
+from langgraph.checkpoint.base import BaseCheckpointSaver
 from langgraph.graph.state import CompiledStateGraph
 
 from prompts.catalog import load_prompt
@@ -79,9 +80,17 @@ def _disable_general_purpose_subagent(model: BaseChatModel) -> None:
 
 
 def build_deep_agent(
-    llm: LLMService, workspace: RunWorkspace, *, tool_registry: ToolRegistry = TOOLS
+    llm: LLMService,
+    workspace: RunWorkspace,
+    *,
+    tool_registry: ToolRegistry = TOOLS,
+    checkpointer: BaseCheckpointSaver[Any] | None = None,
 ) -> CompiledStateGraph[Any, Any, Any, Any]:
-    """Build the orchestrator with its four sub-agents and the run workspace backend."""
+    """Build the orchestrator with its four sub-agents and the run workspace backend.
+
+    A supplied checkpointer makes the compiled graph durable; the caller then sets
+    ``thread_id`` to the run id so phases resume instead of restarting (PD-019).
+    """
     orchestrator_model = llm.for_agent("orchestrator")
     _disable_general_purpose_subagent(orchestrator_model)
     subagents: list[SubAgent] = [
@@ -102,4 +111,5 @@ def build_deep_agent(
         subagents=subagents,
         backend=ImmutableSourceBackend(root_dir=workspace.root, virtual_mode=True),
         state_schema=ResearchAgentState,
+        checkpointer=checkpointer,
     )

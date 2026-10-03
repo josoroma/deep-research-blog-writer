@@ -32,7 +32,7 @@ from tools.registry import create_tool_registry
 from workflows.search_run import tool_runtime
 
 MAX_REPAIR_PASSES = 2
-GATE_REPORT = "output/run.json"
+GATE_REPORT = "output/authoring.json"
 
 
 class AuthoringSummary(Contract):

@@ -5,6 +5,7 @@
 
 # Local research artifacts
 runs/
+runs-api/
 logs/
 
 # Python environments, caches, and packaging
@@ -17,6 +18,8 @@ build/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+# Copied into the wheel by ops/build_hooks.py; the canonical files live in ops/api/migrations/
+application/_migrations/
 
 # Generated test reports; committed evidence lives under docs/evidence/
 .coverage

@@ -12,4 +12,8 @@ Record accepted decisions with a zero-padded four-digit prefix: `NNNN-short-titl
 - [0005: SerpApi search behind a provider interface](0005-search-provider.md)
 - [0006: Run-owned polite fetching and replaceable extraction](0006-polite-fetch-and-extraction.md)
 
+- [0007: Per-run SQLite checkpointer](0007-per-run-sqlite-checkpointer.md)
 - [0008: Run-owned observability and a local metrics stack](0008-run-observability.md)
+- [0009: Durable job queue and HTTP contract](0009-durable-job-queue.md)
+- [0010: PostgreSQL checkpoints and exclusive workspace ownership](0010-postgres-checkpoints-and-workspace-ownership.md)
+- [0011: Artifact ownership and bounded read access](0011-artifact-ownership.md)

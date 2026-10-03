@@ -31,7 +31,9 @@ def offline_environment(
             "MAX_URLS",
             "MODEL_TIMEOUT_SECONDS",
             "MODEL_MAX_RETRIES",
-        } or name.upper().startswith(("MODELS", "LANGSMITH", "LANGCHAIN", "OTEL", "TELEMETRY")):
+        } or name.upper().startswith(
+            ("MODELS", "LANGSMITH", "LANGCHAIN", "OTEL", "TELEMETRY", "API_")
+        ):
             monkeypatch.delenv(name, raising=False)
 
     def deny_network(*args: object, **kwargs: object) -> NoReturn:

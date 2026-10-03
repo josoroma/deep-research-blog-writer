@@ -25,6 +25,7 @@ if TYPE_CHECKING:
     from services.search_session import SearchSession
     from tools.authoring_tools import AuthoringSession
     from tools.corpus_tools import CorpusSession
+    from tools.report_tools import ReportSession
 
 Runtime = ToolRuntime[None, ResearchAgentState]
 
@@ -150,12 +151,20 @@ def create_tool_registry(
     extractor: ExtractionService | None = None,
     corpus_session: CorpusSession | None = None,
     authoring_session: AuthoringSession | None = None,
+    report_session: ReportSession | None = None,
+    production: bool = False,
 ) -> ToolRegistry:
-    """Build independent tool bindings; credentials and provider clients stay off state."""
+    """Build independent tool bindings; credentials and provider clients stay off state.
+
+    ``production`` forbids the M1 stub collection: full execution must bind real
+    sessions, so an unbound production registry fails loudly instead of silently
+    reporting fake success.
+    """
     from services.observability import current_observer
     from tools.authoring_tools import register_authoring_tools
     from tools.content_tools import register_content_tools
     from tools.corpus_tools import register_corpus_tools
+    from tools.report_tools import register_report_tools
 
     registry = ToolRegistry(current_observer())
     registry.register(
@@ -168,9 +177,15 @@ def create_tool_registry(
             updates_state=True,
         )
     )
-    register_stub_tools(
-        registry, corpus=corpus_session is not None, authoring=authoring_session is not None
-    )
+    if report_session is not None:
+        register_report_tools(registry, report_session)
+    elif not production:
+        register_stub_tools(
+            registry,
+            corpus=corpus_session is not None,
+            authoring=authoring_session is not None,
+            report=True,
+        )
     register_search_tools(registry, search_session)
     register_content_tools(registry, fetcher, extractor)
     if corpus_session is not None:
