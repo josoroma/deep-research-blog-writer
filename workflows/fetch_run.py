@@ -65,7 +65,7 @@ def _collect(
     try:
         fetched = registry["fetch_url"].invoke({"url": row.url})
         assert isinstance(fetched, FetchResult)
-    except Exception as error:
+    except Exception as error:  # noqa: BLE001 - one URL failing must not stop the rest
         fetched = FetchResult(
             url=row.url,
             final_url=row.url,
@@ -96,7 +96,7 @@ def _collect(
             }
         )
         assert isinstance(extracted, ExtractionResult)
-    except Exception as error:
+    except Exception as error:  # noqa: BLE001 - one URL failing must not stop the rest
         return (
             fetched,
             None,
@@ -168,7 +168,7 @@ def run_fetch(
             ],
         )
         write_json(workspace / ARTIFACT_NAMES[2], completed.model_dump(mode="json"))
-    except Exception as error:
+    except Exception as error:  # noqa: BLE001 - phase failure becomes a summary
         return FetchSummary(
             run_id=run.run_id,
             workspace=str(workspace),

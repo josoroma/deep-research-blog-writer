@@ -12,7 +12,7 @@ from services.llm_service import LLMService
 from services.search_provider import FakeSearchProvider
 from services.workspace import create_run_workspace
 from workflows import cli
-from workflows.research_run import run_research
+from workflows.research_run import RunSummary, run_research
 
 
 def _settings(tmp_path: Path) -> RunSettings:
@@ -93,8 +93,6 @@ def test_cli_prints_the_summary_on_success(
 def _stub_run_research(
     request: ResearchRequest, settings: RunSettings, *, runs_root: Path, fake_model: object = None
 ) -> object:
-    from workflows.research_run import RunSummary
-
     return RunSummary(
         run_id="stub-run",
         workspace=str(runs_root / "stub-run"),

@@ -17,6 +17,7 @@ from services.reliability import run_phase
 from services.reporting import RunLedger, UsageRecord, build_run_report, classify_outcome
 from services.workspace import create_run_workspace
 from workflows.cli import main
+from workflows.reporting_run import run_report
 from workflows.resume import checkpoint_path, next_phase
 
 FETCHED_AT = datetime(2026, 10, 1, tzinfo=UTC)
@@ -157,7 +158,6 @@ def test_resume_skips_completed_phases(tmp_path: Path) -> None:
 
 def test_written_report_validates(tmp_path: Path) -> None:
     root, run = run_with(tmp_path, extracted=26)
-    from workflows.reporting_run import run_report
 
     report = run_report(
         root,

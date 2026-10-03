@@ -1,7 +1,7 @@
 # FastAPI migration runbook
 
-Date: 2026-10-02
-Status: implemented; server sections pending a live PostgreSQL run.
+Date: 2026-10-02, verified against PostgreSQL 17 on 2026-10-03
+Status: implemented; exercised end to end on real PostgreSQL with `API_RUN_PROFILE=fixture`. A server run with live providers is still pending.
 
 This runbook covers the HTTP entry point added by `docs/workspace/plan/FASTAPI-MIGRATION.md`.
 The API and the worker share the existing business use cases; the local CLI keeps

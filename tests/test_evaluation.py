@@ -8,6 +8,8 @@ import pytest
 from langchain_core.messages import AIMessage
 from pydantic import HttpUrl
 
+from evaluations import release, run_eval
+from evaluations.epic10_demo import run_demo
 from evaluations.judge import AlwaysSupportedJudge, ModelJudge, Verdict, Verdicts
 from evaluations.offline_eval import fixture_topic, run_offline_topic
 from evaluations.release import decide, latest_benchmark, read_benchmark, tag_name
@@ -336,8 +338,6 @@ def _benchmark_file(tmp_path: Path, *, passing: bool) -> Path:
 def test_release_main_dry_run_reports_without_tagging(
     tmp_path: Path, capsys: pytest.CaptureFixture[str]
 ) -> None:
-    from evaluations import release
-
     path = _benchmark_file(tmp_path, passing=True)
     assert release.main(["--version", "1.0.0", "--benchmark", str(path), "--dry-run"]) == 0
     assert json.loads(capsys.readouterr().out)["tagged"] is False
@@ -346,8 +346,6 @@ def test_release_main_dry_run_reports_without_tagging(
 def test_release_main_blocks_a_failing_benchmark(
     tmp_path: Path, capsys: pytest.CaptureFixture[str]
 ) -> None:
-    from evaluations import release
-
     path = _benchmark_file(tmp_path, passing=False)
     assert release.main(["--version", "1.0.0", "--benchmark", str(path)]) == 1
     assert "release blocked" in capsys.readouterr().err
@@ -356,8 +354,6 @@ def test_release_main_blocks_a_failing_benchmark(
 def test_release_main_tags_a_passing_benchmark(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
 ) -> None:
-    from evaluations import release
-
     tagged: list[str] = []
     monkeypatch.setattr(release, "create_tag", tagged.append)
     path = _benchmark_file(tmp_path, passing=True)
@@ -369,8 +365,6 @@ def test_release_main_tags_a_passing_benchmark(
 def test_run_eval_offline_writes_a_benchmark(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
 ) -> None:
-    from evaluations import run_eval
-
     monkeypatch.setattr(run_eval, "BENCHMARKS_DIR", tmp_path / "benchmarks")
     code = run_eval.main(["--offline", "--runs-root", str(tmp_path / "runs")])
     assert code == 0
@@ -381,8 +375,6 @@ def test_run_eval_offline_writes_a_benchmark(
 
 
 def test_epic10_demo_scores_and_gates(tmp_path: Path) -> None:
-    from evaluations.epic10_demo import run_demo
-
     summary = run_demo(tmp_path / "runs")
     assert summary["passed"] is True
     assert summary["coverage"] == 1.0

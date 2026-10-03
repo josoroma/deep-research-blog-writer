@@ -5,12 +5,14 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from application.run_service import AUTHORING_GATE
 from schemas.config import RunSettings
-from schemas.responses import RunReport
+from schemas.content import utc_now
+from schemas.responses import RunReport, SearchResult, Source
 from schemas.state import RunState, UrlOutcome
 from schemas.tool_io import WriteRunReportOutput
 from services.corpus import CorpusSource, write_index, write_source
-from services.reporting import RunLedger
+from services.reporting import REPORT_PATH, RunLedger
 from tools.registry import ToolRegistry, create_tool_registry
 from tools.report_tools import ReportSession
 from workflows.search_run import tool_runtime
@@ -21,8 +23,6 @@ def _corpus(root: Path) -> RunState:
     root.mkdir(parents=True, exist_ok=True)
     (root / "research").mkdir(exist_ok=True)
     (root / "output").mkdir(exist_ok=True)
-    from schemas.content import utc_now
-    from schemas.responses import SearchResult, Source
 
     records = []
     clean = []
@@ -136,9 +136,6 @@ def test_report_tool_requires_a_session(tmp_path: Path) -> None:
 
 
 def test_gate_record_distinguishes_authoring_from_final_report(tmp_path: Path) -> None:
-    from application.run_service import AUTHORING_GATE
-    from services.reporting import REPORT_PATH
-
     assert AUTHORING_GATE == "output/authoring.json"
     assert REPORT_PATH == "output/run.json"
 

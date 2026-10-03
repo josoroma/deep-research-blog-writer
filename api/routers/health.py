@@ -9,6 +9,8 @@ from api.dependencies import state
 
 
 class HealthRouter:
+    """Groups the unauthenticated health routes on one router."""
+
     router = APIRouter(tags=["health"])
 
     @staticmethod

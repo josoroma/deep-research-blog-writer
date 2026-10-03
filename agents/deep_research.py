@@ -24,6 +24,7 @@ from langgraph.graph.state import CompiledStateGraph
 
 from prompts.catalog import load_prompt
 from schemas.config import AgentName
+from schemas.errors import InvalidInputError
 from schemas.state import ResearchAgentState
 from schemas.workspace import RunWorkspace
 from services.llm_service import LLMService
@@ -51,8 +52,10 @@ SUBAGENT_DESCRIPTIONS: dict[AgentName, str] = {
 }
 
 
-class UnsupportedModelProvider(ValueError):
+class UnsupportedModelProvider(InvalidInputError):
     """The model's provider cannot be resolved, so the harness cannot be configured."""
+
+    code = "unsupported_model_provider"
 
 
 def _tools_for(names: Sequence[str], registry: ToolRegistry) -> list[BaseTool]:

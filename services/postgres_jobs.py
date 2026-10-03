@@ -9,7 +9,7 @@ holds only the DSN, never an open pool across requests.
 from __future__ import annotations
 
 import json
-from collections.abc import Iterator
+from collections.abc import Generator
 from contextlib import contextmanager
 from datetime import datetime, timedelta
 from typing import Any
@@ -45,6 +45,12 @@ def _record_from_row(row: dict[str, Any]) -> JobRecord:
     )
 
 
+#: Connection timeout for every database call. Short on purpose: readiness and
+#: admission should report an outage quickly rather than queue behind it.
+CONNECT_TIMEOUT_SECONDS = 5
+
+# _COLUMNS is a module constant, so the f-string queries below interpolate no
+# caller data; every value is a bound parameter.
 _COLUMNS = (
     "job_id, operation, state, request_hash, idempotency_key, payload, run_id, phase, "
     "attempt, worker_identity, lease_expires_at, heartbeat_at, status_reasons, error, "
@@ -53,13 +59,27 @@ _COLUMNS = (
 
 
 class PostgresJobStore:
-    def __init__(self, dsn: str) -> None:
+    """The PostgreSQL job queue: one table is both the queue and the record.
+
+    Every call opens a short connection with a bounded connect timeout, so an
+    unreachable database fails fast as :class:`JobStoreError` (503) instead of
+    hanging a request or a worker poll.
+
+    Args:
+        dsn: A PostgreSQL connection string.
+        connect_timeout: Seconds to wait for a connection before failing.
+    """
+
+    def __init__(self, dsn: str, *, connect_timeout: int = CONNECT_TIMEOUT_SECONDS) -> None:
         self.dsn = dsn
+        self.connect_timeout = connect_timeout
 
     @contextmanager
-    def _connect(self) -> Iterator[psycopg.Connection[dict[str, Any]]]:
+    def _connect(self) -> Generator[psycopg.Connection[dict[str, Any]]]:
         try:
-            connection = psycopg.connect(self.dsn, row_factory=dict_row)
+            connection = psycopg.connect(
+                self.dsn, row_factory=dict_row, connect_timeout=self.connect_timeout
+            )
         except psycopg.Error as error:  # pragma: no cover - requires a live database
             raise JobStoreError("Database is unavailable") from error
         try:

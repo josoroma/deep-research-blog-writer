@@ -5,6 +5,7 @@ from collections.abc import Sequence
 
 import pytest
 from pydantic import HttpUrl, ValidationError
+from trafilatura.settings import Document
 
 from evaluations.fetch_fixtures import fixture_html
 from schemas.config import RunSettings
@@ -182,8 +183,6 @@ def test_result_invariants_prevent_empty_success() -> None:
 def test_missing_publication_metadata_does_not_use_parser_date_guess(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    from trafilatura.settings import Document
-
     doc = Document(text="evidence " * 250, title="Publication unknown", date="2015-12-03")
     monkeypatch.setattr("services.extraction_service.extract_with_metadata", lambda *a, **kw: doc)
     result = ExtractionService([TrafilaturaExtractor()]).extract(request("missing-metadata"))

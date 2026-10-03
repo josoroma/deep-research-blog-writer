@@ -25,6 +25,7 @@ from services.llm_service import LLMService
 from services.workspace import create_run_workspace
 from tools.authoring_tools import AuthoringSession
 from tools.registry import create_tool_registry
+from workflows import cli
 from workflows.authoring_run import load_corpus_run, run_authoring
 from workflows.search_run import tool_runtime
 
@@ -297,6 +298,4 @@ def test_clean_draft_passes_the_gate(tmp_path: Path, monkeypatch: pytest.MonkeyP
 
 
 def test_author_cli_rejects_a_workspace_without_a_corpus() -> None:
-    from workflows import cli
-
     assert cli.main(["--author-only"], settings=settings()) == 2

@@ -14,11 +14,10 @@ import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
-from pydantic import Field
-
+from evaluations.dataset import GOLDEN_DATASET, GoldenDataset, GoldenTopic, load_dataset
 from evaluations.judge import AlwaysSupportedJudge, ModelJudge
+from evaluations.offline_eval import run_offline_topic
 from evaluations.scoring import Benchmark, Judge, TopicScore, benchmark_name, score_topic
-from schemas.common import Contract
 from schemas.config import RunSettings
 from schemas.requests import ResearchRequest
 from schemas.responses import RunReport
@@ -29,25 +28,18 @@ from workflows.reporting_run import run_report
 from workflows.search_run import run_search
 
 BENCHMARKS_DIR = Path("evaluations/benchmarks")
-GOLDEN_DATASET = Path("evaluations/golden_dataset.json")
 
-
-class GoldenTopic(Contract):
-    id: str = Field(min_length=1)
-    topic: str = Field(min_length=3)
-    pages: int = Field(default=3, ge=1)
-    per_page: int = Field(default=10, ge=1)
-    max_urls: int = Field(default=30, ge=1)
-
-
-class GoldenDataset(Contract):
-    version: int = Field(ge=1)
-    source: str
-    topics: list[GoldenTopic] = Field(min_length=1)
-
-
-def load_dataset(path: Path = GOLDEN_DATASET) -> GoldenDataset:
-    return GoldenDataset.model_validate_json(path.read_text(encoding="utf-8"))
+__all__ = [
+    "BENCHMARKS_DIR",
+    "GOLDEN_DATASET",
+    "GoldenDataset",
+    "GoldenTopic",
+    "build_benchmark",
+    "load_dataset",
+    "main",
+    "score_workspace",
+    "write_benchmark",
+]
 
 
 def current_commit() -> str:
@@ -126,8 +118,6 @@ def main(argv: list[str] | None = None) -> int:
     judge: Judge = AlwaysSupportedJudge() if args.offline else ModelJudge(settings)
     scores: list[TopicScore] = []
     if args.offline:
-        from evaluations.offline_eval import run_offline_topic
-
         for topic in dataset.topics:
             # The fixture provider answers one topic, so each golden topic gets its
             # own runs root; otherwise identical run ids collide within a second.

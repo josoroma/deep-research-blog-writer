@@ -16,12 +16,13 @@ from schemas.config import RunSettings
 from schemas.responses import RunReport
 from schemas.state import RunState
 from schemas.tool_io import WriteRunReportInput, WriteRunReportOutput
-from services.authoring import BLOG_PATH
+from services.authoring import BLOG_PATH, validate_citations
 from services.observability import current_observer
 from services.reporting import RunLedger, build_run_report, classify_outcome, write_run_report
+from tools.base import TypedTool
 
 if TYPE_CHECKING:
-    from tools.registry import ToolRegistry
+    from tools.base import ToolRegistry
 
 
 class ReportSession:
@@ -47,16 +48,12 @@ class ReportSession:
 
 
 def register_report_tools(registry: ToolRegistry, session: ReportSession | None) -> None:
-    from tools.registry import TypedTool
-
     def write_report_tool(
         request: WriteRunReportInput, runtime: object | None = None
     ) -> WriteRunReportOutput:
         del request, runtime
         if session is None:
             raise ValueError("The production report tool requires a ReportSession")
-        from services.authoring import validate_citations
-
         finding = validate_citations(session.root)
         observer = current_observer()
         if observer is not None:

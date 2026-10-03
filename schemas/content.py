@@ -1,6 +1,6 @@
 """Validated fetch and extraction outcomes; raw HTML is an internal hand-off."""
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Literal, Self
 
 from pydantic import AwareDatetime, Field, model_validator
@@ -80,6 +80,5 @@ class RetryEvent(Contract):
 
 
 def utc_now() -> datetime:
-    from datetime import UTC
-
+    """Return the current time as a timezone-aware UTC datetime."""
     return datetime.now(UTC)

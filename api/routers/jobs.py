@@ -2,19 +2,23 @@
 
 from __future__ import annotations
 
-from datetime import UTC, datetime
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, Header, Response
 from fastapi.responses import JSONResponse
 
 from api.dependencies import JobServiceDep, require_token
-from api.errors import ApiError, conflict, not_found, unavailable
-from application.ports import JobStoreError
+from api.errors import ERROR_RESPONSES, conflict, not_found
+from application.job_service import validate_idempotency_key
 from schemas.api import JobAccepted, JobLinks, JobStatus, ResumeRequest, SubmissionRequest
 from schemas.jobs import JobRecord
 
-router = APIRouter(prefix="/v1", tags=["jobs"], dependencies=[Depends(require_token)])
+router = APIRouter(
+    prefix="/v1",
+    tags=["jobs"],
+    dependencies=[Depends(require_token)],
+    responses=ERROR_RESPONSES,
+)
 
 IdempotencyKey = Annotated[str | None, Header(alias="Idempotency-Key")]
 
@@ -46,8 +50,10 @@ def submit_run(
     service: JobServiceDep,
     idempotency_key: IdempotencyKey = None,
 ) -> JobAccepted:
-    if idempotency_key is None or not idempotency_key.strip():
-        raise ApiError(409, "missing_idempotency_key", "An Idempotency-Key header is required")
+    """Admit a search or research job and return ``202`` with its status link.
+
+    An exact replay of the same key and body returns ``200`` with the original job.
+    """
     record, created = service.submit(payload, idempotency_key=idempotency_key)
     response.status_code = 202 if created else 200
     response.headers["Location"] = f"/v1/jobs/{record.job_id}"
@@ -62,6 +68,7 @@ def submit_run(
 
 @router.get("/jobs/{job_id}", response_model=JobStatus)
 def get_job(job_id: str, service: JobServiceDep) -> JobStatus:
+    """Return a job's state, phase, attempt, and safe reasons."""
     record = service.status(job_id)
     if record is None:
         raise not_found("job")
@@ -75,18 +82,20 @@ def resume_run(
     payload: ResumeRequest | None = None,
     idempotency_key: IdempotencyKey = None,
 ) -> JSONResponse:
+    """Re-queue an interrupted run as a new attempt on the same workspace.
+
+    The key is validated before state checks so a malformed request is reported
+    as such, regardless of the run's state. Store failures surface as ``503``
+    through the shared handler.
+    """
     del payload
+    validate_idempotency_key(idempotency_key)
     record = service.latest_for_run(run_id)
     if record is None:
         raise not_found("run")
     if not service.eligible_for_resume(record):
         raise conflict("not_resumable", "Only an interrupted run with a workspace can resume")
-    if idempotency_key is None or not idempotency_key.strip():
-        raise ApiError(409, "missing_idempotency_key", "An Idempotency-Key header is required")
-    try:
-        released = service.release_for_resume(record, now=datetime.now(UTC))
-    except JobStoreError as error:
-        raise unavailable("store_unavailable") from error
+    released = service.release_for_resume(record)
     return JSONResponse(
         status_code=202,
         content={

@@ -4,24 +4,33 @@ import json
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any, Literal
+from uuid import uuid4
 
+import httpx
 import pytest
 from langchain_core.messages import AIMessage
 from langchain_core.outputs import ChatGeneration, LLMResult
 from opentelemetry.exporter.otlp.proto.common.metrics_encoder import encode_metrics
-from pydantic import ValidationError
+from pydantic import HttpUrl, ValidationError
 
 from evaluations.epic9_demo import run_demo
+from evaluations.fetch_fixtures import FixtureHTTP, VirtualClock
 from evaluations.observability_fixtures import RecordingMetricExporter, RecordingTraceClient
 from evaluations.otlp_receiver import decode_metrics, metric_points
 from schemas.config import RunSettings
 from schemas.requests import ResearchRequest
+from schemas.responses import SearchResult
 from schemas.search import QueryVariants
+from schemas.state import RunState, UrlOutcome
 from services.execution_log import ExecutionLog
+from services.extraction_service import ExtractionService
+from services.fetch_service import FetchService
 from services.observability import RunObservability, observability_scope
 from services.run_metrics import RunMetrics
 from services.search_provider import FakeSearchProvider
-from workflows.search_run import run_search
+from tools.corpus_tools import CorpusSession
+from tools.registry import create_tool_registry
+from workflows.search_run import run_search, tool_runtime
 
 
 @pytest.mark.parametrize("scenario", ["failure", "success"])
@@ -172,8 +181,6 @@ def test_log_symlink_is_refused(tmp_path: Path) -> None:
 
 
 def test_usage_callback_deduplicates_and_marks_unknown_cost(tmp_path: Path) -> None:
-    from uuid import uuid4
-
     observer = RunObservability(RunSettings(_env_file=None), "unit")
     observer.bind(tmp_path, "Usage evidence")
     result = LLMResult(
@@ -224,18 +231,6 @@ def test_tracing_export_exception_does_not_replace_tool_result(tmp_path: Path) -
 
 
 def test_recovered_source_updates_final_outcome_without_losing_failure_log(tmp_path: Path) -> None:
-    import httpx
-    from pydantic import HttpUrl
-
-    from evaluations.fetch_fixtures import FixtureHTTP, VirtualClock
-    from schemas.responses import SearchResult
-    from schemas.state import RunState, UrlOutcome
-    from services.extraction_service import ExtractionService
-    from services.fetch_service import FetchService
-    from tools.corpus_tools import CorpusSession
-    from tools.registry import create_tool_registry
-    from workflows.search_run import tool_runtime
-
     class RecoveredHTTP(FixtureHTTP):
         async def respond(self, request: httpx.Request) -> httpx.Response:
             if request.url.path == "/article" and not self.counts["first-failure"]:

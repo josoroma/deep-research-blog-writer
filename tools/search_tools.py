@@ -12,15 +12,14 @@ from schemas.tool_io import (
     NormalizeResultsInput,
     NormalizeResultsOutput,
 )
+from tools.base import TypedTool
 
 if TYPE_CHECKING:
     from services.search_session import SearchSession
-    from tools.registry import Runtime, ToolRegistry
+    from tools.base import Runtime, ToolRegistry
 
 
 def register_search_tools(registry: ToolRegistry, session: SearchSession | None) -> None:
-    from tools.registry import TypedTool
-
     def current_run(runtime: Runtime | None) -> tuple[SearchSession, RunState]:
         if session is None or runtime is None:
             raise ValueError("Search tools require a per-run SearchSession and ToolRuntime")

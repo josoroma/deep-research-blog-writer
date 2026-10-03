@@ -50,7 +50,7 @@ include = [
     "/agents", "/tools", "/workflows", "/prompts", "/schemas", "/services",
     "/evaluations", "/api", "/application", "/workers",
     "/tests", "/pyproject.toml", "/uv.lock", "/.python-version",
-    "/README.md", "/.pre-commit-config.yaml", "/Makefile", "/ops", "/EPIC-9.md",
+    "/README.md", "/.pre-commit-config.yaml", "/Makefile", "/ops",
 ]
 
 [tool.ruff]
@@ -58,11 +58,63 @@ target-version = "py312"
 line-length = 100
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "UP", "B"]
+# docs/ENGINEERING.md explains each family. New rules are added here with a
+# per-path ratchet below, never with a blanket ignore.
+select = [
+    "E", "F", "I", "UP", "B",
+    "C90",                       # McCabe complexity
+    "PLR0911", "PLR0912", "PLR0915",  # returns, branches, statements per function
+    "BLE",                       # blind `except Exception`
+    "S",                         # bandit security checks
+    "SIM", "RET", "PIE",         # simpler control flow, incl. PIE790 redundant `...`
+    "PLC0415",                   # imports at module level; break cycles with a leaf module
+    "D1",                        # public docstrings
+    "RUF100",                    # every noqa must suppress something
+]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.pylint]
+max-returns = 6
+max-branches = 12
+max-statements = 50
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
 
 [tool.ruff.lint.per-file-ignores]
 # FastAPI requires Depends() call results as parameter defaults.
 "api/**" = ["B008"]
+# Tests and fixtures: asserts are the point, docstrings are optional, fixtures
+# use deterministic randomness, and helpers may stay long and branchy.
+"tests/**" = ["S", "D1", "C90", "PLR", "BLE", "SIM117"]
+"evaluations/**" = ["S101", "S603", "S607"]
+"scripts/**" = ["S101", "D1"]
+"ops/**" = ["D1"]
+"docs/**" = ["D1"]
+# Ratchet: modules written before the docstring rule. Remove a line once its
+# package is documented; never add one for new code.
+"services/**" = ["D101", "D102", "D103", "D105", "D107"]
+"schemas/**" = ["D101", "D102", "D103", "D105", "D107"]
+"evaluations/*.py" = ["D101", "D102", "D103", "D105", "D107"]
+"tools/**" = ["D101", "D102", "D103", "D105", "D107"]
+"workflows/**" = ["D101", "D102", "D103", "D105", "D107"]
+"prompts/**" = ["D101", "D102", "D103", "D105", "D107"]
+"agents/**" = ["D101", "D102", "D103", "D105", "D107"]
+# Ratchet: functions already over the complexity limits; split before editing.
+"evaluations/agent_architecture.py" = ["C901", "PLR0912"]
+"evaluations/epic9_demo.py" = ["C901", "PLR0915"]
+"services/extraction_service.py" = ["C901"]
+"services/fetch_service.py" = ["C901", "PLR0911", "PLR0912"]
+"services/observability.py" = ["C901", "PLR0912"]
+"tools/corpus_tools.py" = ["C901", "PLR0915"]
+# Ratchet: runtime type narrowing written as assert; convert to explicit checks.
+"workflows/{authoring_run,corpus_run,fetch_run,search_run}.py" = ["S101"]
+"tools/{corpus_tools,stubs}.py" = ["S101"]
+# Queries interpolate only the module constant `_COLUMNS`; every value is a
+# bound %s parameter. Review any new f-string query here by hand.
+"services/postgres_jobs.py" = ["S101", "S608"]
 
 [tool.mypy]
 plugins = ["pydantic.mypy"]

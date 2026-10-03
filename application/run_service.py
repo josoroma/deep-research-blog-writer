@@ -19,25 +19,37 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Literal
 
+from langchain_core.messages import HumanMessage
 from langgraph.checkpoint.base import BaseCheckpointSaver
 
+from agents.deep_research import build_deep_agent
 from application.context import ExecutionContext
 from schemas.config import RunSettings
+from schemas.errors import ResearchError
 from schemas.requests import ResearchRequest
 from schemas.responses import RunReport
+from schemas.search import QueryVariants
 from schemas.state import RunState
 from services.artifacts import write_json
 from services.authoring import BLOG_PATH, check_blog, validate_citations
+from services.checkpoints import make_sqlite_checkpointer
+from services.observability import observed_config
 from services.reporting import build_run_report, classify_outcome, write_run_report
+from tools.authoring_tools import AuthoringSession
+from tools.registry import create_tool_registry
+from workflows.corpus_run import run_corpus
 from workflows.resume import load_saved_run, next_phase
+from workflows.search_run import run_search
 
 AUTHORING_GATE = "output/authoring.json"
 MAX_REPAIR_PASSES = 2
 AuthoringMode = Literal["agent", "fixture"]
 
 
-class SearchPhaseError(RuntimeError):
+class SearchPhaseError(ResearchError, RuntimeError):
     """A deterministic search failure, safe to surface as a terminal reason."""
+
+    code = "search_failed"
 
 
 @dataclass
@@ -53,6 +65,7 @@ class ExecutionOutcome:
 
     @property
     def terminal_state(self) -> str:
+        """The job state to record: search success, or the final report's status."""
         if self.search_only:
             return "succeeded" if self.error is None else "failed"
         if self.report is None:
@@ -61,9 +74,17 @@ class ExecutionOutcome:
 
 
 class RunService:
-    """Execute and resume one run against an owned execution context."""
+    """Execute and resume one run against an owned execution context.
 
-    def __init__(
+    Args:
+        context: Resources owned by this attempt.
+        production: When true, stub tools are forbidden.
+        authoring_mode: ``agent`` for model authoring, ``fixture`` for offline.
+        synthesize: Replaces model synthesis, used by the fixture profile.
+        checkpointer: A server saver; ``None`` selects the per-run SQLite saver.
+    """
+
+    def __init__(  # noqa: D107 - documented on the class
         self,
         context: ExecutionContext,
         *,
@@ -82,9 +103,6 @@ class RunService:
 
     # -- phases ----------------------------------------------------------------
     def _phase_search(self, run: RunState) -> RunState:
-        from schemas.search import QueryVariants
-        from workflows.search_run import run_search
-
         variants = None
         if self.context.variants is not None:
             variants = QueryVariants.model_validate(self.context.variants)
@@ -102,8 +120,7 @@ class RunService:
         return load_saved_run(self.context.workspace.root)
 
     def _phase_corpus(self, run: RunState) -> RunState:
-        from workflows.corpus_run import run_corpus
-
+        del run  # the corpus phase reloads authoritative state from the workspace
         summary = run_corpus(
             self.context.workspace.root,
             self.settings,
@@ -148,13 +165,6 @@ class RunService:
         return updated
 
     def _run_authoring_graph(self, run: RunState) -> None:
-        from langchain_core.messages import HumanMessage
-
-        from agents.deep_research import build_deep_agent
-        from services.observability import observed_config
-        from tools.authoring_tools import AuthoringSession
-        from tools.registry import create_tool_registry
-
         workspace = self.context.workspace
         registry = create_tool_registry(authoring_session=AuthoringSession(workspace.root, run))
         agent = build_deep_agent(
@@ -223,6 +233,11 @@ class RunService:
 
     # -- public entry points ---------------------------------------------------
     def execute(self, *, operation: str = "research") -> ExecutionOutcome:
+        """Run search, then (for ``research``) corpus, authoring, and the report.
+
+        Never raises for a phase failure: the outcome carries a safe reason and,
+        when possible, a failed report, so the worker can record it on the job.
+        """
         self._started = time.monotonic()
         run = self.context.run
         try:
@@ -297,8 +312,6 @@ class RunService:
             return self.checkpointer
         if not self.production:
             return None
-        from services.checkpoints import make_sqlite_checkpointer
-
         return make_sqlite_checkpointer(root / "checkpoints.sqlite")
 
     def _request(self, run: RunState) -> ResearchRequest:

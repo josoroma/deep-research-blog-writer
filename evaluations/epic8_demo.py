@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from evaluations.epic7_demo import run_demo as run_authoring_demo
+from schemas.config import RunSettings
 from schemas.responses import RunReport
 from services.checkpoints import make_sqlite_checkpointer
 from services.reliability import run_phase
@@ -25,8 +26,6 @@ def run_demo(runs_root: Path) -> dict[str, Any]:
     ledger = RunLedger("openrouter:demo", price_per_token=0.001)
     ledger.phase_timings = {"search": 0.4, "index": 0.2}
     ledger.usage = [UsageRecord(200, 0.05), UsageRecord(100, None)]
-    from schemas.config import RunSettings
-
     settings = RunSettings(_env_file=None, crawler_contact="https://example.org/contact")
     report = run_report(
         workspace,

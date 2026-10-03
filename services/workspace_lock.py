@@ -7,10 +7,12 @@ the second gate, so an expired heartbeat can never let two writers race.
 
 from __future__ import annotations
 
-import os
+import contextlib
 from pathlib import Path
 from types import TracebackType
 from typing import Self
+
+from schemas.errors import ConflictError
 
 try:  # pragma: no cover - platform import guard
     import fcntl
@@ -20,8 +22,10 @@ except ImportError:  # pragma: no cover - Windows has no fcntl
 LOCK_FILENAME = ".run.lock"
 
 
-class WorkspaceBusy(RuntimeError):
+class WorkspaceBusy(ConflictError):
     """Another process currently owns this workspace."""
+
+    code = "workspace_busy"
 
 
 class WorkspaceLock:
@@ -56,10 +60,10 @@ class WorkspaceLock:
         if handle is None:
             return
         if fcntl is not None:
-            try:
+            # Closing the handle below drops the lock anyway; an unlock failure here
+            # is not actionable.
+            with contextlib.suppress(OSError):
                 fcntl.flock(handle.fileno(), fcntl.LOCK_UN)  # type: ignore[attr-defined]
-            except OSError:  # pragma: no cover - unlock failure is not actionable
-                pass
         handle.close()  # type: ignore[attr-defined]
         self._handle = None
         self._acquired = False
@@ -75,15 +79,3 @@ class WorkspaceLock:
         tb: TracebackType | None,
     ) -> None:
         self.release()
-
-
-def workspace_lock_path(root: Path) -> Path:
-    return root / LOCK_FILENAME
-
-
-def pid_alive(pid: int) -> bool:  # pragma: no cover - convenience for operators
-    try:
-        os.kill(pid, 0)
-    except OSError:
-        return False
-    return True

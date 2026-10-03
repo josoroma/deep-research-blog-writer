@@ -8,6 +8,8 @@ lets a second process write into the same run directory.
 
 from __future__ import annotations
 
+import argparse
+import contextlib
 import signal
 import threading
 import time
@@ -17,35 +19,55 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Protocol
 
+import psycopg
 from langchain_core.language_models import BaseChatModel
 from langgraph.checkpoint.base import BaseCheckpointSaver
 
 from application.context import ExecutionContext
+from application.fixtures import (
+    FixtureExtractionService,
+    FixtureFetcher,
+    fixture_authoring,
+    fixture_model,
+    fixture_search_provider,
+    fixture_variants,
+)
+from application.migrations import apply_migrations
 from application.ports import JobStore, JobStoreError
 from application.run_service import AuthoringMode, ExecutionOutcome, RunService
 from schemas.config import ApiSettings, RunSettings, run_settings_for_api
+from schemas.errors import ResearchError
 from schemas.jobs import JobRecord
 from schemas.requests import ResearchRequest
 from schemas.state import RunState
 from services.checkpoints import postgres_checkpointer
 from services.extraction_service import ExtractionService
 from services.fetch_service import Fetcher
+from services.job_store import MemoryJobStore
 from services.llm_service import LLMService
+from services.postgres_jobs import CONNECT_TIMEOUT_SECONDS, PostgresJobStore
 from services.search_provider import SearchProvider, create_search_provider
 from services.workspace import allocate_run_id, create_run_workspace
 from services.workspace_lock import WorkspaceBusy
 
 
-class WorkerError(RuntimeError):
+class WorkerError(ResearchError, RuntimeError):
     """A worker-level failure that ends the attempt with a safe reason."""
+
+    code = "worker_failed"
 
 
 class CheckpointerFactory(Protocol):
-    def __call__(self, root: Path) -> BaseCheckpointSaver[Any] | None: ...
+    """Builds a checkpoint saver for a runs root; injected by tests."""
+
+    def __call__(self, root: Path) -> BaseCheckpointSaver[Any] | None:
+        """Return a saver for ``root``, or ``None`` to use the default."""
 
 
 @dataclass
 class WorkerOutcome:
+    """What one claim did: the job, the state recorded, and the run it used."""
+
     job_id: str
     state: str
     run_id: str | None
@@ -56,13 +78,6 @@ def _fixture_execution(
     settings: RunSettings, request: ResearchRequest
 ) -> tuple[SearchProvider, Fetcher, ExtractionService, BaseChatModel]:
     """Fake provider, fetcher, extractor and model for the fixture profile."""
-    from application.fixtures import (
-        FixtureExtractionService,
-        FixtureFetcher,
-        fixture_model,
-        fixture_search_provider,
-    )
-
     del settings
     provider: SearchProvider = fixture_search_provider(
         request.topic, pages=request.pages, per_page=request.per_page
@@ -74,7 +89,22 @@ def _fixture_execution(
 
 
 class ResearchWorker:
-    def __init__(
+    """Claims one job at a time, runs it, and records a safe terminal state.
+
+    Concurrency is one job per worker on purpose: fetch limits are per
+    ``FetchService``, so parallel jobs would multiply load on the same hosts.
+
+    Args:
+        store: The durable job queue.
+        api: Server settings: lease, heartbeat, poll interval, run profile.
+        identity: A stable worker id written on claimed jobs.
+        runs_root: Overrides the server workspace root.
+        settings: Overrides the run settings derived from ``api``.
+        checkpointer_factory: Overrides the PostgreSQL saver, for tests.
+        once: Stop after the queue is empty instead of polling forever.
+    """
+
+    def __init__(  # noqa: D107 - documented on the class
         self,
         store: JobStore,
         api: ApiSettings,
@@ -103,9 +133,12 @@ class ResearchWorker:
 
     # -- lifecycle -------------------------------------------------------------
     def request_stop(self) -> None:
+        """Ask the polling loop to exit after the current job."""
         self._stop.set()
 
     def install_signal_handlers(self) -> None:
+        """Turn SIGINT and SIGTERM into a graceful stop request."""
+
         def handler(signum: int, frame: object) -> None:
             del signum, frame
             self.request_stop()
@@ -114,6 +147,7 @@ class ResearchWorker:
         signal.signal(signal.SIGTERM, handler)
 
     def run_forever(self) -> None:
+        """Poll and run jobs until a stop is requested."""
         self.install_signal_handlers()
         while not self._stop.is_set():
             outcome = self.run_once()
@@ -124,6 +158,11 @@ class ResearchWorker:
 
     # -- one claim -------------------------------------------------------------
     def run_once(self) -> WorkerOutcome | None:
+        """Recover expired leases, claim one job, and run it.
+
+        Returns:
+            The outcome, or ``None`` when the queue is empty or the store is down.
+        """
         now = datetime.now(UTC)
         try:
             self.store.recover_expired(now=now)
@@ -177,15 +216,15 @@ class ResearchWorker:
                 context.close()
 
     def _finish_safely(self, job_id: str, state: str, reason: str) -> None:
-        try:
+        # If the store is down the lease expires and recovery marks the job
+        # interrupted, so dropping this write loses no job.
+        with contextlib.suppress(JobStoreError):
             self.store.finish(
                 job_id=job_id,
                 state=state,  # type: ignore[arg-type]
                 now=datetime.now(UTC),
                 error=reason,
             )
-        except JobStoreError:
-            pass
 
     # -- preparation -----------------------------------------------------------
     def _prepare(self, job: JobRecord) -> tuple[ExecutionContext, BaseCheckpointSaver[Any] | None]:
@@ -201,8 +240,6 @@ class ResearchWorker:
         extractor: ExtractionService | None = None
         variants: object | None = None
         if fixture:
-            from application.fixtures import fixture_variants
-
             provider, fetcher, extractor, fake_model = _fixture_execution(self.settings, request)
             variants = fixture_variants()
         else:
@@ -265,8 +302,6 @@ class ResearchWorker:
         synthesize = None
         authoring_mode: AuthoringMode = "agent"
         if self.api.run_profile == "fixture":
-            from application.fixtures import fixture_authoring
-
             authoring_mode = "fixture"
             synthesize = fixture_authoring
         service = RunService(
@@ -284,12 +319,15 @@ class ResearchWorker:
             failure = None if outcome.error is None else WorkerError(outcome.error)
             observer.finish(outcome.report, failure)
             return outcome
-        except Exception as error:  # noqa: BLE001 - the observer records the failure
+        except Exception as error:
+            # Record the failure on the run's telemetry, then let _execute decide
+            # the job state.
             observer.finish(None, error)
             raise
 
     # -- helpers ---------------------------------------------------------------
     def observe_readiness(self) -> tuple[bool, str]:
+        """Return ``(ready, reason)`` by asking the store for its active count."""
         try:
             _ = self.store.count_active()
         except JobStoreError:
@@ -332,30 +370,26 @@ def _has_state(root: Path) -> bool:
 
 
 def main(argv: list[str] | None = None) -> int:  # pragma: no cover - process entry point
-    import argparse
-
-    from application.migrations import apply_migrations
-    from services.job_store import MemoryJobStore
-
+    """Run the worker process: apply migrations, then poll or run one job."""
     parser = argparse.ArgumentParser(prog="research-worker", description=__doc__)
     parser.add_argument("--once", action="store_true", help="Claim and run one job, then exit.")
     args = parser.parse_args(argv)
 
     api = ApiSettings()
-    fixture = api.run_profile == "fixture"
-    if fixture:
+    dsn = api.database_dsn()
+    if api.uses_memory_store():
         store: JobStore = MemoryJobStore()
+    elif dsn is None:
+        print("API_DATABASE is required unless API_RUN_PROFILE=fixture")
+        return 2
     else:
-        dsn = api.database_dsn()
-        if dsn is None:
-            print("API_DATABASE is required unless API_RUN_PROFILE=fixture")
+        try:
+            with psycopg.connect(dsn, connect_timeout=CONNECT_TIMEOUT_SECONDS) as connection:
+                apply_migrations(connection)
+        except psycopg.OperationalError:
+            # The DSN can carry a password, so only the fix is printed.
+            print("PostgreSQL is unreachable at API_DATABASE; start it with `make api-up`")
             return 2
-        import psycopg
-
-        from services.postgres_jobs import PostgresJobStore
-
-        with psycopg.connect(dsn) as connection:
-            apply_migrations(connection)
         store = PostgresJobStore(dsn)
     identity = api.worker_identity or f"worker-{int(time.time())}"
     worker = ResearchWorker(store, api, identity=identity, once=args.once)

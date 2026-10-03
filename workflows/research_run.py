@@ -6,7 +6,6 @@ from typing import Any, Literal
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import HumanMessage
 from langgraph.graph.state import CompiledStateGraph
-from pydantic import Field
 
 from agents.deep_research import build_deep_agent
 from schemas.common import Contract
@@ -93,9 +92,3 @@ def invoke_agent(
         {"messages": [HumanMessage(content=request.model_dump_json())]},
         config=observed_config(settings.recursion_limit),
     )
-
-
-class RunInputError(Contract):
-    """A rejected run request; the CLI maps this to exit status 2."""
-
-    message: str = Field(min_length=1)

@@ -386,7 +386,7 @@ td.num { min-width: 0; }
   <div class="hero">
     <h1>Run it like the example</h1>
     <p class="lead">How a developer sets up, starts, and runs the deep research blog writer, which loops each phase runs, and what the committed example run produced at every step.</p>
-    <p class="meta">Generated 2026-10-01 from revision 58041ed, delivery status, observability, and the API/worker path updated 2026-10-02 · example run <code>python-langchain-deep-agents-startup-ideas-20261001T195605Z</code> · see <a href="#sources">Sources</a></p>
+    <p class="meta">Generated 2026-10-01 from revision 58041ed · delivery status and observability updated 2026-10-02 · commands, API requests, and outputs re-run 2026-10-03 · example run <code>python-langchain-deep-agents-startup-ideas-20261001T195605Z</code> · see <a href="#sources">Sources</a></p>
     <p class="meta">Documentation site: <a href="https://josoroma.github.io/deep-research-blog-writer">josoroma.github.io/deep-research-blog-writer</a> · Source: <a href="https://github.com/josoroma/deep-research-blog-writer">github.com/josoroma/deep-research-blog-writer</a></p>
   </div>
 
@@ -395,6 +395,7 @@ td.num { min-width: 0; }
     <ol>
       <li><a href="#overview">Overview</a></li>
       <li><a href="#setup">Setup</a></li>
+      <li><a href="#commands">Tested commands</a></li>
       <li><a href="#api">API and worker</a></li>
       <li><a href="#loop">The run loop</a></li>
       <li><a href="#search">Search</a></li>
@@ -422,11 +423,11 @@ td.num { min-width: 0; }
 
   <section id="setup">
     <h2>Setup</h2>
-    <p class="section-lead">You need Git, uv, and Make. uv installs Python 3.12 from <code>.python-version</code>. No server is required.</p>
+    <p class="section-lead">You need Git, uv, and Make. uv installs Python 3.12 from <code>.python-version</code>. The CLI needs no server; the API path also needs Docker for PostgreSQL.</p>
     <ol class="steps">
       <li><code>make setup</code> installs the locked dependencies from <code>uv.lock</code> and the Git hook.</li>
       <li><code>make check</code> runs the lock check, Ruff, the format check, mypy in strict mode, and the offline tests with an 80% coverage floor. Sockets are blocked and no key is needed.</li>
-      <li><code>cp -n .env.example .env</code>, then fill in the three values below. <code>.env</code> is git-ignored.</li>
+      <li><code>cp -n .env.example .env</code>, then fill in the values below. <code>.env</code> is git-ignored.</li>
     </ol>
     <div class="table-wrap">
       <table>
@@ -450,54 +451,249 @@ td.num { min-width: 0; }
           <tr><td class="num">2</td><td>Input or configuration was rejected before any work started, such as a missing key, <code>--per-page</code> other than 10 on SerpApi, or a missing workspace.</td></tr>
         </tbody>
       </table>
+    </div>
     <div class="callout"><p class="callout-title">Two entry points, one pipeline</p><p>The three phase commands below are the inspectable CLI path. The <a href="#api">API and worker</a> admit the same work as a durable job and write under <code>runs-api/</code> instead of <code>runs/</code>.</p></div>
+  </section>
+
+  <section id="commands">
+    <h2>Tested commands</h2>
+    <p class="section-lead">Every command here was run on 2026-10-03. None of them needs a key, a database, or the network, except <code>make audit</code>, which downloads the advisory database. Run them before a live run.</p>
+    <div class="table-wrap">
+      <table>
+        <caption>Offline targets with exit code and wall time on an M-series Mac. Each one prints the facts it checked.</caption>
+        <thead><tr><th scope="col">Command</th><th scope="col" class="num">Exit</th><th scope="col" class="num">Time</th><th scope="col">What it reported</th></tr></thead>
+        <tbody>
+          <tr><td><code>make check</code></td><td class="num">0</td><td class="num">18 s</td><td>737 passed, 3 live tests deselected, coverage 87.90% (floor 80%)</td></tr>
+          <tr><td><code>make demo-epic-4</code></td><td class="num">0</td><td class="num">1 s</td><td>Phases plan, search, and normalize; 2 query variants; 30 topic results; a repeated call was served from cache; an unplanned call was rejected</td></tr>
+          <tr><td><code>make demo-epic-7</code></td><td class="num">0</td><td class="num">2 s</td><td>Summary passed, headings valid, citations resolved; the deliberately dangling <code>S-31</code> was caught</td></tr>
+          <tr><td><code>make demo-epic-8</code></td><td class="num">0</td><td class="num">1 s</td><td>Status <code>degraded</code> with exit status 3, 5 URLs extracted, retry recovered, resume at <code>synthesize</code></td></tr>
+          <tr><td><code>make eval-offline</code></td><td class="num">0</td><td class="num">3 s</td><td>3 golden topics passed: 0 dangling citations, 2,128 words, coverage 1.0, groundedness 1.0, hallucination rate 0.0</td></tr>
+          <tr><td><code>make demo-api</code></td><td class="num">0</td><td class="num">2 s</td><td>Health 200 and 200, submit 202, replay 200 with the same job, state <code>succeeded</code>, 16 artifacts, a 41,177-byte blog, 5 log records</td></tr>
+          <tr><td><code>make audit</code></td><td class="num">0</td><td class="num">24 s</td><td>No known vulnerabilities in the locked runtime dependencies</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><p class="callout-title">The offline evaluation reuses one fixture topic</p><p><code>make eval-offline</code> scores the three golden topic ids, but the fixture provider only answers <code>2026 agentic AI frameworks</code>, so all three report that topic string. It proves the scoring path, not coverage of different topics. It also writes <code>evaluations/benchmarks/&lt;date&gt;-&lt;commit&gt;.json</code>; delete that file unless you mean to record a benchmark.</p></div>
+    <h3>CLI input errors exit 2 before any work starts</h3>
+    <p>These were run with every provider key unset. Each response is the first line of stderr.</p>
+    <pre><code>$ deep-research-blog "ab"
+Invalid input: 1 validation error for ResearchRequest                     # exit 2
+$ deep-research-blog "valid topic" --pages 0
+Invalid input: 1 validation error for ResearchRequest                     # exit 2
+$ deep-research-blog --author-only
+Invalid input: --author-only requires --workspace and uses its saved search budget   # exit 2
+$ deep-research-blog "valid topic" --workspace /tmp/x
+Invalid input: --workspace requires --fetch-only, --corpus-only, or --author-only   # exit 2
+$ deep-research-blog "valid topic" --query-variant a --query-variant b
+Invalid input: --query-variant requires --search-only                     # exit 2
+$ deep-research-blog --resume does-not-exist
+Invalid input: No workspace for run does-not-exist                        # exit 2</code></pre>
+    <p><code>deep-research-blog --help</code> lists <code>--pages</code>, <code>--per-page</code>, <code>--max-urls</code>, exactly one of <code>--search-only</code>, <code>--fetch-only</code>, <code>--corpus-only</code>, or <code>--author-only</code>, and <code>--workspace</code>, <code>--query-variant</code>, and <code>--resume</code>.</p>
   </section>
 
   <section id="api">
     <h2>API and worker</h2>
     <p class="section-lead">The HTTP API only admits and reads. A separate worker claims the job, runs the shared use cases, and writes the workspace. Importing <code>api</code> starts no worker and calls no provider.</p>
+    <h3>Start it on one machine</h3>
     <ol class="steps">
-      <li><code>make demo-api</code> is the offline check: in-memory queue, fixture providers, one worker attempt, then job, report, artifact, and log reads. No database and no keys.</li>
-      <li><code>make api-up</code> starts PostgreSQL on <code>127.0.0.1:5432</code> (<code>research</code> / <code>research</code>, database <code>research</code>). <code>make api-down</code> stops it and keeps the volume.</li>
-      <li>Export <code>API_DATABASE=postgresql://research:research@127.0.0.1:5432/research</code>, then <code>make migrate-api</code> and <code>make run-api</code>. The API listens on <code>127.0.0.1:8000</code>.</li>
-      <li>In a second terminal, with the same <code>API_DATABASE</code> and the provider keys from <code>.env</code>, run <code>make worker-api</code>.</li>
+      <li><code>make api-up</code> starts PostgreSQL 17 on <code>127.0.0.1:5432</code>. The user, password, and database are all <code>research</code>. <code>make api-down</code> stops it and keeps the volume.</li>
+      <li>Export <code>API_DATABASE=postgresql://research:research@127.0.0.1:5432/research</code>, then run <code>make migrate-api</code>. It is idempotent: the first run printed <code>Applied 1 migration(s); checkpoint schema is ready.</code> and the second printed <code>Applied 0 migration(s)</code>. It creates <code>jobs</code>, <code>schema_migrations</code>, and four LangGraph <code>checkpoint*</code> tables.</li>
+      <li><code>make run-api</code> serves on <code>127.0.0.1:8000</code>. In a second terminal with the same <code>API_DATABASE</code>, run <code>make worker-api</code>. Set <code>API_RUN_PROFILE=fixture</code> for both to run the stack with no model, search, or website calls.</li>
     </ol>
     <div class="table-wrap">
       <table>
-        <caption>Settings the API and worker read. Provider keys are unchanged.</caption>
+        <caption>Settings the API and worker read, from <code>schemas/config.py</code>. Provider keys are unchanged.</caption>
         <thead><tr><th scope="col">Variable</th><th scope="col">Default</th><th scope="col">Notes</th></tr></thead>
         <tbody>
-          <tr><td><code>API_DATABASE</code></td><td>required</td><td>PostgreSQL DSN. Not required for <code>make demo-api</code>.</td></tr>
-          <tr><td><code>API_RUNS_DIR</code></td><td><code>runs-api</code></td><td>Server workspace root. Separate from the CLI's <code>runs/</code>.</td></tr>
-          <tr><td><code>API_TOKEN</code></td><td>unset</td><td>Shared bearer token. Leave unset only for loopback use.</td></tr>
-          <tr><td><code>API_QUEUE_LIMIT</code></td><td><code>100</code></td><td>Admission returns <code>429</code> when that many jobs are already active.</td></tr>
-          <tr><td><code>API_RUN_PROFILE</code></td><td><code>production</code></td><td><code>fixture</code> swaps in fake providers. Clients cannot select it.</td></tr>
+          <tr><td><code>API_DATABASE</code></td><td>unset</td><td>PostgreSQL DSN. When set, the API, worker, and migrations all use it, including under the fixture profile.</td></tr>
+          <tr><td><code>API_RUN_PROFILE</code></td><td><code>production</code></td><td><code>fixture</code> swaps in fake providers. With no <code>API_DATABASE</code> it also keeps jobs in memory. Clients cannot select it.</td></tr>
+          <tr><td><code>API_RUNS_DIR</code></td><td><code>runs-api</code></td><td>Server workspace root, separate from the CLI's <code>runs/</code>.</td></tr>
+          <tr><td><code>API_TOKEN</code></td><td>unset</td><td>Shared bearer token. Leave it unset only for loopback use.</td></tr>
+          <tr><td><code>API_QUEUE_LIMIT</code></td><td><code>100</code></td><td>Submission returns <code>429</code> once this many jobs are active.</td></tr>
+          <tr><td><code>API_MAX_PAGES</code>, <code>API_MAX_PER_PAGE</code>, <code>API_MAX_MAX_URLS</code></td><td><code>3</code>, <code>10</code>, <code>30</code></td><td>Server budget caps. A larger request is <code>422 budget_exceeded</code>.</td></tr>
+          <tr><td><code>API_ARTIFACT_MAX_BYTES</code></td><td>8 MiB</td><td>A larger artifact is <code>413 artifact_too_large</code>.</td></tr>
         </tbody>
       </table>
     </div>
-    <h3>Submit, then poll</h3>
-    <pre><code>curl --fail --silent --show-error http://127.0.0.1:8000/health/ready
-curl --include --silent --show-error \
-  -H 'Content-Type: application/json' \
-  -H 'Idempotency-Key: dev-1' \
-  -d '{"mode":"search","topic":"Your topic here","pages":1,"per_page":10,"max_urls":2}' \
-  http://127.0.0.1:8000/v1/runs</code></pre>
-    <p><code>POST /v1/runs</code> returns <code>202</code> and <code>Location: /v1/jobs/<job_id></code>. <code>mode</code> is <code>search</code> or <code>research</code>. The same idempotency key and body return the original job; a different body returns <code>409</code>. After the worker assigns a run id, follow <code>/v1/runs/<run_id></code>, <code>/report</code>, and <code>/artifacts/...</code>.</p>
+    <p>With PostgreSQL stopped, <code>make migrate-api</code> and <code>make worker-api</code> print <code>PostgreSQL is unreachable at API_DATABASE; start it with `make api-up`</code> and exit 2. They never print the DSN, because it carries the password. The API still starts and reports the outage on readiness:</p>
+    <pre><code>$ curl -i http://127.0.0.1:8000/health/ready
+HTTP/1.1 503 Service Unavailable
+{"status":"unavailable","reason":"schema_unavailable:OperationalError"}</code></pre>
+
+    <h3>Submit a job</h3>
+    <p>These are real requests and responses from 2026-10-03, made against the stack above with <code>API_RUN_PROFILE=fixture</code>. Every response also carries an <code>X-Request-ID</code> header, which is left out below.</p>
+    <pre><code>$ curl http://127.0.0.1:8000/health/live
+HTTP/1.1 200 OK
+{"status":"alive"}
+
+$ curl http://127.0.0.1:8000/health/ready
+HTTP/1.1 200 OK
+{"status":"ready"}
+
+$ curl -i -H 'Content-Type: application/json' -H 'Idempotency-Key: doc-research-1' \
+    -d '{"mode":"research","topic":"Research telemetry quality","pages":1,"per_page":10,"max_urls":3}' \
+    http://127.0.0.1:8000/v1/runs
+HTTP/1.1 202 Accepted
+location: /v1/jobs/f65fa89e-08da-4e78-9e7e-ef364e4ac7a9
+{"job_id":"f65fa89e-08da-4e78-9e7e-ef364e4ac7a9","status":"queued","operation":"research",
+ "run_id":null,"links":{"status":"/v1/jobs/f65fa89e-08da-4e78-9e7e-ef364e4ac7a9"}}</code></pre>
+    <p>The API returns before any work starts. <code>run_id</code> stays <code>null</code> until the worker allocates a workspace. <code>mode</code> is <code>search</code> or <code>research</code>. Sending the same key and body again returns <code>200</code> with the same <code>job_id</code>. Reusing the key with a different body is rejected:</p>
+    <pre><code>HTTP/1.1 409 Conflict
+{"error":{"code":"idempotency_conflict",
+ "message":"Idempotency-Key was reused with a different request payload",
+ "request_id":"52fa641a-92b4-4c2f-9a6c-6cb069d94d56"}}</code></pre>
+
+    <h3>Run the worker and poll</h3>
+    <pre><code>$ make worker-api                       # or: python -m workers.research_worker --once
+$ curl http://127.0.0.1:8000/v1/jobs/f65fa89e-08da-4e78-9e7e-ef364e4ac7a9
+{"job_id":"f65fa89e-08da-4e78-9e7e-ef364e4ac7a9","status":"succeeded","operation":"research",
+ "run_id":"research-telemetry-quality-20261003T040357Z","phase":"report","attempt":1,
+ "status_reasons":[],"error":null,
+ "created_at":"2026-10-03T04:03:56.535029Z","updated_at":"2026-10-03T04:03:58.475009Z",
+ "links":{"status":"/v1/jobs/f65fa89e-08da-4e78-9e7e-ef364e4ac7a9"}}</code></pre>
+    <p>The job went from submission to <code>succeeded</code> in about two seconds of wall time. A research job's state comes from its final report; a search job succeeds once search completes.</p>
+
+    <h3>Read the run</h3>
+    <pre><code>$ RUN=research-telemetry-quality-20261003T040357Z
+$ curl http://127.0.0.1:8000/v1/runs/$RUN
+{"run_id":"research-telemetry-quality-20261003T040357Z","topic":"Research telemetry quality",
+ "completed_phases":["plan","search","normalize","fetch","index","synthesize","write","citations","report"],
+ "execution_status":"succeeded","report_available":true,"artifacts_available":true}
+
+$ curl http://127.0.0.1:8000/v1/runs/$RUN/report      # scalar fields of "report"
+{"status":"succeeded","status_reasons":[],"model":"openrouter:deepseek/deepseek-v4.1-flash",
+ "urls_found":3,"urls_clean":3,"urls_fetched":3,"urls_extracted":3,"urls_thin":0,"urls_failed":0,
+ "extraction_failures":0,"blog_path":"output/blog.md","citation_count":3,
+ "tokens_used":0,"cost_usd":0.0,"retries":0, ...}
+
+$ curl http://127.0.0.1:8000/v1/runs/$RUN/artifacts   # first of 16 entries
+{"artifact_id":"clean_results.json","path":"clean_results.json","kind":"json",
+ "media_type":"application/json; charset=utf-8","size_bytes":555,
+ "download_url":"/v1/runs/research-telemetry-quality-20261003T040357Z/artifacts/clean_results.json"}
+
+$ curl -i -o blog.md http://127.0.0.1:8000/v1/runs/$RUN/artifacts/output/blog.md
+HTTP/1.1 200 OK
+content-disposition: attachment; filename="blog.md"
+content-length: 41177
+content-type: text/markdown; charset=utf-8
+
+$ curl "http://127.0.0.1:8000/v1/runs/$RUN/logs?limit=2"
+{"records":[
+  {"timestamp":"2026-10-03T04:03:57.897660+00:00","level":"INFO","phase":"research",
+   "event":"run_started","fields":{"run_id":"research-telemetry-quality-20261003T040357Z", ...}},
+  {"timestamp":"2026-10-03T04:03:57.898483+00:00","level":"INFO","phase":"fetch",
+   "event":"tool_started","fields":{"tool":"collect_source","url":"https://fixture.test/article-1", ...}}],
+ "next_cursor":"2"}</code></pre>
+    <p>The 16 artifacts are <code>request.json</code>; <code>search_plan.json</code>, <code>search_results.json</code>, <code>clean_results.json</code>, and <code>search_state.json</code>; three <code>research/NNN_*.md</code> sources plus <code>research/index.md</code> and <code>research/summary.md</code>; <code>corpus_state.json</code>; <code>output/blog.md</code>, <code>output/authoring.json</code> (the citation gate), and <code>output/run.json</code> (the final report); and <code>logs/execution.log</code> and <code>logs/telemetry.json</code>. Checkpoints, raw HTML, and the lock file are never listed.</p>
+
+    <h3>Interrupt and resume</h3>
+    <p>To test recovery, a worker completed the search phase and then stopped without finishing the job. When its lease expired, the job became <code>interrupted</code>:</p>
+    <pre><code>$ curl http://127.0.0.1:8000/v1/runs/interrupted-telemetry-run-20261003T040458Z
+{"completed_phases":["plan","search","normalize"],"execution_status":null,"report_available":false, ...}
+
+$ curl -i -X POST -H 'Idempotency-Key: resume-2' \
+    http://127.0.0.1:8000/v1/runs/interrupted-telemetry-run-20261003T040458Z/resume
+HTTP/1.1 202 Accepted
+location: /v1/jobs/1b9ce543-5237-4031-93ae-46467e1aa188
+{"job_id":"1b9ce543-5237-4031-93ae-46467e1aa188","status":"queued","operation":"research",
+ "run_id":"interrupted-telemetry-run-20261003T040458Z", ...}
+
+$ make worker-api
+$ curl http://127.0.0.1:8000/v1/jobs/1b9ce543-5237-4031-93ae-46467e1aa188
+{"status":"succeeded","run_id":"interrupted-telemetry-run-20261003T040458Z","phase":"report","attempt":2, ...}</code></pre>
+    <p>Resume kept the same job and run id, continued from <code>fetch</code>, and finished all nine phases on attempt 2. The <code>shasum</code> of <code>search_results.json</code> and <code>clean_results.json</code> did not change, so the saved search was not redone.</p>
+    <div class="callout callout-danger"><p class="callout-title">Resume does not check that the workspace exists</p><p>In a second test the job recorded a run id, but its directory was never created. Resume still returned <code>202</code>, because it only checks the job state. The worker then failed the job with <code>error: ValueError</code> on attempt 2.</p></div>
+    <p>The CLI <code>--resume</code> flag only prints the next phase. Continuing a run is <code>POST /v1/runs/&lt;run_id&gt;/resume</code> followed by a worker attempt.</p>
+
+    <h3>The job lifecycle</h3>
+    <figure class="figure">
+      <svg viewBox="0 0 720 210" role="img" aria-labelledby="job-title job-desc">
+        <title id="job-title">How a job moves from the API to the worker</title>
+        <desc id="job-desc">A client posts to /v1/runs. The API stores a queued job in PostgreSQL and returns 202. The worker claims it with FOR UPDATE SKIP LOCKED, takes the workspace lock, assigns the run id, and runs the phases. The job ends as succeeded, degraded, failed, or interrupted. An interrupted job can be resumed with a new attempt.</desc>
+        <defs>
+          <marker id="job-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="svg-arrow"/></marker>
+          <marker id="job-arrow-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="svg-arrow-primary"/></marker>
+        </defs>
+        <rect x="10" y="30" width="120" height="50" rx="10" class="svg-node"/>
+        <text x="70" y="52" text-anchor="middle" class="svg-text">client</text>
+        <text x="70" y="69" text-anchor="middle" class="svg-mono-sm">POST /v1/runs</text>
+        <rect x="160" y="30" width="120" height="50" rx="10" class="svg-node-primary"/>
+        <text x="220" y="52" text-anchor="middle" class="svg-text-on-primary">API</text>
+        <text x="220" y="69" text-anchor="middle" class="svg-text-on-primary">202 + Location</text>
+        <rect x="310" y="30" width="120" height="50" rx="10" class="svg-node"/>
+        <text x="370" y="52" text-anchor="middle" class="svg-text">PostgreSQL</text>
+        <text x="370" y="69" text-anchor="middle" class="svg-text-sm">job: queued</text>
+        <rect x="460" y="30" width="120" height="50" rx="10" class="svg-node-primary"/>
+        <text x="520" y="52" text-anchor="middle" class="svg-text-on-primary">worker</text>
+        <text x="520" y="69" text-anchor="middle" class="svg-text-on-primary">SKIP LOCKED</text>
+        <rect x="610" y="30" width="100" height="50" rx="10" class="svg-node"/>
+        <text x="660" y="52" text-anchor="middle" class="svg-text">runs-api/</text>
+        <text x="660" y="69" text-anchor="middle" class="svg-text-sm">workspace lock</text>
+        <path d="M130,55 L158,55" class="svg-edge" marker-end="url(#job-arrow)"/>
+        <path d="M280,55 L308,55" class="svg-edge" marker-end="url(#job-arrow)"/>
+        <path d="M430,55 L458,55" class="svg-edge" marker-end="url(#job-arrow)"/>
+        <path d="M580,55 L608,55" class="svg-edge" marker-end="url(#job-arrow)"/>
+        <path d="M500,80 L500,100 H110 V118" class="svg-edge" marker-end="url(#job-arrow)"/>
+        <path d="M270,100 V118" class="svg-edge" marker-end="url(#job-arrow)"/>
+        <path d="M430,100 V118" class="svg-edge" marker-end="url(#job-arrow)"/>
+        <path d="M500,100 H590 V118" class="svg-edge" marker-end="url(#job-arrow)"/>
+        <text x="120" y="94" class="svg-text-sm">running → terminal state</text>
+        <rect x="40" y="120" width="140" height="40" rx="10" class="svg-node-ok"/>
+        <text x="110" y="145" text-anchor="middle" class="svg-text">succeeded</text>
+        <rect x="200" y="120" width="140" height="40" rx="10" class="svg-node"/>
+        <text x="270" y="145" text-anchor="middle" class="svg-text">degraded</text>
+        <rect x="360" y="120" width="140" height="40" rx="10" class="svg-node-danger"/>
+        <text x="430" y="145" text-anchor="middle" class="svg-text">failed</text>
+        <rect x="520" y="120" width="140" height="40" rx="10" class="svg-node-muted"/>
+        <text x="590" y="145" text-anchor="middle" class="svg-text">interrupted</text>
+        <path d="M640,120 V90 H560 V82" class="svg-edge-loop" marker-end="url(#job-arrow-p)"/>
+        <text x="696" y="178" text-anchor="end" class="svg-mono-sm">POST …/resume → new attempt</text>
+        <text x="20" y="196" class="svg-text-sm">A research job's state comes from its final report; a search job succeeds when search completes.</text>
+      </svg>
+      <figcaption>Queue and claim rules are ADR 0009; checkpoints and workspace ownership are ADR 0010; artifact reads are ADR 0011.</figcaption>
+    </figure>
     <div class="table-wrap">
       <table>
-        <caption>Developer targets. The full endpoint list is in the migration runbook.</caption>
-        <thead><tr><th scope="col">Target</th><th scope="col">What it does</th></tr></thead>
+        <caption>Endpoints. Business routes are under <code>/v1</code>.</caption>
+        <thead><tr><th scope="col">Endpoint</th><th scope="col">Result</th></tr></thead>
         <tbody>
-          <tr><td><code>make demo-api</code></td><td>Fixture acceptance: submit, execute one attempt, read the result</td></tr>
-          <tr><td><code>make api-up</code></td><td>Postgres only, bound to loopback</td></tr>
-          <tr><td><code>make migrate-api</code></td><td>Apply server SQL migrations and prepare checkpoints</td></tr>
-          <tr><td><code>make run-api</code></td><td><code>uvicorn api.main:create_app --factory</code> on port 8000</td></tr>
-          <tr><td><code>make worker-api</code></td><td><code>python -m workers.research_worker</code></td></tr>
+          <tr><td><code>GET /health/live</code></td><td>Process health; no provider calls</td></tr>
+          <tr><td><code>GET /health/ready</code></td><td>Database, schema, and queue; <code>503</code> when admission cannot proceed</td></tr>
+          <tr><td><code>POST /v1/runs</code></td><td><code>202</code> queued job; requires <code>Idempotency-Key</code></td></tr>
+          <tr><td><code>GET /v1/jobs/{job_id}</code></td><td>State, phase, attempt, run id, safe reasons</td></tr>
+          <tr><td><code>GET /v1/runs</code></td><td>Registered runs; <code>limit</code> up to 200 and a <code>next_cursor</code></td></tr>
+          <tr><td><code>GET /v1/runs/{run_id}</code></td><td>Phase progress and artifact availability</td></tr>
+          <tr><td><code>GET /v1/runs/{run_id}/report</code></td><td>Validated <code>RunReport</code>; <code>409</code> before reporting</td></tr>
+          <tr><td><code>GET /v1/runs/{run_id}/artifacts</code></td><td>Allowlisted files with sizes and download links</td></tr>
+          <tr><td><code>GET /v1/runs/{run_id}/artifacts/{path}</code></td><td>Contained download; Markdown as an attachment</td></tr>
+          <tr><td><code>GET /v1/runs/{run_id}/logs</code></td><td>Bounded log records with a next cursor</td></tr>
+          <tr><td><code>POST /v1/runs/{run_id}/resume</code></td><td><code>202</code> new attempt for an interrupted run</td></tr>
         </tbody>
       </table>
     </div>
-    <div class="callout"><p class="callout-title">Resume is a new job, not a flag</p><p><code>POST /v1/runs/<run_id>/resume</code> returns <code>202</code> for an interrupted run. The worker continues from the last completed phase and does not rewrite existing source files. A completed run cannot be resumed. The CLI <code>--resume</code> flag still only prints the next phase.</p></div>
+    <h3>Error responses</h3>
+    <p>Every error uses the same envelope: <code>{"error":{"code":…,"message":…,"request_id":…}}</code>. Each response below was returned by the running API. <code>GET /openapi.json</code> declares the envelope for every <code>/v1</code> route.</p>
+    <div class="table-wrap">
+      <table>
+        <caption>Real error responses. 5xx responses replace the message with fixed text; the detail goes only to the server log.</caption>
+        <thead><tr><th scope="col">Request</th><th scope="col" class="num">Status</th><th scope="col"><code>code</code></th><th scope="col"><code>message</code></th></tr></thead>
+        <tbody>
+          <tr><td><code>POST /v1/runs</code> with no <code>Idempotency-Key</code></td><td class="num">422</td><td><code>missing_idempotency_key</code></td><td>Idempotency-Key is required</td></tr>
+          <tr><td><code>POST /v1/runs</code> with <code>"max_urls":99</code></td><td class="num">422</td><td><code>budget_exceeded</code></td><td>max_urls may not exceed 30</td></tr>
+          <tr><td><code>POST /v1/runs</code> with <code>{"topic":"x"}</code></td><td class="num">422</td><td><code>invalid_request</code></td><td>The request payload was rejected</td></tr>
+          <tr><td>Same key, different body</td><td class="num">409</td><td><code>idempotency_conflict</code></td><td>Idempotency-Key was reused with a different request payload</td></tr>
+          <tr><td><code>POST /v1/runs</code> at <code>API_QUEUE_LIMIT=1</code></td><td class="num">429</td><td><code>queue_full</code></td><td>Submission queue is full (header <code>retry-after: 1</code>)</td></tr>
+          <tr><td><code>GET /v1/jobs/&lt;unknown id&gt;</code></td><td class="num">404</td><td><code>not_found</code></td><td>Unknown job</td></tr>
+          <tr><td><code>GET /v1/runs/does-not-exist</code></td><td class="num">404</td><td><code>not_found</code></td><td>Unknown run</td></tr>
+          <tr><td><code>…/artifacts/checkpoints.sqlite</code> or <code>…/artifacts/..%2Frequest.json</code></td><td class="num">404</td><td><code>not_found</code></td><td>Unknown artifact</td></tr>
+          <tr><td><code>…/artifacts/output/blog.md</code> at <code>API_ARTIFACT_MAX_BYTES=2048</code></td><td class="num">413</td><td><code>artifact_too_large</code></td><td>Artifact exceeds 2048 bytes</td></tr>
+          <tr><td><code>POST …/resume</code> on a completed run</td><td class="num">409</td><td><code>not_resumable</code></td><td>Only an interrupted run with a workspace can resume</td></tr>
+          <tr><td><code>POST …/resume</code> with no key</td><td class="num">422</td><td><code>missing_idempotency_key</code></td><td>Idempotency-Key is required</td></tr>
+          <tr><td>Any <code>/v1</code> route with <code>API_TOKEN</code> set and a missing or wrong bearer token</td><td class="num">401</td><td><code>unauthorized</code></td><td>A valid bearer token is required</td></tr>
+        </tbody>
+      </table>
     </div>
+    <p>When the queue is full, <code>/health/ready</code> also returns <code>503 {"status":"unavailable","reason":"queue_saturated"}</code>.</p>
   </section>
 
   <section id="loop">
@@ -1021,9 +1217,7 @@ curl --include --silent --show-error \
         <path d="M320,54 L130,88" class="svg-edge" marker-end="url(#ws-arrow)"/>
         <path d="M360,54 L360,88" class="svg-edge" marker-end="url(#ws-arrow)"/>
         <path d="M400,54 L590,88" class="svg-edge" marker-end="url(#ws-arrow)"/>
-        <rect x="1Research API</td><td><a href="http://127.0.0.1:8000">127.0.0.1:8000</a></td><td><code>make run-api</code>. Readiness is <code>/health/ready</code>; jobs are <code>POST /v1/runs</code>.</td></tr>
-          <tr><td>PostgreSQL</td><td><code>127.0.0.1:5432</code></td><td><code>make api-up</code>. User, password, and database are <code>research</code>.</td></tr>
-          <tr><td>5" y="90" width="220" height="175" rx="12" class="svg-zone"/>
+        <rect x="15" y="90" width="220" height="175" rx="12" class="svg-zone"/>
         <text x="27" y="110" class="svg-text-sm">written by --search-only</text>
         <text x="125" y="140" text-anchor="middle" class="svg-mono">request.json</text>
         <text x="125" y="165" text-anchor="middle" class="svg-mono">search_plan.json</text>
@@ -1070,6 +1264,8 @@ curl --include --silent --show-error \
           <tr><td>OpenRouter</td><td><a href="https://openrouter.ai">openrouter.ai</a></td><td><code>OPENROUTER_API_KEY</code>; every agent defaults to <code>deepseek/deepseek-v4.1-flash</code></td></tr>
           <tr><td>SerpApi</td><td><a href="https://serpapi.com">serpapi.com</a></td><td><code>SERPAPI_API_KEY</code>; requests go to <code>https://serpapi.com/search.json</code></td></tr>
           <tr><td>Serper</td><td><a href="https://serper.dev">serper.dev</a></td><td><code>SERPER_API_KEY</code> with <code>SEARCH_PROVIDER=serper</code>; requests go to <code>https://google.serper.dev/search</code></td></tr>
+          <tr><td>Research API</td><td><a href="http://127.0.0.1:8000">127.0.0.1:8000</a></td><td><code>make run-api</code>. Readiness is <code>/health/ready</code>; jobs are <code>POST /v1/runs</code>.</td></tr>
+          <tr><td>PostgreSQL</td><td><code>127.0.0.1:5432</code></td><td><code>make api-up</code>. User, password, and database are <code>research</code>.</td></tr>
           <tr><td>LangGraph</td><td><a href="https://docs.langchain.com/oss/python/langgraph/overview">docs.langchain.com/oss/python/langgraph</a></td><td>The runtime under DeepAgents. It runs in-process; there is no LangGraph server to open.</td></tr>
           <tr><td>DeepAgents</td><td><a href="https://docs.langchain.com/oss/python/deepagents/overview">docs.langchain.com/oss/python/deepagents</a></td><td>The orchestrator and sub-agent harness (ADR 0001)</td></tr>
         </tbody>
@@ -1095,7 +1291,7 @@ curl --include --silent --show-error \
 
   <section id="status">
     <h2>Delivery status</h2>
-    <p class="section-lead">One square per user story, coloured by its row in the SPECS.md status table.</p>
+    <p class="section-lead">One square per user story, coloured by its row in the SPECS.md status table. The API and worker are a separate server milestone, tracked below the epics.</p>
     <figure class="figure">
       <svg viewBox="0 0 720 285" role="img" aria-labelledby="epics-title epics-desc">
         <title id="epics-title">Stories per epic, done and ready</title>
@@ -1115,7 +1311,7 @@ curl --include --silent --show-error \
         <text x="20" y="122" class="svg-text-sm">EPIC-5 · Fetch and Extraction</text>
         <rect x="380" y="110" width="20" height="16" rx="3" class="svg-cell-ok"/><rect x="404" y="110" width="20" height="16" rx="3" class="svg-cell-ok"/><rect x="428" y="110" width="20" height="16" rx="3" class="svg-cell-ok"/>
         <text x="540" y="122" class="svg-text-sm">3 done</text>
-        <text x="20" y="146" class="svg-text-sm">EPIC-6 · Research Corpus</text> The worker resumes an interrupted job from the last completed phase; that path is <code>POST /v1/runs/<run_id>/resume</code>, not the CLI flag.
+        <text x="20" y="146" class="svg-text-sm">EPIC-6 · Research Corpus</text>
         <rect x="380" y="134" width="20" height="16" rx="3" class="svg-cell-ok"/><rect x="404" y="134" width="20" height="16" rx="3" class="svg-cell-ok"/><rect x="428" y="134" width="20" height="16" rx="3" class="svg-cell-ok"/>
         <text x="540" y="146" class="svg-text-sm">3 done</text>
         <text x="20" y="170" class="svg-text-sm">EPIC-7 · Synthesis and Blog Authoring</text>
@@ -1139,6 +1335,23 @@ curl --include --silent --show-error \
         <span><i class="swatch" style="background: var(--chart-3)"></i>DONE (42)</span>
       </div>
     </figure>
+    <h3>Server milestone: API and worker</h3>
+    <p>Product decision PD-023 in <code>SPECS.md</code> and the plan in <code>docs/workspace/plan/FASTAPI-MIGRATION.md</code>. These phases are not epics, so they are not in the 42 stories above.</p>
+    <div class="table-wrap">
+      <table>
+        <caption>Implementation status, 2026-10-02. Offline evidence is <code>make check</code> and <code>make demo-api</code>.</caption>
+        <thead><tr><th scope="col">Phase</th><th scope="col">Deliverable</th><th scope="col">Status</th></tr></thead>
+        <tbody>
+          <tr><td>M1</td><td>Shared application use cases, settings profiles, ports</td><td><span class="badge badge-success">implemented</span></td></tr>
+          <tr><td>M2</td><td>App factory, lifespan, health, typed reads, safe errors</td><td><span class="badge badge-success">implemented</span></td></tr>
+          <tr><td>M3</td><td>PostgreSQL queue, idempotent submission, worker, job polling</td><td><span class="badge badge-success">implemented</span></td></tr>
+          <tr><td>M4</td><td>Full research job, final report, server checkpoints</td><td><span class="badge badge-success">implemented</span></td></tr>
+          <tr><td>M5</td><td>Resume, workspace lock, contained artifacts and logs</td><td><span class="badge badge-success">implemented</span></td></tr>
+          <tr><td>M6</td><td>Compose stack, Dockerfile, runbook</td><td><span class="badge">live providers pending</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>On 2026-10-03 the API and worker ran against a real PostgreSQL 17 from <code>make api-up</code>: migrations, submit, idempotent replay, claim, full research, interrupt, and resume all behaved as documented in <a href="#api">API and worker</a>. That run used <code>API_RUN_PROFILE=fixture</code>, so no model, search, or website was called. A server run with live providers is still outstanding.</p>
     <div class="table-wrap">
       <table>
         <caption>Architectural decisions in docs/adr/</caption>
@@ -1152,6 +1365,9 @@ curl --include --silent --show-error \
           <tr><td class="num">0006</td><td>Run-owned polite fetching and replaceable extraction</td></tr>
           <tr><td class="num">0007</td><td>Per-run SQLite checkpointer</td></tr>
           <tr><td class="num">0008</td><td>Run-owned observability and a local metrics stack</td></tr>
+          <tr><td class="num">0009</td><td>Durable job queue and HTTP contract</td></tr>
+          <tr><td class="num">0010</td><td>PostgreSQL checkpoints and exclusive workspace ownership</td></tr>
+          <tr><td class="num">0011</td><td>Artifact ownership and bounded read access</td></tr>
         </tbody>
       </table>
     </div>
@@ -1164,7 +1380,9 @@ curl --include --silent --show-error \
       <li>No console command writes the EPIC-8 run report. The <code>output/run.json</code> from <code>--author-only</code> is the citation-gate record.</li>
       <li>Exit 3 (degraded) belongs to that report, so the phase commands only ever return 0, 1, or 2.</li>
       <li><code>--resume</code> prints the phase it would restart at. It does not continue the run.</li>
-      <li>The retry-once wrapper and the SQLite checkpointer are used by the report workflow and the EPIC-8 demo, not by the three phase commands.</li>
+      <li>The retry-once wrapper and the SQLite checkpointer are used by the report workflow and the EPIC-8 demo, not by the three phase commands. The worker resumes an interrupted job from the last completed phase through <code>POST /v1/runs/&lt;run_id&gt;/resume</code>.</li>
+      <li>The API and worker have run end to end against real PostgreSQL, but only with fixture providers. A server run with live models and search is still pending.</li>
+      <li>One worker runs one job at a time. Raising concurrency needs shared crawler rate limits first.</li>
       <li>The citation gate checks that each citation exists and that its title and URL match. It does not check whether a source is on topic.</li>
       <li>Traces and metrics are opt-in. LangSmith needs <code>LANGSMITH_TRACING=true</code> and a key; metrics export needs <code>OTEL_EXPORTER_OTLP_ENDPOINT</code>. With both unset, a run still writes its local logs.</li>
     </ul>
@@ -1172,7 +1390,7 @@ curl --include --silent --show-error \
 
   <section id="sources">
     <h2>Sources</h2>
-    <p class="section-lead">Every figure on this page came from one of these files or commands, read or run on 2026-10-01 at revision 58041ed.</p>
+    <p class="section-lead">Every figure on this page came from one of these files or commands. The example-run figures were read on 2026-10-01 at revision 58041ed; the commands and API responses were re-run on 2026-10-03.</p>
     <ul class="list">
       <li><code>grep -E '^# EPIC-[0-9]+:' SPECS.md</code> gives the 11 epics and their titles. <code>grep -cE '^### US-[0-9]+\.[0-9]+:' SPECS.md</code> gives 42 stories.</li>
       <li><code>SPECS.md</code> status table, re-read 2026-10-02: all 42 stories DONE across EPIC-1 to EPIC-11.</li>
@@ -1185,10 +1403,11 @@ curl --include --silent --show-error \
       <li><code>uv run python</code> calling <code>services.reporting.classify_outcome</code> on the example, read-only: degraded <code>too_few_sources</code> on the corpus alone, and failed with the gate reason added.</li>
       <li><code>schemas/common.py</code>: the nine phases. <code>agents/search_planner.py</code>: two planning attempts. <code>services/search_provider.py</code> and <code>.env.example</code>: the 15 s search timeout.</li>
       <li><code>services/fetch_service.py</code>: 5 concurrent fetches, 3 retries, 5 redirects, a 15 s page budget, 1 s per-host spacing, and the <code>2^(n−1)</code> back-off with jitter capped at 0.25 s.</li>
-      <li><code>services/extraction_service.py</code>: the parser order and the 200-word minimum. <code>services/authoring.py</code>: the 2,000–5,000-word range. <code>workflows/authoring_run.py</code>
-      <li><code>Makefile</code> targets <code>demo-api</code>, <code>api-up</code>, <code>migrate-api</code>, <code>run-api</code>, and <code>worker-api</code>; <code>ops/api/compose.yaml</code>; <code>docs/SPECS-LOGS/FASTAPI-MIGRATION-RUNBOOK.md</code>. Re-read 2026-10-02 for the API and worker section.</li>: 2 repair passes.</li>
+      <li><code>services/extraction_service.py</code>: the parser order and the 200-word minimum. <code>services/authoring.py</code>: the 2,000–5,000-word range. <code>workflows/authoring_run.py</code>: 2 repair passes.</li>
       <li><code>services/reporting.py</code>, <code>services/reliability.py</code>, <code>workflows/resume.py</code>, and <code>workflows/cli.py</code>: the outcome rules, retry-once, resume, and exit statuses.</li>
       <li><code>head -1 docs/adr/000*.md</code>: the eight ADR titles. <code>pyproject.toml</code>: name, version 0.1.0, and Python 3.12 or newer. <code>git rev-parse --short HEAD</code>: 58041ed.</li>
+      <li><code>SPECS.md</code> PD-023 and <code>docs/workspace/plan/FASTAPI-MIGRATION.md</code>: the M1–M6 phases. <code>head -1 docs/adr/0009*.md docs/adr/0010*.md docs/adr/0011*.md</code>: the three server ADR titles.</li>
+      <li>Every command and response in <a href="#commands">Tested commands</a> and <a href="#api">API and worker</a> was run on 2026-10-03 on the working tree after revision cd6616f: the CLI error paths with provider keys unset, the offline targets, and the HTTP requests against <code>make api-up</code> PostgreSQL 17 with <code>API_RUN_PROFILE=fixture</code>. Job and request ids are from that session.</li>
     </ul>
   </section>
 

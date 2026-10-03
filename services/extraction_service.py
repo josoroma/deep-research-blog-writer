@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import json
 import re
 from collections.abc import Sequence
@@ -99,10 +100,9 @@ def _metadata(page: FetchedPage) -> dict[str, str | HttpUrl | None]:
     tag = soup.find("link", rel="canonical")
     href = _string(tag.get("href")) if isinstance(tag, Tag) else None
     if href:
-        try:
+        # A malformed canonical link is common and harmless: keep the fetched URL.
+        with contextlib.suppress(ValueError, ValidationError):
             canonical = HttpUrl(canonicalize_url(HttpUrl(urljoin(str(page.final_url), href))))
-        except (ValueError, ValidationError):
-            pass
     return {"title": title, "author": author, "published": published, "canonical_url": canonical}
 
 
@@ -232,7 +232,7 @@ class ExtractionService:
                     )
                 )
                 return ExtractionResult(outcome="extracted", source=source, attempts=attempts)
-            except Exception as error:
+            except Exception as error:  # noqa: BLE001 - one parser failing must not stop the next
                 attempts.append(
                     ParserAttempt(
                         parser=parser.name,

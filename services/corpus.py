@@ -18,6 +18,7 @@ import yaml
 from pydantic import Field, HttpUrl
 
 from schemas.common import Contract, SourceID
+from schemas.errors import ConflictError
 from schemas.responses import SearchResult, Source
 from schemas.state import RunState, UrlOutcome
 from services.workspace import slugify
@@ -36,8 +37,10 @@ class CorpusSource(Contract):
     rank: int = Field(ge=1)
 
 
-class SourceExistsError(FileExistsError):
+class SourceExistsError(ConflictError, FileExistsError):
     """A source file already exists and must not be rewritten."""
+
+    code = "source_exists"
 
 
 def source_id_for(rank: int) -> SourceID:

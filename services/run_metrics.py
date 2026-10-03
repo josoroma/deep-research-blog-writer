@@ -38,7 +38,7 @@ class DeliveryExporter(MetricExporter):
     ) -> MetricExportResult:
         try:
             result = self.delegate.export(metrics_data, timeout_millis, **kwargs)
-        except Exception:
+        except Exception:  # noqa: BLE001 - an exporter error is a failed export
             result = MetricExportResult.FAILURE
         self.failed |= result is not MetricExportResult.SUCCESS
         return result
@@ -96,5 +96,5 @@ class RunMetrics:
             flushed = self.provider.force_flush(timeout_millis=timeout * 1000)
             self.provider.shutdown(timeout_millis=timeout * 1000)
             return bool(flushed) and self.exporter is not None and not self.exporter.failed
-        except Exception:
+        except Exception:  # noqa: BLE001 - shutdown reports success as a bool
             return False

@@ -1,6 +1,7 @@
 """Environment-backed run configuration and independently selectable agent models."""
 
 from typing import Annotated, Literal
+from urllib.parse import urlsplit
 
 from pydantic import AfterValidator, Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -93,8 +94,6 @@ class RunSettings(BaseSettings):
     @field_validator("langsmith_endpoint", "otel_exporter_otlp_endpoint")
     @classmethod
     def validate_telemetry_endpoint(cls, value: str | None) -> str | None:
-        from urllib.parse import urlsplit
-
         if value is None:
             return None
         parts = urlsplit(value)
@@ -112,8 +111,6 @@ class RunSettings(BaseSettings):
     @field_validator("crawler_contact")
     @classmethod
     def validate_crawler_contact(cls, value: str | None) -> str | None:
-        from urllib.parse import urlsplit
-
         if value is None:
             return None
         if any(char.isspace() or char in "()<>" for char in value):
@@ -181,18 +178,46 @@ class ApiSettings(BaseSettings):
     log_page_max_limit: int = Field(default=1000, ge=1, strict=True)
     migrations_dir: str | None = None
 
+    @field_validator(
+        "queue_limit",
+        "worker_lease_seconds",
+        "max_pages",
+        "max_per_page",
+        "max_max_urls",
+        "artifact_max_bytes",
+        "log_page_limit",
+        "log_page_max_limit",
+        mode="before",
+    )
+    @classmethod
+    def parse_integer_environment(cls, value: object) -> object:
+        """Accept environment strings for strict integers; strict still rejects floats."""
+        return int(value) if isinstance(value, str) else value
+
     @property
     def origins(self) -> list[str]:
         """Explicit CORS origins, split on commas and trimmed."""
         return [origin.strip() for origin in self.allowed_origins.split(",") if origin.strip()]
 
     def database_dsn(self) -> str | None:
+        """Return the PostgreSQL DSN, or ``None`` when it is unset or blank."""
         if self.database is None:
             return None
         value = self.database.get_secret_value().strip()
         return value or None
 
+    def uses_memory_store(self) -> bool:
+        """Whether this process should keep jobs in memory instead of PostgreSQL.
+
+        A configured database always wins, including under the fixture profile,
+        so the API, the worker, and migrations agree on one queue. Only the
+        fixture profile with no DSN falls back to memory; production with no DSN
+        is a configuration error the caller reports.
+        """
+        return self.database_dsn() is None and self.run_profile == "fixture"
+
     def bearer_token(self) -> str | None:
+        """Return the shared bearer token, or ``None`` when unset or blank."""
         if self.token is None:
             return None
         value = self.token.get_secret_value().strip()

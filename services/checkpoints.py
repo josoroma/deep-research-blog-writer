@@ -7,22 +7,21 @@ general pickle fallback.
 """
 
 import sqlite3
-from collections.abc import Iterator
+from collections.abc import Generator
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
 
 from langgraph.checkpoint.base import BaseCheckpointSaver
 from langgraph.checkpoint.memory import InMemorySaver
+from langgraph.checkpoint.postgres import PostgresSaver
 from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
 from langgraph.checkpoint.sqlite import SqliteSaver
 
-from schemas.state import RunState
+from schemas.state import RunState, RunStateUpdate, UrlOutcome
 
 
 def _allowed_modules() -> list[tuple[str, str]]:
-    from schemas.state import RunStateUpdate, UrlOutcome
-
     return [
         (RunState.__module__, RunState.__name__),
         (UrlOutcome.__module__, UrlOutcome.__name__),
@@ -50,10 +49,8 @@ def make_checkpointer() -> InMemorySaver:
 
 
 @contextmanager
-def postgres_checkpointer(conn_string: str) -> Iterator[BaseCheckpointSaver[Any]]:
+def postgres_checkpointer(conn_string: str) -> Generator[BaseCheckpointSaver[Any]]:
     """A PostgreSQL saver bound to its own connection, closed on exit."""
-    from langgraph.checkpoint.postgres import PostgresSaver
-
     with PostgresSaver.from_conn_string(conn_string) as saver:
         saver.serde = _serializer()
         yield saver

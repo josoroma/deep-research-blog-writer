@@ -71,24 +71,33 @@ make worker-api
 
 `make api-up` starts only Postgres on `127.0.0.1:5432`. The API listens on `127.0.0.1:8000`. Set `API_DATABASE=postgresql://research:research@127.0.0.1:5432/research` before `migrate-api`, `run-api`, and `worker-api`. Server workspaces go to `runs-api/`, not `runs/`.
 
-Submit a job, then poll the job the `Location` header points at:
+Set `API_RUN_PROFILE=fixture` on both the API and the worker to exercise the whole stack against real PostgreSQL with no model, search, or website calls.
 
-```sh
-curl --fail --silent --show-error http://127.0.0.1:8000/health/ready
-curl --include --silent --show-error \
-  -H 'Content-Type: application/json' \
-  -H 'Idempotency-Key: dev-1' \
-  -d '{"mode":"search","topic":"Your topic here","pages":1,"per_page":10,"max_urls":2}' \
-  http://127.0.0.1:8000/v1/runs
+Submit a job, then poll the job the `Location` header points at. This is a real response:
+
+```console
+$ curl -i -H 'Content-Type: application/json' -H 'Idempotency-Key: doc-research-1' \
+    -d '{"mode":"research","topic":"Research telemetry quality","pages":1,"per_page":10,"max_urls":3}' \
+    http://127.0.0.1:8000/v1/runs
+HTTP/1.1 202 Accepted
+location: /v1/jobs/f65fa89e-08da-4e78-9e7e-ef364e4ac7a9
+{"job_id":"f65fa89e-08da-4e78-9e7e-ef364e4ac7a9","status":"queued","operation":"research","run_id":null,...}
+
+$ make worker-api
+$ curl http://127.0.0.1:8000/v1/jobs/f65fa89e-08da-4e78-9e7e-ef364e4ac7a9
+{"status":"succeeded","run_id":"research-telemetry-quality-20261003T040357Z","phase":"report","attempt":1,...}
 ```
 
-`mode` is `search` or `research`. The same idempotency key and body return the original job; a changed body returns `409`. Once the worker assigns a run id, read `/v1/runs/<run_id>`, `/report`, and `/artifacts/...`.
+`mode` is `search` or `research`. The same key and body return the original job with `200`; a changed body returns `409 idempotency_conflict`. Then read `/v1/runs/<run_id>`, `/report`, `/artifacts`, and `/logs`. An interrupted run continues with `POST /v1/runs/<run_id>/resume` and another worker attempt.
+
+Errors share one envelope, `{"error":{"code","message","request_id"}}`: `422` for bad input or a budget over the server cap, `404` for an unknown run, job, or artifact, `409` for a conflict, `413` for an oversized artifact, `429` with `Retry-After` when the queue is full, `401` for a bad token, and `503` when PostgreSQL is down.
 
 ![Develop against it](docs/images/develop_against_it_cli_api_and_worker_flow.png)
 
 | Make target | What it does |
 | --- | --- |
 | `make check` | Lock, lint, format, strict typing, offline tests, 80% coverage |
+| `make audit` | Scan locked runtime dependencies for known vulnerabilities |
 | `make demo-api` | In-process fixture job: submit, run one worker attempt, read the report |
 | `make api-up` / `make api-down` | Start or stop local Postgres |
 | `make migrate-api` | Apply server SQL migrations |
@@ -98,7 +107,7 @@ curl --include --silent --show-error \
 
 Importing `api` does not start a worker, create a run directory, or call a provider. Set `API_TOKEN` before anything other than loopback use. `API_RUN_PROFILE=fixture` is a server setting, not a client choice.
 
-The phase commands, settings, and artifact layout are in [`docs/SPECS-LOGS/`](docs/SPECS-LOGS/). The API walkthrough is in [`docs/SPECS-LOGS/FASTAPI-MIGRATION-RUNBOOK.md`](docs/SPECS-LOGS/FASTAPI-MIGRATION-RUNBOOK.md).
+Every request, response, and error above is recorded with its real output on the [live walkthrough](https://josoroma.github.io/deep-research-blog-writer/docs/pages/running-a-run.html#api). The coding standard is [`docs/ENGINEERING.md`](docs/ENGINEERING.md), and the operator runbook is [`docs/SPECS-LOGS/FASTAPI-MIGRATION-RUNBOOK.md`](docs/SPECS-LOGS/FASTAPI-MIGRATION-RUNBOOK.md).
 
 ---
 
@@ -160,6 +169,6 @@ Local links work while the dashboard is running (`make observability-up`).
 
 ## Want the details?
 
-- [`README-DEV.md`](README-DEV.md): every command, setting, and output, for developers
-- [Live walkthrough](https://josoroma.github.io/deep-research-blog-writer): a visual tour of a real run
+- [Live walkthrough](https://josoroma.github.io/deep-research-blog-writer): every command, API request, and real output, plus a tour of an example run
+- [`docs/ENGINEERING.md`](docs/ENGINEERING.md): the coding standard that `make check` enforces
 - [`docs/SPECS-LOGS/`](docs/SPECS-LOGS/): commands, settings, and delivery record

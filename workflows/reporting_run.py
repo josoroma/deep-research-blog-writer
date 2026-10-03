@@ -62,7 +62,7 @@ def run_report(
 
     try:
         report, retries = run_phase("report", write, workspace / LOG_PATH)
-    except Exception:
+    except Exception:  # noqa: BLE001 - a failed report is classified, not raised
         if observer is None:
             ledger.retries += 1
         failed, failed_reasons = classify_outcome(

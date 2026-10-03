@@ -1,6 +1,6 @@
 """US-3.1: run id derivation, workspace creation, and persisted input."""
 
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta, timezone
 from pathlib import Path
 
 import pytest
@@ -33,8 +33,6 @@ def test_run_id_is_slug_hyphen_utc_timestamp() -> None:
 
 
 def test_run_id_converts_offsets_to_utc() -> None:
-    from datetime import timedelta, timezone
-
     offset = timezone(timedelta(hours=2))
     assert run_id_for("topic", datetime(2026, 10, 1, 10, 30, tzinfo=offset)).endswith(
         "-20261001T083000Z"

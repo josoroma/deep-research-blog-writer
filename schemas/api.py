@@ -119,10 +119,14 @@ class RunReportEnvelope(Contract):
 
 
 class ErrorBody(Contract):
+    """The body of every error response: a stable code, a safe message, and the id."""
+
     code: str = Field(min_length=1)
     message: str = Field(min_length=1)
     request_id: str = Field(min_length=1)
 
 
 class ErrorResponse(Contract):
+    """The typed error envelope, published in OpenAPI for every error status."""
+
     error: ErrorBody

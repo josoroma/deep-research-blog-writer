@@ -22,7 +22,9 @@ from pydantic import HttpUrl, ValidationError
 
 from schemas.config import RunSettings
 from schemas.content import FetchEvent, FetchResult, RetryEvent, utc_now
+from schemas.errors import InvalidInputError, LimitExceededError
 from schemas.responses import FetchedPage
+from services.observability import current_observer
 
 TIMEOUT_SECONDS = 15.0
 MAX_CONCURRENT = 5
@@ -40,8 +42,10 @@ class Fetcher(Protocol):
     def fetch(self, url: HttpUrl) -> FetchResult: ...
 
 
-class MissingCrawlerContact(ValueError):
-    pass
+class MissingCrawlerContact(InvalidInputError):
+    """``CRAWLER_CONTACT`` is unset, so polite fetching cannot identify itself."""
+
+    code = "missing_crawler_contact"
 
 
 def crawler_user_agent(settings: RunSettings) -> str:
@@ -64,8 +68,10 @@ class RobotsPolicy:
         )
 
 
-class ResponseTooLarge(Exception):
-    pass
+class ResponseTooLarge(LimitExceededError):
+    """A response body exceeded the per-page byte budget and was abandoned."""
+
+    code = "response_too_large"
 
 
 @dataclass
@@ -85,14 +91,13 @@ class FetchService:
         sleep: Callable[[float], Awaitable[None]] = asyncio.sleep,
         jitter: Callable[[], float] | None = None,
     ) -> None:
-        from services.observability import current_observer
-
         self.observer = current_observer()
         self.user_agent = crawler_user_agent(settings)
         self._client = client or httpx.AsyncClient(trust_env=False)
         self._clock = clock
         self._sleep = sleep
-        self._jitter = jitter or (lambda: random.uniform(0, 0.25))
+        # Jitter only spreads retries; it is not a secret, so `random` is right.
+        self._jitter = jitter or (lambda: random.uniform(0, 0.25))  # noqa: S311
         self.events: list[FetchEvent] = []
         self.retries: list[RetryEvent] = []
         self.max_active = 0

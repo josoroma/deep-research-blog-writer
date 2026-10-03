@@ -5,7 +5,7 @@ from __future__ import annotations
 import inspect
 import time
 from collections import Counter
-from collections.abc import Callable, Iterator
+from collections.abc import Callable, Generator
 from contextlib import contextmanager
 from contextvars import ContextVar
 from functools import wraps
@@ -26,7 +26,7 @@ from schemas.config import RunSettings
 from schemas.responses import RunReport
 from services.artifacts import write_json
 from services.execution_log import ExecutionLog
-from services.reporting import RunLedger, UsageRecord
+from services.reporting import RunLedger, UsageRecord, write_run_report
 from services.run_metrics import RunMetrics
 
 ACTIVE: ContextVar[RunObservability | None] = ContextVar("research_observability", default=None)
@@ -185,7 +185,7 @@ class RunObservability:
             )
             try:
                 self.root.post()
-            except Exception as error:
+            except Exception as error:  # noqa: BLE001 - tracing must never fail a run
                 self._tracing_error(error)
         context = tracing_context(
             enabled=self.settings.langsmith_tracing,
@@ -240,7 +240,7 @@ class RunObservability:
         self.event(phase, "retry", level="WARNING", reason=reason, retry=1, **fields)
 
     @contextmanager
-    def operation(self, name: str, request: BaseModel) -> Iterator[None]:
+    def operation(self, name: str, request: BaseModel) -> Generator[None]:
         phase = PHASES.get(name, self.mode)
         started = time.monotonic()
         with self._lock:
@@ -255,7 +255,7 @@ class RunObservability:
             )
             try:
                 span.post()
-            except Exception as failure:
+            except Exception as failure:  # noqa: BLE001 - tracing must never fail a run
                 self._tracing_error(failure)
         context = tracing_context(
             enabled=self.settings.langsmith_tracing,
@@ -283,7 +283,7 @@ class RunObservability:
                 try:
                     span.end(error=failure_name)
                     span.patch()
-                except Exception as failure:
+                except Exception as failure:  # noqa: BLE001 - tracing must never fail a run
                     self._tracing_error(failure)
             elapsed = time.monotonic() - started
             with self._lock:
@@ -339,8 +339,6 @@ class RunObservability:
         if isinstance(result, RunReport):
             result.phase_timings_seconds.update(self.ledger.phase_timings)
             result.tokens_used, result.cost_usd, result.retries = tokens, cost, self.ledger.retries
-            from services.reporting import write_run_report
-
             write_run_report(self.workspace, result)
             for outcome in result.url_outcomes:
                 self.source_outcome(str(outcome.url), outcome.outcome, outcome.reason)
@@ -382,7 +380,7 @@ class RunObservability:
                 self.root.patch()
                 self.client.flush(timeout=self.settings.telemetry_timeout_seconds)
                 self.client.close(timeout=self.settings.telemetry_timeout_seconds)
-            except Exception as failure:
+            except Exception as failure:  # noqa: BLE001 - flush failure is recorded, not raised
                 self._tracing_error(failure)
         flushed = (
             self.metrics.close(self.settings.telemetry_timeout_seconds) if self.metrics else True
@@ -412,7 +410,7 @@ class RunObservability:
 
 
 @contextmanager
-def observability_scope(observer: RunObservability) -> Iterator[RunObservability]:
+def observability_scope(observer: RunObservability) -> Generator[RunObservability]:
     token = ACTIVE.set(observer)
     try:
         yield observer
@@ -447,7 +445,8 @@ def observed_workflow[**P, R](mode: str) -> Callable[[Callable[P, R]], Callable[
             with observability_scope(observer):
                 try:
                     result = operation(*args, **kwargs)
-                    return result
+                    # Assigned first so the finally block reports the real result.
+                    return result  # noqa: RET504
                 except Exception as failure:
                     error = failure
                     raise

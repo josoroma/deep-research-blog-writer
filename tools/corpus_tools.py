@@ -35,11 +35,12 @@ from services.corpus import (
     write_index,
     write_source,
 )
+from tools.base import TypedTool
 
 if TYPE_CHECKING:
     from services.extraction_service import ExtractionService
     from services.fetch_service import Fetcher
-    from tools.registry import Runtime, ToolRegistry
+    from tools.base import Runtime, ToolRegistry
 
 
 class CorpusSession:
@@ -79,8 +80,6 @@ def _metadata(record: CorpusSource) -> SourceMetadata:
 
 
 def register_corpus_tools(registry: ToolRegistry, session: CorpusSession | None) -> None:
-    from tools.registry import TypedTool
-
     def current(runtime: Runtime | None) -> tuple[CorpusSession, RunState]:
         if session is None or runtime is None:
             raise ValueError("Corpus tools require a per-run CorpusSession and ToolRuntime")

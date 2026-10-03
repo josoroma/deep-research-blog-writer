@@ -23,6 +23,8 @@ jobs:
         run: make check
       - name: Pre-commit hooks
         run: make hooks
+      - name: Dependency vulnerability audit
+        run: make audit
       - name: Build package
         run: make build
       - name: Upload coverage report

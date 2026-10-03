@@ -22,6 +22,7 @@ from services.artifacts import write_json
 from services.corpus import (
     CorpusSource,
     parse_source,
+    render_index,
     render_source,
     source_path,
     source_slug,
@@ -33,6 +34,7 @@ from services.llm_service import LLMService
 from services.workspace import create_run_workspace
 from tools.corpus_tools import CorpusSession
 from tools.registry import create_tool_registry
+from workflows import cli
 from workflows.corpus_run import run_corpus
 from workflows.fetch_run import load_search_workspace
 from workflows.search_run import tool_runtime
@@ -214,7 +216,6 @@ def test_index_escapes_table_breaking_titles(tmp_path: Path) -> None:
     )
     record = CorpusSource(source=source, path="research/003_a-b.md", rank=3)
     write_source(tmp_path, record)
-    from services.corpus import render_index
 
     assert r"A \| B" in render_index([record])
 
@@ -346,8 +347,6 @@ def test_symlink_source_destination_is_rejected(tmp_path: Path) -> None:
 def test_corpus_cli_uses_saved_workspace(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
 ) -> None:
-    from workflows import cli
-
     root, _ = workspace_with(tmp_path, ["/article", "/thin"])
     transport, clock = FixtureHTTP(), VirtualClock()
     service = FetchService(settings(), client=transport.client(), clock=clock, sleep=clock.sleep)
@@ -360,8 +359,6 @@ def test_corpus_cli_uses_saved_workspace(
 
 
 def test_corpus_cli_rejects_missing_workspace() -> None:
-    from workflows import cli
-
     assert cli.main(["--corpus-only"], settings=settings()) == 2
 
 

@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, Query
 from fastapi.responses import Response
 
 from api.dependencies import ReaderDep, require_token
-from api.errors import ApiError, not_found
+from api.errors import ERROR_RESPONSES, conflict, not_found
 from schemas.api import (
     ArtifactEntry,
     ArtifactList,
@@ -17,12 +17,18 @@ from schemas.api import (
     RunReportEnvelope,
     RunStatus,
 )
-from services.artifact_reader import ArtifactNotFound, ArtifactReader, ArtifactTooLarge, UnsafePath
+from services.artifact_reader import ArtifactNotFound, ArtifactReader, UnsafePath
 
-router = APIRouter(prefix="/v1", tags=["runs"], dependencies=[Depends(require_token)])
+router = APIRouter(
+    prefix="/v1",
+    tags=["runs"],
+    dependencies=[Depends(require_token)],
+    responses=ERROR_RESPONSES,
+)
 
 
 def _guard(run_id: str, artifact_reader: ArtifactReader) -> None:
+    # Escapes are reported as "not found" so a probe cannot learn the layout.
     try:
         artifact_reader.run_root(run_id)
     except (ArtifactNotFound, UnsafePath):
@@ -40,6 +46,7 @@ def list_runs(
     limit: int = Query(default=50, ge=1, le=200),
     cursor: str | None = None,
 ) -> RunList:
+    """List registered runs in name order with an offset cursor."""
     root = artifact_reader.runs_root
     if not root.is_dir():
         return RunList(runs=[], next_cursor=None)
@@ -62,6 +69,7 @@ def list_runs(
 
 @router.get("/runs/{run_id}", response_model=RunStatus)
 def get_run(run_id: str, artifact_reader: ReaderDep) -> RunStatus:
+    """Return persisted phase progress and whether a report and artifacts exist."""
     _guard(run_id, artifact_reader)
     state = artifact_reader.read_run_state(run_id)
     completed = state.get("completed_phases")
@@ -78,15 +86,17 @@ def get_run(run_id: str, artifact_reader: ReaderDep) -> RunStatus:
 
 @router.get("/runs/{run_id}/report", response_model=RunReportEnvelope)
 def get_report(run_id: str, artifact_reader: ReaderDep) -> RunReportEnvelope:
+    """Return the validated final report, or ``409`` before reporting has run."""
     _guard(run_id, artifact_reader)
     report = artifact_reader.read_report(run_id)
     if report is None:
-        raise ApiError(409, "report_not_ready", "The final report is not available yet")
+        raise conflict("report_not_ready", "The final report is not available yet")
     return RunReportEnvelope(run_id=run_id, report=report)
 
 
 @router.get("/runs/{run_id}/artifacts", response_model=ArtifactList)
 def get_artifacts(run_id: str, artifact_reader: ReaderDep) -> ArtifactList:
+    """List allowlisted, size-bounded artifacts with their download links."""
     _guard(run_id, artifact_reader)
     return ArtifactList(
         artifacts=[
@@ -97,10 +107,15 @@ def get_artifacts(run_id: str, artifact_reader: ReaderDep) -> ArtifactList:
 
 @router.get("/runs/{run_id}/artifacts/{artifact_path:path}")
 def download_artifact(run_id: str, artifact_path: str, artifact_reader: ReaderDep) -> Response:
+    """Download one allowlisted artifact; Markdown and text come as attachments.
+
+    An oversized artifact is ``413`` through the shared handler, so a client can
+    tell "too big" from "missing". Unsafe paths stay ``404`` on purpose.
+    """
     _guard(run_id, artifact_reader)
     try:
         filename, media_type, payload = artifact_reader.read_bytes(run_id, artifact_path)
-    except (ArtifactNotFound, ArtifactTooLarge, UnsafePath):
+    except (ArtifactNotFound, UnsafePath):
         raise not_found("artifact") from None
     disposition = "attachment" if media_type.startswith("text/") else "inline"
     return Response(
@@ -117,6 +132,7 @@ def get_logs(
     cursor: int = Query(default=0, ge=0),
     limit: int = Query(default=200, ge=1),
 ) -> LogPage:
+    """Return one bounded page of log records and the cursor for the next page."""
     _guard(run_id, artifact_reader)
     bounded = min(limit, artifact_reader.log_page_limit)
     records, next_cursor = artifact_reader.read_log_page(run_id, cursor=cursor, limit=bounded)

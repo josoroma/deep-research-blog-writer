@@ -12,9 +12,10 @@ from typing import TYPE_CHECKING
 from schemas.state import RunState
 from schemas.tool_io import ValidateCitationsInput, ValidateCitationsOutput
 from services.authoring import validate_citations
+from tools.base import TypedTool
 
 if TYPE_CHECKING:
-    from tools.registry import Runtime, ToolRegistry
+    from tools.base import Runtime, ToolRegistry
 
 
 class AuthoringSession:
@@ -26,8 +27,6 @@ class AuthoringSession:
 
 
 def register_authoring_tools(registry: ToolRegistry, session: AuthoringSession | None) -> None:
-    from tools.registry import TypedTool
-
     def current(runtime: Runtime | None) -> tuple[AuthoringSession, RunState]:
         if session is None or runtime is None:
             raise ValueError("Citation tools require an AuthoringSession and ToolRuntime")

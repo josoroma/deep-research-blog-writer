@@ -53,7 +53,7 @@ def main() -> int:
                 and all(child.end_time for child in children)
             ):
                 break
-        except Exception:
+        except Exception:  # noqa: BLE001 - poll until deadline; any SDK error retries
             if time.monotonic() >= deadline:
                 raise RuntimeError(
                     "Hosted LangSmith trace is not readable; check credentials/project"

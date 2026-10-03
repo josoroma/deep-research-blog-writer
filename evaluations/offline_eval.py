@@ -8,9 +8,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from evaluations.dataset import GoldenTopic
 from evaluations.fakes import ScriptedChatModel
 from evaluations.fetch_fixtures import VirtualClock
-from evaluations.run_eval import GoldenTopic
 from evaluations.workflow_fixtures import (
     TOPIC,
     URL_COUNT,

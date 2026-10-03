@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any, Literal
@@ -10,12 +11,22 @@ import pytest
 from langgraph.checkpoint.base import BaseCheckpointSaver
 
 from application.context import ExecutionContext
+from application.fixtures import (
+    FixtureExtractionService,
+    FixtureFetcher,
+    fixture_model,
+    fixture_search_provider,
+    fixture_variants,
+)
 from application.job_service import JobService
-from application.run_service import SearchPhaseError
+from application.run_service import RunService, SearchPhaseError
 from schemas.api import SubmissionRequest
 from schemas.config import ApiSettings, RunSettings
 from schemas.jobs import JobRecord
+from schemas.requests import ResearchRequest
+from schemas.state import RunState
 from services.job_store import MemoryJobStore
+from services.llm_service import LLMService
 from services.workspace import allocate_run_id, create_run_workspace
 from services.workspace_lock import WorkspaceBusy, WorkspaceLock
 from workers.research_worker import ResearchWorker
@@ -82,7 +93,7 @@ def test_allocate_run_id_retries_only_on_collision(tmp_path: Path) -> None:
 def test_worker_processes_one_job_and_releases_the_lock(tmp_path: Path) -> None:
     api = _api(tmp_path)
     store = MemoryJobStore()
-    service = JobService(store, api, clock=NOW)
+    service = JobService(store, api, clock=lambda: NOW)
     job_id = _submit(service)
     outcome = _worker(store, api, tmp_path).run_once()
     assert outcome is not None and outcome.state == "succeeded"
@@ -95,7 +106,7 @@ def test_worker_processes_one_job_and_releases_the_lock(tmp_path: Path) -> None:
 def test_second_worker_cannot_process_a_claimed_job(tmp_path: Path) -> None:
     api = _api(tmp_path)
     store = MemoryJobStore()
-    service = JobService(store, api, clock=NOW)
+    service = JobService(store, api, clock=lambda: NOW)
     _submit(service)
     first = store.claim(worker_identity="w1", now=datetime.now(UTC), lease_seconds=120)
     assert first is not None
@@ -105,7 +116,7 @@ def test_second_worker_cannot_process_a_claimed_job(tmp_path: Path) -> None:
 def test_expired_lease_is_recovered_as_interrupted(tmp_path: Path) -> None:
     api = _api(tmp_path)
     store = MemoryJobStore()
-    service = JobService(store, api, clock=NOW)
+    service = JobService(store, api, clock=lambda: NOW)
     job_id = _submit(service)
     store.claim(worker_identity="w1", now=NOW, lease_seconds=1)
     changed = store.recover_expired(now=NOW + timedelta(seconds=10))
@@ -116,7 +127,7 @@ def test_expired_lease_is_recovered_as_interrupted(tmp_path: Path) -> None:
 def test_resume_continues_an_interrupted_search_run(tmp_path: Path) -> None:
     api = _api(tmp_path)
     store = MemoryJobStore()
-    service = JobService(store, api, clock=NOW)
+    service = JobService(store, api, clock=lambda: NOW)
     job_id = _submit(service)
     worker = _worker(store, api, tmp_path)
     # Claim, then interrupt before work begins so the job is resumable.
@@ -124,7 +135,6 @@ def test_resume_continues_an_interrupted_search_run(tmp_path: Path) -> None:
     assert record is not None
     store.set_progress(job_id=job_id, run_id="resume-run", phase="starting", now=datetime.now(UTC))
     original = Path(api.runs_dir) / "resume-run"
-    from schemas.requests import ResearchRequest
 
     create_run_workspace(
         ResearchRequest(topic="telemetry quality", pages=1, per_page=10, max_urls=2),
@@ -144,7 +154,7 @@ def test_resume_continues_an_interrupted_search_run(tmp_path: Path) -> None:
 def test_worker_fails_a_job_whose_search_cannot_complete(tmp_path: Path) -> None:
     api = _api(tmp_path)
     store = MemoryJobStore()
-    service = JobService(store, api, clock=NOW)
+    service = JobService(store, api, clock=lambda: NOW)
     job_id = _submit(service, topic="no results topic")
     worker = _worker(store, api, tmp_path)
     # Force the fixture provider to receive no variants so the planned calls yield
@@ -173,14 +183,13 @@ def test_search_phase_error_is_safe(tmp_path: Path) -> None:
 def test_worker_reads_the_budget_from_the_job(tmp_path: Path) -> None:
     api = _api(tmp_path)
     store = MemoryJobStore()
-    service = JobService(store, api, clock=NOW)
+    service = JobService(store, api, clock=lambda: NOW)
     request = SubmissionRequest(
         mode="search", topic="telemetry quality", pages=1, per_page=10, max_urls=1
     )
     record, _ = service.submit(request, idempotency_key="budget")
     outcome = _worker(store, api, tmp_path).run_once()
     assert outcome is not None and outcome.run_id
-    import json
 
     clean = json.loads(
         (Path(api.runs_dir) / str(outcome.run_id) / "clean_results.json").read_text()
@@ -198,19 +207,6 @@ def test_worker_health_probe(tmp_path: Path) -> None:
 
 
 def test_run_service_executes_a_search_only_job(tmp_path: Path) -> None:
-    from application.fixtures import (
-        FixtureExtractionService,
-        FixtureFetcher,
-        fixture_model,
-        fixture_search_provider,
-        fixture_variants,
-    )
-    from application.run_service import RunService
-    from schemas.requests import ResearchRequest
-    from schemas.state import RunState
-    from services.llm_service import LLMService
-    from services.workspace import create_run_workspace
-
     settings = RunSettings(
         _env_file=None, runs_dir=str(tmp_path / "runs"), crawler_contact="fixture@example.test"
     )

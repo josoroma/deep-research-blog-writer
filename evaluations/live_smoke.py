@@ -63,7 +63,7 @@ def main() -> int:
             file=sys.stderr,
         )
         return 1
-    except Exception as error:
+    except Exception as error:  # noqa: BLE001 - report only the type, never the body
         # Never print provider exception bodies, headers, keys, or credential-bearing tracebacks.
         print(
             f"Live acceptance failed: {type(error).__name__} from the provider request.",

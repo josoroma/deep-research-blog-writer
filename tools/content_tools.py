@@ -7,10 +7,11 @@ from typing import TYPE_CHECKING
 from schemas.content import ExtractionResult, FetchResult
 from schemas.tool_io import ExtractMarkdownInput, FetchUrlInput
 from services.extraction_service import ExtractionService
+from tools.base import TypedTool
 
 if TYPE_CHECKING:
     from services.fetch_service import Fetcher
-    from tools.registry import Runtime, ToolRegistry
+    from tools.base import Runtime, ToolRegistry
 
 
 def register_content_tools(
@@ -18,8 +19,6 @@ def register_content_tools(
     fetcher: Fetcher | None,
     extractor: ExtractionService | None,
 ) -> None:
-    from tools.registry import TypedTool
-
     extraction = extractor if extractor is not None else ExtractionService()
 
     def fetch(request: FetchUrlInput, runtime: Runtime | None = None) -> FetchResult:

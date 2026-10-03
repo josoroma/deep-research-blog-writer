@@ -11,9 +11,18 @@ same files next to this module and :func:`discover` falls back to them.
 
 from __future__ import annotations
 
+import argparse
 import hashlib
+import json
 from dataclasses import dataclass
 from pathlib import Path
+
+import psycopg
+
+from schemas.config import ApiSettings
+from schemas.errors import UnavailableError
+from services.checkpoints import prepare_postgres_checkpointer
+from services.postgres_jobs import CONNECT_TIMEOUT_SECONDS
 
 _REPO_MIGRATIONS = Path(__file__).resolve().parents[1] / "ops" / "api" / "migrations"
 _PACKAGED_MIGRATIONS = Path(__file__).resolve().parent / "_migrations"
@@ -30,12 +39,16 @@ def migrations_dir() -> Path:
 MIGRATIONS_DIR = migrations_dir()
 
 
-class MigrationError(RuntimeError):
+class MigrationError(UnavailableError):
     """A migration failed, drifted, or could not be recorded."""
+
+    code = "migration_failed"
 
 
 @dataclass(frozen=True)
 class Migration:
+    """One SQL file: its numeric version, location, text, and content hash."""
+
     version: str
     path: Path
     sql: str
@@ -43,6 +56,12 @@ class Migration:
 
 
 def discover(directory: Path | None = None) -> list[Migration]:
+    """Load migrations in version order.
+
+    Raises:
+        MigrationError: When the directory is missing, a file has no numeric
+            version prefix, or two files share a version.
+    """
     root = directory if directory is not None else migrations_dir()
     if not root.is_dir():
         raise MigrationError(f"Migration directory does not exist: {root}")
@@ -68,6 +87,7 @@ def discover(directory: Path | None = None) -> list[Migration]:
 
 
 def ensure_tracking(connection: object) -> None:
+    """Create the migration tracking table if it does not exist yet."""
     cursor = connection.cursor()  # type: ignore[attr-defined]
     cursor.execute(
         f"""
@@ -92,9 +112,10 @@ def _split_statements(sql: str) -> list[str]:
 
 
 def applied_versions(connection: object) -> dict[str, str]:
+    """Return ``{version: checksum}`` for every migration already applied."""
     ensure_tracking(connection)
     cursor = connection.cursor()  # type: ignore[attr-defined]
-    cursor.execute(f"SELECT version, checksum FROM {TRACKING_TABLE}")
+    cursor.execute(f"SELECT version, checksum FROM {TRACKING_TABLE}")  # noqa: S608 - constant
     return {row[0]: row[1] for row in cursor.fetchall()}
 
 
@@ -107,9 +128,8 @@ def apply_migrations(connection: object, *, directory: Path | None = None) -> li
     migrations = discover(directory)
     already = applied_versions(connection)
     for migration in migrations:
-        if migration.version in already:
-            if already[migration.version] != migration.checksum:
-                raise MigrationError(f"Migration {migration.version} changed after it was applied")
+        if migration.version in already and already[migration.version] != migration.checksum:
+            raise MigrationError(f"Migration {migration.version} changed after it was applied")
     applied: list[str] = []
     for migration in migrations:
         if migration.version in already:
@@ -119,11 +139,12 @@ def apply_migrations(connection: object, *, directory: Path | None = None) -> li
             for statement in _split_statements(migration.sql):
                 cursor.execute(statement)
             cursor.execute(
-                f"INSERT INTO {TRACKING_TABLE} (version, checksum) VALUES (%s, %s)",
+                f"INSERT INTO {TRACKING_TABLE} (version, checksum) VALUES (%s, %s)",  # noqa: S608
                 (migration.version, migration.checksum),
             )
             connection.commit()  # type: ignore[attr-defined]
-        except Exception as error:  # noqa: BLE001
+        except Exception as error:
+            # Any driver error must roll back before it is re-raised as drift-safe.
             connection.rollback()  # type: ignore[attr-defined]
             raise MigrationError(f"Migration {migration.version} failed: {error}") from error
         applied.append(migration.version)
@@ -132,31 +153,27 @@ def apply_migrations(connection: object, *, directory: Path | None = None) -> li
 
 def main(argv: list[str] | None = None) -> int:  # pragma: no cover - operator entry point
     """Apply pending SQL migrations and the LangGraph checkpoint schema."""
-    import argparse
-
-    import psycopg
-
-    from schemas.config import ApiSettings
-    from services.checkpoints import prepare_postgres_checkpointer
-
     parser = argparse.ArgumentParser(prog="application.migrations", description=__doc__)
     parser.add_argument("--json", action="store_true", help="Print applied versions as JSON.")
     args = parser.parse_args(argv)
 
     api = ApiSettings()
-    if api.run_profile == "fixture":
-        print("Fixture profile uses an in-memory store; no migrations are needed.")
+    if api.uses_memory_store():
+        print("Fixture profile with no API_DATABASE uses memory; no migrations are needed.")
         return 0
     dsn = api.database_dsn()
     if dsn is None:
         print("API_DATABASE is required unless API_RUN_PROFILE=fixture")
         return 2
-    with psycopg.connect(dsn) as connection:
-        applied = apply_migrations(connection)
+    try:
+        with psycopg.connect(dsn, connect_timeout=CONNECT_TIMEOUT_SECONDS) as connection:
+            applied = apply_migrations(connection)
+    except psycopg.OperationalError:
+        # The DSN can carry a password, so only the fix is printed.
+        print("PostgreSQL is unreachable at API_DATABASE; start it with `make api-up`")
+        return 2
     prepare_postgres_checkpointer(dsn)
     if args.json:
-        import json
-
         print(json.dumps({"applied": applied}))
     else:
         print(f"Applied {len(applied)} migration(s); checkpoint schema is ready.")

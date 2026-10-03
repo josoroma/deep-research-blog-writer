@@ -10,6 +10,7 @@ import time
 import uuid
 
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 from starlette.responses import Response
 
@@ -17,7 +18,14 @@ REQUEST_ID_HEADER = "X-Request-ID"
 
 
 class RequestContextMiddleware(BaseHTTPMiddleware):
+    """Attach a request id to every request and echo it on the response.
+
+    A client-supplied ``X-Request-ID`` is reused (truncated to 128 characters) so
+    a caller can correlate its own logs; otherwise a UUID is generated.
+    """
+
     async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
+        """Set ``request.state.request_id`` and add timing and id headers."""
         incoming = request.headers.get(REQUEST_ID_HEADER, "").strip()
         request_id = incoming[:128] if incoming else str(uuid.uuid4())
         request.state.request_id = request_id
@@ -29,10 +37,9 @@ class RequestContextMiddleware(BaseHTTPMiddleware):
 
 
 def install_middleware(app: FastAPI, *, allowed_origins: list[str]) -> None:
+    """Install request correlation and, only when origins are configured, CORS."""
     app.add_middleware(RequestContextMiddleware)
     if allowed_origins:
-        from fastapi.middleware.cors import CORSMiddleware
-
         app.add_middleware(
             CORSMiddleware,
             allow_origins=allowed_origins,

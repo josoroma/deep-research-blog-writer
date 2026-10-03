@@ -18,9 +18,9 @@ from schemas.search import QueryVariants
 from services.llm_service import MissingOpenRouterKey
 from services.observability import RunObservability, observability_scope
 from services.search_provider import SearchProviderError
-from workflows.authoring_run import run_authoring
-from workflows.corpus_run import run_corpus
-from workflows.fetch_run import load_search_workspace, run_fetch
+from workflows.authoring_run import AuthoringSummary, run_authoring
+from workflows.corpus_run import CorpusSummary, run_corpus
+from workflows.fetch_run import FetchSummary, load_search_workspace, run_fetch
 from workflows.research_run import RunSummary, run_research
 from workflows.resume import load_saved_run, next_phase
 from workflows.search_run import run_search
@@ -97,77 +97,120 @@ def _print_summary(summary: RunSummary) -> None:
         print(f"error: {summary.error}")
 
 
+def _exit_for(status: str) -> int:
+    return EXIT_COMPLETED if status == "completed" else EXIT_FAILED
+
+
+def _workspace_flag(args: argparse.Namespace) -> str | None:
+    """Return the selected workspace-phase flag, or ``None`` for a topic run."""
+    for name, selected in (
+        ("--author-only", args.author_only),
+        ("--corpus-only", args.corpus_only),
+        ("--fetch-only", args.fetch_only),
+    ):
+        if selected:
+            return name
+    return None
+
+
+def _inspect_resume(args: argparse.Namespace, settings: RunSettings) -> int:
+    """Print the phase an interrupted run would restart at; never continue it."""
+    workspace = Path(settings.runs_dir) / args.resume
+    if not workspace.is_dir():
+        raise ValueError(f"No workspace for run {args.resume}")
+    saved_run = load_saved_run(workspace)
+    phase = next_phase(saved_run.completed_phases)
+    observer = RunObservability(settings, "resume")
+    with observability_scope(observer):
+        observer.bind(workspace, saved_run.topic)
+        observer.event("resume", "resume_inspected", resumed_at=phase)
+        observer.finish()
+    print(json.dumps({"run_id": args.resume, "resumed_at": phase}))
+    return EXIT_COMPLETED
+
+
+def _run_workspace_phase(args: argparse.Namespace, settings: RunSettings, flag: str) -> int:
+    """Run fetch, corpus, or authoring against an existing search workspace.
+
+    The saved request is the budget: overriding it here would make the phases
+    disagree about how many URLs the run owns.
+    """
+    budget_overrides = (args.pages, args.per_page, args.max_urls)
+    if args.workspace is None or args.query_variant or any(v is not None for v in budget_overrides):
+        raise ValueError(f"{flag} requires --workspace and uses its saved search budget")
+    saved = load_search_workspace(args.workspace)
+    if args.topic is not None and args.topic.strip() != saved.topic:
+        raise ValueError("Topic must match the saved workspace request")
+    milestone: AuthoringSummary | CorpusSummary | FetchSummary
+    if flag == "--author-only":
+        milestone = run_authoring(args.workspace, settings)
+    elif flag == "--corpus-only":
+        milestone = run_corpus(args.workspace, settings)
+    else:
+        milestone = run_fetch(args.workspace, settings)
+    print(milestone.model_dump_json(indent=2))
+    return _exit_for(milestone.status)
+
+
+def _topic_request(
+    args: argparse.Namespace, settings: RunSettings
+) -> tuple[ResearchRequest, QueryVariants | None]:
+    """Validate a topic run's arguments into a request and optional variants."""
+    if args.workspace is not None:
+        raise ValueError("--workspace requires --fetch-only, --corpus-only, or --author-only")
+    if args.topic is None:
+        raise ValueError("A topic is required")
+    request = _request_from_args(args, settings)
+    if args.query_variant and not args.search_only:
+        raise ValueError("--query-variant requires --search-only")
+    variants = QueryVariants(variants=args.query_variant) if args.query_variant else None
+    return request, variants
+
+
+def _run_topic(
+    args: argparse.Namespace,
+    settings: RunSettings,
+    request: ResearchRequest,
+    variants: QueryVariants | None,
+) -> int:
+    """Run search only, or the full research skeleton, for a new topic."""
+    runs_root = Path(settings.runs_dir)
+    if args.search_only:
+        search_summary = run_search(request, settings, runs_root=runs_root, variants=variants)
+        print(search_summary.model_dump_json(indent=2))
+        return _exit_for(search_summary.status)
+    summary = run_research(request, settings, runs_root=runs_root)
+    _print_summary(summary)
+    return _exit_for(summary.status)
+
+
+def _invalid(error: Exception) -> int:
+    print(f"Invalid input: {error}", file=sys.stderr)
+    return EXIT_INVALID_INPUT
+
+
 def main(argv: Sequence[str] | None = None, settings: RunSettings | None = None) -> int:
-    """Parse CLI arguments and run one skeleton, search, fetch, or corpus invocation."""
+    """Parse CLI arguments and dispatch to one mode.
+
+    Validation and provider-setup errors exit 2 before any run work; a phase that
+    ran and failed exits 1. Each mode lives in its own function so this one only
+    routes.
+    """
     args = build_parser().parse_args(argv)
-    variants = None
     try:
         resolved = settings if settings is not None else RunSettings()
         if args.resume is not None:
-            workspace = Path(resolved.runs_dir) / args.resume
-            if not workspace.is_dir():
-                raise ValueError(f"No workspace for run {args.resume}")
-            saved_run = load_saved_run(workspace)
-            phase = next_phase(saved_run.completed_phases)
-            observer = RunObservability(resolved, "resume")
-            with observability_scope(observer):
-                observer.bind(workspace, saved_run.topic)
-                observer.event("resume", "resume_inspected", resumed_at=phase)
-                observer.finish()
-            print(json.dumps({"run_id": args.resume, "resumed_at": phase}))
-            return EXIT_COMPLETED
-        if args.fetch_only or args.corpus_only or args.author_only:
-            flag = next(
-                name
-                for name, selected in (
-                    ("--author-only", args.author_only),
-                    ("--corpus-only", args.corpus_only),
-                    ("--fetch-only", args.fetch_only),
-                )
-                if selected
-            )
-            if (
-                args.workspace is None
-                or args.query_variant
-                or any(value is not None for value in (args.pages, args.per_page, args.max_urls))
-            ):
-                raise ValueError(f"{flag} requires --workspace and uses its saved search budget")
-            saved = load_search_workspace(args.workspace)
-            if args.topic is not None and args.topic.strip() != saved.topic:
-                raise ValueError("Topic must match the saved workspace request")
-            milestone = (
-                run_authoring(args.workspace, resolved)
-                if args.author_only
-                else run_corpus(args.workspace, resolved)
-                if args.corpus_only
-                else run_fetch(args.workspace, resolved)
-            )
-            print(milestone.model_dump_json(indent=2))
-            return EXIT_COMPLETED if milestone.status == "completed" else EXIT_FAILED
-        if args.workspace is not None:
-            raise ValueError("--workspace requires --fetch-only, --corpus-only, or --author-only")
-        if args.topic is None:
-            raise ValueError("A topic is required")
-        request = _request_from_args(args, resolved)
-        if args.query_variant and not args.search_only:
-            raise ValueError("--query-variant requires --search-only")
-        variants = QueryVariants(variants=args.query_variant) if args.query_variant else None
+            return _inspect_resume(args, resolved)
+        flag = _workspace_flag(args)
+        if flag is not None:
+            return _run_workspace_phase(args, resolved, flag)
+        request, variants = _topic_request(args, resolved)
     except (ValidationError, ValueError) as error:
-        print(f"Invalid input: {error}", file=sys.stderr)
-        return EXIT_INVALID_INPUT
+        return _invalid(error)
     try:
-        if args.search_only:
-            search_summary = run_search(
-                request, resolved, runs_root=Path(resolved.runs_dir), variants=variants
-            )
-            print(search_summary.model_dump_json(indent=2))
-            return EXIT_COMPLETED if search_summary.status == "completed" else EXIT_FAILED
-        summary = run_research(request, resolved, runs_root=Path(resolved.runs_dir))
+        return _run_topic(args, resolved, request, variants)
     except (MissingOpenRouterKey, SearchProviderError, ValueError) as error:
-        print(f"Invalid input: {error}", file=sys.stderr)
-        return EXIT_INVALID_INPUT
-    _print_summary(summary)
-    return EXIT_COMPLETED if summary.status == "completed" else EXIT_FAILED
+        return _invalid(error)
 
 
 if __name__ == "__main__":  # pragma: no cover

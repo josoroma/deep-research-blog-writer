@@ -9,6 +9,8 @@ import pytest
 from fastapi.testclient import TestClient
 
 from api.main import create_app
+from application.ports import JobStoreError
+from schemas.api import SubmissionRequest
 from schemas.config import ApiSettings, RunSettings
 from services.job_store import MemoryJobStore
 from workers.research_worker import ResearchWorker
@@ -29,6 +31,7 @@ def _settings(
     queue_limit: int | None = None,
     max_max_urls: int | None = None,
     token: str | None = None,
+    artifact_max_bytes: int = 8 * 1024 * 1024,
 ) -> ApiSettings:
     return ApiSettings(
         _env_file=None,
@@ -37,6 +40,7 @@ def _settings(
         queue_limit=queue_limit if queue_limit is not None else 100,
         max_max_urls=max_max_urls if max_max_urls is not None else 30,
         token=token,
+        artifact_max_bytes=artifact_max_bytes,
     )
 
 
@@ -121,19 +125,32 @@ def test_changed_payload_conflicts(tmp_path: Path) -> None:
 
 
 def test_submission_requires_an_idempotency_key(tmp_path: Path) -> None:
+    # A missing header is malformed input, not a state conflict.
     client, _, _ = _client(_settings(tmp_path))
     with client:
         response = client.post("/v1/runs", json=SUBMIT)
-    assert response.status_code == 409
+    assert response.status_code == 422
     assert response.json()["error"]["code"] == "missing_idempotency_key"
 
 
+def test_overlong_idempotency_key_is_rejected(tmp_path: Path) -> None:
+    client, _, _ = _client(_settings(tmp_path))
+    with client:
+        response = client.post("/v1/runs", json=SUBMIT, headers={"Idempotency-Key": "k" * 201})
+    assert response.status_code == 422
+    assert response.json()["error"]["code"] == "invalid_idempotency_key"
+
+
 def test_admission_enforces_server_budget(tmp_path: Path) -> None:
+    # Retrying an over-cap budget never succeeds, so this is 422, not 409 or 429.
     client, _, _ = _client(_settings(tmp_path, max_max_urls=2))
     with client:
         response = client.post("/v1/runs", json=SUBMIT, headers={"Idempotency-Key": "k1"})
-    assert response.status_code == 409
-    assert response.json()["error"]["code"] == "budget_exceeded"
+    assert response.status_code == 422
+    body = response.json()["error"]
+    assert body["code"] == "budget_exceeded"
+    assert "max_urls" in body["message"]
+    assert "retry-after" not in response.headers
 
 
 def test_queue_full_returns_429_with_retry_after(tmp_path: Path) -> None:
@@ -256,6 +273,66 @@ def test_resume_rejects_a_completed_run(tmp_path: Path) -> None:
         )
     assert response.status_code == 409
     assert response.json()["error"]["code"] == "not_resumable"
+
+
+def test_resume_without_a_key_is_rejected_before_state_checks(tmp_path: Path) -> None:
+    # Input is validated first: an unknown run without a key reports the key.
+    client, _, _ = _client(_settings(tmp_path))
+    with client:
+        response = client.post("/v1/runs/does-not-exist/resume")
+    assert response.status_code == 422
+    assert response.json()["error"]["code"] == "missing_idempotency_key"
+
+
+def test_oversized_artifact_is_413_not_404(tmp_path: Path) -> None:
+    client, _, worker = _client(_settings(tmp_path, artifact_max_bytes=1024))
+    with client:
+        client.post("/v1/runs", json=SUBMIT, headers={"Idempotency-Key": "k1"})
+        outcome = worker.run_once()
+        assert outcome is not None and outcome.run_id
+        response = client.get(f"/v1/runs/{outcome.run_id}/artifacts/output/blog.md")
+    assert response.status_code == 413
+    assert response.json()["error"]["code"] == "artifact_too_large"
+
+
+def test_unexpected_errors_never_leak_their_message(tmp_path: Path) -> None:
+    client, _, _ = _client(_settings(tmp_path))
+
+    def _explode(job_id: str) -> None:
+        raise RuntimeError("postgresql://user:secret@db/research is down")
+
+    with client:
+        client.app.state.resources.jobs.status = _explode  # type: ignore[attr-defined]
+        response = TestClient(client.app, raise_server_exceptions=False).get(
+            "/v1/jobs/00000000-0000-0000-0000-000000000000"
+        )
+    assert response.status_code == 500
+    body = response.json()["error"]
+    assert body["code"] == "internal_error"
+    assert "secret" not in response.text
+    assert body["request_id"]
+
+
+def test_store_outage_on_resume_is_503(tmp_path: Path) -> None:
+    client, store, _ = _client(_settings(tmp_path))
+    with client:
+        record, _ = client.app.state.resources.jobs.submit(  # type: ignore[attr-defined]
+            SubmissionRequest.model_validate(SUBMIT), idempotency_key="k1"
+        )
+        store.claim(worker_identity="w", now=record.created_at, lease_seconds=1)
+        store.release(job_id=record.job_id, state="interrupted", now=record.created_at)
+        store.set_progress(
+            job_id=record.job_id, run_id="run-x", phase="write", now=record.created_at
+        )
+
+        def _down(**_: object) -> None:
+            raise JobStoreError("connection refused")
+
+        store.release = _down  # type: ignore[method-assign,assignment]
+        response = client.post("/v1/runs/run-x/resume", headers={"Idempotency-Key": "r1"})
+    assert response.status_code == 503
+    assert response.json()["error"]["code"] == "store_unavailable"
+    assert "connection refused" in response.json()["error"]["message"]
 
 
 @pytest.mark.parametrize("artifact", ["agent.py", "checkpoints.sqlite", "../request.json"])

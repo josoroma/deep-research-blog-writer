@@ -30,3 +30,6 @@ htmlcov/
 
 # Operating system files
 .DS_Store
+
+# Temporary export used by `make audit`
+.audit-requirements.txt

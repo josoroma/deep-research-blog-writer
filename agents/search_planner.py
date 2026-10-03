@@ -5,13 +5,16 @@ from langchain_core.runnables import RunnableConfig
 from pydantic import ValidationError
 
 from prompts.catalog import load_prompt
+from schemas.errors import ContractViolationError
 from schemas.requests import ResearchRequest
 from schemas.search import QueryVariants
 from services.llm_service import LLMService
 
 
-class SearchPlanningError(ValueError):
+class SearchPlanningError(ContractViolationError, ValueError):
     """The planner exhausted its one validation-repair attempt."""
+
+    code = "search_planning_failed"
 
 
 def derive_query_variants(

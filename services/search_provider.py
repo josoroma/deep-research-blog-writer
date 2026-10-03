@@ -7,16 +7,25 @@ import httpx
 from pydantic import BaseModel, ConfigDict, Field, HttpUrl, SecretStr, ValidationError
 
 from schemas.config import RunSettings
+from schemas.errors import UnavailableError
 from schemas.responses import SearchResult
 from schemas.search import SearchCall
 
 
-class SearchProviderError(ValueError):
-    """Credential-safe search failure, without provider bodies or request URLs."""
+class SearchProviderError(UnavailableError, ValueError):
+    """Credential-safe search failure, without provider bodies or request URLs.
+
+    Kept a ``ValueError`` because the CLI reports provider failures as rejected
+    input (exit 2) before any run work starts.
+    """
+
+    code = "search_provider_error"
 
 
 class MissingSearchKey(SearchProviderError):
     """The selected search provider has no configured key."""
+
+    code = "missing_search_key"
 
 
 class SearchProvider(Protocol):

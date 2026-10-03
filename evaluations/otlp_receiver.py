@@ -1,6 +1,6 @@
 """Loopback OTLP/HTTP receiver for a reproducible CLI demo without a cloud service."""
 
-from collections.abc import Iterator
+from collections.abc import Generator
 from contextlib import contextmanager
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from threading import Thread
@@ -29,7 +29,7 @@ def metric_points(payload: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
 
 
 @contextmanager
-def local_receiver() -> Iterator[tuple[str, list[dict[str, Any]]]]:
+def local_receiver() -> Generator[tuple[str, list[dict[str, Any]]]]:
     received: list[dict[str, Any]] = []
 
     class Receiver(BaseHTTPRequestHandler):

@@ -4,10 +4,13 @@ from langchain_core.language_models import BaseChatModel
 from langchain_openrouter import ChatOpenRouter
 
 from schemas.config import AGENT_NAMES, AgentName, RunSettings
+from schemas.errors import UnavailableError
 
 
-class MissingOpenRouterKey(ValueError):
+class MissingOpenRouterKey(UnavailableError, ValueError):
     """A live model was requested without locally configured credentials."""
+
+    code = "missing_model_key"
 
 
 class LLMService:

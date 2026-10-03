@@ -12,6 +12,7 @@ import json
 from pathlib import Path
 from urllib.parse import quote
 
+from schemas.errors import LimitExceededError, NotFoundError
 from schemas.responses import RunReport
 
 LOG_ARTIFACT = "logs/execution.log"
@@ -42,16 +43,25 @@ MEDIA_TYPES = {
 }
 
 
-class ArtifactNotFound(FileNotFoundError):
+class ArtifactNotFound(NotFoundError, FileNotFoundError):
     """The run or artifact does not exist, or is not downloadable."""
 
+    code = "artifact_not_found"
 
-class ArtifactTooLarge(ValueError):
+
+class ArtifactTooLarge(LimitExceededError, ValueError):
     """The artifact exceeds the configured download bound."""
 
+    code = "artifact_too_large"
 
-class UnsafePath(ValueError):
-    """A requested path escaped the workspace root or followed a symlink."""
+
+class UnsafePath(NotFoundError, ValueError):
+    """A requested path escaped the workspace root or followed a symlink.
+
+    Classified as not-found so a probe cannot tell "escaped" from "missing".
+    """
+
+    code = "not_found"
 
 
 class ArtifactReader:
@@ -75,8 +85,6 @@ class ArtifactReader:
         if not candidate.is_dir():
             raise ArtifactNotFound(f"Unknown run: {run_id}")
         return candidate
-
-    _run_root = run_root
 
     def _resolve(self, run_id: str, relative: str) -> Path:
         if not self._is_allowed(relative):

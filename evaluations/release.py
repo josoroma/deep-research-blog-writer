@@ -16,6 +16,7 @@ from pathlib import Path
 from pydantic import Field
 
 from evaluations.run_eval import BENCHMARKS_DIR
+from evaluations.run_eval import main as run_eval
 from evaluations.scoring import Benchmark
 from schemas.common import Contract
 
@@ -69,8 +70,6 @@ def main(argv: list[str] | None = None) -> int:
         benchmark_path = args.benchmark
         benchmark = read_benchmark(benchmark_path)
     else:
-        from evaluations.run_eval import main as run_eval
-
         code = run_eval(["--runs-root", str(args.runs_root)])
         benchmark_path = latest_benchmark()
         benchmark = read_benchmark(benchmark_path)

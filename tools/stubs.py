@@ -10,10 +10,7 @@ from __future__ import annotations
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 
-from langchain.tools import ToolRuntime
-
 from schemas.responses import FetchedPage, Source
-from schemas.state import ResearchAgentState
 from schemas.tool_io import (
     BuildIndexInput,
     BuildIndexStubOutput,
@@ -26,11 +23,10 @@ from schemas.tool_io import (
     WriteRunReportInput,
     WriteRunReportOutput,
 )
+from tools.base import Runtime, TypedTool
 
 if TYPE_CHECKING:
-    from tools.registry import ToolRegistry
-
-Runtime = ToolRuntime[None, ResearchAgentState]
+    from tools.base import ToolRegistry
 
 RAW_HTML_MARKER = "EPIC3-RAW-HTML-MARKER"
 STUB_FETCHED_AT = datetime(2026, 1, 1, tzinfo=UTC)
@@ -83,7 +79,6 @@ def register_stub_tools(
     authoring-bound registry replaces `validate_citations`. The report stub is
     omitted in production, where `tools.report_tools` provides the real tool.
     """
-    from tools.registry import TypedTool  # local import avoids a registry/stubs cycle
 
     def collect_source(
         request: CollectSourceInput, runtime: Runtime | None = None

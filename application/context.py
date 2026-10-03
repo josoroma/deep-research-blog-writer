@@ -62,6 +62,11 @@ class ExecutionContext:
         per_page: int | None = None,
         max_urls: int | None = None,
     ) -> ExecutionContext:
+        """Acquire the workspace lock and build the attempt's owned resources.
+
+        Raises:
+            WorkspaceBusy: When another process already holds the workspace lock.
+        """
         lock = WorkspaceLock(workspace.root)
         if acquire_lock:
             lock.acquire()
@@ -87,6 +92,7 @@ class ExecutionContext:
         return RunObservability(self.settings, mode, ledger=self.ledger)
 
     def scope(self, observer: RunObservability) -> RunObservability:
+        """Make ``observer`` current until :meth:`close`, and return it."""
         self._stack.enter_context(observability_scope(observer))
         return observer
 
@@ -101,6 +107,7 @@ class ExecutionContext:
         return self._stack.enter_context(resource)
 
     def close(self) -> None:
+        """Release resources in reverse order; the lock is always released last."""
         try:
             if isinstance(self.fetcher, FetchService):
                 self.fetcher.close()
