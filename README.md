@@ -98,7 +98,7 @@ curl --include --silent --show-error \
 
 Importing `api` does not start a worker, create a run directory, or call a provider. Set `API_TOKEN` before anything other than loopback use. `API_RUN_PROFILE=fixture` is a server setting, not a client choice.
 
-The phase commands, settings, and artifact layout are in [`README-DEV.md`](README-DEV.md). The API walkthrough is in [`docs/SPECS-LOGS/FASTAPI-MIGRATION-RUNBOOK.md`](docs/SPECS-LOGS/FASTAPI-MIGRATION-RUNBOOK.md).
+The phase commands, settings, and artifact layout are in [`docs/SPECS-LOGS/`](docs/SPECS-LOGS/). The API walkthrough is in [`docs/SPECS-LOGS/FASTAPI-MIGRATION-RUNBOOK.md`](docs/SPECS-LOGS/FASTAPI-MIGRATION-RUNBOOK.md).
 
 ---
 
@@ -134,8 +134,6 @@ Every run can be watched live: metrics in a local dashboard, and step-by-step tr
 
 One piece at a time: plan it, build it, test it, then move on.
 
-![How it was built](docs/images/how_it_was_built_a_four_step_process.png)
-
 ---
 
 ## Useful links
@@ -164,4 +162,4 @@ Local links work while the dashboard is running (`make observability-up`).
 
 - [`README-DEV.md`](README-DEV.md): every command, setting, and output, for developers
 - [Live walkthrough](https://josoroma.github.io/deep-research-blog-writer): a visual tour of a real run
-- [`docs/`](docs/): design decisions, agent docs, and delivery records
+- [`docs/SPECS-LOGS/`](docs/SPECS-LOGS/): commands, settings, and delivery record
